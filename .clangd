@@ -1,0 +1,401 @@
+If:
+  PathMatch: .*\.c
+
+CompileFlags:
+  Add:
+    [
+      '-isystem /usr/local/include',
+      -D_DEFAULT_SOURCE,
+      -D_GNU_SOURCE,
+      -D_REENTRANT,
+      -D_XOPEN_SOURCE=600,
+      -I.,
+      -I/usr/include/SDL2,
+      -I/usr/include/blkid,
+      -I/usr/include/cairo,
+      -I/usr/include/freetype2,
+      -I/usr/include/fribidi,
+      -I/usr/include/gdk-pixbuf-2.0,
+      -I/usr/include/glib-2.0,
+      -I/usr/include/graphene-1.0,
+      -I/usr/include/gtk-4.0,
+      -I/usr/include/harfbuzz,
+      -I/usr/include/libmount,
+      -I/usr/include/libpng16,
+      -I/usr/include/pango-1.0,
+      -I/usr/include/pixman-1,
+      -I/usr/include/sysprof-6,
+      -I/usr/lib/glib-2.0/include,
+      -I/usr/lib/graphene-1.0/include,
+      -Iinclude,
+      -L.,
+      -L/usr/lib,
+      -L/usr/local/lib,
+      -Llib,
+      -Wall,
+      -lEGL,
+      -lGL,
+      -lGLEW,
+      -lGLU,
+      -lOpenGL,
+      -lSDL2,
+      -lSDL2_image,
+      -lX11,
+      -lXi,
+      -lXrandr,
+      -lcairo,
+      -lcairo-gobject,
+      -ldie,
+      -ldl,
+      -lerr,
+      -lgdk_pixbuf-2.0,
+      -lgio-2.0,
+      -lglfw3,
+      -lglib-2.0,
+      -lglut,
+      -lgobject-2.0,
+      -lgraphene-1.0,
+      -lgtk-4,
+      -lharfbuzz,
+      -lharfbuzz,
+      -ljoperators,
+      -ljoperators,
+      -llua,
+      -lluajit-5.1,
+      -lm,
+      -lncursesw,
+      -lpango-1.0,
+      -lpangocairo-1.0,
+      -lpthread,
+      -lvulkan,
+      -march=native,
+      -mfpmath=sse,
+      -msse,
+      -msse2,
+      -pipe,
+      -pthread,
+      -std=c99,
+      -xc,
+    ]
+  Remove: [-W*, -D_FORTIFY_SOURCE=*, -Wunused*, -Wformat*]
+  Compiler: gcc
+
+Index:
+  Background: Build
+  StandardLibrary: Yes
+
+Diagnostics:
+  Supress: -Wunused
+  UnusedIncludes: None
+
+InlayHints:
+  BlockEnd: Yes
+  Designators: Yes
+  Enabled: Yes
+  ParameterNames: Yes
+  DeducedTypes: No
+  TypeNameLimit: 12
+
+Hover:
+  ShowAKA: Yes
+
+---
+If:
+  PathMatch: .*\.h
+
+CompileFlags:
+  Add:
+    [
+      '-isystem /usr/local/include',
+      -D_DEFAULT_SOURCE,
+      -D_GNU_SOURCE,
+      -D_REENTRANT,
+      -D_XOPEN_SOURCE=600,
+      -I.,
+      -I/usr/include/SDL2,
+      -I/usr/include/blkid,
+      -I/usr/include/cairo,
+      -I/usr/include/freetype2,
+      -I/usr/include/fribidi,
+      -I/usr/include/gdk-pixbuf-2.0,
+      -I/usr/include/glib-2.0,
+      -I/usr/include/graphene-1.0,
+      -I/usr/include/gtk-4.0,
+      -I/usr/include/harfbuzz,
+      -I/usr/include/libmount,
+      -I/usr/include/libpng16,
+      -I/usr/include/luajit-2.1,
+      -I/usr/include/pango-1.0,
+      -I/usr/include/pixman-1,
+      -I/usr/include/sysprof-6,
+      -I/usr/lib/glib-2.0/include,
+      -I/usr/lib/graphene-1.0/include,
+      -Iinclude,
+      -L/usr/lib,
+      -L/usr/local/lib,
+      -Wall,
+      -lEGL,
+      -lGL,
+      -lGLEW,
+      -lGLU,
+      -lOpenGL,
+      -lSDL2,
+      -lSDL2_image,
+      -lX11,
+      -lXi,
+      -lXrandr,
+      -lcairo,
+      -lcairo-gobject,
+      -ldie,
+      -ldl,
+      -lerr,
+      -lgdk_pixbuf-2.0,
+      -lgio-2.0,
+      -lglfw3,
+      -lglib-2.0,
+      -lglut,
+      -lgobject-2.0,
+      -lgraphene-1.0,
+      -lgtk-4,
+      -lharfbuzz,
+      -ljoperators,
+      -llua,
+      -lluajit-5.1,
+      -lm,
+      -lncursesw,
+      -lpango-1.0,
+      -lpangocairo-1.0,
+      -lpthread,
+      -lvulkan,
+      -march=native,
+      -mfpmath=sse,
+      -msse,
+      -msse2,
+      -pipe,
+      -pthread,
+      -std=c99,
+      -xc-header,
+    ]
+  Remove: [-W*, -D_FORTIFY_SOURCE=*, -Wunused*, -Wformat*]
+  Compiler: gcc
+
+Index:
+  Background: Build
+  StandardLibrary: No
+
+Diagnostics:
+  Supress: -Wunused
+  UnusedIncludes: None
+
+InlayHints:
+  BlockEnd: Yes
+  Designators: Yes
+  Enabled: Yes
+  ParameterNames: No
+  DeducedTypes: No
+  TypeNameLimit: 18
+
+Hover:
+  ShowAKA: Yes
+
+---
+If:
+  PathMatch: [.*\.cc, .*\.cpp, .*\.c\+\+, .*\.C]
+
+CompileFlags:
+  Add:
+    [
+      '-isystem /usr/local/include',
+      -D_DEFAULT_SOURCE,
+      -D_GLIBCXX_ASSERTIONS,
+      -D_GNU_SOURCE,
+      -D_REENTRANT,
+      -D_XOPEN_SOURCE=600,
+      -I.,
+      -I/usr/include/SDL2,
+      -I/usr/include/blkid,
+      -I/usr/include/cairo,
+      -I/usr/include/freetype2,
+      -I/usr/include/fribidi,
+      -I/usr/include/gdk-pixbuf-2.0,
+      -I/usr/include/glib-2.0,
+      -I/usr/include/graphene-1.0,
+      -I/usr/include/gtk-4.0,
+      -I/usr/include/harfbuzz,
+      -I/usr/include/libmount,
+      -I/usr/include/libpng16,
+      -I/usr/include/luajit-2.1,
+      -I/usr/include/pango-1.0,
+      -I/usr/include/pixman-1,
+      -I/usr/include/sysprof-6,
+      -I/usr/lib/glib-2.0/include,
+      -I/usr/lib/graphene-1.0/include,
+      -Iinclude,
+      -L/usr/lib,
+      -L/usr/local/lib,
+      -Llib,
+      -Wall,
+      -lEGL,
+      -lGL,
+      -lGLEW,
+      -lGLU,
+      -lOpenGL,
+      -lSDL2,
+      -lSDL2_image,
+      -lX11,
+      -lXi,
+      -lXrandr,
+      -lcairo,
+      -lcairo-gobject,
+      -ldie,
+      -ldl,
+      -lerr,
+      -lgdk_pixbuf-2.0,
+      -lgio-2.0,
+      -lglfw3,
+      -lglib-2.0,
+      -lglut,
+      -lgobject-2.0,
+      -lgraphene-1.0,
+      -lgtk-4,
+      -lharfbuzz,
+      -ljoperators,
+      -llua,
+      -lluajit-5.1,
+      -lm,
+      -lncursesw,
+      -lpango-1.0,
+      -lpangocairo-1.0,
+      -lpthread,
+      -lvulkan,
+      -march=native,
+      -mfpmath=sse,
+      -msse,
+      -msse2,
+      -pipe,
+      -pthread,
+      -std=c++17,
+      -xc++,
+    ]
+  Remove: [-W*, -D_FORTIFY_SOURCE=*, -Wunused*, -Wformat*]
+  Compiler: g++
+
+Index:
+  Background: Build
+  StandardLibrary: Yes
+
+Diagnostics:
+  Supress: -Wunused
+  UnusedIncludes: None
+
+InlayHints:
+  BlockEnd: Yes
+  Designators: Yes
+  Enabled: Yes
+  ParameterNames: Yes
+  DeducedTypes: Yes
+  TypeNameLimit: 18
+
+Hover:
+  ShowAKA: Yes
+
+---
+If:
+  PathMatch: [.*\.hh, .*\.hpp, .*\.h\+\+, .*\.H]
+
+CompileFlags:
+  Add:
+    [
+      '-isystem /usr/local/include',
+      -D_DEFAULT_SOURCE,
+      -D_GLIBCXX_ASSERTIONS,
+      -D_GNU_SOURCE,
+      -D_REENTRANT,
+      -D_XOPEN_SOURCE=600,
+      -I.,
+      -I/usr/include/SDL2,
+      -I/usr/include/blkid,
+      -I/usr/include/cairo,
+      -I/usr/include/freetype2,
+      -I/usr/include/fribidi,
+      -I/usr/include/gdk-pixbuf-2.0,
+      -I/usr/include/glib-2.0,
+      -I/usr/include/graphene-1.0,
+      -I/usr/include/gtk-4.0,
+      -I/usr/include/harfbuzz,
+      -I/usr/include/libmount,
+      -I/usr/include/libpng16,
+      -I/usr/include/luajit-2.1,
+      -I/usr/include/pango-1.0,
+      -I/usr/include/pixman-1,
+      -I/usr/include/sysprof-6,
+      -I/usr/lib/glib-2.0/include,
+      -I/usr/lib/graphene-1.0/include,
+      -Iinclude,
+      -L.,
+      -L/usr/lib,
+      -L/usr/local/lib,
+      -Llib,
+      -Wall,
+      -lEGL,
+      -lGL,
+      -lGLEW,
+      -lGLU,
+      -lOpenGL,
+      -lSDL2,
+      -lSDL2_image,
+      -lX11,
+      -lXi,
+      -lXrandr,
+      -lcairo,
+      -lcairo-gobject,
+      -ldie,
+      -ldl,
+      -lerr,
+      -lgdk_pixbuf-2.0,
+      -lgio-2.0,
+      -lglfw3,
+      -lglib-2.0,
+      -lglut,
+      -lgobject-2.0,
+      -lgraphene-1.0,
+      -lgtk-4,
+      -lharfbuzz,
+      -ljoperators,
+      -llua,
+      -lluajit-5.1,
+      -lm,
+      -lncursesw,
+      -lpango-1.0,
+      -lpangocairo-1.0,
+      -lpthread,
+      -lvulkan,
+      -march=native,
+      -mfpmath=sse,
+      -msse,
+      -msse2,
+      -pthread,
+      -std=c++17,
+      -xc++-header,
+    ]
+  Remove: [-W*, -D_FORTIFY_SOURCE=*, -Wunused*, -Wformat*]
+  Compiler: g++
+
+Index:
+  Background: Build
+  StandardLibrary: No
+
+Diagnostics:
+  Supress: -Wunused
+  UnusedIncludes: None
+
+InlayHints:
+  BlockEnd: Yes
+  Designators: Yes
+  Enabled: Yes
+  ParameterNames: No
+  DeducedTypes: Yes
+  TypeNameLimit: 18
+
+Hover:
+  ShowAKA: Yes
