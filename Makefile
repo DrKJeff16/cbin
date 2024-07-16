@@ -64,65 +64,64 @@ sdl_1: $(BINDIR)/jeff_sdl_1
 lua_1: $(BINDIR)/jeff_lua_1
 ncurses_1: $(BINDIR)/jeff_ncurses_1
 
-$(BINDIR)/jeff_lua_1: $(OBJDIR)/jeff_lua_1.o $(JEFF_LIBS) $(LUA_H)
+$(BINDIR):
+	mkdir -p $(BINDIR)
+
+$(BINDIR)/jeff_lua_1: $(BINDIR) $(OBJDIR)/jeff_lua_1.o $(JEFF_LIBS) $(LUA_H)
 	$(CC) $(OBJDIR)/jeff_lua_1.o -o $@ $(LUA_CFLAGS) $(LDFLAGS)
 $(OBJDIR)/jeff_lua_1.o: jeff_lua_1.c $(LUA_H)
 	$(CC) -c jeff_lua_1.c -o $@ $(LUA_CFLAGS)
 
-$(BINDIR)/jeff_gl_1: $(OBJDIR)/jeff_gl_1.o $(JEFF_LIBS) $(GL_H)
+$(BINDIR)/jeff_gl_1: $(BINDIR) $(OBJDIR)/jeff_gl_1.o $(JEFF_LIBS) $(GL_H)
 	$(CC) $(OBJDIR)/jeff_gl_1.o -o $@ $(GL_CFLAGS) $(LDFLAGS)
 $(OBJDIR)/jeff_gl_1.o: jeff_gl_1.c $(GL_H)
 	$(CC) -c jeff_gl_1.c -o $@ $(GL_CFLAGS)
-$(BINDIR)/jeff_gl_2: $(OBJDIR)/jeff_gl_2.o $(JEFF_LIBS) $(GL_H)
+$(BINDIR)/jeff_gl_2: $(BINDIR) $(OBJDIR)/jeff_gl_2.o $(JEFF_LIBS) $(GL_H)
 	$(CC) $(OBJDIR)/jeff_gl_2.o -o $@ $(GL_CFLAGS) $(LDFLAGS)
 $(OBJDIR)/jeff_gl_2.o: jeff_gl_2.c $(GL_H)
 	$(CC) -c jeff_gl_2.c -o $@ $(GL_CFLAGS)
-$(BINDIR)/jeff_gl_3: $(OBJDIR)/jeff_gl_3.o $(GL_H)
+$(BINDIR)/jeff_gl_3: $(BINDIR) $(OBJDIR)/jeff_gl_3.o $(GL_H)
 	$(CXX) $(OBJDIR)/jeff_gl_3.o -o $@ $(GL_CFLAGS)
 $(OBJDIR)/jeff_gl_3.o: jeff_gl_3.cpp $(GL_H)
 	$(CXX) -c jeff_gl_3.cpp -o $@ $(GL_CFLAGS) $(CXXFLAGS)
 
-$(BINDIR)/jeff_gtk_1: $(OBJDIR)/jeff_gtk_1.o $(JEFF_LIBS) $(GTK_H)
+$(BINDIR)/jeff_gtk_1: $(BINDIR) $(OBJDIR)/jeff_gtk_1.o $(JEFF_LIBS) $(GTK_H)
 	$(CC) $(OBJDIR)/jeff_gtk_1.o -o $@ $(GTK_CFLAGS) $(LDFLAGS)
 $(OBJDIR)/jeff_gtk_1.o: jeff_gtk_1.c $(GTK_H)
 	$(CC) -c jeff_gtk_1.c -o $@ $(GTK_CFLAGS)
-
-$(BINDIR)/jeff_gtk_2: $(OBJDIR)/jeff_gtk_2.o $(JEFF_LIBS) $(GTK_H)
+$(BINDIR)/jeff_gtk_2: $(BINDIR) $(OBJDIR)/jeff_gtk_2.o $(JEFF_LIBS) $(GTK_H)
 	$(CC) $(OBJDIR)/jeff_gtk_2.o -o $@ $(GTK_CFLAGS) $(LDFLAGS)
 $(OBJDIR)/jeff_gtk_2.o: jeff_gtk_2.c $(GTK_H)
 	$(CC) -c jeff_gtk_2.c -o $@ $(GTK_CFLAGS)
-
-$(BINDIR)/jeff_gtk_3: $(OBJDIR)/jeff_gtk_3.o $(JEFF_LIBS) $(GTK_H)
+$(BINDIR)/jeff_gtk_3: $(BINDIR) $(OBJDIR)/jeff_gtk_3.o $(JEFF_LIBS) $(GTK_H)
 	$(CC) $(OBJDIR)/jeff_gtk_3.o -o $@ $(GTK_CFLAGS) $(LDFLAGS)
 $(OBJDIR)/jeff_gtk_3.o: jeff_gtk_3.c $(GTK_H)
 	$(CC) -c jeff_gtk_3.c -o $@ $(GTK_CFLAGS)
-
-$(BINDIR)/jeff_gtk_4: $(OBJDIR)/jeff_gtk_4.o $(JEFF_LIBS) $(GTK_H) builder.ui
+$(BINDIR)/jeff_gtk_4: $(BINDIR) $(OBJDIR)/jeff_gtk_4.o $(JEFF_LIBS) $(GTK_H) builder.ui
 	$(CC) $(OBJDIR)/jeff_gtk_4.o -o $@ $(GTK_CFLAGS) $(LDFLAGS)
 $(OBJDIR)/jeff_gtk_4.o: jeff_gtk_4.c $(GTK_H) builder.ui
 	$(CC) -c jeff_gtk_4.c -o $@ $(GTK_CFLAGS)
-
-$(BINDIR)/jeff_gtk_5: $(OBJDIR)/jeff_gtk_5.o $(JEFF_LIBS) $(GTK_H)
+$(BINDIR)/jeff_gtk_5: $(BINDIR) $(OBJDIR)/jeff_gtk_5.o $(JEFF_LIBS) $(GTK_H)
 	$(CC) $(OBJDIR)/jeff_gtk_5.o -o $@ $(GTK_CFLAGS) $(LDFLAGS)
 $(OBJDIR)/jeff_gtk_5.o: jeff_gtk_5.c $(GTK_H)
 	$(CC) -c jeff_gtk_5.c -o $@ $(GTK_CFLAGS)
 
-$(BINDIR)/jeff_sdl_1: $(OBJDIR)/jeff_sdl_1.o $(JEFF_LIBS) $(SDL_H) face.png
+$(BINDIR)/jeff_sdl_1: $(BINDIR) $(OBJDIR)/jeff_sdl_1.o $(JEFF_LIBS) $(SDL_H) face.png
 	$(CC) $(OBJDIR)/jeff_sdl_1.o -o $@ $(SDL_CFLAGS) $(LDFLAGS)
 $(OBJDIR)/jeff_sdl_1.o: jeff_sdl_1.c $(SDL_H) face.png
 	$(CC) -c jeff_sdl_1.c -o $@ $(SDL_CFLAGS)
 
-$(BINDIR)/jeff_ncurses_1: $(OBJDIR)/jeff_ncurses_1.o $(JEFF_LIBS) $(NCURSES_H) face.png
+$(BINDIR)/jeff_ncurses_1: $(BINDIR) $(OBJDIR)/jeff_ncurses_1.o $(JEFF_LIBS) $(NCURSES_H) face.png
 	$(CC) $(OBJDIR)/jeff_ncurses_1.o -o $@ $(NCURSES_CFLAGS) $(LDFLAGS)
 $(OBJDIR)/jeff_ncurses_1.o: jeff_ncurses_1.c $(NCURSES_H) face.png
 	$(CC) -c jeff_ncurses_1.c -o $@ $(NCURSES_CFLAGS)
 
-$(BINDIR)/cointoss: $(OBJDIR)/cointoss.o $(INCDIR)/cointoss.h $(JEFF_LIBS) $(JEFF_H)
+$(BINDIR)/cointoss: $(BINDIR) $(OBJDIR)/cointoss.o $(INCDIR)/cointoss.h $(JEFF_LIBS) $(JEFF_H)
 	$(CC) $(OBJDIR)/cointoss.o -o $@ $(CFLAGS) $(LDFLAGS)
 $(OBJDIR)/cointoss.o: cointoss.c $(INCDIR)/cointoss.h $(JEFF_H)
 	$(CC) -c cointoss.c -o $@ $(CFLAGS)
 
-$(BINDIR)/misc: $(OBJDIR)/misc.o $(JEFF_LIBS) $(JEFF_H)
+$(BINDIR)/misc: $(BINDIR) $(OBJDIR)/misc.o $(JEFF_LIBS) $(JEFF_H)
 	$(CC) $(OBJDIR)/misc.o -o $@ $(CFLAGS) $(LDFLAGS)
 $(OBJDIR)/misc.o: misc.c $(JEFF_H)
 	$(CC) -c misc.c -o $@ $(CFLAGS)
