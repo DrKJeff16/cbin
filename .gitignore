@@ -1,3 +1,9 @@
 /bin
 /lib
 /obj
+
+*.o
+*.so
+*.a
+*.s
+*.i
