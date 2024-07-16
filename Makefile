@@ -155,4 +155,4 @@ distclean: clean
 clean:
 	rm -f *.o $(BINDIR)/*.o obj/*
 
-.PHONY: $(ACTIONS) distclean clean all libs
+.PHONY: $(ACTIONS) distclean clean all libs $(OBJDIR) $(BINDIR) $(LIBDIR)
