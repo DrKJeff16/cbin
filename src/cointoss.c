@@ -30,7 +30,7 @@ static void final_decide(CHOICES *c, char *tails_msg, char *heads_msg) {
     } else if (c->TAILS > c->HEADS) {
         printf("%s\n", heads_msg);
     } else {
-        char **msgs = ALLOC(char*, 2);
+        char **msgs = CALLOC(char*, 2);
         char **og = msgs;
 
         *msgs = tails_msg;
@@ -61,7 +61,7 @@ int main(int argc, char **argv) {
         die(127, error_msg());
     }
 
-    bool *seeded = ALLOC(bool, 1);
+    bool *seeded = CALLOC(bool, 1);
     *seeded = false;
 
     seed(seeded);

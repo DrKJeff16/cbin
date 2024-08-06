@@ -16,7 +16,7 @@ void resize_cb(GtkWidget *widget, const int width, const int height, gpointer da
     surface = NULL;
   }
 
-  GdkSurface **single_surface = ALLOC(GdkSurface*, 1);
+  GdkSurface **single_surface = MALLOC(GdkSurface*);
 
   *single_surface = gtk_native_get_surface(gtk_widget_get_native(widget));
 

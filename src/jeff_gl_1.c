@@ -35,9 +35,9 @@ void display(void) {
 }
 
 int main(int argc, char **argv) {
-  gl_init_t *init_args = ALLOC(gl_init_t, 1);
-  init_args->rgba = ALLOC(rgba_t, 1);
-  init_args->rgb = ALLOC(rgb_t, 1);
+  gl_init_t *init_args = MALLOC(gl_init_t);
+  init_args->rgba = MALLOC(rgba_t);
+  init_args->rgb = MALLOC(rgb_t);
 
   init_args->rgba->red = 0.0;
   init_args->rgba->green = 0.0;
@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
   init_args->rgb->green = 1.0;
   init_args->rgb->blue = 0.0;
 
-  int *pargc = ALLOC(int, 1);
+  int *pargc = MALLOC(int);
   *pargc = argc;
 
   glutInit(pargc, argv);

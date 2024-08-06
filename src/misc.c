@@ -8,9 +8,9 @@ char **filter_argv(const int argc, char **argv) {
     return NULL;
   }
 
-  char **result = ALLOC(char*, argc - 1);
+  char **result = CALLOC(char*, argc - 1);
 
-  for (unsigned int i = 1; i < (uint)argc; i++) {
+  for (uint i = 1; i < (uint)argc; i++) {
     result[i - 1] = argv[i];
   }
 
