@@ -5,14 +5,14 @@
 #include <jeff/jeff.h>
 #include <jeff/cointoss.h>
 
-void seed(bool *seeded) {
+static void seed(bool *seeded) {
     if (!(*seeded)) {
         srand(time(NULL));
         *seeded = true;
     }
 }
 
-void decide(const uint x, CHOICES* c) {
+static void decide(const uint x, CHOICES *c) {
     switch(x) {
         case 1:
             c->HEADS++;
@@ -24,7 +24,7 @@ void decide(const uint x, CHOICES* c) {
     }
 }
 
-void final_decide(CHOICES* c, char *tails_msg, char *heads_msg) {
+static void final_decide(CHOICES *c, char *tails_msg, char *heads_msg) {
     if (c->HEADS > c->TAILS) {
         printf("%s\n", tails_msg);
     } else if (c->TAILS > c->HEADS) {
@@ -44,22 +44,21 @@ void final_decide(CHOICES* c, char *tails_msg, char *heads_msg) {
     }
 }
 
-char *error_msg(void) {
+static char *error_msg(void) {
     char *result = "Need two arguments";
 
     return result;
 }
 
 uint toss(void) {
-    return (uint) (rand() % 2);
+    return (uint)(rand() % 2);
 }
 
 int main(int argc, char **argv) {
     argc--;
 
     if (argc != 2) {
-        char *msg = error_msg();
-        die(1, msg);
+        die(127, error_msg());
     }
 
     bool *seeded = ALLOC(bool, 1);
@@ -68,7 +67,7 @@ int main(int argc, char **argv) {
     seed(seeded);
 
     char *tails_msg, *heads_msg;
-    char** argv_og = argv;
+    char **argv_og = argv;
 
     (++argv);
     tails_msg = *argv;
@@ -77,7 +76,7 @@ int main(int argc, char **argv) {
 
     argv = argv_og;
 
-    CHOICES *c = (CHOICES *) malloc(sizeof(CHOICES *));
+    CHOICES *c = (CHOICES*)malloc(sizeof(CHOICES));
     c->TAILS = 0;
     c->HEADS = 0;
 

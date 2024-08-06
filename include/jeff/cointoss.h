@@ -9,10 +9,10 @@ typedef struct {
     uint HEADS;
 } CHOICES;
 
-static void seed(bool*);
-static void decide(const uint, CHOICES*);
-static void final_decide(CHOICES*, char*, char*);
+static void seed(bool *seeded);
+static void decide(const uint x, CHOICES *c);
+static void final_decide(CHOICES *c, char *tails_msg, char *heads_msg);
 static char *error_msg(void);
-unsigned int toss(void);
+uint toss(void);
 
 #endif // !COINTOSS_H
