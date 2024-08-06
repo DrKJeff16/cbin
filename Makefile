@@ -49,6 +49,17 @@ ACTIONS = $(JEFF_LIBS) $(JEFF_ACTIONS) \
 
 all: $(ACTIONS)
 
+libs: $(JEFF_LIBS)
+
+install_libs:
+	install -m 755 $(LIBDIR)/libjdie.so ~/.local/lib/libjdie.so
+	install -m 755 $(LIBDIR)/libjerr.so ~/.local/lib/libjerr.so
+	install -m 755 $(LIBDIR)/libjoperators.so ~/.local/lib/libjoperators.so
+install_global_libs:
+	install -m 755 $(LIBDIR)/libjdie.so /usr/lib/libjdie.so
+	install -m 755 $(LIBDIR)/libjerr.so /usr/lib/libjerr.so
+	install -m 755 $(LIBDIR)/libjoperators.so /usr/lib/libjoperators.so
+
 cointoss: $(BINDIR)/cointoss
 misc: $(BINDIR)/misc
 gl_1: $(BINDIR)/jeff_gl_1
@@ -137,17 +148,6 @@ $(OBJDIR)/jerr.o: $(SRCDIR)/jerr.c $(JEFF_H)
 	$(CC) -c $(SRCDIR)/jerr.c -o $@ $(JEFF_CFLAGS)
 $(OBJDIR)/joperators.o: $(SRCDIR)/joperators.c $(JEFF_H)
 	$(CC) -c $(SRCDIR)/joperators.c -o $@ $(JEFF_CFLAGS)
-
-libs: $(JEFF_LIBS)
-
-install_libs:
-	install -m 755 $(LIBDIR)/libjdie.so ~/.local/lib/libjdie.so
-	install -m 755 $(LIBDIR)/libjerr.so ~/.local/lib/libjerr.so
-	install -m 755 $(LIBDIR)/libjoperators.so ~/.local/lib/libjoperators.so
-install_global_libs:
-	install -m 755 $(LIBDIR)/libjdie.so /usr/lib/libjdie.so
-	install -m 755 $(LIBDIR)/libjerr.so /usr/lib/libjerr.so
-	install -m 755 $(LIBDIR)/libjoperators.so /usr/lib/libjoperators.so
 
 distclean: clean
 	rm -f $(BINDIR)/* *.so $(LIBDIR)/*
