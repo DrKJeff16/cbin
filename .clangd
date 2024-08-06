@@ -10,6 +10,7 @@ CompileFlags:
       -D_REENTRANT,
       -D_XOPEN_SOURCE=600,
       -I.,
+      -I../include,
       -I/usr/include/SDL2,
       -I/usr/include/blkid,
       -I/usr/include/cairo,
@@ -29,6 +30,7 @@ CompileFlags:
       -I/usr/lib/graphene-1.0/include,
       -Iinclude,
       -L.,
+      -L../lib,
       -L/usr/lib,
       -L/usr/local/lib,
       -Llib,
@@ -81,8 +83,8 @@ CompileFlags:
   Compiler: gcc
 
 Index:
-  Background: Build
-  StandardLibrary: Yes
+  Background: Skip
+  StandardLibrary: No
 
 Diagnostics:
   Supress: -Wunused
@@ -93,8 +95,8 @@ InlayHints:
   Designators: Yes
   Enabled: Yes
   ParameterNames: Yes
-  DeducedTypes: No
-  TypeNameLimit: 12
+  DeducedTypes: Yes
+  TypeNameLimit: 18
 
 Hover:
   ShowAKA: Yes
@@ -112,6 +114,7 @@ CompileFlags:
       -D_REENTRANT,
       -D_XOPEN_SOURCE=600,
       -I.,
+      -I../include,
       -I/usr/include/SDL2,
       -I/usr/include/blkid,
       -I/usr/include/cairo,
@@ -131,8 +134,11 @@ CompileFlags:
       -I/usr/lib/glib-2.0/include,
       -I/usr/lib/graphene-1.0/include,
       -Iinclude,
+      -L.,
+      -L../lib,
       -L/usr/lib,
       -L/usr/local/lib,
+      -Llib,
       -Wall,
       -lEGL,
       -lGL,
@@ -180,7 +186,7 @@ CompileFlags:
   Compiler: gcc
 
 Index:
-  Background: Build
+  Background: Skip
   StandardLibrary: No
 
 Diagnostics:
@@ -191,8 +197,8 @@ InlayHints:
   BlockEnd: Yes
   Designators: Yes
   Enabled: Yes
-  ParameterNames: No
-  DeducedTypes: No
+  ParameterNames: Yes
+  DeducedTypes: Yes
   TypeNameLimit: 18
 
 Hover:
@@ -212,6 +218,7 @@ CompileFlags:
       -D_REENTRANT,
       -D_XOPEN_SOURCE=600,
       -I.,
+      -I../include,
       -I/usr/include/SDL2,
       -I/usr/include/blkid,
       -I/usr/include/cairo,
@@ -231,6 +238,8 @@ CompileFlags:
       -I/usr/lib/glib-2.0/include,
       -I/usr/lib/graphene-1.0/include,
       -Iinclude,
+      -L.,
+      -L../lib,
       -L/usr/lib,
       -L/usr/local/lib,
       -Llib,
@@ -281,8 +290,8 @@ CompileFlags:
   Compiler: g++
 
 Index:
-  Background: Build
-  StandardLibrary: Yes
+  Background: Skip
+  StandardLibrary: No
 
 Diagnostics:
   Supress: -Wunused
@@ -313,6 +322,7 @@ CompileFlags:
       -D_REENTRANT,
       -D_XOPEN_SOURCE=600,
       -I.,
+      -I../include,
       -I/usr/include/SDL2,
       -I/usr/include/blkid,
       -I/usr/include/cairo,
@@ -333,6 +343,7 @@ CompileFlags:
       -I/usr/lib/graphene-1.0/include,
       -Iinclude,
       -L.,
+      -L../lib,
       -L/usr/lib,
       -L/usr/local/lib,
       -Llib,
@@ -382,7 +393,7 @@ CompileFlags:
   Compiler: g++
 
 Index:
-  Background: Build
+  Background: Skip
   StandardLibrary: No
 
 Diagnostics:
@@ -393,7 +404,7 @@ InlayHints:
   BlockEnd: Yes
   Designators: Yes
   Enabled: Yes
-  ParameterNames: No
+  ParameterNames: Yes
   DeducedTypes: Yes
   TypeNameLimit: 18
 
