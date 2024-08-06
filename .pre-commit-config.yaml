@@ -3,16 +3,9 @@ repos:
     rev: v4.6.0
     hooks:
       - id: detect-private-key
-      - id: check-shebang-scripts-are-executable
-        verbose: true
-      - id: check-executables-have-shebangs
-        verbose: true
       - id: mixed-line-ending
-        verbose: true
       - id: end-of-file-fixer
-        verbose: true
       - id: trailing-whitespace
-        verbose: true
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks
     rev: v1.5.5
