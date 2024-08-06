@@ -11,6 +11,7 @@ BINDIR := bin
 INCDIR := include/jeff
 LIBDIR := lib
 OBJDIR := obj
+SRCDIR := src
 
 JEFF_H = $(INCDIR)/jeff.h
 JEFF_OUT = $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/joperators.o
@@ -67,62 +68,62 @@ $(BINDIR):
 
 $(BINDIR)/jeff_lua_1: $(BINDIR) $(OBJDIR)/jeff_lua_1.o $(JEFF_LIBS) $(LUA_H)
 	$(CC) $(OBJDIR)/jeff_lua_1.o -o $@ $(LUA_CFLAGS) $(LDFLAGS)
-$(OBJDIR)/jeff_lua_1.o: jeff_lua_1.c $(LUA_H)
-	$(CC) -c jeff_lua_1.c -o $@ $(LUA_CFLAGS)
+$(OBJDIR)/jeff_lua_1.o: $(SRCDIR)/jeff_lua_1.c $(LUA_H)
+	$(CC) -c $(SRCDIR)/jeff_lua_1.c -o $@ $(LUA_CFLAGS)
 
 $(BINDIR)/jeff_gl_1: $(BINDIR) $(OBJDIR)/jeff_gl_1.o $(JEFF_LIBS) $(GL_H)
 	$(CC) $(OBJDIR)/jeff_gl_1.o -o $@ $(GL_CFLAGS) $(LDFLAGS)
-$(OBJDIR)/jeff_gl_1.o: jeff_gl_1.c $(GL_H)
-	$(CC) -c jeff_gl_1.c -o $@ $(GL_CFLAGS)
+$(OBJDIR)/jeff_gl_1.o: $(SRCDIR)/jeff_gl_1.c $(GL_H)
+	$(CC) -c $(SRCDIR)/jeff_gl_1.c -o $@ $(GL_CFLAGS)
 $(BINDIR)/jeff_gl_2: $(BINDIR) $(OBJDIR)/jeff_gl_2.o $(JEFF_LIBS) $(GL_H)
 	$(CC) $(OBJDIR)/jeff_gl_2.o -o $@ $(GL_CFLAGS) $(LDFLAGS)
-$(OBJDIR)/jeff_gl_2.o: jeff_gl_2.c $(GL_H)
-	$(CC) -c jeff_gl_2.c -o $@ $(GL_CFLAGS)
+$(OBJDIR)/jeff_gl_2.o: $(SRCDIR)/jeff_gl_2.c $(GL_H)
+	$(CC) -c $(SRCDIR)/jeff_gl_2.c -o $@ $(GL_CFLAGS)
 $(BINDIR)/jeff_gl_3: $(BINDIR) $(OBJDIR)/jeff_gl_3.o $(GL_H)
 	$(CXX) $(OBJDIR)/jeff_gl_3.o -o $@ $(GL_CFLAGS)
-$(OBJDIR)/jeff_gl_3.o: jeff_gl_3.cpp $(GL_H)
-	$(CXX) -c jeff_gl_3.cpp -o $@ $(GL_CFLAGS) $(CXXFLAGS)
+$(OBJDIR)/jeff_gl_3.o: $(SRCDIR)/jeff_gl_3.cpp $(GL_H)
+	$(CXX) -c $(SRCDIR)/jeff_gl_3.cpp -o $@ $(GL_CFLAGS) $(CXXFLAGS)
 
 $(BINDIR)/jeff_gtk_1: $(BINDIR) $(OBJDIR)/jeff_gtk_1.o $(JEFF_LIBS) $(GTK_H)
 	$(CC) $(OBJDIR)/jeff_gtk_1.o -o $@ $(GTK_CFLAGS) $(LDFLAGS)
-$(OBJDIR)/jeff_gtk_1.o: jeff_gtk_1.c $(GTK_H)
-	$(CC) -c jeff_gtk_1.c -o $@ $(GTK_CFLAGS)
+$(OBJDIR)/jeff_gtk_1.o: $(SRCDIR)/jeff_gtk_1.c $(GTK_H)
+	$(CC) -c $(SRCDIR)/jeff_gtk_1.c -o $@ $(GTK_CFLAGS)
 $(BINDIR)/jeff_gtk_2: $(BINDIR) $(OBJDIR)/jeff_gtk_2.o $(JEFF_LIBS) $(GTK_H)
 	$(CC) $(OBJDIR)/jeff_gtk_2.o -o $@ $(GTK_CFLAGS) $(LDFLAGS)
-$(OBJDIR)/jeff_gtk_2.o: jeff_gtk_2.c $(GTK_H)
-	$(CC) -c jeff_gtk_2.c -o $@ $(GTK_CFLAGS)
+$(OBJDIR)/jeff_gtk_2.o: $(SRCDIR)/jeff_gtk_2.c $(GTK_H)
+	$(CC) -c $(SRCDIR)/jeff_gtk_2.c -o $@ $(GTK_CFLAGS)
 $(BINDIR)/jeff_gtk_3: $(BINDIR) $(OBJDIR)/jeff_gtk_3.o $(JEFF_LIBS) $(GTK_H)
 	$(CC) $(OBJDIR)/jeff_gtk_3.o -o $@ $(GTK_CFLAGS) $(LDFLAGS)
-$(OBJDIR)/jeff_gtk_3.o: jeff_gtk_3.c $(GTK_H)
-	$(CC) -c jeff_gtk_3.c -o $@ $(GTK_CFLAGS)
-$(BINDIR)/jeff_gtk_4: $(BINDIR) $(OBJDIR)/jeff_gtk_4.o $(JEFF_LIBS) $(GTK_H) builder.ui
+$(OBJDIR)/jeff_gtk_3.o: $(SRCDIR)/jeff_gtk_3.c $(GTK_H)
+	$(CC) -c $(SRCDIR)/jeff_gtk_3.c -o $@ $(GTK_CFLAGS)
+$(BINDIR)/jeff_gtk_4: $(BINDIR) $(OBJDIR)/jeff_gtk_4.o $(JEFF_LIBS) $(GTK_H) $(SRCDIR)/builder.ui
 	$(CC) $(OBJDIR)/jeff_gtk_4.o -o $@ $(GTK_CFLAGS) $(LDFLAGS)
-$(OBJDIR)/jeff_gtk_4.o: jeff_gtk_4.c $(GTK_H) builder.ui
-	$(CC) -c jeff_gtk_4.c -o $@ $(GTK_CFLAGS)
+$(OBJDIR)/jeff_gtk_4.o: $(SRCDIR)/jeff_gtk_4.c $(GTK_H) $(SRCDIR)/builder.ui
+	$(CC) -c $(SRCDIR)/jeff_gtk_4.c -o $@ $(GTK_CFLAGS)
 $(BINDIR)/jeff_gtk_5: $(BINDIR) $(OBJDIR)/jeff_gtk_5.o $(JEFF_LIBS) $(GTK_H)
 	$(CC) $(OBJDIR)/jeff_gtk_5.o -o $@ $(GTK_CFLAGS) $(LDFLAGS)
-$(OBJDIR)/jeff_gtk_5.o: jeff_gtk_5.c $(GTK_H)
-	$(CC) -c jeff_gtk_5.c -o $@ $(GTK_CFLAGS)
+$(OBJDIR)/jeff_gtk_5.o: $(SRCDIR)/jeff_gtk_5.c $(GTK_H)
+	$(CC) -c $(SRCDIR)/jeff_gtk_5.c -o $@ $(GTK_CFLAGS)
 
-$(BINDIR)/jeff_sdl_1: $(BINDIR) $(OBJDIR)/jeff_sdl_1.o $(JEFF_LIBS) $(SDL_H) face.png
+$(BINDIR)/jeff_sdl_1: $(BINDIR) $(OBJDIR)/jeff_sdl_1.o $(JEFF_LIBS) $(SDL_H) $(SRCDIR)/face.png
 	$(CC) $(OBJDIR)/jeff_sdl_1.o -o $@ $(SDL_CFLAGS) $(LDFLAGS)
-$(OBJDIR)/jeff_sdl_1.o: jeff_sdl_1.c $(SDL_H) face.png
-	$(CC) -c jeff_sdl_1.c -o $@ $(SDL_CFLAGS)
+$(OBJDIR)/jeff_sdl_1.o: $(SRCDIR)/jeff_sdl_1.c $(SDL_H) $(SRCDIR)/face.png
+	$(CC) -c $(SRCDIR)/jeff_sdl_1.c -o $@ $(SDL_CFLAGS)
 
-$(BINDIR)/jeff_ncurses_1: $(BINDIR) $(OBJDIR)/jeff_ncurses_1.o $(JEFF_LIBS) $(NCURSES_H) face.png
+$(BINDIR)/jeff_ncurses_1: $(BINDIR) $(OBJDIR)/jeff_ncurses_1.o $(JEFF_LIBS) $(NCURSES_H) $(SRCDIR)/face.png
 	$(CC) $(OBJDIR)/jeff_ncurses_1.o -o $@ $(NCURSES_CFLAGS) $(LDFLAGS)
-$(OBJDIR)/jeff_ncurses_1.o: jeff_ncurses_1.c $(NCURSES_H) face.png
-	$(CC) -c jeff_ncurses_1.c -o $@ $(NCURSES_CFLAGS)
+$(OBJDIR)/jeff_ncurses_1.o: $(SRCDIR)/jeff_ncurses_1.c $(NCURSES_H) $(SRCDIR)/face.png
+	$(CC) -c $(SRCDIR)/jeff_ncurses_1.c -o $@ $(NCURSES_CFLAGS)
 
 $(BINDIR)/cointoss: $(BINDIR) $(OBJDIR)/cointoss.o $(INCDIR)/cointoss.h $(JEFF_LIBS) $(JEFF_H)
 	$(CC) $(OBJDIR)/cointoss.o -o $@ $(CFLAGS) $(LDFLAGS)
-$(OBJDIR)/cointoss.o: cointoss.c $(INCDIR)/cointoss.h $(JEFF_H)
-	$(CC) -c cointoss.c -o $@ $(CFLAGS)
+$(OBJDIR)/cointoss.o: $(SRCDIR)/cointoss.c $(INCDIR)/cointoss.h $(JEFF_H)
+	$(CC) -c $(SRCDIR)/cointoss.c -o $@ $(CFLAGS)
 
 $(BINDIR)/misc: $(BINDIR) $(OBJDIR)/misc.o $(JEFF_LIBS) $(JEFF_H)
 	$(CC) $(OBJDIR)/misc.o -o $@ $(CFLAGS) $(LDFLAGS)
-$(OBJDIR)/misc.o: misc.c $(JEFF_H)
-	$(CC) -c misc.c -o $@ $(CFLAGS)
+$(OBJDIR)/misc.o: $(SRCDIR)/misc.c $(JEFF_H)
+	$(CC) -c $(SRCDIR)/misc.c -o $@ $(CFLAGS)
 
 $(LIBDIR)/libjdie.so: $(OBJDIR)/jdie.o $(JEFF_H)
 	$(CC) -shared $(OBJDIR)/jdie.o -o $@ $(JEFF_LDFLAGS)
@@ -130,12 +131,12 @@ $(LIBDIR)/libjerr.so: $(OBJDIR)/jerr.o $(JEFF_H)
 	$(CC) -shared $(OBJDIR)/jerr.o -o $@ $(JEFF_LDFLAGS)
 $(LIBDIR)/libjoperators.so: $(OBJDIR)/joperators.o $(JEFF_H)
 	$(CC) -shared $(OBJDIR)/joperators.o -o $@ $(JEFF_LDFLAGS)
-$(OBJDIR)/jdie.o: jdie.c $(JEFF_H)
-	$(CC) -c jdie.c -o $@ $(JEFF_CFLAGS)
-$(OBJDIR)/jerr.o: jerr.c $(JEFF_H)
-	$(CC) -c jerr.c -o $@ $(JEFF_CFLAGS)
-$(OBJDIR)/joperators.o: joperators.c $(JEFF_H)
-	$(CC) -c joperators.c -o $@ $(JEFF_CFLAGS)
+$(OBJDIR)/jdie.o: $(SRCDIR)/jdie.c $(JEFF_H)
+	$(CC) -c $(SRCDIR)/jdie.c -o $@ $(JEFF_CFLAGS)
+$(OBJDIR)/jerr.o: $(SRCDIR)/jerr.c $(JEFF_H)
+	$(CC) -c $(SRCDIR)/jerr.c -o $@ $(JEFF_CFLAGS)
+$(OBJDIR)/joperators.o: $(SRCDIR)/joperators.c $(JEFF_H)
+	$(CC) -c $(SRCDIR)/joperators.c -o $@ $(JEFF_CFLAGS)
 
 libs: $(JEFF_LIBS)
 
