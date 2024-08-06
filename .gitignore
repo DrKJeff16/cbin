@@ -1,9 +1,15 @@
 /bin
 /lib
 /obj
+/bin/*
+/lib/*
+/obj/*
 
 *.o
 *.so
+*.obj
+*.dll
 *.a
 *.s
+*.S
 *.i
