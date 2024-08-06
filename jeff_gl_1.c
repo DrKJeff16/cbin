@@ -1,3 +1,4 @@
+#include <math.h>
 #include <jeff/jeff.h>
 #include <jeff/jeff_gl.h>
 

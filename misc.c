@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <jeff/jeff.h>
 
 char **filter_argv(const int argc, char **argv) {

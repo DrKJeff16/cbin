@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <jeff/jeff.h>
 
 void err(const char *msg) {

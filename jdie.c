@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <jeff/jeff.h>
 
 void die(const bool status, const char *msg) {

@@ -1,7 +1,9 @@
-#include <jeff/jeff.h>
-#include <jeff/cointoss.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <jeff/jeff.h>
+#include <jeff/cointoss.h>
 
 void seed(bool *seeded) {
     if (!(*seeded)) {

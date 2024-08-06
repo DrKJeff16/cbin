@@ -5,10 +5,8 @@
 extern "C" {
 #endif // __cplusplus
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <sys/types.h>
 #include <stdbool.h>
-#include <math.h>
 
 #ifndef PI
 #define PI 3.14159
