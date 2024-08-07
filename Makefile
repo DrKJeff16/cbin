@@ -5,7 +5,7 @@ CXX := g++
 CPPFLAGS := -I. -Iinclude -DNDEBUG -D_FORTIFY_SOURCE=2
 CFLAGS := $(CPPFLAGS) -march=znver3 -pipe -g -ggdb -O2 -Wall -Llib -pedantic -pthread
 CXXFLAGS := $(CFLAGS) -D_GLIBCXX_ASSERTIONS
-LDFLAGS := -Llib -ljerr -ljdie -ljoperators
+LDFLAGS := -L. -L../lib -Llib -ljerr -ljdie -ljoperators
 
 BINDIR := bin
 INCDIR := include/jeff
