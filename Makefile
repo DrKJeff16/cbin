@@ -2,8 +2,8 @@ SHELL = /bin/bash
 
 CC := gcc
 CXX := g++
-CPPFLAGS := -I. -Iinclude -DNDEBUG -D_FORTIFY_SOURCE=2
-CFLAGS := $(CPPFLAGS) -march=znver3 -pipe -g -ggdb -O2 -Wall -Llib -pedantic -pthread
+CPPFLAGS := -I. -Iinclude -I../include -DNDEBUG -D_GNU_SOURCE -D_FORTIFY_SOURCE=2
+CFLAGS := $(CPPFLAGS) -march=znver3 -pipe -g -ggdb -O2 -Wall -pedantic -pthread
 CXXFLAGS := $(CFLAGS) -D_GLIBCXX_ASSERTIONS
 LDFLAGS := -L. -L../lib -Llib -ljerr -ljdie -ljoperators
 
