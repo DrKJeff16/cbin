@@ -7,6 +7,13 @@ CXX := g++
 
 all: $(ACTIONS)
 
+$(LIBDIR):
+	mkdir -p $(LIBDIR)
+$(BINDIR):
+	mkdir -p $(BINDIR)
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
 libs: $(JEFF_LIBS)
 
 strip/bin: $(LIBDIR)
