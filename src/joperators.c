@@ -1,6 +1,5 @@
-#include <stdbool.h>
 #include <jeff/jeff.h>
 
-bool jxor(const bool x, const bool y) {
+jbool jxor(const jbool x, const jbool y) {
   return ((x && !y) || (!x && y));
 }

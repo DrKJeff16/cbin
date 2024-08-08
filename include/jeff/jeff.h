@@ -6,7 +6,8 @@ extern "C" {
 #endif // __cplusplus
 
 #include <sys/types.h>
-#include <stdbool.h>
+
+typedef uint jbool;
 
 #ifndef PI
 #define PI 3.14159
@@ -24,11 +25,7 @@ extern "C" {
 #define REALLOC(ptr, type, n) (type*)realloc(ptr, sizeof(type) * n)
 #endif // !REALLOC
 
-#ifndef ERR
-#define ERR(msg) fprintf(stderr, "%s\n", msg)
-#endif // !ERR
-
-bool jxor(const bool x, const bool y);
+jbool jxor(const jbool x, const jbool y);
 void err(const char *msg);
 void die(const bool status, const char *msg);
 

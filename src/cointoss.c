@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+/* #include <string.h> */
 #include <time.h>
 #include <jeff/jeff.h>
 #include <jeff/cointoss.h>
 
-static void seed(bool *seeded) {
+static void seed(jbool *seeded) {
     if (!(*seeded)) {
         srand(time(NULL));
-        *seeded = true;
+        *seeded = 1;
     }
 }
 
@@ -61,8 +61,8 @@ int main(int argc, char **argv) {
         die(127, error_msg());
     }
 
-    bool *seeded = CALLOC(bool, 1);
-    *seeded = false;
+    jbool *seeded = CALLOC(jbool, 1);
+    *seeded = 0;
 
     seed(seeded);
 
@@ -76,11 +76,11 @@ int main(int argc, char **argv) {
 
     argv = argv_og;
 
-    CHOICES *c = (CHOICES*)malloc(sizeof(CHOICES));
+    CHOICES *c = MALLOC(CHOICES);
     c->TAILS = 0;
     c->HEADS = 0;
 
-    for (unsigned long long i = 0; i < 100000; i++ ){
+    for (unsigned long long i = 0L; i < 100000L; i++ ){
         decide(toss(), c);
     }
 
