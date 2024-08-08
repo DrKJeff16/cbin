@@ -27,9 +27,9 @@ typedef uint jbool;
 
 jbool jxor(const jbool x, const jbool y);
 void err(const char *msg);
-void die(const bool status, const char *msg);
+void die(const int status, const char *msg);
 
-static void die_exec(const bool status, const char *msg, void (*fun)());
+static void die_exec(const int status, const char *msg, void (*fun)(void));
 
 #ifdef __cplusplus
 }
