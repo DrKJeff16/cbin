@@ -9,7 +9,7 @@ LIBDIR = lib
 OBJDIR = obj
 SRCDIR = src
 
-JEFF_H = $(INCDIR)/jeff/jeff.h
+JEFF_H = $(INCDIR)/jeff/jeff.h $(INCDIR)/jeff/jmemory.h
 JEFF_OUT = $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/joperators.o
 JEFF_LIBS = $(LIBDIR)/libjdie.so $(LIBDIR)/libjerr.so $(LIBDIR)/libjoperators.so
 JEFF_CFLAGS = $(CPPFLAGS) -march=znver3 -pipe -g -ggdb -O2 -Wall -fPIC
