@@ -36,7 +36,7 @@ LUA_CFLAGS = $(CFLAGS) `pkgconf --cflags --libs lua luajit`
 LUA_H = $(INCDIR)/jeff/jeff_lua.h
 LUA_ACTIONS = lua_1
 
-ACTIONS = $(JEFF_LIBS) $(JEFF_ACTIONS) \
+ACTIONS = libs $(JEFF_ACTIONS) \
 		  $(GTK_ACTIONS) \
 		  $(SDL_ACTIONS) \
 		  $(NCURSES_ACTIONS) \
