@@ -11,4 +11,3 @@ repos:
     rev: v1.5.5
     hooks:
       - id: remove-crlf
-        verbose: true
