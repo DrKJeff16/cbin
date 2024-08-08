@@ -4,7 +4,6 @@ If:
 CompileFlags:
   Add:
     [
-      '-isystem /usr/local/include',
       -D_DEFAULT_SOURCE,
       -D_GNU_SOURCE,
       -D_REENTRANT,
@@ -28,6 +27,7 @@ CompileFlags:
       -I/usr/include/sysprof-6,
       -I/usr/lib/glib-2.0/include,
       -I/usr/lib/graphene-1.0/include,
+      -I/usr/local/include,
       -Iinclude,
       -L.,
       -L../lib,
@@ -79,7 +79,7 @@ CompileFlags:
       -std=c99,
       -xc,
     ]
-  Remove: [-W*, -D_FORTIFY_SOURCE=*, -Wunused*, -Wformat*]
+  Remove: [-W*, -Wunused*, -Wformat*]
   Compiler: gcc
 
 Index:
@@ -87,15 +87,15 @@ Index:
   StandardLibrary: No
 
 Diagnostics:
-  Supress: -Wunused
+  Supress: '*'
   UnusedIncludes: None
 
 InlayHints:
-  BlockEnd: Yes
-  Designators: Yes
-  Enabled: Yes
-  ParameterNames: Yes
-  DeducedTypes: Yes
+  BlockEnd: true
+  Designators: true
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true
   TypeNameLimit: 18
 
 Hover:
@@ -108,7 +108,6 @@ If:
 CompileFlags:
   Add:
     [
-      '-isystem /usr/local/include',
       -D_DEFAULT_SOURCE,
       -D_GNU_SOURCE,
       -D_REENTRANT,
@@ -133,6 +132,7 @@ CompileFlags:
       -I/usr/include/sysprof-6,
       -I/usr/lib/glib-2.0/include,
       -I/usr/lib/graphene-1.0/include,
+      -I/usr/local/include,
       -Iinclude,
       -L.,
       -L../lib,
@@ -182,7 +182,7 @@ CompileFlags:
       -std=c99,
       -xc-header,
     ]
-  Remove: [-W*, -D_FORTIFY_SOURCE=*, -Wunused*, -Wformat*]
+  Remove: [-W*, -Wunused*, -Wformat*]
   Compiler: gcc
 
 Index:
@@ -190,15 +190,15 @@ Index:
   StandardLibrary: No
 
 Diagnostics:
-  Supress: -Wunused
+  Supress: '*'
   UnusedIncludes: None
 
 InlayHints:
-  BlockEnd: Yes
-  Designators: Yes
-  Enabled: Yes
-  ParameterNames: Yes
-  DeducedTypes: Yes
+  BlockEnd: true
+  Designators: true
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true
   TypeNameLimit: 18
 
 Hover:
@@ -206,12 +206,11 @@ Hover:
 
 ---
 If:
-  PathMatch: [.*\.cc, .*\.cpp, .*\.c\+\+, .*\.C]
+  PathMatch: [.*\.cc, .*\.cpp, .*\.c\+\+, .*\.C, .*\.cxx]
 
 CompileFlags:
   Add:
     [
-      '-isystem /usr/local/include',
       -D_DEFAULT_SOURCE,
       -D_GLIBCXX_ASSERTIONS,
       -D_GNU_SOURCE,
@@ -237,6 +236,7 @@ CompileFlags:
       -I/usr/include/sysprof-6,
       -I/usr/lib/glib-2.0/include,
       -I/usr/lib/graphene-1.0/include,
+      -I/usr/local/include,
       -Iinclude,
       -L.,
       -L../lib,
@@ -286,7 +286,7 @@ CompileFlags:
       -std=c++17,
       -xc++,
     ]
-  Remove: [-W*, -D_FORTIFY_SOURCE=*, -Wunused*, -Wformat*]
+  Remove: [-W*, -Wunused*, -Wformat*]
   Compiler: g++
 
 Index:
@@ -294,15 +294,15 @@ Index:
   StandardLibrary: No
 
 Diagnostics:
-  Supress: -Wunused
+  Supress: '*'
   UnusedIncludes: None
 
 InlayHints:
-  BlockEnd: Yes
-  Designators: Yes
-  Enabled: Yes
-  ParameterNames: Yes
-  DeducedTypes: Yes
+  BlockEnd: true
+  Designators: true
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true
   TypeNameLimit: 18
 
 Hover:
@@ -310,12 +310,11 @@ Hover:
 
 ---
 If:
-  PathMatch: [.*\.hh, .*\.hpp, .*\.h\+\+, .*\.H]
+  PathMatch: [.*\.hh, .*\.hpp, .*\.h\+\+, .*\.H, .*\.hxx]
 
 CompileFlags:
   Add:
     [
-      '-isystem /usr/local/include',
       -D_DEFAULT_SOURCE,
       -D_GLIBCXX_ASSERTIONS,
       -D_GNU_SOURCE,
@@ -341,6 +340,7 @@ CompileFlags:
       -I/usr/include/sysprof-6,
       -I/usr/lib/glib-2.0/include,
       -I/usr/lib/graphene-1.0/include,
+      -I/usr/local/include,
       -Iinclude,
       -L.,
       -L../lib,
@@ -389,7 +389,7 @@ CompileFlags:
       -std=c++17,
       -xc++-header,
     ]
-  Remove: [-W*, -D_FORTIFY_SOURCE=*, -Wunused*, -Wformat*]
+  Remove: [-W*, -Wunused*, -Wformat*]
   Compiler: g++
 
 Index:
@@ -397,15 +397,15 @@ Index:
   StandardLibrary: No
 
 Diagnostics:
-  Supress: -Wunused
+  Supress: '*'
   UnusedIncludes: None
 
 InlayHints:
-  BlockEnd: Yes
-  Designators: Yes
-  Enabled: Yes
-  ParameterNames: Yes
-  DeducedTypes: Yes
+  BlockEnd: true
+  Designators: true
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true
   TypeNameLimit: 18
 
 Hover:
