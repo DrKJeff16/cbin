@@ -9,14 +9,24 @@ all: $(ACTIONS)
 
 libs: $(JEFF_LIBS)
 
-install_libs:
+install_libs/fast:
 	install -m 755 $(LIBDIR)/libjdie.so ~/.local/lib/libjdie.so
 	install -m 755 $(LIBDIR)/libjerr.so ~/.local/lib/libjerr.so
 	install -m 755 $(LIBDIR)/libjoperators.so ~/.local/lib/libjoperators.so
-install_global_libs:
+install_libs/stripped:
+	install -m 755 $(LIBDIR)/libjdie.so ~/.local/lib/libjdie.so
+	install -m 755 $(LIBDIR)/libjerr.so ~/.local/lib/libjerr.so
+	install -m 755 $(LIBDIR)/libjoperators.so ~/.local/lib/libjoperators.so
+	strip ~/.local/lib/libj{die,err,operators}.so
+install_global_libs/fast:
 	install -m 755 $(LIBDIR)/libjdie.so /usr/lib/libjdie.so
 	install -m 755 $(LIBDIR)/libjerr.so /usr/lib/libjerr.so
 	install -m 755 $(LIBDIR)/libjoperators.so /usr/lib/libjoperators.so
+install_global_libs/stripped:
+	install -m 755 $(LIBDIR)/libjdie.so /usr/lib/libjdie.so
+	install -m 755 $(LIBDIR)/libjerr.so /usr/lib/libjerr.so
+	install -m 755 $(LIBDIR)/libjoperators.so /usr/lib/libjoperators.so
+	strip /usr/lib/libj{die,err,operators}.so
 
 cointoss: $(BINDIR)/cointoss
 misc: $(BINDIR)/misc
@@ -109,4 +119,6 @@ distclean: clean
 clean:
 	rm -f *.o $(BINDIR)/*.o obj/*
 
-.PHONY: $(ACTIONS) distclean clean all libs
+.PHONY: $(ACTIONS) distclean clean all libs \
+	install_libs/fast install_libs/stripped \
+	install_global_libs/fast install_global_libs/stripped
