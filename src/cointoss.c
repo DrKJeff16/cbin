@@ -3,6 +3,7 @@
 /* #include <string.h> */
 #include <time.h>
 #include <jeff/jeff.h>
+#include <jeff/jmemory.h>
 #include <jeff/cointoss.h>
 
 static void seed(jbool *seeded) {

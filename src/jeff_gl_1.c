@@ -1,5 +1,6 @@
 #include <math.h>
 #include <jeff/jeff.h>
+#include <jeff/jmemory.h>
 #include <jeff/jeff_gl.h>
 
 void init(gl_init_t *args) {

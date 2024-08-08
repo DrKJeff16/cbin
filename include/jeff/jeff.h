@@ -13,18 +13,6 @@ typedef uint jbool;
 #define PI 3.14159
 #endif // !PI
 
-#ifndef MALLOC
-#define MALLOC(type) (type*)malloc(sizeof(type))
-#endif // !MALLOC
-
-#ifndef CALLOC
-#define CALLOC(type, n) (type*)calloc(n, sizeof(type))
-#endif // !CALLOC
-
-#ifndef REALLOC
-#define REALLOC(ptr, type, n) (type*)realloc(ptr, sizeof(type) * n)
-#endif // !REALLOC
-
 jbool jxor(const jbool x, const jbool y);
 void err(const char *msg);
 void die(const int status, const char *msg);

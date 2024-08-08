@@ -1,7 +1,8 @@
+#include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
 #include <jeff/jeff.h>
+#include <jeff/jmemory.h>
 
 char **filter_argv(const int argc, char **argv) {
   if (argc <= 1) {

@@ -1,4 +1,5 @@
 #include <jeff/jeff.h>
+#include <jeff/jmemory.h>
 #include <jeff/jeff_gtk.h>
 
 void clear_surface(void) {
