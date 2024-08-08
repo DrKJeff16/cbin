@@ -9,6 +9,11 @@ all: $(ACTIONS)
 
 libs: $(JEFF_LIBS)
 
+strip/bin: $(LIBDIR)
+	strip $(BINDIR)/*
+strip/libs: $(LIBDIR)
+	strip $(LIBDIR)/*
+
 install_libs/fast:
 	install -m 755 $(LIBDIR)/libjdie.so ~/.local/lib/libjdie.so
 	install -m 755 $(LIBDIR)/libjerr.so ~/.local/lib/libjerr.so
@@ -120,5 +125,6 @@ distclean: clean
 	rm -f $(BINDIR)/* *.so $(LIBDIR)/*
 
 .PHONY: $(ACTIONS) distclean clean all libs \
+	strip/bin strip/libs \
 	install_libs/fast install_libs/stripped \
 	install_global_libs/fast install_global_libs/stripped
