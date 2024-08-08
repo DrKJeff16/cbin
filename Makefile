@@ -1,51 +1,9 @@
 SHELL = /bin/bash
 
+include config.mk
+
 CC := gcc
 CXX := g++
-CPPFLAGS := -I. -Iinclude -I../include -DNDEBUG -D_GNU_SOURCE -D_FORTIFY_SOURCE=2
-CFLAGS := $(CPPFLAGS) -march=znver3 -pipe -g -ggdb -O2 -Wall -pedantic -pthread
-CXXFLAGS := $(CFLAGS) -D_GLIBCXX_ASSERTIONS
-LDFLAGS := -L. -L../lib -Llib -ljerr -ljdie -ljoperators
-
-BINDIR := bin
-INCDIR := include/jeff
-LIBDIR := lib
-OBJDIR := obj
-SRCDIR := src
-
-JEFF_H = $(INCDIR)/jeff.h
-JEFF_OUT = $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/joperators.o
-JEFF_LIBS = $(LIBDIR)/libjdie.so $(LIBDIR)/libjerr.so $(LIBDIR)/libjoperators.so
-JEFF_CFLAGS = $(CPPFLAGS) -march=znver3 -pipe -g -ggdb -O2 -Wall -fPIC
-JEFF_LDFLAGS = -Llib -fPIC
-JEFF_ACTIONS = cointoss misc
-
-SDL_CFLAGS = $(CFLAGS) `sdl2-config --cflags --libs` -lSDL2_image
-SDL_H = $(INCDIR)/jeff_sdl.h
-SDL_ACTIONS = sdl_1
-
-GTK_CFLAGS = $(CFLAGS) `pkgconf gtk4 --cflags --libs`
-GTK_H = $(INCDIR)/jeff_gtk.h
-GTK_ACTIONS = gtk_1 gtk_2 gtk_3 gtk_4 gtk_5
-
-NCURSES_CFLAGS = $(CFLAGS) `pkgconf ncurses --cflags --libs`
-NCURSES_H = $(INCDIR)/jeff_ncurses.h
-NCURSES_ACTIONS = ncurses_1
-
-GL_CFLAGS = $(CFLAGS) `pkgconf --cflags --libs glfw3 x11 xrandr xi gl glew glu glut` -ldl -lpthread -lm
-GL_H = $(INCDIR)/jeff_gl.h
-GL_ACTIONS = gl_1 gl_2
-
-LUA_CFLAGS = $(CFLAGS) `pkgconf --cflags --libs lua luajit`
-LUA_H = $(INCDIR)/jeff_lua.h
-LUA_ACTIONS = lua_1
-
-ACTIONS = $(JEFF_LIBS) $(JEFF_ACTIONS) \
-		  $(GTK_ACTIONS) \
-		  $(SDL_ACTIONS) \
-		  $(NCURSES_ACTIONS) \
-		  $(GL_ACTIONS) \
-		  $(LUA_ACTIONS)
 
 all: $(ACTIONS)
 
@@ -73,9 +31,6 @@ gtk_5: $(BINDIR)/jeff_gtk_5
 sdl_1: $(BINDIR)/jeff_sdl_1
 lua_1: $(BINDIR)/jeff_lua_1
 ncurses_1: $(BINDIR)/jeff_ncurses_1
-
-$(BINDIR):
-	mkdir -p $(BINDIR)
 
 $(BINDIR)/jeff_lua_1: $(BINDIR) $(OBJDIR)/jeff_lua_1.o $(JEFF_LIBS) $(LUA_H)
 	$(CC) $(OBJDIR)/jeff_lua_1.o -o $@ $(LUA_CFLAGS) $(LDFLAGS)
@@ -126,9 +81,9 @@ $(BINDIR)/jeff_ncurses_1: $(BINDIR) $(OBJDIR)/jeff_ncurses_1.o $(JEFF_LIBS) $(NC
 $(OBJDIR)/jeff_ncurses_1.o: $(SRCDIR)/jeff_ncurses_1.c $(NCURSES_H) $(SRCDIR)/face.png
 	$(CC) -c $(SRCDIR)/jeff_ncurses_1.c -o $@ $(NCURSES_CFLAGS)
 
-$(BINDIR)/cointoss: $(BINDIR) $(OBJDIR)/cointoss.o $(INCDIR)/cointoss.h $(JEFF_LIBS) $(JEFF_H)
+$(BINDIR)/cointoss: $(BINDIR) $(OBJDIR)/cointoss.o $(INCDIR)/jeff/cointoss.h $(JEFF_LIBS) $(JEFF_H)
 	$(CC) $(OBJDIR)/cointoss.o -o $@ $(CFLAGS) $(LDFLAGS)
-$(OBJDIR)/cointoss.o: $(SRCDIR)/cointoss.c $(INCDIR)/cointoss.h $(JEFF_H)
+$(OBJDIR)/cointoss.o: $(SRCDIR)/cointoss.c $(INCDIR)/jeff/cointoss.h $(JEFF_H)
 	$(CC) -c $(SRCDIR)/cointoss.c -o $@ $(CFLAGS)
 
 $(BINDIR)/misc: $(BINDIR) $(OBJDIR)/misc.o $(JEFF_LIBS) $(JEFF_H)
