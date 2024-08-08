@@ -13,7 +13,7 @@ void die(const bool status, const char *msg) {
   exit(status);
 }
 
-static void die_exec(const bool status, const char *msg, void (*fun)()) {
+static void die_exec(const bool status, const char *msg, void (*fun)(void)) {
   fun();
   die(status, msg);
 }
