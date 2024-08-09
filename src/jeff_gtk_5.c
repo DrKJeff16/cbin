@@ -5,6 +5,9 @@
 #include <jeff/jmemory.h>
 #include <jeff/jeff_gtk.h>
 
+static cairo_surface_t *surface = NULL;
+static double start_x = 0., start_y = 0.;
+
 void clear_surface(void) {
   cairo_t *cr = cairo_create(surface);
 

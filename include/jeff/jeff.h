@@ -7,7 +7,10 @@ extern "C" {
 
 #include <sys/types.h>
 
-typedef uint jbool;
+typedef enum _jbool {
+  JFALSE = 0,
+  JTRUE = 1,
+} jbool;
 
 #ifndef PI
 #define PI 3.14159

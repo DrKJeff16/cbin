@@ -16,7 +16,7 @@ typedef struct {
     uint HEADS;
 } CHOICES;
 
-static void seed(uint *seeded);
+static void seed(jbool *seeded);
 static void decide(const uint x, CHOICES *c);
 static void final_decide(CHOICES *c, char *tails_msg, char *heads_msg);
 static char *error_msg(void);

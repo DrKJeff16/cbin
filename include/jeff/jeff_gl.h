@@ -24,7 +24,7 @@ typedef struct _gl_init {
 } gl_init_t;
 
 void init(gl_init_t*);
-static void display(void);
+void display(void);
 
 #ifdef __cplusplus
 }

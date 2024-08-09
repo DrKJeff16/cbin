@@ -1,6 +1,5 @@
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>
-#include <cairo.h>
 #include <jeff/jeff.h>
 #include <jeff/jeff_gtk.h>
 

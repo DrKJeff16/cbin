@@ -1,10 +1,11 @@
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>
-#include <cairo.h>
 #include <jeff/jeff.h>
 #include <jeff/jeff_gtk.h>
 
-void activate(GtkApplication * app, gpointer user_data) {
+const char app_id[] = "org.gtk.example";
+
+void activate(GtkApplication *app, gpointer user_data) {
   GtkWidget *window = gtk_application_window_new(app);
   gtk_window_set_title(GTK_WINDOW(window), "Window");
   gtk_window_set_default_size(GTK_WINDOW(window), 800, 600);
@@ -12,7 +13,7 @@ void activate(GtkApplication * app, gpointer user_data) {
 }
 
 int main(int argc, char **argv) {
-  GtkApplication *app = gtk_application_new("org.gtk.example", G_APPLICATION_DEFAULT_FLAGS);
+  GtkApplication *app = gtk_application_new(app_id, G_APPLICATION_DEFAULT_FLAGS);
   g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
   int status = g_application_run(G_APPLICATION(app), argc, argv);
 

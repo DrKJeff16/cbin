@@ -11,8 +11,3 @@ void die(const int status, const char *msg) {
 
   exit(status);
 }
-
-static void die_exec(const int status, const char *msg, void (*fun)(void)) {
-  fun();
-  die(status, msg);
-}
