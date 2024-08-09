@@ -87,15 +87,14 @@ Index:
   StandardLibrary: No
 
 Diagnostics:
-  Supress: '*'
   UnusedIncludes: None
 
 InlayHints:
-  BlockEnd: true
-  Designators: true
-  Enabled: true
-  ParameterNames: true
-  DeducedTypes: true
+  BlockEnd: Yes
+  Designators: Yes
+  Enabled: Yes
+  ParameterNames: Yes
+  DeducedTypes: Yes
   TypeNameLimit: 18
 
 Hover:
@@ -190,15 +189,14 @@ Index:
   StandardLibrary: No
 
 Diagnostics:
-  Supress: '*'
   UnusedIncludes: None
 
 InlayHints:
-  BlockEnd: true
-  Designators: true
-  Enabled: true
-  ParameterNames: true
-  DeducedTypes: true
+  BlockEnd: Yes
+  Designators: Yes
+  Enabled: Yes
+  ParameterNames: Yes
+  DeducedTypes: Yes
   TypeNameLimit: 18
 
 Hover:
@@ -294,15 +292,14 @@ Index:
   StandardLibrary: No
 
 Diagnostics:
-  Supress: '*'
   UnusedIncludes: None
 
 InlayHints:
-  BlockEnd: true
-  Designators: true
-  Enabled: true
-  ParameterNames: true
-  DeducedTypes: true
+  BlockEnd: Yes
+  Designators: Yes
+  Enabled: Yes
+  ParameterNames: Yes
+  DeducedTypes: Yes
   TypeNameLimit: 18
 
 Hover:
@@ -397,15 +394,14 @@ Index:
   StandardLibrary: No
 
 Diagnostics:
-  Supress: '*'
   UnusedIncludes: None
 
 InlayHints:
-  BlockEnd: true
-  Designators: true
-  Enabled: true
-  ParameterNames: true
-  DeducedTypes: true
+  BlockEnd: Yes
+  Designators: Yes
+  Enabled: Yes
+  ParameterNames: Yes
+  DeducedTypes: Yes
   TypeNameLimit: 18
 
 Hover:
