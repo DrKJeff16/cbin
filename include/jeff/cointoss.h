@@ -1,3 +1,7 @@
+#ifndef JEFF_H
+#error "Header `jeff.h` must be included first"
+#endif // !JEFF_H
+
 #ifndef COINTOSS_H
 #define COINTOSS_H
 
