@@ -7,7 +7,7 @@ extern "C" {
 
 #include <sys/types.h>
 
-static uint compare_two_strings(char *s1, char *s2);
+static uint compare_two_strings(char *s1, char *s2, const uint n);
 
 #ifdef __cplusplus
 }

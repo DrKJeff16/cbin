@@ -17,17 +17,21 @@ $(OBJDIR):
 libs: $(JEFF_LIBS)
 
 $(LIBDIR)/libjdie.so: $(OBJDIR)/jdie.o $(JEFF_H)
-	$(CC) -shared $(OBJDIR)/jdie.o -o $@ $(JEFF_LDFLAGS)
+	$(CC) $(OBJDIR)/jdie.o -o $@ $(JEFF_LDFLAGS) -shared
 $(LIBDIR)/libjerr.so: $(OBJDIR)/jerr.o $(JEFF_H)
-	$(CC) -shared $(OBJDIR)/jerr.o -o $@ $(JEFF_LDFLAGS)
+	$(CC) $(OBJDIR)/jerr.o -o $@ $(JEFF_LDFLAGS) -shared
 $(LIBDIR)/libjoperators.so: $(OBJDIR)/joperators.o $(JEFF_H)
-	$(CC) -shared $(OBJDIR)/joperators.o -o $@ $(JEFF_LDFLAGS)
+	$(CC) $(OBJDIR)/joperators.o -o $@ $(JEFF_LDFLAGS) -shared
+$(LIBDIR)/libjstring.so: $(OBJDIR)/jstring.o $(JEFF_H)
+	$(CC) $(OBJDIR)/jstring.o -o $@ $(JEFF_LDFLAGS) -shared
 $(OBJDIR)/jdie.o: $(SRCDIR)/jdie.c $(JEFF_H)
 	$(CC) -c $(SRCDIR)/jdie.c -o $@ $(JEFF_CFLAGS)
 $(OBJDIR)/jerr.o: $(SRCDIR)/jerr.c $(JEFF_H)
 	$(CC) -c $(SRCDIR)/jerr.c -o $@ $(JEFF_CFLAGS)
 $(OBJDIR)/joperators.o: $(SRCDIR)/joperators.c $(JEFF_H)
 	$(CC) -c $(SRCDIR)/joperators.c -o $@ $(JEFF_CFLAGS)
+$(OBJDIR)/jstring.o: $(SRCDIR)/jstring.c $(JEFF_H)
+	$(CC) -c $(SRCDIR)/jstring.c -o $@ $(JEFF_CFLAGS)
 
 strip/bin: $(LIBDIR)
 	strip $(BINDIR)/*

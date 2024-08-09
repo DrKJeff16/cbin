@@ -1,7 +1,7 @@
 CPPFLAGS = -I. -Iinclude -I../include -DNDEBUG -D_GNU_SOURCE
 CFLAGS = $(CPPFLAGS) -march=znver3 -pipe -g -ggdb -O2 -Wall -pedantic -pthread
 CXXFLAGS = $(CFLAGS) -D_GLIBCXX_ASSERTIONS
-LDFLAGS = -L. -L../lib -Llib -ljerr -ljdie -ljoperators
+LDFLAGS = -L. -L../lib -Llib -ljerr -ljdie -ljoperators -ljstring
 
 BINDIR = bin
 INCDIR = include
@@ -9,9 +9,9 @@ LIBDIR = lib
 OBJDIR = obj
 SRCDIR = src
 
-JEFF_H = $(INCDIR)/jeff/jeff.h $(INCDIR)/jeff/jmemory.h
-JEFF_OUT = $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/joperators.o
-JEFF_LIBS = $(LIBDIR)/libjdie.so $(LIBDIR)/libjerr.so $(LIBDIR)/libjoperators.so
+JEFF_H = $(INCDIR)/jeff/jeff.h $(INCDIR)/jeff/jmemory.h $(INCDIR)/jeff/jstring.h
+JEFF_OUT = $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/joperators.o $(OBJDIR)/jstring.o
+JEFF_LIBS = $(LIBDIR)/libjdie.so $(LIBDIR)/libjerr.so $(LIBDIR)/libjoperators.so $(LIBDIR)/libjstring.so
 JEFF_CFLAGS = $(CPPFLAGS) -march=znver3 -pipe -g -ggdb -O2 -Wall -fPIC
 JEFF_LDFLAGS = -Llib -fPIC
 JEFF_ACTIONS = cointoss misc

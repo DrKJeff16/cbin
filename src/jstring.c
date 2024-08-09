@@ -1,4 +1,5 @@
 #include <sys/types.h>
+#include <stdlib.h>
 #include <string.h>
 #include <jeff/jeff.h>
 #include <jeff/jmemory.h>
@@ -9,7 +10,7 @@ typedef struct _char_ptrs {
   char *s2;
 } char_ptrs;
 
-static int compare_two_strings(char *s1, char *s2, const uint n) {
+static uint compare_two_strings(char *s1, char *s2, const uint n) {
   if (s1 == NULL || s2 == NULL) {
     die(1, "NULL strings cannot be compared");
   }
