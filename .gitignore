@@ -1,3 +1,4 @@
+# Repo dirs and special files
 compile_commands.json
 /bin
 /build
@@ -8,6 +9,7 @@ compile_commands.json
 /lib/*
 /obj/*
 
+# Binary files
 *.S
 *.a
 *.dll
@@ -18,6 +20,7 @@ compile_commands.json
 *.so
 *.out
 
+# Compressed files
 *.7z
 *.Z
 *.bz2
@@ -33,8 +36,10 @@ compile_commands.json
 *.zip
 *.zst
 
+# Env management
 .envrc
 
+# Misc filetypes
 *.log
 *.aux
 *.bak
@@ -42,5 +47,6 @@ compile_commands.json
 *.new
 *.list
 
+# VCS files
 *.diff
 *.patch
