@@ -1,7 +1,11 @@
-#include <jeff/jeff_lua.h>
+#include <sys/types.h>
+#include <lua.h>
+#include <lauxlib.h>
+#include <lualib.h>
 #include <jeff/jeff.h>
+#include <jeff/jeff_lua.h>
 
-lua_State *init_lua(const bool with_libs) {
+lua_State *init_lua(const uint with_libs) {
   lua_State *L = luaL_newstate();
 
   if (with_libs) {
@@ -11,8 +15,8 @@ lua_State *init_lua(const bool with_libs) {
   return L;
 }
 
-int main(int argc, char **argv) {
-  lua_State *L = init_lua(true);
+int main(void) {
+  lua_State *L = init_lua(1);
 
   lua_close(L);
   return 0;

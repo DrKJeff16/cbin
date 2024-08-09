@@ -3,15 +3,7 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif // __cplusplus
-
-#include <GL/glew.h>
-#include <GL/glext.h>
-#include <GL/glx.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
-#include <GLFW/glfw3.h>
-#include <GL/gl.h>
+#endif /* __cplusplus */
 
 typedef struct _gl_rgba {
   double red;
@@ -36,6 +28,6 @@ static void display(void);
 
 #ifdef __cplusplus
 }
-#endif // __cplusplus
+#endif /* __cplusplus */
 
-#endif // !JEFF_GL_H
+#endif /* !JEFF_GL_H */

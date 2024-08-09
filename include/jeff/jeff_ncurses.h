@@ -3,9 +3,7 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif // __cplusplus
-
-#include <ncurses.h>
+#endif /* __cplusplus */
 
 static void printing(void);
 static void moving_and_sleeping(void);
@@ -13,5 +11,6 @@ static void colourizing(void);
 
 #ifdef __cplusplus
 }
-#endif // __cplusplus
-#endif // !JEFF_NCURSES_H
+#endif /* __cplusplus */
+
+#endif /* !JEFF_NCURSES_H */

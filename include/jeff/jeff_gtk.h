@@ -3,12 +3,11 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif // __cplusplus
+#endif /* __cplusplus */
 
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>
 #include <cairo.h>
-#include "jeff.h"
 
 static cairo_surface_t *surface = NULL;
 static double start_x, start_y;
@@ -29,6 +28,6 @@ static void print_hello(GtkWidget*, gpointer);
 
 #ifdef __cplusplus
 }
-#endif // __cplusplus
+#endif /* __cplusplus */
 
-#endif // !JEFF_GTK_H
+#endif /* !JEFF_GTK_H */

@@ -3,17 +3,15 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif // __cplusplus
+#endif /* __cplusplus */
 
+#include <sys/types.h>
 #include <lua.h>
-#include <lauxlib.h>
-#include <lualib.h>
-#include <stdbool.h>
 
-static lua_State *init_lua(const bool);
+static lua_State *init_lua(const uint);
 
 #ifdef __cplusplus
 }
-#endif // __cplusplus
+#endif /* __cplusplus */
 
-#endif // !JEFF_LUA_H
+#endif /* !JEFF_LUA_H */

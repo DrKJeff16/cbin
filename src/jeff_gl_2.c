@@ -1,9 +1,16 @@
-#include <stdbool.h>
+#include <sys/types.h>
+#include <GL/glew.h>
+#include <GL/glext.h>
+#include <GL/glx.h>
+#include <GL/glu.h>
+#include <GL/glut.h>
+#include <GLFW/glfw3.h>
+#include <GL/gl.h>
 #include <jeff/jeff.h>
 #include <jeff/jeff_gl.h>
 
 void glfw_init(void) {
-  glewExperimental = true;
+  glewExperimental = (u_char)1;
   if (!glfwInit()) {
     die(-1, "`glfwInit()` failed");
   }
@@ -23,7 +30,7 @@ void glew_init(GLFWwindow *window) {
 
   glfwMakeContextCurrent(window);
   if (!glewExperimental) {
-    glewExperimental = true;
+    glewExperimental = (u_char)1;
   }
 
   if (glewInit() != GLEW_OK) {
@@ -31,8 +38,8 @@ void glew_init(GLFWwindow *window) {
   }
 }
 
-bool esc_not_pressed(GLFWwindow *window) {
-  return (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && !glfwWindowShouldClose(window));
+uint esc_not_pressed(GLFWwindow *window) {
+  return (uint)((glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && !glfwWindowShouldClose(window)));
 }
 
 void window_run(GLFWwindow *window) {
