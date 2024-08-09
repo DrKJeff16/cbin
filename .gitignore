@@ -16,6 +16,7 @@ compile_commands.json
 *.obj
 *.s
 *.so
+*.out
 
 *.7z
 *.Z
@@ -31,3 +32,15 @@ compile_commands.json
 *.xz
 *.zip
 *.zst
+
+.envrc
+
+*.log
+*.aux
+*.bak
+*.old
+*.new
+*.list
+
+*.diff
+*.patch
