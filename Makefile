@@ -14,7 +14,7 @@ $(BINDIR):
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
-libs: $(LIBDIR) $(JEFF_SRC)
+libs: $(LIBDIR) $(JEFF_SRC) $(JEFF_H)
 	$(CC) -c $(SRCDIR)/jdie.c $(JEFF_CFLAGS) -o $(OBJDIR)/jdie.o
 	$(CC) -c $(SRCDIR)/jerr.c $(JEFF_CFLAGS) -o $(OBJDIR)/jerr.o
 	$(CC) -c $(SRCDIR)/joperators.c $(JEFF_CFLAGS) -o $(OBJDIR)/joperators.o
@@ -48,11 +48,11 @@ install_global_libs/stripped: libs
 	install -m 755 $(LIBDIR)/libjoperators.so /usr/lib/libjoperators.so
 	strip /usr/lib/libj{die,err,operators}.so
 
-cointoss: $(SRCDIR)/cointoss.c libs $(BINDIR) $(INCDIR)/jeff/cointoss.h $(JEFF_H)
+cointoss: $(SRCDIR)/cointoss.c libs $(BINDIR) $(JEFF_INCDIR)/cointoss.h $(JEFF_H)
 	$(CC) -c $(SRCDIR)/cointoss.c $(CFLAGS) -o $(OBJDIR)/$@.o
 	$(CC) $(OBJDIR)/cointoss.o $(CFLAGS) $(LDFLAGS) -o $(BINDIR)/$@
 
-misc: $(SRCDIR)/misc.c libs $(BINDIR) $(JEFF_H)
+misc: $(SRCDIR)/misc.c libs $(BINDIR) $(JEFF_INCDIR)/jmisc.h $(JEFF_H)
 	$(CC) -c $(SRCDIR)/misc.c $(CFLAGS) -o $(OBJDIR)/$@.o
 	$(CC) $(OBJDIR)/misc.o $(CFLAGS) $(LDFLAGS) -o $(BINDIR)/$@
 
