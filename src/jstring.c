@@ -18,7 +18,7 @@ jbool compare_two_strings(char *s1, char *s2, const uint n) {
 
   for (uint i = 0; i < n; i++) {
     if (*s1 != *s2) {
-      err("Couldn't compare both strings");
+      err(NULL, "Couldn't compare both strings");
       status = JFALSE;
       break;
     }

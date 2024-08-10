@@ -2,8 +2,12 @@
 #include <stdlib.h>
 #include <jeff/jeff.h>
 
-void err(const char *msg) {
+void err(const char *fmt, const char *msg) {
   if (msg != NULL) {
-    fprintf(stderr, "%s\n", msg);
+    if (fmt == NULL) {
+      fprintf(stderr, "%s\n", msg);
+    } else {
+      fprintf(stderr, fmt, msg);
+    }
   }
 }
