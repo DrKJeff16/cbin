@@ -12,14 +12,14 @@
 
 void init(gl_init_t *args) {
   if (args == NULL) {
-    die(1, "Init args are NULL");
+    die(127, "Init args are NULL");
   }
 
   glClearColor(args->rgba->red, args->rgba->green, args->rgba->blue, args->rgba->alpha);
 
   glColor3f(args->rgb->red, args->rgb->green, args->rgb->blue);
 
-  glPointSize(1.0);
+  glPointSize(1.f);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
@@ -29,11 +29,12 @@ void init(gl_init_t *args) {
 void display(void) {
   glClear(GL_COLOR_BUFFER_BIT);
   glBegin(GL_POINTS);
-  float x, y, i;
+  float x = 0.f, y = 0.f;
+  float i;
 
-  for (i = 0.; i < (2 * PI); i += 0.001) {
-    x = 200. * cos(i);
-    y = 200. * sin(i);
+  for (i = 0.f; i < (2.f * PI); i += 0.001f) {
+    x = 200.f * cos(i);
+    y = 200.f * sin(i);
 
     glVertex2i(x, y);
   }
@@ -47,14 +48,14 @@ int main(int argc, char **argv) {
   init_args->rgba = MALLOC(rgba_t);
   init_args->rgb = MALLOC(rgb_t);
 
-  init_args->rgba->red = 0.0;
-  init_args->rgba->green = 0.0;
-  init_args->rgba->blue = 0.0;
-  init_args->rgba->alpha = 1.0;
+  init_args->rgba->red = 0.f;
+  init_args->rgba->green = 0.f;
+  init_args->rgba->blue = 0.f;
+  init_args->rgba->alpha = 1.f;
 
-  init_args->rgb->red = 0.0;
-  init_args->rgb->green = 1.0;
-  init_args->rgb->blue = 0.0;
+  init_args->rgb->red = 0.f;
+  init_args->rgb->green = 1.f;
+  init_args->rgb->blue = 0.f;
 
   int *pargc = MALLOC(int);
   *pargc = argc;
