@@ -20,7 +20,11 @@ int main(void) {
   SDL_Window *win = default_win();
 
   if (SDL_INIT_EVERYTHING) {
+#ifdef JEFF_H
+    err("error initializing SDL: %s\n", SDL_GetError());
+#else
     fprintf(stderr, "error initializing SDL: %s\n", SDL_GetError());
+#endif /* JEFF_H */
   }
 
   Uint32 render_flags = SDL_RENDERER_ACCELERATED;
