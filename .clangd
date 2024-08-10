@@ -9,6 +9,7 @@ CompileFlags:
       -D_REENTRANT,
       -D_XOPEN_SOURCE=600,
       -I.,
+      -I../include,
       -I/usr/include/SDL2,
       -I/usr/include/blkid,
       -I/usr/include/cairo,
@@ -29,6 +30,7 @@ CompileFlags:
       -I/usr/local/include,
       -Iinclude,
       -L.,
+      -L../lib,
       -L/usr/local/lib,
       -Llib,
       -Wall,
@@ -70,16 +72,19 @@ CompileFlags:
       -pthread,
       -std=c99,
     ]
-  Remove: [-W*, -Wunused*, -Wformat*]
+  Remove: [-D_FORTIFY_SOURCE=*]
   Compiler: gcc
 
 Index:
-  Background: Skip
+  Background: Build
   StandardLibrary: No
 
+Completion:
+  AllScopes: Yes
+
 Diagnostics:
-  Suppress: [-Wformat*, -Wunused*]
-  UnusedIncludes: None
+  Suppress: unused-result
+  UnusedIncludes: Strict
 
 InlayHints:
   BlockEnd: Yes
@@ -126,6 +131,7 @@ CompileFlags:
       -I/usr/local/include,
       -Iinclude,
       -L.,
+      -L../lib,
       -L/usr/local/lib,
       -Llib,
       -Wall,
@@ -166,16 +172,19 @@ CompileFlags:
       -std=c99,
       -xc-header,
     ]
-  Remove: [-W*, -Wunused*, -Wformat*]
+  Remove: [-D_FORTIFY_SOURCE=*]
   Compiler: gcc
 
 Index:
-  Background: Skip
+  Background: Build
   StandardLibrary: No
 
+Completion:
+  AllScopes: Yes
+
 Diagnostics:
-  Suppress: [-Wformat*, -Wunused*]
-  UnusedIncludes: None
+  Suppress: unused-result
+  UnusedIncludes: Strict
 
 InlayHints:
   BlockEnd: Yes
@@ -265,16 +274,19 @@ CompileFlags:
       -std=c++17,
       -xc++,
     ]
-  Remove: [-W*, -Wunused*, -Wformat*]
+  Remove: [-D_FORTIFY_SOURCE=*]
   Compiler: g++
 
 Index:
-  Background: Skip
+  Background: Build
   StandardLibrary: No
 
+Completion:
+  AllScopes: Yes
+
 Diagnostics:
-  Suppress: [-Wformat*, -Wunused*]
-  UnusedIncludes: None
+  Suppress: unused-result
+  UnusedIncludes: Strict
 
 InlayHints:
   BlockEnd: Yes
@@ -319,12 +331,9 @@ CompileFlags:
       -I/usr/include/sysprof-6,
       -I/usr/lib/glib-2.0/include,
       -I/usr/lib/graphene-1.0/include,
-      -I/usr/local/include,
       -Iinclude,
       -L.,
       -L../lib,
-      -L/usr/lib,
-      -L/usr/local/lib,
       -Llib,
       -Wall,
       -lEGL,
@@ -364,16 +373,19 @@ CompileFlags:
       -std=c++17,
       -xc++-header,
     ]
-  Remove: [-W*, -Wunused*, -Wformat*]
+  Remove: [-D_FORTIFY_SOURCE=*]
   Compiler: g++
 
 Index:
-  Background: Skip
+  Background: Build
   StandardLibrary: No
 
+Completion:
+  AllScopes: Yes
+
 Diagnostics:
-  Suppress: [-Wformat*, -Wunused*]
-  UnusedIncludes: None
+  Suppress: unused-result
+  UnusedIncludes: Strict
 
 InlayHints:
   BlockEnd: Yes
