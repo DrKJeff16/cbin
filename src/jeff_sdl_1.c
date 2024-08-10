@@ -28,7 +28,7 @@ int main(void) {
   SDL_Renderer *rend = default_renderer(win, render_flags);
 
   SDL_Surface *surface;
-  surface = IMG_Load("face.png");
+  surface = IMG_Load("assets/face.png");
 
   SDL_Texture *texture = SDL_CreateTextureFromSurface(rend, surface);
 

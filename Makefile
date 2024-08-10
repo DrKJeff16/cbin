@@ -84,7 +84,7 @@ gtk_3: $(SRCDIR)/jeff_gtk_3.c libs $(BINDIR) $(GTK_H)
 	$(CC) -c $(SRCDIR)/jeff_gtk_3.c $(GTK_CFLAGS) -o $(OBJDIR)/jeff_$@.o
 	$(CC) $(OBJDIR)/jeff_gtk_3.o $(GTK_CFLAGS) $(LDFLAGS) -o $(BINDIR)/jeff_$@
 
-gtk_4: $(SRCDIR)/jeff_gtk_4.c libs $(BINDIR) $(GTK_H) $(SRCDIR)/builder.ui
+gtk_4: $(SRCDIR)/jeff_gtk_4.c libs $(BINDIR) $(GTK_H) assets/builder.ui
 	$(CC) -c $(SRCDIR)/jeff_gtk_4.c $(GTK_CFLAGS) -o $(OBJDIR)/jeff_$@.o
 	$(CC) $(OBJDIR)/jeff_gtk_4.o $(GTK_CFLAGS) $(LDFLAGS) -o $(BINDIR)/jeff_$@
 
@@ -92,7 +92,7 @@ gtk_5: $(SRCDIR)/jeff_gtk_5.c libs $(BINDIR) $(GTK_H)
 	$(CC) -c $(SRCDIR)/jeff_gtk_5.c $(GTK_CFLAGS) -o $(OBJDIR)/jeff_$@.o
 	$(CC) $(OBJDIR)/jeff_gtk_5.o $(GTK_CFLAGS) $(LDFLAGS) -o $(BINDIR)/jeff_$@
 
-sdl_1: $(SRCDIR)/jeff_sdl_1.c libs $(BINDIR) $(SDL_H) $(SRCDIR)/face.png
+sdl_1: $(SRCDIR)/jeff_sdl_1.c libs $(BINDIR) $(SDL_H) assets/face.png
 	$(CC) -c $(SRCDIR)/jeff_sdl_1.c $(SDL_CFLAGS) -o $(OBJDIR)/jeff_$@.o
 	$(CC) $(OBJDIR)/jeff_sdl_1.o $(SDL_CFLAGS) $(LDFLAGS) -o $(BINDIR)/jeff_$@
 
@@ -100,7 +100,7 @@ lua_1: $(SRCDIR)/jeff_lua_1.c libs $(BINDIR) $(LUA_H)
 	$(CC) -c $(SRCDIR)/jeff_lua_1.c $(LUA_CFLAGS) -o $(OBJDIR)/jeff_$@.o
 	$(CC) $(OBJDIR)/jeff_lua_1.o $(LUA_CFLAGS) $(LDFLAGS) -o $(BINDIR)/jeff_$@
 
-ncurses_1: $(SRCDIR)/jeff_ncurses_1.c libs $(BINDIR) $(NCURSES_H) $(SRCDIR)/face.png
+ncurses_1: $(SRCDIR)/jeff_ncurses_1.c libs $(BINDIR) $(NCURSES_H)
 	$(CC) -c $(SRCDIR)/jeff_ncurses_1.c $(NCURSES_CFLAGS) -o $(OBJDIR)/jeff_$@.o
 	$(CC) $(OBJDIR)/jeff_ncurses_1.o $(NCURSES_CFLAGS) $(LDFLAGS) -o $(BINDIR)/jeff_$@
 
