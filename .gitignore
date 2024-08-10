@@ -1,9 +1,11 @@
 # Repo dirs and special files
 compile_commands.json
+/assets
 /bin
 /build
 /lib
 /obj
+/assets/*
 /bin/*
 /build/*
 /lib/*
