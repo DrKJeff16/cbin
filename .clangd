@@ -9,7 +9,6 @@ CompileFlags:
       -D_REENTRANT,
       -D_XOPEN_SOURCE=600,
       -I.,
-      -I../include,
       -I/usr/include/SDL2,
       -I/usr/include/blkid,
       -I/usr/include/cairo,
@@ -30,8 +29,6 @@ CompileFlags:
       -I/usr/local/include,
       -Iinclude,
       -L.,
-      -L../lib,
-      -L/usr/lib,
       -L/usr/local/lib,
       -Llib,
       -Wall,
@@ -70,14 +67,8 @@ CompileFlags:
       -lpangocairo-1.0,
       -lpthread,
       -lvulkan,
-      -march=native,
-      -mfpmath=sse,
-      -msse,
-      -msse2,
-      -pipe,
       -pthread,
       -std=c99,
-      -xc,
     ]
   Remove: [-W*, -Wunused*, -Wformat*]
   Compiler: gcc
@@ -87,6 +78,7 @@ Index:
   StandardLibrary: No
 
 Diagnostics:
+  Suppress: [-Wformat*, -Wunused*]
   UnusedIncludes: None
 
 InlayHints:
@@ -134,8 +126,6 @@ CompileFlags:
       -I/usr/local/include,
       -Iinclude,
       -L.,
-      -L../lib,
-      -L/usr/lib,
       -L/usr/local/lib,
       -Llib,
       -Wall,
@@ -172,11 +162,6 @@ CompileFlags:
       -lpangocairo-1.0,
       -lpthread,
       -lvulkan,
-      -march=native,
-      -mfpmath=sse,
-      -msse,
-      -msse2,
-      -pipe,
       -pthread,
       -std=c99,
       -xc-header,
@@ -189,6 +174,7 @@ Index:
   StandardLibrary: No
 
 Diagnostics:
+  Suppress: [-Wformat*, -Wunused*]
   UnusedIncludes: None
 
 InlayHints:
@@ -275,11 +261,6 @@ CompileFlags:
       -lpangocairo-1.0,
       -lpthread,
       -lvulkan,
-      -march=native,
-      -mfpmath=sse,
-      -msse,
-      -msse2,
-      -pipe,
       -pthread,
       -std=c++17,
       -xc++,
@@ -292,6 +273,7 @@ Index:
   StandardLibrary: No
 
 Diagnostics:
+  Suppress: [-Wformat*, -Wunused*]
   UnusedIncludes: None
 
 InlayHints:
@@ -378,10 +360,6 @@ CompileFlags:
       -lpangocairo-1.0,
       -lpthread,
       -lvulkan,
-      -march=native,
-      -mfpmath=sse,
-      -msse,
-      -msse2,
       -pthread,
       -std=c++17,
       -xc++-header,
@@ -394,6 +372,7 @@ Index:
   StandardLibrary: No
 
 Diagnostics:
+  Suppress: [-Wformat*, -Wunused*]
   UnusedIncludes: None
 
 InlayHints:
