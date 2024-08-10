@@ -11,7 +11,13 @@ extern "C" {
 
 #include <sys/types.h>
 
-uint compare_two_strings(char *s1, char *s2, const uint n);
+typedef struct _char_ptrs {
+  char *s1;
+  char *s2;
+} char_ptrs;
+
+
+jbool compare_two_strings(char *s1, char *s2, const uint n);
 
 #ifdef __cplusplus
 }
