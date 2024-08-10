@@ -33,20 +33,24 @@ install_libs/fast: libs
 	install -m 755 $(LIBDIR)/libjdie.so ~/.local/lib/libjdie.so
 	install -m 755 $(LIBDIR)/libjerr.so ~/.local/lib/libjerr.so
 	install -m 755 $(LIBDIR)/libjoperators.so ~/.local/lib/libjoperators.so
+	install -m 755 $(LIBDIR)/libjstring.so ~/.local/lib/libjstring.so
 install_libs/stripped: libs
 	install -m 755 $(LIBDIR)/libjdie.so ~/.local/lib/libjdie.so
 	install -m 755 $(LIBDIR)/libjerr.so ~/.local/lib/libjerr.so
 	install -m 755 $(LIBDIR)/libjoperators.so ~/.local/lib/libjoperators.so
-	strip ~/.local/lib/libj{die,err,operators}.so
+	install -m 755 $(LIBDIR)/libjstring.so ~/.local/lib/libjstring.so
+	strip ~/.local/lib/libj{die,err,operators,string}.so
 install_global_libs/fast: libs
 	install -m 755 $(LIBDIR)/libjdie.so /usr/lib/libjdie.so
 	install -m 755 $(LIBDIR)/libjerr.so /usr/lib/libjerr.so
 	install -m 755 $(LIBDIR)/libjoperators.so /usr/lib/libjoperators.so
+	install -m 755 $(LIBDIR)/libjstring.so /usr/lib/libjstring.so
 install_global_libs/stripped: libs
 	install -m 755 $(LIBDIR)/libjdie.so /usr/lib/libjdie.so
 	install -m 755 $(LIBDIR)/libjerr.so /usr/lib/libjerr.so
 	install -m 755 $(LIBDIR)/libjoperators.so /usr/lib/libjoperators.so
-	strip /usr/lib/libj{die,err,operators}.so
+	install -m 755 $(LIBDIR)/libjstring.so /usr/lib/libjstring.so
+	strip /usr/lib/libj{die,err,operators,string}.so
 
 cointoss: $(SRCDIR)/cointoss.c libs $(BINDIR) $(JEFF_INCDIR)/cointoss.h $(JEFF_H)
 	$(CC) -c $(SRCDIR)/cointoss.c $(CFLAGS) -o $(OBJDIR)/$@.o
