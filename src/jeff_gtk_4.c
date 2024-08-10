@@ -7,6 +7,10 @@ void print_hello(GtkWidget *widget, gpointer data) {
   g_print("Hello World!\n");
 }
 
+void print_hello_reversed(GtkWidget *widget, gpointer data) {
+  g_print("!dlroW olleH\n");
+}
+
 void quit_cb(GtkWindow *window) {
   gtk_window_close(window);
 }
@@ -22,7 +26,7 @@ void activate(GtkApplication *app, gpointer user_data) {
   button = gtk_builder_get_object(builder, "button1");
   g_signal_connect(button, "clicked", G_CALLBACK(print_hello), NULL);
   button = gtk_builder_get_object(builder, "button2");
-  g_signal_connect(button, "clicked", G_CALLBACK(print_hello), NULL);
+  g_signal_connect(button, "clicked", G_CALLBACK(print_hello_reversed), NULL);
   button = gtk_builder_get_object(builder, "quit");
   g_signal_connect_swapped(button, "clicked", G_CALLBACK(quit_cb), window);
 
@@ -32,9 +36,9 @@ void activate(GtkApplication *app, gpointer user_data) {
 }
 
 int main(int argc, char **argv) {
-#ifdef GTK_SRCDR
-  g_chdir(GTK_SRCDIR)
-#endif
+#ifdef GTK_SRCDIR
+  g_chdir(GTK_SRCDIR);
+#endif /* GTK_SRCDIR */
 
   GtkApplication *app = gtk_application_new("org.gtk.example", G_APPLICATION_DEFAULT_FLAGS);
   g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);

@@ -22,7 +22,8 @@ void pressed(GtkGestureClick*, const int, const double, const double, GtkWidget*
 void close_window(void);
 
 void activate(GtkApplication *app, gpointer user_data);
-void print_hello(GtkWidget*, gpointer);
+void print_hello(GtkWidget *widget, gpointer data);
+void print_hello_reversed(GtkWidget *widget, gpointer data);
 
 #ifdef __cplusplus
 }
