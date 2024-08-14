@@ -3,8 +3,9 @@
 #include <stdlib.h>
 #include <jeff/jeff.h>
 #include <jeff/jmemory.h>
+#include <jeff/jmisc.h>
 
-char **filter_argv(const int argc, char **argv) {
+static char **filter_argv(const uint argc, char **argv) {
   if (argc <= 1) {
     return NULL;
   }
@@ -19,7 +20,7 @@ char **filter_argv(const int argc, char **argv) {
 }
 
 int main(int argc, char **argv) {
-  char **args = filter_argv(argc, argv);
+  char **args = filter_argv((uint)argc, argv);
 
   if (args == NULL) {
     die(1, "No arguments given");

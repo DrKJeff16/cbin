@@ -16,8 +16,7 @@ typedef struct _char_ptrs {
   char *s2;
 } char_ptrs;
 
-
-jbool compare_two_strings(char *s1, char *s2, const uint n);
+jbool compare_two_strings(char *s1, char *s2);
 
 #ifdef __cplusplus
 }
