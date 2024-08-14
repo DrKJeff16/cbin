@@ -1,7 +1,7 @@
 CPPFLAGS = -I. -Iinclude -DNDEBUG -D_GNU_SOURCE -D_FORTIFY_SOURCE=2
 CFLAGS = $(CPPFLAGS) -march=znver3 -pipe -g -O2 -Wall -pedantic -pthread
 CXXFLAGS = $(CFLAGS) -D_GLIBCXX_ASSERTIONS
-LDFLAGS = -L. -Llib -ljerr -ljdie -ljoperators -ljstring
+LDFLAGS = -L. -Llib -ljerr -ljdie -ljoperators -ljstring -ljlog
 
 PKG_CONFIG_BIN := pkgconf
 
@@ -12,10 +12,12 @@ OBJDIR := obj
 SRCDIR := src
 
 JEFF_INCDIR = $(INCDIR)/jeff
-JEFF_H = $(JEFF_INCDIR)/jeff.h $(JEFF_INCDIR)/jmemory.h $(JEFF_INCDIR)/jstring.h
-JEFF_SRC = $(SRCDIR)/jdie.c $(SRCDIR)/jerr.c $(SRCDIR)/joperators.c $(SRCDIR)/jstring.c
-JEFF_OUT = $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/joperators.o $(OBJDIR)/jstring.o
-JEFF_LIBS = $(LIBDIR)/libjdie.so $(LIBDIR)/libjerr.so $(LIBDIR)/libjoperators.so $(LIBDIR)/libjstring.so
+JEFF_H = $(JEFF_INCDIR)/jeff.h $(JEFF_INCDIR)/jmemory.h $(JEFF_INCDIR)/jstring.h $(JEFF_INCDIR)/jlog.h
+JEFF_SRC = $(SRCDIR)/jdie.c $(SRCDIR)/jerr.c $(SRCDIR)/joperators.c $(SRCDIR)/jstring.c $(SRCDIR)/jlog.c
+JEFF_OUT = $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/joperators.o $(OBJDIR)/jstring.o $(SRCDIR)/jlog.o
+JEFF_LIBS = $(LIBDIR)/libjdie.so $(LIBDIR)/libjerr.so \
+			$(LIBDIR)/libjoperators.so $(LIBDIR)/libjstring.so \
+			$(LIBDIR)/libjlog.so
 JEFF_CFLAGS = $(CFLAGS) -fPIC
 JEFF_LDFLAGS = -fPIC
 JEFF_ACTIONS = cointoss misc
