@@ -42,10 +42,11 @@ install_global_libs/fast: libs
 	install -m 755 $(LIBDIR)/libjerr.so /usr/lib/libjerr.so
 	install -m 755 $(LIBDIR)/libjoperators.so /usr/lib/libjoperators.so
 	install -m 755 $(LIBDIR)/libjstring.so /usr/lib/libjstring.so
+	install -m 755 $(LIBDIR)/libjlog.so /usr/lib/libjlog.so
 install_libs/stripped: install_libs/fast
 	strip ~/.local/lib/libj{die,err,operators,string,log}.so
 install_global_libs/stripped: install_global_libs/fast
-	strip /usr/lib/libj{die,err,operators,string}.so
+	strip /usr/lib/libj{die,err,operators,string,log}.so
 
 cointoss: $(SRCDIR)/cointoss.c libs $(BINDIR) $(OBJDIR) $(JEFF_INCDIR)/cointoss.h $(JEFF_H)
 	$(CC) -c $(SRCDIR)/cointoss.c $(CFLAGS) -o $(OBJDIR)/$@.o
