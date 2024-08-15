@@ -2,6 +2,10 @@
 #error "Header `jeff.h` must be included first"
 #endif /* !JEFF_H */
 
+#ifndef JMEMORY_H
+#error "Header `jmemory.h` must be included first"
+#endif /* !JMEMORY_H */
+
 #ifndef JSTRING_H
 #define JSTRING_H
 
