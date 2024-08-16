@@ -64,10 +64,6 @@ gl_2: $(SRCDIR)/jeff_gl_2.c libs $(BINDIR) $(OBJDIR) $(GL_H)
 	$(CC) -c $(SRCDIR)/jeff_gl_2.c $(GL_CFLAGS) -o $(OBJDIR)/jeff_$@.o
 	$(CC) $(OBJDIR)/jeff_gl_2.o $(GL_CFLAGS) $(LDFLAGS) -o $(BINDIR)/jeff_$@
 
-gl_3: $(SRCDIR)/jeff_gl_3.cpp libs $(BINDIR) $(OBJDIR) $(GL_H)
-	$(CXX) -c $(SRCDIR)/jeff_gl_3.cpp $(GL_CFLAGS) $(CXXFLAGS) -o $(OBJDIR)/jeff_$@.o
-	$(CXX) $(OBJDIR)/jeff_gl_3.o $(GL_CFLAGS) -o $(BINDIR)/jeff_$@
-
 gtk_1: $(SRCDIR)/jeff_gtk_1.c libs $(BINDIR) $(OBJDIR) $(GTK_H)
 	$(CC) -c $(SRCDIR)/jeff_gtk_1.c $(GTK_CFLAGS) -o $(OBJDIR)/jeff_$@.o
 	$(CC) $(OBJDIR)/jeff_gtk_1.o $(GTK_CFLAGS) $(LDFLAGS) -o $(BINDIR)/jeff_$@

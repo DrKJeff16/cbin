@@ -68,7 +68,10 @@ GTK_CFLAGS = $(CFLAGS) -I/usr/include/gtk-4.0 \
 GTK_H = $(JEFF_INCDIR)/jeff_gtk.h
 GTK_ACTIONS = gtk_1 gtk_2 gtk_3 gtk_4 gtk_5
 
-NCURSES_CFLAGS = $(CFLAGS) \ -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -lncursesw
+NCURSES_CFLAGS = $(CFLAGS) \
+				 -D_DEFAULT_SOURCE \
+				 -D_XOPEN_SOURCE=600 \
+				 -lncursesw
 NCURSES_H = $(JEFF_INCDIR)/jeff_ncurses.h
 NCURSES_ACTIONS = ncurses_1
 
