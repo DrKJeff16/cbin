@@ -1,11 +1,17 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_video.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_timer.h>
-#include <SDL2/SDL_render.h>
-#include <SDL2/SDL_stdinc.h>
-#include <jeff/jeff.h>
-#include <jeff/jeff_sdl.h>
+#include <SDL2/SDL.h>         // for SDL_Quit, SDL_INIT_EVERYTHING
+#include <SDL2/SDL_image.h>   // for IMG_Load
+#include <SDL2/SDL_render.h>  // for SDL_CreateRenderer, SDL_CreateTextureFr...
+#include <SDL2/SDL_stdinc.h>  // for Uint32
+#include <SDL2/SDL_timer.h>   // for SDL_Delay
+#include <SDL2/SDL_video.h>   // for SDL_Window, SDL_CreateWindow, SDL_Destr...
+#include <jeff/jeff.h>        // for err, JEFF_H
+#include <jeff/jeff_sdl.h>    // for default_renderer, default_win
+#include <stddef.h>           // for NULL
+#include "SDL_error.h"        // for SDL_GetError
+#include "SDL_events.h"       // for SDL_PollEvent, SDL_Event, SDL_KEYDOWN
+#include "SDL_rect.h"         // for SDL_Rect
+#include "SDL_scancode.h"     // for SDL_SCANCODE_A, SDL_SCANCODE_COMMA, SDL...
+#include "SDL_surface.h"      // for SDL_FreeSurface, SDL_Surface
 
 SDL_Window *default_win(void) {
   return SDL_CreateWindow("GAME", SDL_WINDOWPOS_CENTERED,

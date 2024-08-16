@@ -1,8 +1,9 @@
-#include <sys/types.h>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <jeff/jeff.h>
-#include <jeff/jeff_gl.h>
+#include <GL/glew.h>       // for glewExperimental, GL_TRUE, glClear, glewInit
+#include <GLFW/glfw3.h>    // for glfwWindowHint, GLFWwindow, glfwCreateWindow
+#include <jeff/jeff.h>     // for die
+#include <jeff/jeff_gl.h>  // for esc_not_pressed, glew_init, glfw_init, win...
+#include <stddef.h>        // for NULL
+#include <sys/types.h>     // for u_char, uint
 
 void glfw_init(void) {
   glewExperimental = (u_char)1;

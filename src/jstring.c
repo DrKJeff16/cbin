@@ -25,7 +25,7 @@ jbool compare_two_strings(char *s1, char *s2) {
   for (size_t i = 0; i < n; i++) {
     if (*s1 != *s2) {
       err("Both strings are of different length: %s ", s1);
-      err(NULL, s2);
+      err("%s\n", s2);
       status = JFALSE;
       break;
     }

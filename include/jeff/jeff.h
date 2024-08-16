@@ -19,7 +19,6 @@ typedef enum _jbool {
 jbool jxor(const jbool x, const jbool y);
 void err(const char *fmt, const char *msg);
 void die(const int status, const char *msg);
-int jlog(const int fd, const char *msg);
 
 #ifdef __cplusplus
 }

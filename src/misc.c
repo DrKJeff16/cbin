@@ -1,5 +1,4 @@
 #include <sys/types.h>
-#include <errno.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -7,8 +6,6 @@
 #include <jeff/jmemory.h>
 #include <jeff/jmisc.h>
 #include <jeff/jlog.h>
-
-extern int errno;
 
 static char **filter_argv(const uint argc, char **argv) {
   if (argc <= 1) {

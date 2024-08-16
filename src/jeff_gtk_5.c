@@ -1,7 +1,13 @@
-#include <gtk/gtk.h>
-#include <cairo.h>
-#include <jeff/jmemory.h>
-#include <jeff/jeff_gtk.h>
+#include <cairo.h>             // for cairo_create, cairo_destroy, cairo_paint
+#include <gdk/gdk.h>           // for GdkSurface, gdk_surface_create_similar...
+#include <gio/gio.h>           // for g_application_run, G_APPLICATION, G_AP...
+#include <glib-object.h>       // for g_signal_connect, g_object_unref, g_si...
+#include <glib.h>              // for gpointer
+#include <gtk/gtk.h>           // for GtkWidget, gtk_gesture_single_set_button
+#include <jeff/jeff_gtk.h>     // for activate, clear_surface, close_window
+#include <jeff/jmemory.h>      // for MALLOC
+#include <stdlib.h>            // for NULL, free
+#include "gobject/gclosure.h"  // for G_CALLBACK
 
 static cairo_surface_t *surface = NULL;
 static double start_x = 0., start_y = 0.;

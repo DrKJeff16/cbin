@@ -1,8 +1,11 @@
-#include <math.h>
-#include <GLFW/glfw3.h>
-#include <jeff/jeff.h>
-#include <jeff/jmemory.h>
-#include <jeff/jeff_gl.h>
+#include <GL/gl.h>
+#include <GL/freeglut_std.h>  // for glutCreateWindow, glutDisplayFunc, glut...
+#include <GL/glu.h>           // for gluOrtho2D
+#include <jeff/jeff.h>        // for die, PI
+#include <jeff/jeff_gl.h>     // for gl_init_t, rgb_t, rgba_t, display, init
+#include <jeff/jmemory.h>     // for MALLOC
+#include <math.h>             // for cos, sin
+#include <stdlib.h>           // for free, NULL
 
 void init(gl_init_t *args) {
   if (args == NULL) {

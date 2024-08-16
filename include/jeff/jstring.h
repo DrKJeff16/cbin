@@ -1,11 +1,3 @@
-#ifndef JEFF_H
-#error "Header `jeff.h` must be included first"
-#endif /* !JEFF_H */
-
-#ifndef JMEMORY_H
-#error "Header `jmemory.h` must be included first"
-#endif /* !JMEMORY_H */
-
 #ifndef JSTRING_H
 #define JSTRING_H
 
@@ -14,6 +6,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <sys/types.h>
+#include "jeff.h"
 
 typedef struct _char_ptrs {
   char *s1;

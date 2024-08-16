@@ -1,7 +1,3 @@
-#ifndef JEFF_H
-#error "Header `jeff.h` must be included first"
-#endif /* !JEFF_H */
-
 #ifndef JLOG_H
 #define JLOG_H
 
@@ -10,6 +6,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <sys/types.h>
+#include "jeff.h"
 
 typedef enum __j_fdflags {
   APPEND = 1,

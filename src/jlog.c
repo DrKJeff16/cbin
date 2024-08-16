@@ -1,12 +1,9 @@
-#include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h>
 #include <jeff/jeff.h>
 #include <jeff/jlog.h>
-
-extern int errno;
 
 int fdlog(int fd, const char *msg) {
   if (fd < 0) {
