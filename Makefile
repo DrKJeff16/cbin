@@ -31,6 +31,19 @@ strip/bin: $(BINDIR)
 strip/libs: $(LIBDIR)
 	strip $(LIBDIR)/*
 
+install_headers/local: $(INCDIR) $(JEFF_H)
+	mkdir -p ~/.local/include/jeff
+	install -m 644 $(JEFF_INCDIR)/jeff.h ~/.local/include/jeff/jeff.h
+	install -m 644 $(JEFF_INCDIR)/jmemory.h ~/.local/include/jeff/jmemory.h
+	install -m 644 $(JEFF_INCDIR)/jstring.h ~/.local/include/jeff/jstring.h
+	install -m 644 $(JEFF_INCDIR)/jlog.h ~/.local/include/jeff/jlog.h
+	chown -Rcv $(USER):$(USER) ~/.local/include
+install_headers/global: $(INCDIR) $(JEFF_H)
+	mkdir -p /usr/include/jeff
+	install -m 644 $(JEFF_INCDIR)/jeff.h /usr/include/jeff/jeff.h
+	install -m 644 $(JEFF_INCDIR)/jmemory.h /usr/include/jeff/jmemory.h
+	install -m 644 $(JEFF_INCDIR)/jstring.h /usr/include/jeff/jstring.h
+	install -m 644 $(JEFF_INCDIR)/jlog.h /usr/include/jeff/jlog.h
 install_libs/fast: libs
 	install -m 755 $(LIBDIR)/libjdie.so ~/.local/lib/libjdie.so
 	install -m 755 $(LIBDIR)/libjerr.so ~/.local/lib/libjerr.so
@@ -104,4 +117,5 @@ distclean: clean
 .PHONY: $(ACTIONS) distclean clean all libs \
 	strip/bin strip/libs \
 	install_libs/fast install_libs/stripped \
-	install_global_libs/fast install_global_libs/stripped
+	install_global_libs/fast install_global_libs/stripped \
+	install_headers/local install_headers/global

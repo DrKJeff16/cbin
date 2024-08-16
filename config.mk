@@ -19,7 +19,7 @@ JEFF_LIBS = $(LIBDIR)/libjdie.so $(LIBDIR)/libjerr.so \
 			$(LIBDIR)/libjoperators.so $(LIBDIR)/libjstring.so \
 			$(LIBDIR)/libjlog.so
 JEFF_CFLAGS = $(CFLAGS) -fPIC
-JEFF_LDFLAGS = -lc
+JEFF_LDFLAGS = -lc -lm
 JEFF_ACTIONS = cointoss misc
 
 SDL_CFLAGS = $(CFLAGS) \
