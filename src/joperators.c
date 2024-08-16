@@ -1,3 +1,4 @@
+#include <sys/types.h>
 #include <jeff/jeff.h>
 
 jbool jxor(const jbool x, const jbool y) {
