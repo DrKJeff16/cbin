@@ -7,31 +7,16 @@ CXX := g++
 
 all: $(ACTIONS)
 
-$(JEFF_INCDIR):
-	mkdir -p $(JEFF_INCDIR)
 $(INCDIR):
 	mkdir -p $(INCDIR)
+$(JEFF_INCDIR): $(INCDIR)
+	mkdir -p $(JEFF_INCDIR)
 $(LIBDIR):
 	mkdir -p $(LIBDIR)
 $(BINDIR):
 	mkdir -p $(BINDIR)
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
-
-libs: $(JEFF_LIBS)
-
-cointoss: $(BINDIR) $(BINDIR)/cointoss
-misc: $(BINDIR) $(BINDIR)/misc
-gl_1: $(BINDIR) $(BINDIR)/jeff_gl_1
-gl_2: $(BINDIR) $(BINDIR)/jeff_gl_2
-gtk_1: $(BINDIR) $(BINDIR)/jeff_gtk_1
-gtk_2: $(BINDIR) $(BINDIR)/jeff_gtk_2
-gtk_3: $(BINDIR) $(BINDIR)/jeff_gtk_3
-gtk_4: $(BINDIR) $(BINDIR)/jeff_gtk_4
-gtk_5: $(BINDIR) $(BINDIR)/jeff_gtk_5
-lua_1: $(BINDIR) $(BINDIR)/jeff_lua_1
-ncurses_1: $(BINDIR) $(BINDIR)/jeff_ncurses_1
-sdl_1: $(BINDIR) $(BINDIR)/jeff_sdl_1
 
 $(LIBDIR)/libjdie.so: $(LIBDIR) $(OBJDIR) $(SRCDIR)/jdie.c
 	$(CC) -c $(SRCDIR)/jdie.c $(JEFF_CFLAGS) -o $(OBJDIR)/jdie.o
@@ -49,13 +34,28 @@ $(LIBDIR)/libjlog.so: $(LIBDIR) $(OBJDIR) $(SRCDIR)/jlog.c
 	$(CC) -c $(SRCDIR)/jlog.c $(JEFF_CFLAGS) -o $(OBJDIR)/jlog.o
 	$(CC) $(OBJDIR)/jlog.o $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjlog.so
 
+libs: $(JEFF_LIBS)
+
+cointoss: $(BINDIR) $(BINDIR)/cointoss
+misc: $(BINDIR) $(BINDIR)/misc
+gl_1: $(BINDIR) $(BINDIR)/jeff_gl_1
+gl_2: $(BINDIR) $(BINDIR)/jeff_gl_2
+gtk_1: $(BINDIR) $(BINDIR)/jeff_gtk_1
+gtk_2: $(BINDIR) $(BINDIR)/jeff_gtk_2
+gtk_3: $(BINDIR) $(BINDIR)/jeff_gtk_3
+gtk_4: $(BINDIR) $(BINDIR)/jeff_gtk_4
+gtk_5: $(BINDIR) $(BINDIR)/jeff_gtk_5
+lua_1: $(BINDIR) $(BINDIR)/jeff_lua_1
+ncurses_1: $(BINDIR) $(BINDIR)/jeff_ncurses_1
+sdl_1: $(BINDIR) $(BINDIR)/jeff_sdl_1
+
 strip/bin: $(BINDIR)
 	strip $(BINDIR)/*
 strip/libs: $(LIBDIR)
 	strip $(LIBDIR)/*
 
 install_headers/local: $(JEFF_INCDIR) $(JEFF_H)
-	mkdir -p ~/.local/include/jeff
+	mkdir -p $(HOME)/.local/include/jeff
 	install -m 644 $(JEFF_INCDIR)/jeff.h $(HOME)/.local/include/jeff/jeff.h
 	install -m 644 $(JEFF_INCDIR)/jmemory.h $(HOME)/.local/include/jeff/jmemory.h
 	install -m 644 $(JEFF_INCDIR)/jstring.h $(HOME)/.local/include/jeff/jstring.h
@@ -67,13 +67,13 @@ install_headers/global: $(JEFF_INCDIR) $(JEFF_H)
 	install -m 644 $(JEFF_INCDIR)/jmemory.h /usr/include/jeff/jmemory.h
 	install -m 644 $(JEFF_INCDIR)/jstring.h /usr/include/jeff/jstring.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h /usr/include/jeff/jlog.h
-install_libs/local/fast: $(JEFF_LIBS)
+install_libs/local/fast: libs
 	install -m 755 $(LIBDIR)/libjdie.so $(HOME)/.local/lib/libjdie.so
 	install -m 755 $(LIBDIR)/libjerr.so $(HOME)/.local/lib/libjerr.so
 	install -m 755 $(LIBDIR)/libjoperators.so $(HOME)/.local/lib/libjoperators.so
 	install -m 755 $(LIBDIR)/libjstring.so $(HOME)/.local/lib/libjstring.so
 	install -m 755 $(LIBDIR)/libjlog.so $(HOME)/.local/lib/libjlog.so
-install_libs/fast: $(JEFF_LIBS)
+install_libs/fast: libs
 	install -m 755 $(LIBDIR)/libjdie.so /usr/lib/libjdie.so
 	install -m 755 $(LIBDIR)/libjerr.so /usr/lib/libjerr.so
 	install -m 755 $(LIBDIR)/libjoperators.so /usr/lib/libjoperators.so
