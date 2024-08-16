@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <jeff/jeff.h>
 
 void err(const char *fmt, const char *msg) {

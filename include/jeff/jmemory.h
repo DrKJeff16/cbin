@@ -1,13 +1,11 @@
-#ifndef JEFF_H
-#error "Header `jeff.h` must be included first"
-#endif /* !JEFF_H */
-
 #ifndef JMEMORY_H
 #define JMEMORY_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
+
+#include <stdlib.h>
 
 #ifndef MALLOC
 #define MALLOC(type) (type*)malloc(sizeof(type))

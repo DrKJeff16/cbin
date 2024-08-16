@@ -6,18 +6,17 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <gtk/gtk.h>
-#include <glib/gstdio.h>
 #include <cairo.h>
 
 void clear_surface(void);
-void resize_cb(GtkWidget*, const int, const int, gpointer);
-void draw_cb(GtkDrawingArea*, cairo_t*, const int, const int, gpointer);
-void draw_brush(GtkWidget*, const double, const double);
-void quit_cb(GtkWindow*);
-void drag_begin(GtkGestureDrag*, const double, const double, GtkWidget*);
-void drag_update(GtkGestureDrag*, const double, const double, GtkWidget*);
-void drag_end(GtkGestureDrag*, const double, const double, GtkWidget*);
-void pressed(GtkGestureClick*, const int, const double, const double, GtkWidget*);
+void draw_cb(GtkDrawingArea *drawing_area, cairo_t *cr, const int width, const int height, gpointer data);
+void resize_cb(GtkWidget *widget, const int width, const int height, gpointer data);
+void draw_brush(GtkWidget *widget, const double x, const double y);
+void quit_cb(GtkWindow *window);
+void drag_begin(GtkGestureDrag *gesture, const double x, const double y, GtkWidget *area);
+void drag_update(GtkGestureDrag *gesture, const double x, const double y, GtkWidget *area);
+void drag_end(GtkGestureDrag *gesture, const double x, const double y, GtkWidget *area);
+void pressed(GtkGestureClick *gesture, const int n_press, const double x, const double y, GtkWidget *area);
 
 void close_window(void);
 

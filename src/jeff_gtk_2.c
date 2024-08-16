@@ -1,13 +1,11 @@
 #include <gtk/gtk.h>
-#include <glib/gstdio.h>
-#include <jeff/jeff.h>
 #include <jeff/jeff_gtk.h>
 
 void print_hello(GtkWidget *widget, gpointer data) {
   g_print("Hello World!\n");
 }
 
-void activate(GtkApplication *app, gpointer data) {
+void activate(GtkApplication *app, gpointer user_data) {
   GtkWidget *window, *button, *box;
 
   window = gtk_application_window_new(app);

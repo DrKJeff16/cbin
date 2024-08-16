@@ -1,9 +1,7 @@
 #include <gtk/gtk.h>
-#include <glib/gstdio.h>
-#include <jeff/jeff.h>
 #include <jeff/jeff_gtk.h>
 
-void print_hello(GtkWidget *widget, gpointer data) {
+void print_hello(GtkWidget *widget, gpointer user_data) {
   g_print("Hello World!\n");
 }
 

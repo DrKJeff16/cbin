@@ -48,7 +48,6 @@ int main(void) {
   dest.y = (1000 - dest.h) / 2;
 
   int close = 0, speed = 350;
-
   int change = speed / 30;
 
   while (!close) {

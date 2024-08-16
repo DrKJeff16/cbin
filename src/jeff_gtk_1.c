@@ -1,6 +1,4 @@
 #include <gtk/gtk.h>
-#include <glib/gstdio.h>
-#include <jeff/jeff.h>
 #include <jeff/jeff_gtk.h>
 
 const char app_id[] = "org.gtk.example";

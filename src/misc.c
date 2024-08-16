@@ -3,13 +3,12 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <jeff/jeff.h>
 #include <jeff/jmemory.h>
 #include <jeff/jmisc.h>
-#include <jeff/jstring.h>
 #include <jeff/jlog.h>
+
+extern int errno;
 
 static char **filter_argv(const uint argc, char **argv) {
   if (argc <= 1) {

@@ -1,14 +1,6 @@
-#ifndef _ERRNO_H
-#error "Header `errno.h` must be included first"
-#endif /* !_ERRNO_H */
-
 #ifndef JEFF_H
 #error "Header `jeff.h` must be included first"
 #endif /* !JEFF_H */
-
-#ifndef JSTRING_H
-#error "Header `jstring.h` must be included first"
-#endif /* !JSTRING_H */
 
 #ifndef JLOG_H
 #define JLOG_H

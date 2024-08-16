@@ -1,5 +1,4 @@
 #include <ncurses.h>
-#include <jeff/jeff.h>
 #include <jeff/jeff_ncurses.h>
 
 void printing(void) {
