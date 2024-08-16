@@ -1,9 +1,15 @@
 #include <sys/types.h>
+#include <errno.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <jeff/jeff.h>
 #include <jeff/jmemory.h>
 #include <jeff/jmisc.h>
+#include <jeff/jstring.h>
+#include <jeff/jlog.h>
 
 static char **filter_argv(const uint argc, char **argv) {
   if (argc <= 1) {
@@ -22,13 +28,33 @@ static char **filter_argv(const uint argc, char **argv) {
 int main(int argc, char **argv) {
   char **args = filter_argv((uint)argc, argv);
 
+  int fd = open("misc.log",  O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+
+  if (fd < 0) {
+    die(1, "File descriptor unavailable");
+  }
+
   if (args == NULL) {
+    if (fd > 0) {
+      fdlog(fd, "No arguments given\n");
+      close(fd);
+    }
+
     die(1, "No arguments given");
   }
 
   for (uint i = 0; i < (uint)argc - 1; i++) {
+    if (!(fd < 0)) {
+      fdlog(fd, args[i]);
+      fdlog(fd, "\n");
+    }
+
     printf("%s\n", args[i]);
   }
 
-  return 0;
+  if (close(fd) < 0) {
+    die(1, "File descriptor couldn't be closed");
+  }
+
+  die(0, NULL);
 }
