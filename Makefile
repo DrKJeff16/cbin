@@ -67,13 +67,13 @@ install_headers/global: $(JEFF_INCDIR) $(JEFF_H)
 	install -m 644 $(JEFF_INCDIR)/jmemory.h /usr/include/jeff/jmemory.h
 	install -m 644 $(JEFF_INCDIR)/jstring.h /usr/include/jeff/jstring.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h /usr/include/jeff/jlog.h
-install_libs/local/fast: libs
+install_libs/local/fast:
 	install -m 755 $(LIBDIR)/libjdie.so $(HOME)/.local/lib/libjdie.so
 	install -m 755 $(LIBDIR)/libjerr.so $(HOME)/.local/lib/libjerr.so
 	install -m 755 $(LIBDIR)/libjoperators.so $(HOME)/.local/lib/libjoperators.so
 	install -m 755 $(LIBDIR)/libjstring.so $(HOME)/.local/lib/libjstring.so
 	install -m 755 $(LIBDIR)/libjlog.so $(HOME)/.local/lib/libjlog.so
-install_libs/fast: libs
+install_libs/fast:
 	install -m 755 $(LIBDIR)/libjdie.so /usr/lib/libjdie.so
 	install -m 755 $(LIBDIR)/libjerr.so /usr/lib/libjerr.so
 	install -m 755 $(LIBDIR)/libjoperators.so /usr/lib/libjoperators.so
