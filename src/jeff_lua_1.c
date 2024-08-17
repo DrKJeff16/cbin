@@ -1,20 +1,17 @@
-#include <sys/types.h>
-#include <stdio.h>
-#include <string.h>
-#include <lua.h>
-#include <lauxlib.h>
-#include <lualib.h>
-#include <jeff/jeff.h>
-#include <jeff/jmemory.h>
-#include <jeff/jstring.h>
-#include <jeff/jeff_lua.h>
+#include <jeff/jeff.h>      // for _jbool, die, err
+#include <jeff/jeff_lua.h>  // for p_flags, k_flags, init_lua, parse_argv
+#include <jeff/jmemory.h>   // for MALLOC
+#include <lauxlib.h>        // for luaL_newstate
+#include <lua.h>            // for lua_State, lua_close
+#include <lualib.h>         // for luaL_openlibs
+#include <stdio.h>          // for printf, NULL
+#include <stdlib.h>         // for free
+#include <string.h>         // for strcmp
+#include <sys/types.h>      // for uint
 
 extern p_flags *PROGRAM_FLAGS;
 
-struct k_flags {
-  const char VERBOSE[3];
-  const char LIBS[3];
-} const KEYWORD_FLAGS = {
+const k_flags KEYWORD_FLAGS = {
   .VERBOSE = "-v\0",
   .LIBS = "-l\0",
 };

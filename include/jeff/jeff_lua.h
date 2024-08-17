@@ -5,6 +5,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#include "jeff.h"
 #include <sys/types.h>
 #include <lua.h>
 
@@ -13,9 +14,14 @@ typedef struct _p_flags {
   jbool LIBS;
 } p_flags;
 
+typedef struct _k_flags {
+  const char VERBOSE[3];
+  const char LIBS[3];
+} k_flags;
+
 static p_flags *PROGRAM_FLAGS;
 
-lua_State *init_lua();
+lua_State *init_lua(void);
 void lua_err(lua_State *L, const char *fmt, ...);
 void parse_argv(const uint argc, char **argv);
 
