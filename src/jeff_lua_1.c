@@ -4,6 +4,7 @@
 #include <lauxlib.h>        // for luaL_newstate
 #include <lua.h>            // for lua_State, lua_close
 #include <lualib.h>         // for luaL_openlibs
+#include <stdarg.h>         // for va_list, va_start
 #include <stdio.h>          // for printf, NULL
 #include <stdlib.h>         // for free
 #include <string.h>         // for strcmp
@@ -16,6 +17,19 @@ const k_flags KEYWORD_FLAGS = {
   .LIBS = "-l\0",
 };
 
+static void lua_err(lua_State *L, const char *fmt, ...) {
+  va_list argp;
+
+  va_start(argp, fmt);
+  vfprintf(stderr, fmt, argp);
+  va_end(argp);
+
+  lua_close(L);
+  free(PROGRAM_FLAGS);
+
+  exit(EXIT_FAILURE);
+}
+
 static void init_p_flags(void) {
   PROGRAM_FLAGS = MALLOC(p_flags);
   PROGRAM_FLAGS->VERBOSE = JFALSE;
@@ -25,24 +39,17 @@ static void init_p_flags(void) {
 lua_State *init_lua(void) {
   lua_State *L = luaL_newstate();
 
-  switch (PROGRAM_FLAGS->LIBS) {
-    case JTRUE:
-      luaL_openlibs(L);
+  if (PROGRAM_FLAGS->LIBS)
+    luaL_openlibs(L);
 
-      if (PROGRAM_FLAGS->VERBOSE == JTRUE) {
-        printf("%s\n", "Loading with libs");
-      }
-
-      break;
-    case JFALSE:
-    default:
-      break;
+  if (PROGRAM_FLAGS->VERBOSE) {
+    printf("%s\n", "Loading with libs");
   }
 
   return L;
 }
 
-void parse_argv(const uint argc, char **argv) {
+static void parse_argv(const uint argc, char **argv) {
   if (!argc) {
     return;
   }

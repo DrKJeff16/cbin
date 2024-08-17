@@ -18,19 +18,19 @@ $(BINDIR):
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
-$(LIBDIR)/libjdie.so: $(LIBDIR) $(OBJDIR) $(SRCDIR)/jdie.c
+$(LIBDIR)/libjdie.so: $(LIBDIR) $(OBJDIR) $(JEFF_H) $(SRCDIR)/jdie.c
 	$(CC) -c $(SRCDIR)/jdie.c $(JEFF_CFLAGS) -o $(OBJDIR)/jdie.o
 	$(CC) $(OBJDIR)/jdie.o $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjdie.so
-$(LIBDIR)/libjerr.so: $(LIBDIR) $(OBJDIR) $(SRCDIR)/jerr.c
+$(LIBDIR)/libjerr.so: $(LIBDIR) $(OBJDIR) $(JEFF_H) $(SRCDIR)/jerr.c
 	$(CC) -c $(SRCDIR)/jerr.c $(JEFF_CFLAGS) -o $(OBJDIR)/jerr.o
 	$(CC) $(OBJDIR)/jerr.o $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjerr.so
-$(LIBDIR)/libjoperators.so: $(LIBDIR) $(OBJDIR) $(SRCDIR)/joperators.c
+$(LIBDIR)/libjoperators.so: $(LIBDIR) $(OBJDIR) $(JEFF_H) $(SRCDIR)/joperators.c
 	$(CC) -c $(SRCDIR)/joperators.c $(JEFF_CFLAGS) -o $(OBJDIR)/joperators.o
 	$(CC) $(OBJDIR)/joperators.o $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjoperators.so
-$(LIBDIR)/libjstring.so: $(LIBDIR) $(OBJDIR) $(SRCDIR)/jstring.c
+$(LIBDIR)/libjstring.so: $(LIBDIR) $(OBJDIR) $(JEFF_H) $(SRCDIR)/jstring.c
 	$(CC) -c $(SRCDIR)/jstring.c $(JEFF_CFLAGS) -o $(OBJDIR)/jstring.o
 	$(CC) $(OBJDIR)/jstring.o $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjstring.so
-$(LIBDIR)/libjlog.so: $(LIBDIR) $(OBJDIR) $(SRCDIR)/jlog.c
+$(LIBDIR)/libjlog.so: $(LIBDIR) $(OBJDIR) $(JEFF_H) $(SRCDIR)/jlog.c $(JEFF_H)
 	$(CC) -c $(SRCDIR)/jlog.c $(JEFF_CFLAGS) -o $(OBJDIR)/jlog.o
 	$(CC) $(OBJDIR)/jlog.o $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjlog.so
 
