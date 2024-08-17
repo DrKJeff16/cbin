@@ -75,6 +75,7 @@ CompileFlags:
       -lvulkan,
       -pthread,
       -std=c99,
+      -xc,
     ]
   Remove: [-D_FORTIFY_SOURCE=*]
   Compiler: gcc

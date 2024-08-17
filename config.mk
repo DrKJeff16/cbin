@@ -1,4 +1,4 @@
-CPPFLAGS = -I. -Iinclude -DNDEBUG -D_GNU_SOURCE
+CPPFLAGS = -Iinclude -DNDEBUG -D_GNU_SOURCE
 CFLAGS = $(CPPFLAGS) -march=znver3 -pipe -g -O2 -Wall -pedantic -pthread
 CXXFLAGS = $(CFLAGS) -D_GLIBCXX_ASSERTIONS
 LDFLAGS = -Llib -ljerr -ljdie -ljoperators -ljstring -ljlog -lc -lm
@@ -116,7 +116,8 @@ LUA_LDFLAGS = $(LDFLAGS) \
 LUA_H = $(JEFF_INCDIR)/jeff_lua.h
 LUA_ACTIONS = lua_1
 
-ACTIONS = $(JEFF_ACTIONS) \
+ACTIONS = libs \
+		  $(JEFF_ACTIONS) \
 		  $(GTK_ACTIONS) \
 		  $(SDL_ACTIONS) \
 		  $(NCURSES_ACTIONS) \

@@ -133,9 +133,9 @@ $(BINDIR)/jeff_ncurses_1: $(JEFF_LIBS) $(SRCDIR)/jeff_ncurses_1.c $(BINDIR) $(NC
 	$(CC) $(OBJDIR)/jeff_ncurses_1.o $(NCURSES_CFLAGS) $(NCURSES_LDFLAGS) -o $@
 
 clean:
-	rm -rf *.o $(OBJDIR)/*
+	rm -rf *.o $(OBJDIR)
 distclean: clean
-	rm -rf $(BINDIR)/* *.so *.a $(LIBDIR)/* build compile_commands.json
+	rm -rf $(BINDIR) *.so *.a $(LIBDIR) build compile_commands.json
 
 .PHONY: $(ACTIONS) distclean clean all libs \
 	strip/bin strip/libs \
