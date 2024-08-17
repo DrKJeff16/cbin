@@ -1,7 +1,3 @@
-#ifndef JEFF_H
-#error "Header `jeff.h` must be included first"
-#endif /* !JEFF_H */
-
 #ifndef JEFF_LUA_H
 #define JEFF_LUA_H
 
@@ -12,7 +8,16 @@ extern "C" {
 #include <sys/types.h>
 #include <lua.h>
 
-lua_State *init_lua(const jbool with_libs);
+typedef struct _p_flags {
+  jbool VERBOSE;
+  jbool LIBS;
+} p_flags;
+
+static p_flags *PROGRAM_FLAGS;
+
+lua_State *init_lua();
+void lua_err(lua_State *L, const char *fmt, ...);
+void parse_argv(const uint argc, char **argv);
 
 #ifdef __cplusplus
 }

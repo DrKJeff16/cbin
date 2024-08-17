@@ -1,5 +1,6 @@
 #include <sys/types.h>
 #include <stdio.h>
+#include <string.h>
 #include <lua.h>
 #include <lauxlib.h>
 #include <lualib.h>
@@ -8,44 +9,68 @@
 #include <jeff/jstring.h>
 #include <jeff/jeff_lua.h>
 
-typedef struct _triggers {
-  jbool with_libs;
-} triggers_t;
+extern p_flags *PROGRAM_FLAGS;
 
-lua_State *init_lua(const jbool with_libs) {
+struct k_flags {
+  const char VERBOSE[3];
+  const char LIBS[3];
+} const KEYWORD_FLAGS = {
+  .VERBOSE = "-v\0",
+  .LIBS = "-l\0",
+};
+
+static void init_p_flags(void) {
+  PROGRAM_FLAGS = MALLOC(p_flags);
+  PROGRAM_FLAGS->VERBOSE = JFALSE;
+  PROGRAM_FLAGS->LIBS = JFALSE;
+}
+
+lua_State *init_lua(void) {
   lua_State *L = luaL_newstate();
 
-  if (with_libs) {
-    printf("%s\n", "Loading with libs");
-    luaL_openlibs(L);
+  switch (PROGRAM_FLAGS->LIBS) {
+    case JTRUE:
+      luaL_openlibs(L);
+
+      if (PROGRAM_FLAGS->VERBOSE == JTRUE) {
+        printf("%s\n", "Loading with libs");
+      }
+
+      break;
+    case JFALSE:
+    default:
+      break;
   }
 
   return L;
 }
 
-triggers_t *parse_argv(const uint argc, char **argv) {
-  triggers_t *triggers = MALLOC(triggers_t);
-  triggers->with_libs = JFALSE;
-
+void parse_argv(const uint argc, char **argv) {
   if (!argc) {
-    return triggers;
+    return;
   }
 
   for (uint i = 1; i <= argc; i++) {
-    triggers->with_libs = compare_two_strings("-v", argv[i]);
+    char *str = argv[i];
 
-    if (triggers->with_libs) {
-      break;
+    if (!strcmp(KEYWORD_FLAGS.VERBOSE, str)) {
+      PROGRAM_FLAGS->VERBOSE = JTRUE;
+    } else if (!strcmp(KEYWORD_FLAGS.LIBS, str)) {
+      PROGRAM_FLAGS->LIBS = JTRUE;
+    } else {
+      free(PROGRAM_FLAGS);
+      err("Invalid argument `%s`\n", str);
+      die(127, NULL);
     }
   }
-
-  return triggers;
 }
 
 int main(int argc, char **argv) {
+  init_p_flags();
+
   argc--;
-  triggers_t *triggers = parse_argv((uint)argc, argv);
-  lua_State *L = init_lua(triggers->with_libs);
+  parse_argv((uint)argc, argv);
+  lua_State *L = init_lua();
 
   lua_close(L);
   return 0;
