@@ -27,12 +27,13 @@ triggers_t *parse_argv(const uint argc, char **argv) {
   triggers_t *triggers = MALLOC(triggers_t);
   triggers->with_libs = JFALSE;
 
-  if (argc == 1) {
+  if (!argc) {
     return triggers;
   }
 
-  for (uint i = 0; i < argc - 1; i++) {
+  for (uint i = 1; i <= argc; i++) {
     triggers->with_libs = compare_two_strings("-v", argv[i]);
+
     if (triggers->with_libs) {
       break;
     }
@@ -42,6 +43,7 @@ triggers_t *parse_argv(const uint argc, char **argv) {
 }
 
 int main(int argc, char **argv) {
+  argc--;
   triggers_t *triggers = parse_argv((uint)argc, argv);
   lua_State *L = init_lua(triggers->with_libs);
 

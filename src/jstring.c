@@ -14,7 +14,6 @@ jbool compare_two_strings(char *s1, char *s2) {
   size_t n = strnlen(s1, 512);
 
   if (n != strnlen(s2, 512)) {
-    err(NULL, "Strings are of different size");
     return JFALSE;
   }
 
@@ -53,7 +52,7 @@ jbool compare_strv(char **argv, const size_t len) {
     return JFALSE;
   }
 
-  for (size_t i = 1; i < len; i++) {
+  for (size_t i = 1; i < len - 1; i++) {
     if (!compare_two_strings(argv[0], argv[i])) {
       return JFALSE;
     }
