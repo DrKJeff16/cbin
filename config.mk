@@ -16,25 +16,34 @@ JEFF_INCDIR = $(INCDIR)/jeff
 JEFF_H = $(JEFF_INCDIR)/jeff.h \
 		 $(JEFF_INCDIR)/jmemory.h \
 		 $(JEFF_INCDIR)/jstring.h \
+		 $(JEFF_INCDIR)/jlua.h \
 		 $(JEFF_INCDIR)/jlog.h
 JEFF_SRC = $(SRCDIR)/jdie.c \
 		   $(SRCDIR)/jerr.c \
 		   $(SRCDIR)/joperators.c \
 		   $(SRCDIR)/jstring.c \
+		   $(SRCDIR)/jlua.c \
 		   $(SRCDIR)/jlog.c
 JEFF_OUT = $(OBJDIR)/jdie.o \
 		   $(OBJDIR)/jerr.o \
 		   $(OBJDIR)/joperators.o \
 		   $(OBJDIR)/jstring.o \
+		   $(OBJDIR)/jlua.o \
 		   $(SRCDIR)/jlog.o
 JEFF_LIBS = $(LIBDIR)/libjdie.so \
 			$(LIBDIR)/libjerr.so \
 			$(LIBDIR)/libjoperators.so \
 			$(LIBDIR)/libjstring.so \
+			$(LIBDIR)/libjlua.so \
 			$(LIBDIR)/libjlog.so
 JEFF_CFLAGS = $(CFLAGS) -fPIC
 JEFF_LDFLAGS = -lc -lm
 JEFF_ACTIONS = cointoss misc
+
+JEFF_LUA_SRC = $(SRCDIR)/jlua.c
+JEFF_LUA_H = $(JEFF_INCDIR)/jlua.h
+JEFF_LUA_CFLAGS = $(JEFF_CFLAGS)
+JEFF_LUA_LDFLAGS = $(JEFF_LDFLAGS) -llua
 
 SDL_CFLAGS = $(CFLAGS) \
 			 -D_REENTRANT \
@@ -111,9 +120,10 @@ GL_ACTIONS = gl_1 gl_2
 LUA_CFLAGS = $(CFLAGS) \
 			 -I/usr/include/luajit-2.1
 LUA_LDFLAGS = $(LDFLAGS) \
+			  -ljlua \
 			  -llua \
 			  -lluajit-5.1
-LUA_H = $(JEFF_INCDIR)/jeff_lua.h
+LUA_H = $(JEFF_INCDIR)/jlua.h
 LUA_ACTIONS = lua_1
 
 ACTIONS = libs \

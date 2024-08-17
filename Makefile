@@ -33,6 +33,9 @@ $(LIBDIR)/libjstring.so: $(LIBDIR) $(OBJDIR) $(JEFF_H) $(SRCDIR)/jstring.c
 $(LIBDIR)/libjlog.so: $(LIBDIR) $(OBJDIR) $(JEFF_H) $(SRCDIR)/jlog.c $(JEFF_H)
 	$(CC) -c $(SRCDIR)/jlog.c $(JEFF_CFLAGS) -o $(OBJDIR)/jlog.o
 	$(CC) $(OBJDIR)/jlog.o $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjlog.so
+$(LIBDIR)/libjlua.so: $(LIBDIR) $(OBJDIR) $(JEFF_H) $(SRCDIR)/jlua.c
+	$(CC) -c $(SRCDIR)/jlua.c $(JEFF_LUA_CFLAGS) -o $(OBJDIR)/jlua.o
+	$(CC) $(OBJDIR)/jlua.o $(JEFF_LUA_LDFLAGS) -shared -o $(LIBDIR)/libjlua.so
 
 libs: $(JEFF_LIBS)
 
@@ -59,6 +62,7 @@ install_headers/local: $(JEFF_INCDIR) $(JEFF_H)
 	install -m 644 $(JEFF_INCDIR)/jeff.h $(HOME)/.local/include/jeff/jeff.h
 	install -m 644 $(JEFF_INCDIR)/jmemory.h $(HOME)/.local/include/jeff/jmemory.h
 	install -m 644 $(JEFF_INCDIR)/jstring.h $(HOME)/.local/include/jeff/jstring.h
+	install -m 644 $(JEFF_INCDIR)/jlua.h $(HOME)/.local/include/jeff/jlua.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h $(HOME)/.local/include/jeff/jlog.h
 	chown -Rcv $(USER):$(USER) $(HOME)/.local/include
 install_headers/global: $(JEFF_INCDIR) $(JEFF_H)
@@ -66,23 +70,26 @@ install_headers/global: $(JEFF_INCDIR) $(JEFF_H)
 	install -m 644 $(JEFF_INCDIR)/jeff.h /usr/include/jeff/jeff.h
 	install -m 644 $(JEFF_INCDIR)/jmemory.h /usr/include/jeff/jmemory.h
 	install -m 644 $(JEFF_INCDIR)/jstring.h /usr/include/jeff/jstring.h
+	install -m 644 $(JEFF_INCDIR)/jlua.h $(HOME)/.local/include/jeff/jlua.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h /usr/include/jeff/jlog.h
 install_libs/local/fast:
 	install -m 755 $(LIBDIR)/libjdie.so $(HOME)/.local/lib/libjdie.so
 	install -m 755 $(LIBDIR)/libjerr.so $(HOME)/.local/lib/libjerr.so
 	install -m 755 $(LIBDIR)/libjoperators.so $(HOME)/.local/lib/libjoperators.so
 	install -m 755 $(LIBDIR)/libjstring.so $(HOME)/.local/lib/libjstring.so
+	install -m 755 $(LIBDIR)/libjlua.so $(HOME)/.local/lib/libjlua.so
 	install -m 755 $(LIBDIR)/libjlog.so $(HOME)/.local/lib/libjlog.so
 install_libs/fast:
 	install -m 755 $(LIBDIR)/libjdie.so /usr/lib/libjdie.so
 	install -m 755 $(LIBDIR)/libjerr.so /usr/lib/libjerr.so
 	install -m 755 $(LIBDIR)/libjoperators.so /usr/lib/libjoperators.so
 	install -m 755 $(LIBDIR)/libjstring.so /usr/lib/libjstring.so
+	install -m 755 $(LIBDIR)/libjlua.so /usr/lib/libjlua.so
 	install -m 755 $(LIBDIR)/libjlog.so /usr/lib/libjlog.so
 install_libs/local/stripped: install_libs/local/fast
-	strip $(HOME)/.local/lib/libj{die,err,operators,string,log}.so
+	strip $(HOME)/.local/lib/libj{die,err,operators,string,lua,log}.so
 install_libs/stripped: install_libs/fast
-	strip /usr/lib/libj{die,err,operators,string,log}.so
+	strip /usr/lib/libj{die,err,operators,string,lua,log}.so
 
 $(BINDIR)/cointoss: $(JEFF_LIBS) $(BINDIR) $(SRCDIR)/cointoss.c $(JEFF_INCDIR)/cointoss.h
 	$(CC) -c $(SRCDIR)/cointoss.c $(CFLAGS) -o $(OBJDIR)/cointoss.o
