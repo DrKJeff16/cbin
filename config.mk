@@ -128,7 +128,9 @@ LUA_LDFLAGS = $(LDFLAGS) \
 LUA_H = $(JEFF_INCDIR)/jlua.h
 LUA_ACTIONS = lua_1
 
-ACTIONS = libs \
+ACTIONS = $(LIBDIR) \
+		  $(OBJDIR) \
+		  $(BINDIR) \
 		  $(JEFF_ACTIONS) \
 		  $(GTK_ACTIONS) \
 		  $(SDL_ACTIONS) \

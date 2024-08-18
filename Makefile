@@ -113,51 +113,51 @@ install_libs/stripped: install_libs/fast
 	strip /usr/lib/libj{die,err,operators,string,lua,log}.so
 
 
-$(BINDIR)/cointoss: $(JEFF_LIBS) $(BINDIR) $(SRCDIR)/cointoss.c $(JEFF_INCDIR)/cointoss.h
+$(BINDIR)/cointoss: $(BINDIR) $(SRCDIR)/cointoss.c $(JEFF_INCDIR)/cointoss.h
 	$(CC) -c $(SRCDIR)/cointoss.c $(CFLAGS) -o $(OBJDIR)/cointoss.o
 	$(CC) $(OBJDIR)/cointoss.o $(CFLAGS) $(LDFLAGS) -o $@
 
-$(BINDIR)/misc: $(JEFF_LIBS) $(SRCDIR)/misc.c $(BINDIR) $(JEFF_INCDIR)/jmisc.h
+$(BINDIR)/misc: $(SRCDIR)/misc.c $(BINDIR) $(JEFF_INCDIR)/jmisc.h
 	$(CC) -c $(SRCDIR)/misc.c $(CFLAGS) -o $(OBJDIR)/misc.o
 	$(CC) $(OBJDIR)/misc.o $(CFLAGS) $(LDFLAGS) -o $@
 
-$(BINDIR)/jeff_gl_1: $(JEFF_LIBS) $(SRCDIR)/jeff_gl_1.c $(BINDIR) $(GL_H)
+$(BINDIR)/jeff_gl_1: $(SRCDIR)/jeff_gl_1.c $(BINDIR) $(GL_H)
 	$(CC) -c $(SRCDIR)/jeff_gl_1.c $(GL_CFLAGS) -o $(OBJDIR)/jeff_gl_1.o
 	$(CC) $(OBJDIR)/jeff_gl_1.o $(GL_CFLAGS) $(GL_LDFLAGS) -o $@
 
-$(BINDIR)/jeff_gl_2: $(JEFF_LIBS) $(SRCDIR)/jeff_gl_2.c $(BINDIR) $(GL_H)
+$(BINDIR)/jeff_gl_2: $(SRCDIR)/jeff_gl_2.c $(BINDIR) $(GL_H)
 	$(CC) -c $(SRCDIR)/jeff_gl_2.c $(GL_CFLAGS) -o $(OBJDIR)/jeff_gl_2.o
 	$(CC) $(OBJDIR)/jeff_gl_2.o $(GL_CFLAGS) $(GL_LDFLAGS) -o $@
 
-$(BINDIR)/jeff_gtk_1: $(JEFF_LIBS) $(SRCDIR)/jeff_gtk_1.c $(BINDIR) $(GTK_H)
+$(BINDIR)/jeff_gtk_1: $(SRCDIR)/jeff_gtk_1.c $(BINDIR) $(GTK_H)
 	$(CC) -c $(SRCDIR)/jeff_gtk_1.c $(GTK_CFLAGS) -o $(OBJDIR)/jeff_gtk_1.o
 	$(CC) $(OBJDIR)/jeff_gtk_1.o $(GTK_CFLAGS) $(GTK_LDFLAGS) -o $@
 
-$(BINDIR)/jeff_gtk_2: $(JEFF_LIBS) $(SRCDIR)/jeff_gtk_2.c $(BINDIR) $(GTK_H)
+$(BINDIR)/jeff_gtk_2: $(SRCDIR)/jeff_gtk_2.c $(BINDIR) $(GTK_H)
 	$(CC) -c $(SRCDIR)/jeff_gtk_2.c $(GTK_CFLAGS) -o $(OBJDIR)/jeff_gtk_2.o
 	$(CC) $(OBJDIR)/jeff_gtk_2.o $(GTK_CFLAGS) $(GTK_LDFLAGS) -o $@
 
-$(BINDIR)/jeff_gtk_3: $(JEFF_LIBS) $(SRCDIR)/jeff_gtk_3.c $(BINDIR) $(GTK_H)
+$(BINDIR)/jeff_gtk_3: $(SRCDIR)/jeff_gtk_3.c $(BINDIR) $(GTK_H)
 	$(CC) -c $(SRCDIR)/jeff_gtk_3.c $(GTK_CFLAGS) -o $(OBJDIR)/jeff_gtk_3.o
 	$(CC) $(OBJDIR)/jeff_gtk_3.o $(GTK_CFLAGS) $(GTK_LDFLAGS) -o $@
 
-$(BINDIR)/jeff_gtk_4: $(JEFF_LIBS) $(SRCDIR)/jeff_gtk_4.c $(BINDIR) $(GTK_H) $(ASSET_DIR)/builder.ui
+$(BINDIR)/jeff_gtk_4: $(SRCDIR)/jeff_gtk_4.c $(BINDIR) $(GTK_H) $(ASSET_DIR)/builder.ui
 	$(CC) -c $(SRCDIR)/jeff_gtk_4.c $(GTK_CFLAGS) -o $(OBJDIR)/jeff_gtk_4.o
 	$(CC) $(OBJDIR)/jeff_gtk_4.o $(GTK_CFLAGS) $(GTK_LDFLAGS) -o $@
 
-$(BINDIR)/jeff_gtk_5: $(JEFF_LIBS) $(SRCDIR)/jeff_gtk_5.c $(BINDIR) $(GTK_H)
+$(BINDIR)/jeff_gtk_5: $(SRCDIR)/jeff_gtk_5.c $(BINDIR) $(GTK_H)
 	$(CC) -c $(SRCDIR)/jeff_gtk_5.c $(GTK_CFLAGS) -o $(OBJDIR)/jeff_gtk_5.o
 	$(CC) $(OBJDIR)/jeff_gtk_5.o $(GTK_CFLAGS) $(GTK_LDFLAGS) -o $@
 
-$(BINDIR)/jeff_sdl_1: $(JEFF_LIBS) $(SRCDIR)/jeff_sdl_1.c $(BINDIR) $(SDL_H) $(ASSET_DIR)/face.png
+$(BINDIR)/jeff_sdl_1: $(SRCDIR)/jeff_sdl_1.c $(BINDIR) $(SDL_H) $(ASSET_DIR)/face.png
 	$(CC) -c $(SRCDIR)/jeff_sdl_1.c $(SDL_CFLAGS) -o $(OBJDIR)/jeff_sdl_1.o
 	$(CC) $(OBJDIR)/jeff_sdl_1.o $(SDL_CFLAGS) $(SDL_LDFLAGS) -o $@
 
-$(BINDIR)/jeff_lua_1: $(JEFF_LIBS) $(SRCDIR)/jeff_lua_1.c $(BINDIR) $(LUA_H)
+$(BINDIR)/jeff_lua_1: $(SRCDIR)/jeff_lua_1.c $(BINDIR) $(LUA_H)
 	$(CC) -c $(SRCDIR)/jeff_lua_1.c $(LUA_CFLAGS) -o $(OBJDIR)/jeff_lua_1.o
 	$(CC) $(OBJDIR)/jeff_lua_1.o $(LUA_CFLAGS) $(LUA_LDFLAGS) -o $@
 
-$(BINDIR)/jeff_ncurses_1: $(JEFF_LIBS) $(SRCDIR)/jeff_ncurses_1.c $(BINDIR) $(NCURSES_H)
+$(BINDIR)/jeff_ncurses_1: $(SRCDIR)/jeff_ncurses_1.c $(BINDIR) $(NCURSES_H)
 	$(CC) -c $(SRCDIR)/jeff_ncurses_1.c $(NCURSES_CFLAGS) -o $(OBJDIR)/jeff_ncurses_1.o
 	$(CC) $(OBJDIR)/jeff_ncurses_1.o $(NCURSES_CFLAGS) $(NCURSES_LDFLAGS) -o $@
 
