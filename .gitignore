@@ -22,9 +22,9 @@ compile_commands.json
 *.i
 *.o
 *.obj
+*.out
 *.s
 *.so
-*.out
 
 # Compressed files
 *.7z
@@ -46,12 +46,12 @@ compile_commands.json
 .envrc
 
 # Misc filetypes
-*.log
 *.aux
 *.bak
-*.old
-*.new
 *.list
+*.log
+*.new
+*.old
 
 # VCS files
 *.diff
