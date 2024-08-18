@@ -17,7 +17,7 @@ const k_flags KEYWORD_FLAGS = {
   .LIBS = "-l\0",
 };
 
-static void lua_err(lua_State *L, const char *fmt, ...) {
+void lua_err(lua_State *L, const char *fmt, ...) {
   va_list argp;
 
   va_start(argp, fmt);
@@ -30,73 +30,27 @@ static void lua_err(lua_State *L, const char *fmt, ...) {
   exit(EXIT_FAILURE);
 }
 
-void lua_op(lua_State *L, const jlua_type type, jlua_op_buf *operation, void *data) {
-  if (L == NULL) {
-    vdie(2, "(jlua_op): %s\n", "Lua state is NULL. Aborting");
-  }
-  if (operation == NULL) {
-    lua_err(L,  "(lua_op): %s\n", "NULL operation is unacceptable");
-  }
-
-  if (operation->_next == NULL) {
-    append_op_buf(operation);
-  }
-
-  switch (type) {
-    case JLUA_NIL:
-      lua_pushnil(L);
-      break;
-    case JLUA_BOOL:
-      if (data != NULL) {
-        lua_pushboolean(L, *(int*)(data));
-      }
-      break;
-    case JLUA_NUM:
-      if (data != NULL) {
-        lua_pushnumber(L, *(double*)data);
-      }
-      break;
-    case JLUA_LSTR:
-      if (data != NULL) {
-        const char *str = (char*)data;
-        size_t len = strnlen(str, 512);
-        lua_pushlstring(L, str, len);
-      }
-      break;
-    case JLUA_STR:
-      if (data != NULL) {
-        const char *str = (char*)data;
-        lua_pushstring(L, str);
-      }
-      break;
-    default:
-      lua_err(L, "%s\n", "Invalid operation. Aborting");
-      break;
-  }
-
-  operation->data = data;
-}
-
 static void init_p_flags(void) {
   PROGRAM_FLAGS = MALLOC(p_flags);
   PROGRAM_FLAGS->VERBOSE = JFALSE;
   PROGRAM_FLAGS->LIBS = JFALSE;
 }
 
-static lua_State *init_lua_state(void) {
+lua_State *init_lua_state(void) {
   lua_State *L = luaL_newstate();
 
-  if (PROGRAM_FLAGS->LIBS)
+  if (PROGRAM_FLAGS->LIBS) {
     luaL_openlibs(L);
 
-  if (PROGRAM_FLAGS->VERBOSE) {
-    printf("%s\n", "Loading with libs");
+    if (PROGRAM_FLAGS->VERBOSE) {
+      printf("%s\n", "Loading with libs");
+    }
   }
 
   return L;
 }
 
-static void parse_argv(const uint argc, char **argv) {
+void parse_argv(const uint argc, char **argv) {
   if (!argc) {
     return;
   }

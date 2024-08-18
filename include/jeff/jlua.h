@@ -49,16 +49,40 @@ typedef struct _jlua_state_buf {
 
 static p_flags *PROGRAM_FLAGS;
 
-static void lua_err(lua_State *L, const char *fmt, ...);
-static lua_State *init_lua_state(void);
-static void parse_argv(const uint argc, char **argv);
+lua_State *init_lua_state(void);
+void parse_argv(const uint argc, char **argv);
 
+/**
+ * Print an error message, shut down the Lua state and exit with code 1
+ */
+void lua_err(lua_State *L, const char *fmt, ...);
+
+/**
+ * Generate a new jlua operator buffer to be indexed
+ */
 void new_op_buf(jlua_op_buf *predecessor, const unsigned long long *i);
+/**
+ * Initialize an empty jlua operator buffer
+ */
 jlua_op_buf *init_op_buf(void);
+/**
+ * Append new buffer to a jlua operator buffer
+ *
+ * @param ptr The pointer to the linked list to be added
+ *
+ * @return The memory address of the appended struct, not any of the preceding ones
+ */
 jlua_op_buf *append_op_buf(jlua_op_buf *ptr);
+/**
+ * Pop the last element of a jlua operation buffer
+ *
+ * @param ptr The pointer to the linked list to be added
+ * @return The memory address of the appended struct, not any of the preceding ones
+ */
+jlua_op_buf *pop_op_buf(jlua_op_buf *ptr);
+void lua_op(lua_State *L, jlua_op_buf *buf);
+
 jlua_sbuf *init_jlua_sbuf(lua_State *L, const size_t stack_len);
-jlua_op_buf *mk_jlua_op_buf(const size_t buf_len, const jlua_type type, const jlua_operator operation, void *data);
-void lua_op(lua_State *L, const jlua_type type, jlua_op_buf *operation, void *data);
 
 #ifdef __cplusplus
 }

@@ -20,7 +20,7 @@ jlua_sbuf *init_jlua_sbuf(lua_State *L, const size_t stack_len) {
 
 void new_op_buf(jlua_op_buf *predecessor, const unsigned long long *i) {
   if (predecessor == NULL) {
-    verr("(new_op_buf): %s\n", "Predecessor is NULL");
+    err("(new_op_buf): %s\n", "Predecessor is NULL");
     return;
   }
 
