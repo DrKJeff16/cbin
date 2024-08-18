@@ -1,16 +1,16 @@
+ASSET_DIR := $(HOME)/.local/share/jassets
+BINDIR := bin
+INCDIR := include
+LIBDIR := lib
+OBJDIR := obj
+SRCDIR := src
+
 CPPFLAGS = -Iinclude -DNDEBUG -D_GNU_SOURCE
 CFLAGS = $(CPPFLAGS) -march=znver3 -pipe -g -O2 -Wall -pedantic -pthread
 CXXFLAGS = $(CFLAGS) -D_GLIBCXX_ASSERTIONS
 LDFLAGS = -Llib -ljerr -ljdie -ljoperators -ljstring -ljlog -lc -lm
 
 PKG_CONFIG_BIN := pkgconf
-
-ASSET_DIR := assets
-BINDIR := bin
-INCDIR := include
-LIBDIR := lib
-OBJDIR := obj
-SRCDIR := src
 
 JEFF_INCDIR = $(INCDIR)/jeff
 JEFF_H = $(JEFF_INCDIR)/jeff.h \
@@ -46,6 +46,7 @@ JEFF_LUA_CFLAGS = $(JEFF_CFLAGS)
 JEFF_LUA_LDFLAGS = $(JEFF_LDFLAGS) -llua
 
 SDL_CFLAGS = $(CFLAGS) \
+			 -D_JASSET_PATH="\"$(ASSET_DIR)/face.png\\0\"" \
 			 -D_REENTRANT \
 			 -I/usr/include/SDL2
 SDL_LDFLAGS = $(LDFLAGS) \
@@ -71,6 +72,7 @@ GTK_CFLAGS = $(CFLAGS) \
 			 -I/usr/include/sysprof-6 \
 			 -I/usr/lib/glib-2.0/include \
 			 -I/usr/lib/graphene-1.0/include \
+			 -D_JASSET_PATH="\"$(ASSET_DIR)/builder.ui\\0\"" \
 			 -pthread
 GTK_LDFLAGS = $(LDFLAGS) \
 			  -lcairo \

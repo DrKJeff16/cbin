@@ -1,21 +1,22 @@
-#include <SDL2/SDL.h>         // for SDL_Quit, SDL_INIT_EVERYTHING
-#include <SDL2/SDL_image.h>   // for IMG_Load
-#include <SDL2/SDL_render.h>  // for SDL_CreateRenderer, SDL_CreateTextureFr...
-#include <SDL2/SDL_stdinc.h>  // for Uint32
-#include <SDL2/SDL_timer.h>   // for SDL_Delay
-#include <SDL2/SDL_video.h>   // for SDL_Window, SDL_CreateWindow, SDL_Destr...
-#include <jeff/jeff.h>        // for err, JEFF_H
-#include <jeff/jeff_sdl.h>    // for default_renderer, default_win
-#include <stddef.h>           // for NULL
-#include "SDL_error.h"        // for SDL_GetError
-#include "SDL_events.h"       // for SDL_PollEvent, SDL_Event, SDL_KEYDOWN
-#include "SDL_rect.h"         // for SDL_Rect
-#include "SDL_scancode.h"     // for SDL_SCANCODE_A, SDL_SCANCODE_COMMA, SDL...
-#include "SDL_surface.h"      // for SDL_FreeSurface, SDL_Surface
+#include <SDL2/SDL.h>          // for SDL_Quit, SDL_INIT_EVERYTHING
+#include <SDL2/SDL_error.h>    // for SDL_GetError
+#include <SDL2/SDL_events.h>   // for SDL_PollEvent, SDL_Event, SDL_KEYDOWN
+#include <SDL2/SDL_image.h>    // for IMG_Load
+#include <SDL2/SDL_rect.h>     // for SDL_Rect
+#include <SDL2/SDL_render.h>   // for SDL_CreateRenderer, SDL_CreateTextureFr...
+#include <SDL2/SDL_scancode.h> // for SDL_SCANCODE_A, SDL_SCANCODE_COMMA, SDL...
+#include <SDL2/SDL_stdinc.h>   // for Uint32
+#include <SDL2/SDL_surface.h>  // for SDL_FreeSurface, SDL_Surface
+#include <SDL2/SDL_timer.h>    // for SDL_Delay
+#include <SDL2/SDL_video.h>    // for SDL_Window, SDL_CreateWindow, SDL_Destr...
+#include <jeff/jeff.h>         // for err, JEFF_H
+#include <jeff/jeff_sdl.h>     // for default_renderer, default_win
+#include <jeff/jmemory.h>      // for CALLOC
+#include <stdlib.h>            // for NULL
 
 SDL_Window *default_win(void) {
   return SDL_CreateWindow("GAME", SDL_WINDOWPOS_CENTERED,
-      SDL_WINDOWPOS_CENTERED, 1000, 1000, 0);
+                          SDL_WINDOWPOS_CENTERED, 1000, 1000, 0);
 }
 
 SDL_Renderer *default_renderer(SDL_Window *win, const Uint32 flags) {
@@ -26,19 +27,18 @@ int main(void) {
   SDL_Window *win = default_win();
 
   if (SDL_INIT_EVERYTHING) {
-#ifdef JEFF_H
     err("error initializing SDL: %s\n", SDL_GetError());
-#else
-    fprintf(stderr, "error initializing SDL: %s\n", SDL_GetError());
-#endif /* JEFF_H */
   }
 
   Uint32 render_flags = SDL_RENDERER_ACCELERATED;
 
   SDL_Renderer *rend = default_renderer(win, render_flags);
 
-  SDL_Surface *surface;
-  surface = IMG_Load("assets/face.png");
+  SDL_Surface *surface = NULL;
+#ifndef _JASSET_PATH
+#define _JASSET_PATH "~/.local/share/jassets/face.png\0"
+#endif /* !_JASSET_PATH */
+  surface = IMG_Load(_JASSET_PATH);
 
   SDL_Texture *texture = SDL_CreateTextureFromSurface(rend, surface);
 
@@ -61,34 +61,34 @@ int main(void) {
 
     while (SDL_PollEvent(&event)) {
       switch (event.type) {
-        case SDL_QUIT:
-        case SDL_SCANCODE_ESCAPE:
-          close = 1;
+      case SDL_QUIT:
+      case SDL_SCANCODE_ESCAPE:
+        close = 1;
+        break;
+      case SDL_KEYDOWN:
+        switch (event.key.keysym.scancode) {
+        case SDL_SCANCODE_COMMA:
+        case SDL_SCANCODE_W:
+        case SDL_SCANCODE_UP:
+          dest.y -= change;
           break;
-        case SDL_KEYDOWN:
-          switch (event.key.keysym.scancode) {
-            case SDL_SCANCODE_COMMA:
-            case SDL_SCANCODE_W:
-            case SDL_SCANCODE_UP:
-              dest.y -= change;
-              break;
-            case SDL_SCANCODE_A:
-            case SDL_SCANCODE_LEFT:
-              dest.x -= change;
-              break;
-            case SDL_SCANCODE_S:
-            case SDL_SCANCODE_O:
-            case SDL_SCANCODE_DOWN:
-              dest.y += change;
-              break;
-            case SDL_SCANCODE_D:
-            case SDL_SCANCODE_E:
-            case SDL_SCANCODE_RIGHT:
-              dest.x += change;
-              break;
-            default:
-              break;
-          }
+        case SDL_SCANCODE_A:
+        case SDL_SCANCODE_LEFT:
+          dest.x -= change;
+          break;
+        case SDL_SCANCODE_S:
+        case SDL_SCANCODE_O:
+        case SDL_SCANCODE_DOWN:
+          dest.y += change;
+          break;
+        case SDL_SCANCODE_D:
+        case SDL_SCANCODE_E:
+        case SDL_SCANCODE_RIGHT:
+          dest.x += change;
+          break;
+        default:
+          break;
+        }
       }
     }
 

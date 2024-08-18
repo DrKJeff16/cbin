@@ -3,7 +3,7 @@
 #include <glib.h>              // for g_print, gpointer, TRUE
 #include <gtk/gtk.h>           // for gtk_builder_get_object, GtkApplication
 #include <jeff/jeff_gtk.h>     // for activate, print_hello, print_hello_rev...
-#include <stddef.h>            // for NULL
+#include <stdlib.h>            // for NULL
 #include "gobject/gclosure.h"  // for G_CALLBACK
 
 void print_hello(GtkWidget *widget, gpointer data) {
@@ -20,6 +20,9 @@ void quit_cb(GtkWindow *window) {
 
 void activate(GtkApplication *app, gpointer user_data) {
   GtkBuilder *builder = gtk_builder_new();
+#ifndef _JASSET_DIR
+#define _JASSET_DIR "~/.local/share/jassets/builder.ui"
+#endif /* !_JASSET_DIR */
   gtk_builder_add_from_file(builder, "assets/builder.ui", NULL);
 
   GObject *window = gtk_builder_get_object(builder, "window");

@@ -7,7 +7,7 @@
 #include <jeff/jmisc.h>
 #include <jeff/jlog.h>
 
-static char **filter_argv(const uint argc, char **argv) {
+char **filter_argv(const uint argc, char **argv) {
   if (argc <= 1) {
     return NULL;
   }

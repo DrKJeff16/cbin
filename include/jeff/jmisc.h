@@ -1,11 +1,3 @@
-#ifndef JEFF_H
-#error "Header `jeff.h` must be included first"
-#endif /* !JEFF_H */
-
-#ifndef JMEMORY_H
-#error "Header `jmemory.h` must be included first"
-#endif /* !JMEMORY_H */
-
 #ifndef JMISC_H
 #define JMISC_H
 
@@ -18,7 +10,7 @@ extern "C" {
 int fd_open(char *filename);
 void fd_close(int fd);
 
-static char **filter_argv(const uint argc, char **argv);
+char **filter_argv(const uint argc, char **argv);
 
 #ifdef __cplusplus
 }

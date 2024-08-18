@@ -1,7 +1,6 @@
-#include <jeff/jeff.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <stdarg.h>           // for va_end, va_start
+#include <jeff/jeff.h>        // for err, exec_verr, verr
+#include <stdio.h>            // for fprintf, stderr, vfprintf, NULL, va_list
 
 void err(const char *fmt, const char *msg) {
   if (msg != NULL) {

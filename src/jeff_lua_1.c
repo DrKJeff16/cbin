@@ -1,20 +1,20 @@
-#include <jeff/jeff.h>
-#include <jeff/jlua.h>
-#include <jeff/jmemory.h>
-#include <lauxlib.h>
-#include <lua.h>
-#include <lualib.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
+#include <jeff/jeff.h>    // for _jbool, die, err
+#include <jeff/jlua.h>    // for p_flags, init_lua_state, k_flags, lua_err
+#include <jeff/jmemory.h> // for MALLOC
+#include <lauxlib.h>      // for luaL_newstate
+#include <lua.h>          // for lua_State, lua_close
+#include <lualib.h>       // for luaL_openlibs
+#include <stdarg.h>       // for va_end, va_start
+#include <stdio.h>        // for printf, vfprintf, NULL, stderr, va_list
+#include <stdlib.h>       // for free, exit, EXIT_FAILURE
+#include <string.h>       // for strcmp
+#include <sys/types.h>    // for uint
 
 extern p_flags *PROGRAM_FLAGS;
 
 const k_flags KEYWORD_FLAGS = {
-  .VERBOSE = "-v\0",
-  .LIBS = "-l\0",
+    .VERBOSE = "-v\0",
+    .LIBS = "-l\0",
 };
 
 void lua_err(lua_State *L, const char *fmt, ...) {
