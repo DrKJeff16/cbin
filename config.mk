@@ -1,3 +1,6 @@
+CC := gcc
+CXX := g++
+
 ASSET_DIR := $(HOME)/.local/share/jassets
 ASDIR := assembly
 CPPDIR := preproc
@@ -8,7 +11,7 @@ OBJDIR := obj
 SRCDIR := src
 
 CPPFLAGS = -Iinclude -DNDEBUG -D_GNU_SOURCE
-CFLAGS = $(CPPFLAGS) -march=znver3 -pipe -g -O2 -Wall -pedantic -pthread
+CFLAGS = $(CPPFLAGS) -march=znver3 -pipe -g -ggdb -O2 -Wall -pedantic -pthread
 CXXFLAGS = $(CFLAGS) -D_GLIBCXX_ASSERTIONS
 LDFLAGS = -Llib -ljerr -ljdie -ljoperators -ljstring -ljlog -lc -lm
 
@@ -20,18 +23,6 @@ JEFF_H = $(JEFF_INCDIR)/jeff.h \
 		 $(JEFF_INCDIR)/jstring.h \
 		 $(JEFF_INCDIR)/jlua.h \
 		 $(JEFF_INCDIR)/jlog.h
-JEFF_SRC = $(SRCDIR)/jdie.c \
-		   $(SRCDIR)/jerr.c \
-		   $(SRCDIR)/joperators.c \
-		   $(SRCDIR)/jstring.c \
-		   $(SRCDIR)/jlua.c \
-		   $(SRCDIR)/jlog.c
-JEFF_OUT = $(OBJDIR)/jdie.o \
-		   $(OBJDIR)/jerr.o \
-		   $(OBJDIR)/joperators.o \
-		   $(OBJDIR)/jstring.o \
-		   $(OBJDIR)/jlua.o \
-		   $(SRCDIR)/jlog.o
 JEFF_LIBS = $(LIBDIR)/libjdie.so \
 			$(LIBDIR)/libjerr.so \
 			$(LIBDIR)/libjoperators.so \
@@ -42,7 +33,6 @@ JEFF_CFLAGS = $(CFLAGS) -fPIC
 JEFF_LDFLAGS = -lc -lm
 JEFF_ACTIONS = cointoss misc
 
-JEFF_LUA_SRC = $(SRCDIR)/jlua.c
 JEFF_LUA_H = $(JEFF_INCDIR)/jlua.h
 JEFF_LUA_CFLAGS = $(JEFF_CFLAGS)
 JEFF_LUA_LDFLAGS = $(JEFF_LDFLAGS) -llua
