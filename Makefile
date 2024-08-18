@@ -101,7 +101,7 @@ install_headers/local: $(JEFF_H)
 	install -m 644 $(JEFF_INCDIR)/jstring.h $(HOME)/.local/include/jeff/jstring.h
 	install -m 644 $(JEFF_INCDIR)/jlua.h $(HOME)/.local/include/jeff/jlua.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h $(HOME)/.local/include/jeff/jlog.h
-	chown -Rcv $(USER)\:$(USER) $(HOME)/.local/include
+	chown -Rc $(USER)\:$(USER) $(HOME)/.local/include
 
 install_headers/global: $(JEFF_H)
 	mkdir -p /usr/include/jeff
@@ -119,6 +119,7 @@ install_libs/local/fast:
 	install -m 755 $(LIBDIR)/libjstring.so $(HOME)/.local/lib/libjstring.so
 	install -m 755 $(LIBDIR)/libjlua.so $(HOME)/.local/lib/libjlua.so
 	install -m 755 $(LIBDIR)/libjlog.so $(HOME)/.local/lib/libjlog.so
+	chown -R $(USER)\:$(USER) $(HOME)/.local/lib
 
 install_libs/fast:
 	install -m 755 $(LIBDIR)/libjdie.so /usr/lib/libjdie.so
@@ -130,6 +131,7 @@ install_libs/fast:
 
 install_libs/local/stripped: install_libs/local/fast
 	strip $(HOME)/.local/lib/libj{die,err,operators,string,lua,log}.so
+	chown -R $(USER)\:$(USER) $(HOME)/.local/lib
 
 install_libs/stripped: install_libs/fast
 	strip /usr/lib/libj{die,err,operators,string,lua,log}.so
