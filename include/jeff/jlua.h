@@ -47,7 +47,7 @@ typedef struct _jlua_state_buf {
   uint stack_len;
 } jlua_sbuf;
 
-static p_flags *PROGRAM_FLAGS;
+static p_flags *PROGRAM_FLAGS = NULL;
 
 lua_State *init_lua_state(void);
 void parse_argv(const uint argc, char **argv);
