@@ -1,4 +1,6 @@
 ASSET_DIR := $(HOME)/.local/share/jassets
+ASDIR := assembly
+CPPDIR := preproc
 BINDIR := bin
 INCDIR := include
 LIBDIR := lib
@@ -128,9 +130,7 @@ LUA_LDFLAGS = $(LDFLAGS) \
 LUA_H = $(JEFF_INCDIR)/jlua.h
 LUA_ACTIONS = lua_1
 
-ACTIONS = $(LIBDIR) \
-		  $(OBJDIR) \
-		  $(BINDIR) \
+ACTIONS = dirs \
 		  $(JEFF_ACTIONS) \
 		  $(GTK_ACTIONS) \
 		  $(SDL_ACTIONS) \
