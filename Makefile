@@ -2,7 +2,8 @@ SHELL = /bin/bash
 
 include config.mk
 
-all: $(ACTIONS)
+all: $(ALL_DIRS) $(ACTIONS)
+	chown -R drjeff16\:drjeff16 $(ALL_DIRS)
 
 dirs: $(ASDIR) \
 	$(CPPDIR) \

@@ -10,6 +10,16 @@ LIBDIR := lib
 OBJDIR := obj
 SRCDIR := src
 
+ALL_DIRS = $(ASDIR) \
+		   $(ASSET_DIR) \
+		   $(BINDIR) \
+		   $(CPPDIR) \
+		   $(CPPDIR) \
+		   $(INCDIR) \
+		   $(LIBDIR) \
+		   $(OBJDIR) \
+		   $(SRCDIR)
+
 CPPFLAGS = -Iinclude -DNDEBUG -D_GNU_SOURCE
 CFLAGS = $(CPPFLAGS) -march=znver3 -pipe -g -ggdb -O2 -Wall -pedantic -pthread
 CXXFLAGS = $(CFLAGS) -D_GLIBCXX_ASSERTIONS
