@@ -1,14 +1,14 @@
-#include <jeff/jeff.h>      // for _jbool, die, err
-#include <jeff/jlua.h>      // for p_flags, k_flags, init_lua, parse_argv
-#include <jeff/jmemory.h>   // for MALLOC
-#include <lauxlib.h>        // for luaL_newstate
-#include <lua.h>            // for lua_State, lua_close
-#include <lualib.h>         // for luaL_openlibs
-#include <stdarg.h>         // for va_list, va_start
-#include <stdio.h>          // for printf, NULL
-#include <stdlib.h>         // for free
-#include <string.h>         // for strcmp
-#include <sys/types.h>      // for uint
+#include <jeff/jeff.h>
+#include <jeff/jlua.h>
+#include <jeff/jmemory.h>
+#include <lauxlib.h>
+#include <lua.h>
+#include <lualib.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
 
 extern p_flags *PROGRAM_FLAGS;
 
