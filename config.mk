@@ -20,8 +20,12 @@ ALL_DIRS = $(ASDIR) \
 		   $(OBJDIR) \
 		   $(SRCDIR)
 
-CPPFLAGS = -Iinclude -DNDEBUG -D_GNU_SOURCE
-CFLAGS = $(CPPFLAGS) -march=znver3 -pipe -g -ggdb -O2 -Wall -pedantic -pthread
+CPPFLAGS = -Iinclude \
+		   -DNDEBUG \
+		   -D_GNU_SOURCE
+CFLAGS = $(CPPFLAGS) -march=znver3 -pipe \
+		 -O2 -g -ggdb \
+		 -Wall -pedantic -pthread
 CXXFLAGS = $(CFLAGS) -D_GLIBCXX_ASSERTIONS
 LDFLAGS = -Llib -ljerr -ljdie -ljoperators -ljstring -ljlog -lc -lm
 
