@@ -175,6 +175,7 @@ jlua_op_buf *pop_op_buf(jlua_op_buf *ptr, lua_State *L) {
   jlua_op_buf *last = last_op_buf(ptr, L);
   jlua_op_buf *new_last = last->_prev;
 
+  last->_prev = NULL;
   new_last->_next = NULL;
 
   return last;
