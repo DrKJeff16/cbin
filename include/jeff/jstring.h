@@ -10,8 +10,8 @@ extern "C" {
 #include "jeff.h"
 
 typedef struct _char_ptrs {
-  char *s1;
-  char *s2;
+  const char *s1;
+  const char *s2;
 } char_ptrs;
 
 void str_append_nul(char *str);

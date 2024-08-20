@@ -10,6 +10,8 @@
 #include <jeff/jstring.h>
 #include <jeff/jmisc.h>
 
+const char logfile[9] = "misc.log";
+
 char **filter_argv(const uint argc, char **argv) {
   if (argc <= 1) {
     return NULL;
@@ -27,35 +29,43 @@ char **filter_argv(const uint argc, char **argv) {
 
 int main(int argc, char **argv) {
   char **args = filter_argv((uint)argc, argv);
+  char ***new_args = CALLOC(char **, 2);
+  new_args[0] = args;
+  new_args[1] = argv;
 
-  int fd = open("misc.log", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+  new_args[0] = NULL;
+  new_args[1] = NULL;
 
-  if (fd < 0) {
-    die(1, "File descriptor unavailable");
+  int fd = 0;
+
+  if ((fd = open(logfile, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) < 0) {
+    free(new_args);
+    vdie(1, "File descriptor unavailable (%d)\n", fd);
   }
 
-  if (args == NULL) {
+  if (!args || args == NULL) {
     if (fd > 0) {
       fdlog(fd, "No arguments given\n");
       close(fd);
     }
 
+    free(new_args);
     die(1, "No arguments given");
   }
 
   for (uint i = 0; i < (uint)argc - 1; i++) {
-    if (!(fd < 0)) {
-      fdlog(fd, args[i]);
-      fdlog(fd, "\n");
-    }
+    fdlog(fd, args[i]);
+    fdlog(fd, "\n");
 
     printf("%s\n", args[i]);
   }
 
   if (close(fd) < 0) {
-    die(1, "File descriptor couldn't be closed");
+    free(new_args);
+    vdie(1, "File descriptor couldn't be closed (%d)\n", fd);
   }
 
+  free(new_args);
   die(0, NULL);
 }
 

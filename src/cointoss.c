@@ -16,71 +16,82 @@ void seed(void) {
   }
 }
 
-void decide(const uint x, CHOICES *c) {
+void decide(const jbool x, CHOICES *c) {
   switch (x) {
-    case 1:
+    case JTRUE:
       c->HEADS++;
       break;
-    case 0:
+    case JFALSE:
     default:
       c->TAILS++;
       break;
   }
 }
 
-void final_decide(CHOICES *c, char *tails_msg, char *heads_msg) {
+void final_decide(const CHOICES *c, char **coin) {
+  if (!coin || coin == NULL) {
+    vdie(1, "No coin to print\n");
+  }
+
   if (c->HEADS > c->TAILS) {
-    printf("%s\n", tails_msg);
+    printf("%s\n", coin[1]);
   } else if (c->TAILS > c->HEADS) {
-    printf("%s\n", heads_msg);
+    printf("%s\n", coin[0]);
   } else {
-    char **msgs = CALLOC(char *, 2);
-    char **og = msgs;
-
-    *msgs = tails_msg;
-    ++msgs;
-    *msgs = heads_msg;
-    msgs = og;
-
-    printf("%s\n", msgs[toss()]);
-
-    free(msgs);
+    printf("%s\n", coin[toss()]);
   }
 }
 
-uint toss(void) {
-  return (uint)(rand() % 2);
+jbool toss(void) {
+  return (jbool)(rand() % 2);
 }
 
 int main(int argc, char **argv) {
   argc--;
 
-  if (argc < 2) {
-    vdie(127, "(main): %s\n", "Need two arguments");
+  if (argc != 2) {
+    vdie(127, "(main): %s\n", "Need two arguments, no more, no less");
   }
 
   seed();
-
-  char *tails_msg, *heads_msg;
-  char **argv_og = argv;
-
-  argv++;
-  tails_msg = *argv;
-  argv++;
-  heads_msg = *argv;
-
-  argv = argv_og;
 
   CHOICES *c = MALLOC(CHOICES);
   c->TAILS = 0;
   c->HEADS = 0;
 
-  for (unsigned long long i = 0L; i < 100000L; i++) {
+  char **coin = CALLOC(char *, 2);
+  for (uint i = 0; i < 2; i++) {
+    coin[i] = CALLOC(char, 512);
+  }
+
+  for (uint i = 0; i < 2; i++) {
+    if (stpcpy(coin[i], argv[i + 1]) == NULL) {
+      free(coin[1]);
+      free(coin[0]);
+      free(coin);
+      free(c);
+      vdie(2, "Unable to copy string to new array");
+    }
+  }
+
+  size_t *lengths = CALLOC(size_t, 2);
+  for (uint i = 0; i < 2; i++) {
+    lengths[i] = strlen(coin[i]) + 1;
+  }
+
+  for (uint i = 0; i < 2; i++) {
+    coin[i] = REALLOC(coin[i], char, lengths[i]);
+  }
+
+  for (J_UULONG i = 0L; i < 100000L; i++) {
     decide(toss(), c);
   }
 
-  final_decide(c, tails_msg, heads_msg);
+  final_decide(c, coin);
 
+  free(coin[1]);
+  free(coin[0]);
+  free(coin);
   free(c);
 
   return 0;
