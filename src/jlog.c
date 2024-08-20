@@ -1,9 +1,9 @@
 #include <fcntl.h>
-#include <jeff/jeff.h>
-#include <jeff/jlog.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <jeff/jeff.h>
+#include <jeff/jlog.h>
 
 int fdlog(int fd, const char *msg) {
   if (fd < 0) {

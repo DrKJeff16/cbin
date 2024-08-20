@@ -10,8 +10,8 @@ extern "C" {
 #include "jeff.h"
 
 typedef enum __j_fdflags {
-  APPEND = 1,
   OVERWRITE = 0,
+  APPEND = 1,
 } j_fdflag;
 
 int fdlog(int fd, const char *msg);

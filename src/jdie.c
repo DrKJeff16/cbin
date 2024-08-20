@@ -1,7 +1,7 @@
-#include <jeff/jeff.h>  // for err, die, exec_vdie, vdie
 #include <stdarg.h>     // for va_end, va_start
 #include <stdio.h>      // for NULL, vfprintf, FILE, printf, stderr
 #include <stdlib.h>     // for exit
+#include <jeff/jeff.h>  // for err, die, exec_vdie, vdie
 
 void die(const int status, const char *msg) {
   if (msg != NULL && status) {  /// If status is not 0 and message is available

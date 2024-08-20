@@ -1,10 +1,9 @@
-#include <errno.h>
-#include <jeff/jeff.h>
-#include <jeff/jmemory.h>
-#include <jeff/jstring.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <jeff/jeff.h>
+#include <jeff/jmemory.h>
+#include <jeff/jstring.h>
 
 void str_append_nul(char *str) {
   char *new_str = NULL;

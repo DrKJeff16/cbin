@@ -1,8 +1,9 @@
+#include <lua.h>    // for lua_State
+#include <stdio.h>  // for NULL, size_t
+#include <stdlib.h>
 #include <jeff/jeff.h>     // for err
 #include <jeff/jlua.h>     // for jlua_op_buf, _jlua_op, jlua_sbuf, __jlua_o...
 #include <jeff/jmemory.h>  // for MALLOC
-#include <lua.h>           // for lua_State
-#include <stdio.h>         // for NULL, size_t
 
 jlua_sbuf *init_jlua_sbuf(lua_State *L, const size_t stack_len) {
   jlua_sbuf *buffer = MALLOC(jlua_sbuf);

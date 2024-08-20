@@ -1,11 +1,10 @@
-#include <gio/gio.h>        // for g_application_run, G_APPLICATION, G_AP...
-#include <glib-object.h>    // for g_object_unref, g_signal_connect
-#include <glib.h>           // for gpointer
-#include <gtk/gtk.h>        // for GTK_WINDOW, GtkApplication, gtk_applic...
-#include <jeff/jeff_gtk.h>  // for activate
-#include <stddef.h>         // for NULL
-
-#include "gobject/gclosure.h"  // for G_CALLBACK
+#include <gio/gio.h>           // for g_application_run, G_APPLICATION, G_AP...
+#include <glib-object.h>       // for g_object_unref, g_signal_connect
+#include <glib.h>              // for gpointer
+#include <gtk/gtk.h>           // for GTK_WINDOW, GtkApplication, gtk_applic...
+#include <stdlib.h>            // for NULL
+#include <gobject/gclosure.h>  // for G_CALLBACK
+#include <jeff/jeff_gtk.h>     // for activate
 
 const char app_id[] = "org.gtk.example";
 

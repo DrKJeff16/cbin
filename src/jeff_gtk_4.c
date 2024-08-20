@@ -1,11 +1,10 @@
-#include <gio/gio.h>        // for g_application_run, G_APPLICATION, G_AP...
-#include <glib-object.h>    // for g_object_unref, g_signal_connect, GObject
-#include <glib.h>           // for g_print, gpointer, TRUE
-#include <gtk/gtk.h>        // for gtk_builder_get_object, GtkApplication
-#include <jeff/jeff_gtk.h>  // for activate, print_hello, print_hello_rev...
-#include <stdlib.h>         // for NULL
-
-#include "gobject/gclosure.h"  // for G_CALLBACK
+#include <gio/gio.h>           // for g_application_run, G_APPLICATION, G_AP...
+#include <glib-object.h>       // for g_object_unref, g_signal_connect, GObject
+#include <glib.h>              // for g_print, gpointer, TRUE
+#include <gtk/gtk.h>           // for gtk_builder_get_object, GtkApplication
+#include <stdlib.h>            // for NULL
+#include <gobject/gclosure.h>  // for G_CALLBACK
+#include <jeff/jeff_gtk.h>     // for activate, print_hello, print_hello_rev...
 
 void print_hello(GtkWidget *widget, gpointer data) { g_print("Hello World!\n"); }
 

@@ -5,9 +5,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
-static void printing(void);
-static void moving_and_sleeping(void);
-static void colourizing(void);
+void printing(void);
+void moving_and_sleeping(void);
+void colourizing(void);
 
 #ifdef __cplusplus
 }

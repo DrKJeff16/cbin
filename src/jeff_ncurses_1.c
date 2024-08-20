@@ -1,5 +1,5 @@
-#include <jeff/jeff_ncurses.h>
 #include <ncurses.h>
+#include <jeff/jeff_ncurses.h>
 
 void printing(void) {
   addstr("Printed using addstr.\n\n");

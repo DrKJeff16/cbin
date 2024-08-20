@@ -9,10 +9,10 @@
 #include <SDL2/SDL_surface.h>   // for SDL_FreeSurface, SDL_Surface
 #include <SDL2/SDL_timer.h>     // for SDL_Delay
 #include <SDL2/SDL_video.h>     // for SDL_Window, SDL_CreateWindow, SDL_Destr...
-#include <jeff/jeff.h>          // for err, JEFF_H
-#include <jeff/jeff_sdl.h>      // for default_renderer, default_win
-#include <jeff/jmemory.h>       // for CALLOC
 #include <stdlib.h>             // for NULL
+#include <jeff/jeff.h>          // for err, JEFF_H
+#include <jeff/jmemory.h>       // for CALLOC
+#include <jeff/jeff_sdl.h>      // for default_renderer, default_win
 
 SDL_Window *default_win(void) {
   return SDL_CreateWindow("GAME", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 1000, 0);
