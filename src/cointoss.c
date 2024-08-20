@@ -46,7 +46,9 @@ void final_decide(CHOICES *c, char *tails_msg, char *heads_msg) {
   }
 }
 
-uint toss(void) { return (uint)(rand() % 2); }
+uint toss(void) {
+  return (uint)(rand() % 2);
+}
 
 int main(int argc, char **argv) {
   argc--;

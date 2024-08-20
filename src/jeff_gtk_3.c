@@ -6,7 +6,9 @@
 #include <gobject/gclosure.h>  // for G_CALLBACK
 #include <jeff/jeff_gtk.h>     // for activate, print_hello
 
-void print_hello(GtkWidget *widget, gpointer user_data) { g_print("Hello World!\n"); }
+void print_hello(GtkWidget *widget, gpointer user_data) {
+  g_print("Hello World!\n");
+}
 
 void activate(GtkApplication *app, gpointer data) {
   GtkWidget *window, *grid, *button;

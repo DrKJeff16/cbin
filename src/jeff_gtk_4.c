@@ -6,11 +6,17 @@
 #include <gobject/gclosure.h>  // for G_CALLBACK
 #include <jeff/jeff_gtk.h>     // for activate, print_hello, print_hello_rev...
 
-void print_hello(GtkWidget *widget, gpointer data) { g_print("Hello World!\n"); }
+void print_hello(GtkWidget *widget, gpointer data) {
+  g_print("Hello World!\n");
+}
 
-void print_hello_reversed(GtkWidget *widget, gpointer data) { g_print("!dlroW olleH\n"); }
+void print_hello_reversed(GtkWidget *widget, gpointer data) {
+  g_print("!dlroW olleH\n");
+}
 
-void quit_cb(GtkWindow *window) { gtk_window_close(window); }
+void quit_cb(GtkWindow *window) {
+  gtk_window_close(window);
+}
 
 void activate(GtkApplication *app, gpointer user_data) {
   GtkBuilder *builder = gtk_builder_new();
