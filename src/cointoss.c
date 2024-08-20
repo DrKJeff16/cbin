@@ -1,20 +1,20 @@
 #include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
-/* #include <string.h> */
+#include <string.h>
 #include <time.h>
 #include <jeff/jeff.h>
 #include <jeff/jmemory.h>
 #include <jeff/cointoss.h>
 
-static void seed(jbool *seeded) {
+void seed(jbool *seeded) {
   if (!(*seeded)) {
     srand(time(NULL));
     *seeded = 1;
   }
 }
 
-static void decide(const uint x, CHOICES *c) {
+void decide(const uint x, CHOICES *c) {
   switch(x) {
     case 1:
       c->HEADS++;
@@ -26,7 +26,7 @@ static void decide(const uint x, CHOICES *c) {
   }
 }
 
-static void final_decide(CHOICES *c, char *tails_msg, char *heads_msg) {
+void final_decide(CHOICES *c, char *tails_msg, char *heads_msg) {
   if (c->HEADS > c->TAILS) {
     printf("%s\n", tails_msg);
   } else if (c->TAILS > c->HEADS) {
@@ -46,12 +46,6 @@ static void final_decide(CHOICES *c, char *tails_msg, char *heads_msg) {
   }
 }
 
-static char *error_msg(void) {
-  char *result = "Need two arguments";
-
-  return result;
-}
-
 uint toss(void) {
   return (uint)(rand() % 2);
 }
@@ -59,8 +53,8 @@ uint toss(void) {
 int main(int argc, char **argv) {
   argc--;
 
-  if (argc != 2) {
-    die(127, error_msg());
+  if (argc < 2) {
+    vdie(127, "(main): %s\n", "Need two arguments");
   }
 
   jbool *seeded = MALLOC(jbool);

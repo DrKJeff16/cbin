@@ -2,12 +2,16 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <jeff/jeff.h>
 #include <jeff/jmemory.h>
 #include <jeff/jmisc.h>
 #include <jeff/jlog.h>
+#include <jeff/jstring.h>
 
 char **filter_argv(const uint argc, char **argv) {
+
   if (argc <= 1) {
     return NULL;
   }
@@ -16,6 +20,7 @@ char **filter_argv(const uint argc, char **argv) {
 
   for (uint i = 1; i < (uint)argc; i++) {
     result[i - 1] = argv[i];
+    str_append_nul(result[i - 1]);
   }
 
   return result;

@@ -1,7 +1,3 @@
-#ifndef JEFF_H
-#error "Header `jeff.h` must be included first"
-#endif /* !JEFF_H */
-
 #ifndef COINTOSS_H
 #define COINTOSS_H
 
@@ -10,16 +6,16 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <sys/types.h>
+#include "jeff.h"
 
 typedef struct {
     uint TAILS;
     uint HEADS;
 } CHOICES;
 
-static void seed(jbool *seeded);
-static void decide(const uint x, CHOICES *c);
-static void final_decide(CHOICES *c, char *tails_msg, char *heads_msg);
-static char *error_msg(void);
+void seed(jbool *seeded);
+void decide(const uint x, CHOICES *c);
+void final_decide(CHOICES *c, char *tails_msg, char *heads_msg);
 uint toss(void);
 
 #ifdef __cplusplus

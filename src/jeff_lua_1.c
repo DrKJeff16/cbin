@@ -13,9 +13,33 @@
 extern p_flags *PROGRAM_FLAGS;
 
 const k_flags KEYWORD_FLAGS = {
-    .VERBOSE = "-v\0",
-    .LIBS = "-l\0",
+  .VERBOSE = "-v",
+  .LIBS = "-l",
 };
+
+static void stack_dump(lua_State *L) {
+  int i = 0, top = lua_gettop(L);
+
+  for (i = 1; i <= top; i++) { /* repeat for each level */
+    int t = lua_type(L, i);
+    switch (t) {
+      case LUA_TSTRING: /* strings */
+        printf("`%s'", lua_tostring(L, i));
+        break;
+      case LUA_TBOOLEAN: /* booleans */
+        printf(lua_toboolean(L, i) ? "true" : "false");
+        break;
+      case LUA_TNUMBER: /* numbers */
+        printf("%g", lua_tonumber(L, i));
+        break;
+      default: /* other values */
+        printf("%s", lua_typename(L, t));
+        break;
+    }
+    printf("  "); /* put a separator */
+  }
+  printf("\n"); /* end the listing */
+}
 
 void lua_err(lua_State *L, const char *fmt, ...) {
   va_list argp;
@@ -56,16 +80,21 @@ void parse_argv(const uint argc, char **argv) {
   }
 
   for (uint i = 1; i <= argc; i++) {
-    char *str = argv[i];
-
-    if (!strcmp(KEYWORD_FLAGS.VERBOSE, str)) {
-      PROGRAM_FLAGS->VERBOSE = JTRUE;
-    } else if (!strcmp(KEYWORD_FLAGS.LIBS, str)) {
-      PROGRAM_FLAGS->LIBS = JTRUE;
+    if (argv[i][0] != '-') {
+      continue;
     } else {
-      free(PROGRAM_FLAGS);
-      err("Invalid argument `%s`\n", str);
-      die(127, NULL);
+
+      char *str = argv[i];
+
+      if (!strcmp(KEYWORD_FLAGS.VERBOSE, str)) {
+        PROGRAM_FLAGS->VERBOSE = JTRUE;
+      } else if (!strcmp(KEYWORD_FLAGS.LIBS, str)) {
+        PROGRAM_FLAGS->LIBS = JTRUE;
+      } else {
+        free(PROGRAM_FLAGS);
+        verr("Invalid argument `%s`\n", str);
+        die(127, NULL);
+      }
     }
   }
 }
@@ -76,6 +105,34 @@ int main(int argc, char **argv) {
   argc--;
   parse_argv((uint)argc, argv);
   lua_State *L = init_lua_state();
+
+  stack_dump(L);
+  lua_pushboolean(L, JTRUE);
+  lua_pushnumber(L, 10.);
+  lua_pushnil(L);
+  lua_pushstring(L, "hello");
+  stack_dump(L);
+  /* true  10  nil  `hello'  */
+
+  lua_pushvalue(L, -4);
+  stack_dump(L);
+  /* true  10  nil  `hello'  true  */
+
+  lua_replace(L, 3);
+  stack_dump(L);
+  /* true  10  true  `hello'  */
+
+  lua_settop(L, 6);
+  stack_dump(L);
+  /* true  10  true  `hello'  nil  nil  */
+
+  lua_remove(L, -3);
+  stack_dump(L);
+  /* true  10  true  nil  nil  */
+
+  lua_settop(L, -5);
+  stack_dump(L);
+  /* true  */
 
   lua_close(L);
   return 0;

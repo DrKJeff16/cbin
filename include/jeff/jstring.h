@@ -6,15 +6,16 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <sys/types.h>
-#include <string.h>
-#include <jeff/jeff.h>
+#include "jeff.h"
 
 typedef struct _char_ptrs {
   char *s1;
   char *s2;
 } char_ptrs;
 
+void str_append_nul(char *str);
 jbool compare_two_strings(const char *s1, const char *s2);
+jbool compare_strv(const char **argv, const size_t len);
 
 #ifdef __cplusplus
 }

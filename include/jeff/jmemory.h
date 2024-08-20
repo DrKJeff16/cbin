@@ -16,7 +16,7 @@ extern "C" {
 #endif /* !CALLOC */
 
 #ifndef REALLOC
-#define REALLOC(ptr, type, n) (type*)realloc(ptr, sizeof(type) * n)
+#define REALLOC(ptr, type, n) (type*)realloc((void *)ptr, sizeof(type) * n)
 #endif /* !REALLOC */
 
 #ifdef __cplusplus
