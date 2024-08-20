@@ -14,6 +14,6 @@ repos:
       - id: remove-crlf
 
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: ''  # Use the sha / tag you want to point at
+    rev: v18.1.8  # Use the sha / tag you want to point at
     hooks:
     - id: clang-format
