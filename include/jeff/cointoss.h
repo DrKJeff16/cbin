@@ -16,8 +16,8 @@ typedef struct {
 
 void seed(void);
 void decide(const uint x, CHOICES *c);
-void final_decide(CHOICES *c, char *tails_msg, char *heads_msg);
 uint toss(void);
+void final_decide(CHOICES *c, char *tails_msg, char *heads_msg);
 
 static jbool SEEDED = JFALSE;
 

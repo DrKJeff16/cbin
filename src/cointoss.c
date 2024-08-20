@@ -7,6 +7,8 @@
 #include <jeff/jmemory.h>
 #include <jeff/cointoss.h>
 
+extern jbool SEEDED;
+
 void seed(void) {
   if (!(SEEDED)) {
     srand(time(NULL));
