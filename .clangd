@@ -77,6 +77,7 @@ CompileFlags:
       -xc,
     ]
   Remove: [-D_FORTIFY_SOURCE=*]
+  CompilationDatabase: .
   Compiler: gcc
 
 Index:
@@ -180,6 +181,7 @@ CompileFlags:
       -xc-header,
     ]
   Remove: [-D_FORTIFY_SOURCE=*]
+  CompilationDatabase: .
   Compiler: gcc
 
 Index:
@@ -285,6 +287,7 @@ CompileFlags:
       -xc++,
     ]
   Remove: [-D_FORTIFY_SOURCE=*]
+  CompilationDatabase: .
   Compiler: g++
 
 Index:
@@ -387,6 +390,7 @@ CompileFlags:
       -xc++-header,
     ]
   Remove: [-D_FORTIFY_SOURCE=*]
+  CompilationDatabase: .
   Compiler: g++
 
 Index:
