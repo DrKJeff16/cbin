@@ -75,7 +75,8 @@ jlua_op_buf *init_op_buf(lua_State *L);
  *
  * @param ptr The pointer to the linked list to be added
  *
- * @return The memory address of the appended struct, not any of the preceding ones
+ * @return The memory address of the appended struct, not any of the preceding
+ * ones
  */
 jlua_op_buf *append_op_buf(jlua_op_buf *ptr, lua_State *L);
 
@@ -85,7 +86,8 @@ J_UULONG lenof_op_buf(jlua_op_buf *ptr, lua_State *L);
  * Pop the last element of a jlua operation buffer
  *
  * @param ptr The pointer to the linked list to be added
- * @return The memory address of the appended struct, not any of the preceding ones
+ * @return The memory address of the appended struct, not any of the preceding
+ * ones
  */
 jlua_op_buf *pop_op_buf(jlua_op_buf *ptr,  lua_State *L);
 jlua_op_buf *insert_op_buf(jlua_op_buf *ptr, lua_State *L);
