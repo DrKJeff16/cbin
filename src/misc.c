@@ -12,21 +12,6 @@
 
 const char logfile[9] = "misc.log";
 
-char **filter_argv(const uint argc, char **argv) {
-  if (argc <= 1) {
-    return NULL;
-  }
-
-  char **result = CALLOC(char *, argc - 1);
-
-  for (uint i = 1; i < (uint)argc; i++) {
-    result[i - 1] = argv[i];
-    str_append_nul(result[i - 1]);
-  }
-
-  return result;
-}
-
 int main(int argc, char **argv) {
   char **args = filter_argv((uint)argc, argv);
   char ***new_args = CALLOC(char **, 2);

@@ -66,4 +66,19 @@ jbool compare_strv(const char **argv, const size_t len) {
   return JTRUE;
 }
 
+char **filter_argv(const uint argc, char **argv) {
+  if (argc <= 1) {
+    return NULL;
+  }
+
+  char **result = CALLOC(char *, argc - 1);
+
+  for (uint i = 1; i < (uint)argc; i++) {
+    result[i - 1] = argv[i];
+    str_append_nul(result[i - 1]);
+  }
+
+  return result;
+}
+
 /// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:

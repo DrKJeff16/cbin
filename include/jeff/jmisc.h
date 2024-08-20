@@ -10,8 +10,6 @@ extern "C" {
 int fd_open(char *filename);
 void fd_close(int fd);
 
-char **filter_argv(const uint argc, char **argv);
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
