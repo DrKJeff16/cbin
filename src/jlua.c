@@ -98,14 +98,14 @@ void kill_op_buf(jlua_op_buf *ptr, lua_State *L) {
   free(buf);
 }
 
-
 void new_op_buf(jlua_op_buf *prev_buf, lua_State *L, const J_UULONG *index) {
   if (!prev_buf || NULL == prev_buf) {
     err("(new_op_buf): %s\n", "Predecessor is NULL");
     return;
   }
 
-  prev_buf->_next = MALLOC(jlua_op_buf);;
+  prev_buf->_next = MALLOC(jlua_op_buf);
+  ;
   prev_buf->_next->_next = NULL;
   prev_buf->_next->_prev = prev_buf;
   prev_buf->_next->_type = JLUA_NIL;
@@ -178,3 +178,5 @@ jlua_op_buf *pop_op_buf(jlua_op_buf *ptr, lua_State *L) {
 
   return last;
 }
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:

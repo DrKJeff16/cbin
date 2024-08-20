@@ -14,3 +14,5 @@ static void colourizing(void);
 #endif /* __cplusplus */
 
 #endif /* !JEFF_NCURSES_H */
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:

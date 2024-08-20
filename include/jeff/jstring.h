@@ -6,6 +6,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <sys/types.h>
+
 #include "jeff.h"
 
 typedef struct _char_ptrs {
@@ -22,3 +23,5 @@ jbool compare_strv(const char **argv, const size_t len);
 #endif /* __cplusplus */
 
 #endif /* !JSTRING_H */
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:

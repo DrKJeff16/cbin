@@ -7,6 +7,7 @@ extern "C" {
 
 #include <lua.h>
 #include <sys/types.h>
+
 #include "jeff.h"
 
 typedef struct _p_flags {
@@ -89,7 +90,7 @@ J_UULONG lenof_op_buf(jlua_op_buf *ptr, lua_State *L);
  * @return The memory address of the appended struct, not any of the preceding
  * ones
  */
-jlua_op_buf *pop_op_buf(jlua_op_buf *ptr,  lua_State *L);
+jlua_op_buf *pop_op_buf(jlua_op_buf *ptr, lua_State *L);
 jlua_op_buf *insert_op_buf(jlua_op_buf *ptr, lua_State *L);
 void lua_op(lua_State *L, jlua_op_buf *buf);
 
@@ -101,3 +102,5 @@ void init_jlua_sbuf_subproc(jlua_sbuf *buffer, lua_State *L, jbool detached);
 #endif /* __cplusplus */
 
 #endif /* !JEFF_LUA_H */
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:

@@ -1,14 +1,13 @@
-#include <gio/gio.h>           // for g_application_run, G_APPLICATION, G_AP...
-#include <glib-object.h>       // for g_object_unref, g_signal_connect, g_si...
-#include <glib.h>              // for g_print, gpointer
-#include <gtk/gtk.h>           // for GTK_WINDOW, GtkWidget, GTK_ALIGN_CENTER
-#include <jeff/jeff_gtk.h>     // for activate, print_hello
-#include <stddef.h>            // for NULL
+#include <gio/gio.h>        // for g_application_run, G_APPLICATION, G_AP...
+#include <glib-object.h>    // for g_object_unref, g_signal_connect, g_si...
+#include <glib.h>           // for g_print, gpointer
+#include <gtk/gtk.h>        // for GTK_WINDOW, GtkWidget, GTK_ALIGN_CENTER
+#include <jeff/jeff_gtk.h>  // for activate, print_hello
+#include <stddef.h>         // for NULL
+
 #include "gobject/gclosure.h"  // for G_CALLBACK
 
-void print_hello(GtkWidget *widget, gpointer data) {
-  g_print("Hello World!\n");
-}
+void print_hello(GtkWidget *widget, gpointer data) { g_print("Hello World!\n"); }
 
 void activate(GtkApplication *app, gpointer user_data) {
   GtkWidget *window, *button, *box;
@@ -42,3 +41,5 @@ int main(int argc, char **argv) {
 
   return status;
 }
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:

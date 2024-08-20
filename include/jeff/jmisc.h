@@ -17,3 +17,5 @@ char **filter_argv(const uint argc, char **argv);
 #endif /* __cplusplus */
 
 #endif /* !JMISC_H */
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:

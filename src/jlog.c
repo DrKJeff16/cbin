@@ -14,16 +14,16 @@ int fdlog(int fd, const char *msg) {
   return write(fd, msg, strnlen(msg, 1024));
 }
 
-int log_to_file(const char *path, const unsigned long long buf_max,
-                const char *msg, const jbool need_fd) {
+int log_to_file(const char *path, const unsigned long long buf_max, const char *msg,
+                const jbool need_fd) {
   if (msg == NULL) {
     verr("(log_to_file): %s\n", "No message was given to log");
     return -1;
   }
 
   int logfile_fd = -1;
-  if ((logfile_fd = open(path, O_CREAT | O_RDWR | O_TRUNC,
-                         S_IRUSR | S_IWUSR | S_IROTH | S_IRGRP)) < 0) {
+  if ((logfile_fd = open(path, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IROTH | S_IRGRP)) <
+      0) {
     verr("Unable to write log to file: %s\n", path);
     return -1;
   }
@@ -42,3 +42,5 @@ int log_to_file(const char *path, const unsigned long long buf_max,
     return 0;
   }
 }
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:

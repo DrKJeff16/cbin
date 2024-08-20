@@ -1,10 +1,10 @@
 #include <errno.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
 #include <jeff/jeff.h>
 #include <jeff/jmemory.h>
 #include <jeff/jstring.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 void str_append_nul(char *str) {
   char *new_str = NULL;
@@ -66,3 +66,5 @@ jbool compare_strv(const char **argv, const size_t len) {
 
   return JTRUE;
 }
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:

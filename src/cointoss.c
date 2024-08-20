@@ -7,15 +7,15 @@
 #include <jeff/jmemory.h>
 #include <jeff/cointoss.h>
 
-void seed(jbool *seeded) {
-  if (!(*seeded)) {
+void seed(void) {
+  if (!(SEEDED)) {
     srand(time(NULL));
-    *seeded = 1;
+    SEEDED = JTRUE;
   }
 }
 
 void decide(const uint x, CHOICES *c) {
-  switch(x) {
+  switch (x) {
     case 1:
       c->HEADS++;
       break;
@@ -32,7 +32,7 @@ void final_decide(CHOICES *c, char *tails_msg, char *heads_msg) {
   } else if (c->TAILS > c->HEADS) {
     printf("%s\n", heads_msg);
   } else {
-    char **msgs = CALLOC(char*, 2);
+    char **msgs = CALLOC(char *, 2);
     char **og = msgs;
 
     *msgs = tails_msg;
@@ -46,9 +46,7 @@ void final_decide(CHOICES *c, char *tails_msg, char *heads_msg) {
   }
 }
 
-uint toss(void) {
-  return (uint)(rand() % 2);
-}
+uint toss(void) { return (uint)(rand() % 2); }
 
 int main(int argc, char **argv) {
   argc--;
@@ -57,17 +55,14 @@ int main(int argc, char **argv) {
     vdie(127, "(main): %s\n", "Need two arguments");
   }
 
-  jbool *seeded = MALLOC(jbool);
-  *seeded = JFALSE;
-
-  seed(seeded);
+  seed();
 
   char *tails_msg, *heads_msg;
   char **argv_og = argv;
 
-  (++argv);
+  argv++;
   tails_msg = *argv;
-  (++argv);
+  argv++;
   heads_msg = *argv;
 
   argv = argv_og;
@@ -76,14 +71,15 @@ int main(int argc, char **argv) {
   c->TAILS = 0;
   c->HEADS = 0;
 
-  for (unsigned long long i = 0L; i < 100000L; i++ ){
+  for (unsigned long long i = 0L; i < 100000L; i++) {
     decide(toss(), c);
   }
 
   final_decide(c, tails_msg, heads_msg);
 
   free(c);
-  free(seeded);
 
   return 0;
 }
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:

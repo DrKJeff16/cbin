@@ -1,12 +1,12 @@
-#include <stdarg.h>           // for va_end, va_start
-#include <jeff/jeff.h>        // for err, die, exec_vdie, vdie
-#include <stdio.h>            // for NULL, vfprintf, FILE, printf, stderr
-#include <stdlib.h>           // for exit
+#include <jeff/jeff.h>  // for err, die, exec_vdie, vdie
+#include <stdarg.h>     // for va_end, va_start
+#include <stdio.h>      // for NULL, vfprintf, FILE, printf, stderr
+#include <stdlib.h>     // for exit
 
 void die(const int status, const char *msg) {
-  if (msg != NULL && status) { /// If status is not 0 and message is available
+  if (msg != NULL && status) {  /// If status is not 0 and message is available
     err(NULL, msg);
-  } else if (msg != NULL) { /// If status is 0 and message is available
+  } else if (msg != NULL) {  /// If status is 0 and message is available
     printf("%s\n", msg);
   }
 
@@ -54,3 +54,5 @@ void exec_vdie(const int status, void (*fun)(void), const char *fmt, ...) {
 
   die(status, NULL);
 }
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:

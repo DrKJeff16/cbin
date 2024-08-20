@@ -1,6 +1,6 @@
-#include <stdarg.h>           // for va_end, va_start
-#include <jeff/jeff.h>        // for err, exec_verr, verr
-#include <stdio.h>            // for fprintf, stderr, vfprintf, NULL, va_list
+#include <jeff/jeff.h>  // for err, exec_verr, verr
+#include <stdarg.h>     // for va_end, va_start
+#include <stdio.h>      // for fprintf, stderr, vfprintf, NULL, va_list
 
 void err(const char *fmt, const char *msg) {
   if (msg != NULL) {
@@ -29,3 +29,5 @@ void exec_verr(void (*fun)(void), const char *fmt, ...) {
 
   fun();
 }
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:

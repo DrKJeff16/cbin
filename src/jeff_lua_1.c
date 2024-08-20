@@ -1,14 +1,14 @@
-#include <jeff/jeff.h>    // for _jbool, die, err
-#include <jeff/jlua.h>    // for p_flags, init_lua_state, k_flags, lua_err
-#include <jeff/jmemory.h> // for MALLOC
-#include <lauxlib.h>      // for luaL_newstate
-#include <lua.h>          // for lua_State, lua_close
-#include <lualib.h>       // for luaL_openlibs
-#include <stdarg.h>       // for va_end, va_start
-#include <stdio.h>        // for printf, vfprintf, NULL, stderr, va_list
-#include <stdlib.h>       // for free, exit, EXIT_FAILURE
-#include <string.h>       // for strcmp
-#include <sys/types.h>    // for uint
+#include <jeff/jeff.h>     // for _jbool, die, err
+#include <jeff/jlua.h>     // for p_flags, init_lua_state, k_flags, lua_err
+#include <jeff/jmemory.h>  // for MALLOC
+#include <lauxlib.h>       // for luaL_newstate
+#include <lua.h>           // for lua_State, lua_close
+#include <lualib.h>        // for luaL_openlibs
+#include <stdarg.h>        // for va_end, va_start
+#include <stdio.h>         // for printf, vfprintf, NULL, stderr, va_list
+#include <stdlib.h>        // for free, exit, EXIT_FAILURE
+#include <string.h>        // for strcmp
+#include <sys/types.h>     // for uint
 
 extern p_flags *PROGRAM_FLAGS;
 
@@ -83,7 +83,6 @@ void parse_argv(const uint argc, char **argv) {
     if (argv[i][0] != '-') {
       continue;
     } else {
-
       char *str = argv[i];
 
       if (!strcmp(KEYWORD_FLAGS.VERBOSE, str)) {
@@ -137,3 +136,5 @@ int main(int argc, char **argv) {
   lua_close(L);
   return 0;
 }
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:

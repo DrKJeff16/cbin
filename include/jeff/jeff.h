@@ -14,23 +14,23 @@ typedef enum _jbool {
 
 #ifndef J_UULONG
 #define J_UULONG unsigned long long
-#endif // !J_UULONG
+#endif  // !J_UULONG
 
 #ifndef J_ULONG
 #define J_ULONG unsigned long
-#endif // !J_ULONG
+#endif  // !J_ULONG
 
 #ifndef J_UINT
 #define J_UINT unsigned int
-#endif // !J_UINT
+#endif  // !J_UINT
 
 #ifndef J_LUINT
 #define J_LUINT long unsigned int
-#endif // !J_LUINT
+#endif  // !J_LUINT
 
 #ifndef J_UCHAR
 #define J_UCHAR unsigned char
-#endif // !J_UCHAR
+#endif  // !J_UCHAR
 
 #ifndef PI
 #define PI 3.14159
@@ -54,3 +54,5 @@ void exec_vdie(const int status, void (*fun)(void), const char *fmt, ...);
 #endif /* __cplusplus */
 
 #endif /* !JEFF_H */
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:

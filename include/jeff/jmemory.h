@@ -8,15 +8,15 @@ extern "C" {
 #include <stdlib.h>
 
 #ifndef MALLOC
-#define MALLOC(type) (type*)malloc(sizeof(type))
+#define MALLOC(type) (type *)malloc(sizeof(type))
 #endif /* !MALLOC */
 
 #ifndef CALLOC
-#define CALLOC(type, n) (type*)calloc(n, sizeof(type))
+#define CALLOC(type, n) (type *)calloc(n, sizeof(type))
 #endif /* !CALLOC */
 
 #ifndef REALLOC
-#define REALLOC(ptr, type, n) (type*)realloc((void *)ptr, sizeof(type) * n)
+#define REALLOC(ptr, type, n) (type *)realloc((void *)ptr, sizeof(type) * n)
 #endif /* !REALLOC */
 
 #ifdef __cplusplus
@@ -24,3 +24,5 @@ extern "C" {
 #endif /* __cplusplus */
 
 #endif /* !JMEMORY_H */
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:

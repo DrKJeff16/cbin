@@ -5,9 +5,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <sys/types.h>
 #include <GL/glut.h>
 #include <GLFW/glfw3.h>
+#include <sys/types.h>
 
 typedef struct _gl_rgba {
   double red;
@@ -39,3 +39,5 @@ void window_run(GLFWwindow *window);
 #endif /* __cplusplus */
 
 #endif /* !JEFF_GL_H */
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:

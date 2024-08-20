@@ -1,22 +1,21 @@
-#include <sys/types.h>
-#include <unistd.h>
 #include <fcntl.h>
+#include <jeff/jeff.h>
+#include <jeff/jlog.h>
+#include <jeff/jmemory.h>
+#include <jeff/jmisc.h>
+#include <jeff/jstring.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <jeff/jeff.h>
-#include <jeff/jmemory.h>
-#include <jeff/jmisc.h>
-#include <jeff/jlog.h>
-#include <jeff/jstring.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 char **filter_argv(const uint argc, char **argv) {
-
   if (argc <= 1) {
     return NULL;
   }
 
-  char **result = CALLOC(char*, argc - 1);
+  char **result = CALLOC(char *, argc - 1);
 
   for (uint i = 1; i < (uint)argc; i++) {
     result[i - 1] = argv[i];
@@ -29,7 +28,7 @@ char **filter_argv(const uint argc, char **argv) {
 int main(int argc, char **argv) {
   char **args = filter_argv((uint)argc, argv);
 
-  int fd = open("misc.log",  O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+  int fd = open("misc.log", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 
   if (fd < 0) {
     die(1, "File descriptor unavailable");
@@ -59,3 +58,5 @@ int main(int argc, char **argv) {
 
   die(0, NULL);
 }
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:

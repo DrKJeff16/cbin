@@ -1,12 +1,13 @@
-#include <cairo.h>             // for cairo_create, cairo_destroy, cairo_paint
-#include <gdk/gdk.h>           // for GdkSurface, gdk_surface_create_similar...
-#include <gio/gio.h>           // for g_application_run, G_APPLICATION, G_AP...
-#include <glib-object.h>       // for g_signal_connect, g_object_unref, g_si...
-#include <glib.h>              // for gpointer
-#include <gtk/gtk.h>           // for GtkWidget, gtk_gesture_single_set_button
-#include <jeff/jeff_gtk.h>     // for activate, clear_surface, close_window
-#include <jeff/jmemory.h>      // for MALLOC
-#include <stdlib.h>            // for NULL, free
+#include <cairo.h>          // for cairo_create, cairo_destroy, cairo_paint
+#include <gdk/gdk.h>        // for GdkSurface, gdk_surface_create_similar...
+#include <gio/gio.h>        // for g_application_run, G_APPLICATION, G_AP...
+#include <glib-object.h>    // for g_signal_connect, g_object_unref, g_si...
+#include <glib.h>           // for gpointer
+#include <gtk/gtk.h>        // for GtkWidget, gtk_gesture_single_set_button
+#include <jeff/jeff_gtk.h>  // for activate, clear_surface, close_window
+#include <jeff/jmemory.h>   // for MALLOC
+#include <stdlib.h>         // for NULL, free
+
 #include "gobject/gclosure.h"  // for G_CALLBACK
 
 static cairo_surface_t *surface = NULL;
@@ -27,12 +28,14 @@ void resize_cb(GtkWidget *widget, const int width, const int height, gpointer da
     surface = NULL;
   }
 
-  GdkSurface **single_surface = MALLOC(GdkSurface*);
+  GdkSurface **single_surface = MALLOC(GdkSurface *);
 
   *single_surface = gtk_native_get_surface(gtk_widget_get_native(widget));
 
   if (*single_surface) {
-    surface = gdk_surface_create_similar_surface(*single_surface, CAIRO_CONTENT_COLOR_ALPHA, gtk_widget_get_width(widget), gtk_widget_get_height(widget));
+    surface = gdk_surface_create_similar_surface(*single_surface, CAIRO_CONTENT_COLOR_ALPHA,
+                                                 gtk_widget_get_width(widget),
+                                                 gtk_widget_get_height(widget));
 
     clear_surface();
   }
@@ -40,7 +43,8 @@ void resize_cb(GtkWidget *widget, const int width, const int height, gpointer da
   free(single_surface);
 }
 
-void draw_cb(GtkDrawingArea *drawing_area, cairo_t *cr, const int width, const int height, gpointer data) {
+void draw_cb(GtkDrawingArea *drawing_area, cairo_t *cr, const int width, const int height,
+             gpointer data) {
   cairo_set_source_surface(cr, surface, 0, 0);
   cairo_paint(cr);
 }
@@ -73,7 +77,8 @@ void drag_end(GtkGestureDrag *gesture, const double x, const double y, GtkWidget
   draw_brush(area, start_x + x, start_y + y);
 }
 
-void pressed(GtkGestureClick *gesture, const int n_press, const double x, const double y, GtkWidget *area) {
+void pressed(GtkGestureClick *gesture, const int n_press, const double x, const double y,
+             GtkWidget *area) {
   clear_surface();
   gtk_widget_queue_draw(area);
 }
@@ -131,3 +136,5 @@ int main(int argc, char **argv) {
 
   return status;
 }
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:

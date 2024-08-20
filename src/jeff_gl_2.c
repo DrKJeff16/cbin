@@ -35,7 +35,8 @@ void glew_init(GLFWwindow *window) {
 }
 
 uint esc_not_pressed(GLFWwindow *window) {
-  return (uint)((glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && !glfwWindowShouldClose(window)));
+  return (
+    uint)((glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && !glfwWindowShouldClose(window)));
 }
 
 void window_run(GLFWwindow *window) {
@@ -59,3 +60,5 @@ int main(int argc, char **argv) {
 
   return 0;
 }
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:noet:
