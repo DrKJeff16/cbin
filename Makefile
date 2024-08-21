@@ -215,7 +215,7 @@ clean:
 	rm -rf *.o *.i *.s *.S $(OBJDIR) $(ASDIR) $(CPPDIR)
 
 distclean: clean
-	rm -rf $(BINDIR) *.so *.a $(LIBDIR) build compile_commands.json
+	rm -rf $(BINDIR) *.so *.a $(LIBDIR) build compile_commands.json *.log
 
 
 .PHONY: all \
