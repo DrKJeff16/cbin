@@ -2,16 +2,8 @@
 #include <stdio.h>  // for NULL, size_t
 #include <stdlib.h>
 #include <jeff/jeff.h>     // for err
-#include <jeff/jlua.h>     // for jlua_op_buf, _jlua_op, jlua_sbuf, __jlua_o...
+#include <jeff/jlua.h>     // for jlua_op_buf, _jlua_op, __jlua_o...
 #include <jeff/jmemory.h>  // for MALLOC
-
-jlua_sbuf *init_jlua_sbuf(lua_State *L, const size_t stack_len) {
-  jlua_sbuf *buffer = MALLOC(jlua_sbuf);
-  buffer->L = L;
-  buffer->stack_len = stack_len;
-
-  return buffer;
-}
 
 jlua_op_buf *first_op_buf(jlua_op_buf *ptr, lua_State *L) {
   if (!ptr || NULL == ptr) {
@@ -19,7 +11,7 @@ jlua_op_buf *first_op_buf(jlua_op_buf *ptr, lua_State *L) {
   }
 
   jlua_op_buf *p = ptr, *placeholder = NULL;
-  const jlua_op_buf *safeguard = ptr;
+  jlua_op_buf const *safeguard = ptr;
 
   /* Reset position to beginning of linked list */
   while (p->_prev && NULL != p->_prev) {
@@ -61,7 +53,7 @@ jlua_op_buf *last_op_buf(jlua_op_buf *ptr, lua_State *L) {
   }
 
   jlua_op_buf *p = ptr, *placeholder = NULL;
-  const jlua_op_buf *safeguard = ptr;
+  jlua_op_buf const *safeguard = ptr;
 
   /* Reset position to beginning of linked list */
   while (p->_next && NULL != p->_next) {
@@ -77,7 +69,7 @@ jlua_op_buf *last_op_buf(jlua_op_buf *ptr, lua_State *L) {
 }
 
 void kill_op_buf(jlua_op_buf *ptr, lua_State *L) {
-  if (NULL == ptr || !ptr) {
+  if (!ptr || NULL == ptr) {
     return;
   }
 
@@ -108,10 +100,10 @@ void new_op_buf(jlua_op_buf *prev_buf, lua_State *L, const J_UULONG *index) {
   prev_buf->_next = MALLOC(jlua_op_buf);
   ;
   prev_buf->_next->_next = NULL;
-  prev_buf->_next->_prev = prev_buf;
+  prev_buf->_next->_prev = prev_buf != NULL ? prev_buf : NULL;
   prev_buf->_next->_type = JLUA_NIL;
   prev_buf->_next->_operator = NOOP;
-  prev_buf->_next->index = *index;
+  prev_buf->_next->index = index != NULL ? *index : 0;
   prev_buf->_next->data = NULL;
 }
 

@@ -43,12 +43,6 @@ typedef struct _jlua_op {
   struct _jlua_op *_next;
 } jlua_op_buf;
 
-typedef struct _jlua_state_buf {
-  lua_State const *L;
-  uint stack_len;
-  struct _jlua_state_buf *subprocs;
-} jlua_sbuf;
-
 lua_State *init_lua_state(void);
 void parse_argv(const uint argc, char **argv);
 
@@ -91,9 +85,6 @@ J_UULONG lenof_op_buf(jlua_op_buf *ptr, lua_State *L);
 jlua_op_buf *pop_op_buf(jlua_op_buf *ptr, lua_State *L);
 jlua_op_buf *insert_op_buf(jlua_op_buf *ptr, lua_State *L);
 void lua_op(lua_State *L, jlua_op_buf *buf);
-
-jlua_sbuf *init_jlua_sbuf(lua_State *L, const size_t stack_len);
-void init_jlua_sbuf_subproc(jlua_sbuf *buffer, lua_State *L, jbool detached);
 
 #ifdef __cplusplus
 }
