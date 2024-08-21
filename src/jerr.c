@@ -2,7 +2,7 @@
 #include <stdio.h>      // for fprintf, stderr, vfprintf, NULL, va_list
 #include <jeff/jeff.h>  // for err, exec_verr, verr
 
-void err(const char *fmt, const char *msg) {
+void err(char *const fmt, char *const msg) {
   if (msg != NULL) {
     if (fmt == NULL) {
       fprintf(stderr, "%s\n", msg);
@@ -12,7 +12,7 @@ void err(const char *fmt, const char *msg) {
   }
 }
 
-void verr(const char *fmt, ...) {
+void verr(char *const fmt, ...) {
   va_list argp;
 
   va_start(argp, fmt);
@@ -20,7 +20,7 @@ void verr(const char *fmt, ...) {
   va_end(argp);
 }
 
-void exec_verr(void (*fun)(void), const char *fmt, ...) {
+void exec_verr(void (*fun)(void), char *const fmt, ...) {
   va_list argp;
 
   va_start(argp, fmt);

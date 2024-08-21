@@ -33,21 +33,21 @@ typedef enum _jbool {
 #endif  // !J_UCHAR
 
 #ifndef PI
-#define PI 3.14159
+#define PI 3.14159f
 #endif /* !PI */
 
 /* libjoperators */
 jbool jxor(const jbool x, const jbool y);
 
 /* libjerr */
-void err(const char *fmt, const char *msg);
-void verr(const char *fmt, ...);
-void exec_verr(void (*fun)(void), const char *fmt, ...);
+void err(char *const fmt, char *const msg);
+void verr(char *const fmt, ...);
+void exec_verr(void (*fun)(void), char *const fmt, ...);
 
 /* libjdie */
-void die(const int status, const char *msg);
-void vdie(const int status, const char *fmt, ...);
-void exec_vdie(const int status, void (*fun)(void), const char *fmt, ...);
+void die(const int status, char *const msg);
+void vdie(const int status, char *const fmt, ...);
+void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...);
 
 #ifdef __cplusplus
 }
