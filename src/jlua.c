@@ -98,12 +98,11 @@ void new_op_buf(jlua_op_buf *prev_buf, lua_State *L, const J_UULONG *index) {
   }
 
   prev_buf->_next = MALLOC(jlua_op_buf);
-  ;
   prev_buf->_next->_next = NULL;
-  prev_buf->_next->_prev = prev_buf != NULL ? prev_buf : NULL;
+  prev_buf->_next->_prev = prev_buf;
   prev_buf->_next->_type = JLUA_NIL;
   prev_buf->_next->_operator = NOOP;
-  prev_buf->_next->index = index != NULL ? *index : 0;
+  prev_buf->_next->index = (index != NULL) ? *index : 0;
   prev_buf->_next->data = NULL;
 }
 
