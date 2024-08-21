@@ -41,7 +41,7 @@ static void stack_dump(lua_State *L) {
   printf("\n"); /* end the listing */
 }
 
-void lua_err(lua_State *L, const char *fmt, ...) {
+void lua_err(lua_State *L, char *const fmt, ...) {
   va_list argp;
 
   va_start(argp, fmt);

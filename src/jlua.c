@@ -5,13 +5,13 @@
 #include <jeff/jlua.h>     // for jlua_op_buf, _jlua_op, __jlua_o...
 #include <jeff/jmemory.h>  // for MALLOC
 
-jlua_op_buf *first_op_buf(jlua_op_buf *ptr, lua_State *L) {
+jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   if (!ptr || NULL == ptr) {
     return NULL;
   }
 
   jlua_op_buf *p = ptr, *placeholder = NULL;
-  jlua_op_buf const *safeguard = ptr;
+  jlua_op_buf *const safeguard = ptr;
 
   /* Reset position to beginning of linked list */
   while (p->_prev && NULL != p->_prev) {
@@ -47,13 +47,13 @@ jlua_op_buf *first_op_buf(jlua_op_buf *ptr, lua_State *L) {
   return p;
 }
 
-jlua_op_buf *last_op_buf(jlua_op_buf *ptr, lua_State *L) {
+jlua_op_buf *last_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   if (!ptr || NULL == ptr) {
     return NULL;
   }
 
   jlua_op_buf *p = ptr, *placeholder = NULL;
-  jlua_op_buf const *safeguard = ptr;
+  jlua_op_buf *const safeguard = ptr;
 
   /* Reset position to beginning of linked list */
   while (p->_next && NULL != p->_next) {
@@ -68,7 +68,7 @@ jlua_op_buf *last_op_buf(jlua_op_buf *ptr, lua_State *L) {
   return p;
 }
 
-void kill_op_buf(jlua_op_buf *ptr, lua_State *L) {
+void kill_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   if (!ptr || NULL == ptr) {
     return;
   }
@@ -91,7 +91,7 @@ void kill_op_buf(jlua_op_buf *ptr, lua_State *L) {
   free(buf);
 }
 
-void new_op_buf(jlua_op_buf *prev_buf, lua_State *L, const J_UULONG *index) {
+void new_op_buf(jlua_op_buf *const prev_buf, lua_State *L, const J_UULONG *const index) {
   if (!prev_buf || NULL == prev_buf) {
     err("(new_op_buf): %s\n", "Predecessor is NULL");
     return;
@@ -119,7 +119,7 @@ jlua_op_buf *init_op_buf(lua_State *L) {
   return buffer;
 }
 
-jlua_op_buf *append_op_buf(jlua_op_buf *ptr, lua_State *L) {
+jlua_op_buf *append_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   if (!ptr || NULL == ptr) {
     return NULL;
   }
@@ -155,7 +155,7 @@ jlua_op_buf *append_op_buf(jlua_op_buf *ptr, lua_State *L) {
   return p->_next;
 }
 
-jlua_op_buf *pop_op_buf(jlua_op_buf *ptr, lua_State *L) {
+jlua_op_buf *pop_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   if (!ptr || NULL == ptr) {
     return NULL;
   }
