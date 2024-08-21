@@ -7,8 +7,7 @@ extern "C" {
 
 #include <sys/types.h>
 
-int fd_open(char *filename);
-void fd_close(int fd);
+void write_fd(int *const fd, const char *const fmt, char **const args, const size_t len);
 
 #ifdef __cplusplus
 }

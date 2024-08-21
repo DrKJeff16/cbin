@@ -7,13 +7,31 @@
 #include <jeff/jeff.h>
 #include <jeff/jlog.h>
 
-int fdlog(int fd, const char *msg) {
+int fdlog(int fd, const char *const msg) {
   if (fd < 0) {
     verr("(fdlog): %s\n", "Invalid file descriptor");
     return -1;
   }
 
   return write(fd, msg, strnlen(msg, 1024));
+}
+
+int vfdlog(int fd, const char *const fmt, ...) {
+  if (fd < 0) {
+    verr("(vfdlog): %s\n", "Invalid file descriptor");
+    return -1;
+  }
+
+  if (!fmt || fmt == NULL) {
+    vdie(1, "NULL format string");
+  }
+
+  va_list argp;
+  va_start(argp, fmt);
+  int res = vdprintf(fd, fmt, argp);
+  va_end(argp);
+
+  return res;
 }
 
 int log_to_file(const char *path, const J_UULONG buf_max, const char *msg, const jbool need_fd) {

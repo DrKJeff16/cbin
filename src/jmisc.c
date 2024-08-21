@@ -12,19 +12,23 @@
 
 const char logfile[9] = "misc.log";
 
+void write_fd(int *const fd, const char *const fmt, char **const args, const size_t len) {
+  if (*fd < 0 || !len || (!args || NULL == args)) {
+    return;
+  }
+
+  for (uint i = 0; i < len; i++) {
+    if ((*fd = vfdlog(*fd, fmt, args[i])) < 0) {
+      return;
+    }
+  }
+}
+
 int main(int argc, char **argv) {
   char **args = filter_argv((uint)argc, argv);
-  char ***new_args = CALLOC(char **, 2);
-  new_args[0] = args;
-  new_args[1] = argv;
-
-  new_args[0] = NULL;
-  new_args[1] = NULL;
-
-  int fd = 0;
+  int fd = -11;
 
   if ((fd = open(logfile, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) < 0) {
-    free(new_args);
     vdie(1, "File descriptor unavailable (%d)\n", fd);
   }
 
@@ -34,7 +38,6 @@ int main(int argc, char **argv) {
       close(fd);
     }
 
-    free(new_args);
     die(1, "No arguments given");
   }
 
@@ -46,11 +49,9 @@ int main(int argc, char **argv) {
   }
 
   if (close(fd) < 0) {
-    free(new_args);
     vdie(1, "File descriptor couldn't be closed (%d)\n", fd);
   }
 
-  free(new_args);
   die(0, NULL);
 }
 

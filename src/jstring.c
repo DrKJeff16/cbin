@@ -31,7 +31,7 @@ void str_append_nul(char *str) {
   free(new_str);
 }
 
-jbool compare_two_strings(const char *s1, const char *s2) {
+jbool compare_two_strings(const char *const s1, const char *const s2) {
   size_t n = strlen(s1);
 
   if (n != strlen(s2)) {
@@ -47,7 +47,7 @@ jbool compare_two_strings(const char *s1, const char *s2) {
   return JTRUE;
 }
 
-jbool compare_strv(const char **argv, const size_t len) {
+jbool compare_strv(char **const argv, const size_t len) {
   if (len < 2) {
     err(NULL, "`argv` must be of length 2 or greater");
     return JFALSE;
@@ -66,14 +66,16 @@ jbool compare_strv(const char **argv, const size_t len) {
   return JTRUE;
 }
 
-char **filter_argv(const uint argc, char **argv) {
-  if (argc <= 1) {
+char **filter_argv(const uint argc, char **const argv) {
+  uint len = argc;
+
+  if (len <= 1) {
     return NULL;
   }
 
-  char **const result = CALLOC(char *, argc - 1);
+  char **const result = CALLOC(char *, len - 1);
 
-  for (uint i = 1; i < (uint)argc; i++) {
+  for (uint i = 1; i < len; i++) {
     result[i - 1] = argv[i];
     str_append_nul(result[i - 1]);
   }

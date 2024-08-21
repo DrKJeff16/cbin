@@ -11,7 +11,6 @@
 #include <SDL2/SDL_video.h>     // for SDL_Window, SDL_CreateWindow, SDL_Destr...
 #include <stdlib.h>             // for NULL
 #include <jeff/jeff.h>          // for err, JEFF_H
-#include <jeff/jmemory.h>       // for CALLOC
 #include <jeff/jeff_sdl.h>      // for default_renderer, default_win
 
 SDL_Window *default_win(void) {
