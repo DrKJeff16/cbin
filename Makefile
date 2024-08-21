@@ -75,7 +75,7 @@ libs: dirs $(JEFF_LIBS)
 
 
 cointoss: dirs $(BINDIR)/cointoss
-misc: dirs $(BINDIR)/misc
+misc: dirs $(BINDIR)/jmisc
 gl_1: dirs $(BINDIR)/jeff_gl_1
 gl_2: dirs $(BINDIR)/jeff_gl_2
 gtk_1: dirs $(BINDIR)/jeff_gtk_1
@@ -144,11 +144,11 @@ $(BINDIR)/cointoss: $(SRCDIR)/cointoss.c $(JEFF_INCDIR)/cointoss.h
 	$(CC) -c $(SRCDIR)/cointoss.c $(CFLAGS) -o $(OBJDIR)/cointoss.o
 	$(CC) $(OBJDIR)/cointoss.o $(CFLAGS) $(LDFLAGS) -o $@
 
-$(BINDIR)/misc: $(SRCDIR)/misc.c $(JEFF_INCDIR)/jmisc.h
-	$(CC) -E $(SRCDIR)/misc.c $(CFLAGS) -o $(CPPDIR)/misc.i
-	$(CC) -S $(CPPDIR)/misc.i $(CFLAGS) -o $(ASDIR)/misc.s
-	$(CC) -c $(SRCDIR)/misc.c $(CFLAGS) -o $(OBJDIR)/misc.o
-	$(CC) $(OBJDIR)/misc.o $(CFLAGS) $(LDFLAGS) -o $@
+$(BINDIR)/jmisc: $(SRCDIR)/jmisc.c $(JEFF_INCDIR)/jmisc.h
+	$(CC) -E $(SRCDIR)/jmisc.c $(CFLAGS) -o $(CPPDIR)/jmisc.i
+	$(CC) -S $(CPPDIR)/jmisc.i $(CFLAGS) -o $(ASDIR)/jmisc.s
+	$(CC) -c $(SRCDIR)/jmisc.c $(CFLAGS) -o $(OBJDIR)/jmisc.o
+	$(CC) $(OBJDIR)/jmisc.o $(CFLAGS) $(LDFLAGS) -o $@
 
 $(BINDIR)/jeff_gl_1: $(SRCDIR)/jeff_gl_1.c $(GL_H)
 	$(CC) -E $(SRCDIR)/jeff_gl_1.c $(GL_CFLAGS) -o $(CPPDIR)/jeff_gl_1.i
