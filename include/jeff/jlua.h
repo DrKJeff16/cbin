@@ -44,12 +44,10 @@ typedef struct _jlua_op {
 } jlua_op_buf;
 
 typedef struct _jlua_state_buf {
-  lua_State *L;
+  lua_State const *L;
   uint stack_len;
   struct _jlua_state_buf *subprocs;
 } jlua_sbuf;
-
-static p_flags *PROGRAM_FLAGS = NULL;
 
 lua_State *init_lua_state(void);
 void parse_argv(const uint argc, char **argv);

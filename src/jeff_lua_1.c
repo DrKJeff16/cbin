@@ -10,7 +10,7 @@
 #include <jeff/jmemory.h>  // for MALLOC
 #include <jeff/jlua.h>     // for p_flags, init_lua_state, k_flags, lua_err
 
-extern p_flags *PROGRAM_FLAGS;
+static p_flags *PROGRAM_FLAGS = NULL;
 
 const k_flags KEYWORD_FLAGS = {
   .VERBOSE = "-v",
@@ -18,9 +18,9 @@ const k_flags KEYWORD_FLAGS = {
 };
 
 static void stack_dump(lua_State *L) {
-  int i = 0, top = lua_gettop(L);
+  int i = 1, top = lua_gettop(L);
 
-  for (i = 1; i <= top; i++) { /* repeat for each level */
+  for (; i <= top; i++) { /* repeat for each level */
     int t = lua_type(L, i);
     switch (t) {
       case LUA_TSTRING: /* strings */
@@ -36,7 +36,7 @@ static void stack_dump(lua_State *L) {
         printf("%s", lua_typename(L, t));
         break;
     }
-    printf("  "); /* put a separator */
+    printf(" | "); /* put a separator */
   }
   printf("\n"); /* end the listing */
 }
@@ -104,6 +104,8 @@ int main(int argc, char **argv) {
   argc--;
   parse_argv((uint)argc, argv);
   lua_State *L = init_lua_state();
+
+  getchar();
 
   stack_dump(L);
   lua_pushboolean(L, JTRUE);
