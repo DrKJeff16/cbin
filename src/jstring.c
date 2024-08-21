@@ -32,9 +32,9 @@ void str_append_nul(char *str) {
 }
 
 jbool compare_two_strings(const char *s1, const char *s2) {
-  size_t n = strnlen(s1, 256);
+  size_t n = strlen(s1);
 
-  if (n != strnlen(s2, 256)) {
+  if (n != strlen(s2)) {
     return JFALSE;
   }
 
@@ -71,7 +71,7 @@ char **filter_argv(const uint argc, char **argv) {
     return NULL;
   }
 
-  char **result = CALLOC(char *, argc - 1);
+  char **const result = CALLOC(char *, argc - 1);
 
   for (uint i = 1; i < (uint)argc; i++) {
     result[i - 1] = argv[i];
