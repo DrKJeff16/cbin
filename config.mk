@@ -22,11 +22,28 @@ ALL_DIRS = $(ASDIR) \
 
 CPPFLAGS = -Iinclude \
 		   -DNDEBUG \
-		   -D_GNU_SOURCE
-CFLAGS = $(CPPFLAGS) -march=znver3 -pipe \
-		 -O2 -g -ggdb \
-		 -Wall -pedantic -pthread
-CXXFLAGS = $(CFLAGS) -D_GLIBCXX_ASSERTIONS
+		   -D_GNU_SOURCE \
+		   -D_FORTIFY_SOURCE=2
+CFLAGS = $(CPPFLAGS) \
+		 -march=znver3 \
+		 -pipe \
+		 -std=gnu99 \
+		 -O2 \
+		 -g \
+		 -ggdb \
+		 -Wall \
+		 -pedantic \
+		 -pthread
+CXXFLAGS = $(CPPFLAGS) \
+		   -std=c++17 \
+		   -march=znver3 \
+		   -pipe \
+		   -O2 \
+		   -g \
+		   -ggdb \
+		   -Wall \
+		   -pedantic \
+		   -pthread
 LDFLAGS = -Llib -ljerr -ljdie -ljoperators -ljstring -ljlog -lc -lm
 
 PKG_CONFIG_BIN := pkgconf

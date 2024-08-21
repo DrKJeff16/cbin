@@ -73,7 +73,7 @@ CompileFlags:
       -lpthread,
       -lvulkan,
       -pthread,
-      -std=c99,
+      -std=gnu99,
       -xc,
     ]
   Remove: [-D_FORTIFY_SOURCE=*]
@@ -177,7 +177,7 @@ CompileFlags:
       -lpthread,
       -lvulkan,
       -pthread,
-      -std=c99,
+      -std=gnu99,
       -xc-header,
     ]
   Remove: [-D_FORTIFY_SOURCE=*]
