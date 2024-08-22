@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
       close(fd);
     }
 
-    die(1, "No arguments given");
+    die(1, "No arguments given\n");
   }
 
   for (uint i = 0; i < (uint)argc - 1; i++) {
