@@ -91,8 +91,7 @@ void parse_argv(const uint argc, char **argv) {
         PROGRAM_FLAGS->LIBS = JTRUE;
       } else {
         free(PROGRAM_FLAGS);
-        verr("Invalid argument `%s`\n", str);
-        die(127, NULL);
+        vdie(127, "Invalid argument `%s`\n", str);
       }
     }
   }
