@@ -7,8 +7,6 @@ extern "C" {
 
 #include <sys/types.h>
 
-void write_fd(int *const fd, const char *const fmt, char **const args, const size_t len);
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
