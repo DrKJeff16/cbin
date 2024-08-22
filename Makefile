@@ -211,10 +211,10 @@ $(BINDIR)/jeff_ncurses_1: $(SRCDIR)/jeff_ncurses_1.c $(NCURSES_H)
 
 
 clean:
-	rm -rf *.o *.i *.s *.S $(OBJDIR) $(ASDIR) $(CPPDIR)
+	rm -rf *.o *.i *.s *.S $(OBJDIR)/* $(ASDIR)/* $(CPPDIR)/*
 
 distclean: clean
-	rm -rf $(BINDIR) *.so *.a $(LIBDIR) build compile_commands.json *.log
+	rm -rf $(BINDIR)/* *.so *.a $(LIBDIR)/* build compile_commands.json *.log
 
 
 .PHONY: all \
