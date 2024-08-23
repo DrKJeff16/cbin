@@ -38,6 +38,7 @@ typedef enum _jbool {
 
 /* libjoperators */
 jbool jxor(const jbool x, const jbool y);
+jbool non_ptr(void *const ptr);
 
 /* libjerr */
 void err(char *const fmt, char *const msg);

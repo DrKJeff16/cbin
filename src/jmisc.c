@@ -13,20 +13,20 @@
 const char logfile[9] = "misc.log";
 
 int main(int argc, char **argv) {
-  char **args = filter_argv((uint)argc, argv);
+  char **args = filter_argv((size_t)argc, argv);
   int fd = -1;
 
   if ((fd = open(logfile, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) < 0) {
     vdie(1, "File descriptor unavailable (%d)\n", fd);
   }
 
-  if (!args || args == NULL) {
+  if (non_ptr(args)) {
     if (fd > 0) {
       vfdlog(fd, "No arguments given\n");
       close(fd);
     }
 
-    die(1, "No arguments given\n");
+    vdie(1, "No arguments given\n");
   }
 
   for (uint i = 0; i < (uint)argc - 1; i++) {

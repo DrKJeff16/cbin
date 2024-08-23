@@ -32,42 +32,54 @@ $(BINDIR):
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
-
-$(LIBDIR)/libjdie.so: $(JEFF_H) $(SRCDIR)/jdie.c
+$(OBJDIR)/jdie.o: $(JEFF_H) $(SRCDIR)/jdie.c
 	$(CC) -E $(SRCDIR)/jdie.c $(JEFF_CFLAGS) -o $(CPPDIR)/jdie.i
 	$(CC) -S $(CPPDIR)/jdie.i $(JEFF_CFLAGS) -o $(ASDIR)/jdie.s
-	$(CC) -c $(SRCDIR)/jdie.c $(JEFF_CFLAGS) -o $(OBJDIR)/jdie.o
-	$(CC) $(OBJDIR)/jdie.o $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjdie.so
+	$(CC) -c $(ASDIR)/jdie.s $(JEFF_CFLAGS) -o $(OBJDIR)/jdie.o
 
-$(LIBDIR)/libjerr.so: $(JEFF_H) $(SRCDIR)/jerr.c
+$(OBJDIR)/jerr.o: $(JEFF_H) $(SRCDIR)/jerr.c
 	$(CC) -E $(SRCDIR)/jerr.c $(JEFF_CFLAGS) -o $(CPPDIR)/jerr.i
 	$(CC) -S $(CPPDIR)/jerr.i $(JEFF_CFLAGS) -o $(ASDIR)/jerr.s
-	$(CC) -c $(SRCDIR)/jerr.c $(JEFF_CFLAGS) -o $(OBJDIR)/jerr.o
-	$(CC) $(OBJDIR)/jerr.o $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjerr.so
+	$(CC) -c $(ASDIR)/jerr.s $(JEFF_CFLAGS) -o $(OBJDIR)/jerr.o
 
-$(LIBDIR)/libjoperators.so: $(JEFF_H) $(SRCDIR)/joperators.c
+$(OBJDIR)/joperators.o: $(JEFF_H) $(SRCDIR)/joperators.c
 	$(CC) -E $(SRCDIR)/joperators.c $(JEFF_CFLAGS) -o $(CPPDIR)/joperators.i
 	$(CC) -S $(CPPDIR)/joperators.i $(JEFF_CFLAGS) -o $(ASDIR)/joperators.s
-	$(CC) -c $(SRCDIR)/joperators.c $(JEFF_CFLAGS) -o $(OBJDIR)/joperators.o
-	$(CC) $(OBJDIR)/joperators.o $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjoperators.so
+	$(CC) -c $(ASDIR)/joperators.s $(JEFF_CFLAGS) -o $(OBJDIR)/joperators.o
 
-$(LIBDIR)/libjstring.so: $(JEFF_H) $(SRCDIR)/jstring.c
+$(OBJDIR)/jstring.o: $(JEFF_H) $(SRCDIR)/jstring.c
 	$(CC) -E $(SRCDIR)/jstring.c $(JEFF_CFLAGS) -o $(CPPDIR)/jstring.i
 	$(CC) -S $(CPPDIR)/jstring.i $(JEFF_CFLAGS) -o $(ASDIR)/jstring.s
-	$(CC) -c $(SRCDIR)/jstring.c $(JEFF_CFLAGS) -o $(OBJDIR)/jstring.o
-	$(CC) $(OBJDIR)/jstring.o $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjstring.so
+	$(CC) -c $(ASDIR)/jstring.s $(JEFF_CFLAGS) -o $(OBJDIR)/jstring.o
 
-$(LIBDIR)/libjlog.so: $(JEFF_H) $(SRCDIR)/jlog.c
+$(OBJDIR)/jlog.o: $(JEFF_H) $(SRCDIR)/jlog.c
 	$(CC) -E $(SRCDIR)/jlog.c $(JEFF_CFLAGS) -o $(CPPDIR)/jlog.i
 	$(CC) -S $(CPPDIR)/jlog.i $(JEFF_CFLAGS) -o $(ASDIR)/jlog.s
-	$(CC) -c $(SRCDIR)/jlog.c $(JEFF_CFLAGS) -o $(OBJDIR)/jlog.o
-	$(CC) $(OBJDIR)/jlog.o $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjlog.so
+	$(CC) -c $(ASDIR)/jlog.s $(JEFF_CFLAGS) -o $(OBJDIR)/jlog.o
 
-$(LIBDIR)/libjlua.so: $(JEFF_H) $(SRCDIR)/jlua.c
-	$(CC) -E $(SRCDIR)/jlua.c $(JEFF_CFLAGS) -o $(CPPDIR)/jlua.i
-	$(CC) -S $(CPPDIR)/jlua.i $(JEFF_CFLAGS) -o $(ASDIR)/jlua.s
-	$(CC) -c $(SRCDIR)/jlua.c $(JEFF_CFLAGS) -o $(OBJDIR)/jlua.o
-	$(CC) $(OBJDIR)/jlua.o $(JEFF_LUA_LDFLAGS) -shared -o $(LIBDIR)/libjlua.so
+$(OBJDIR)/jlua.o: $(JEFF_H) $(SRCDIR)/jlua.c
+	$(CC) -E $(SRCDIR)/jlua.c $(JEFF_LUA_CFLAGS) -o $(CPPDIR)/jlua.i
+	$(CC) -S $(CPPDIR)/jlua.i $(JEFF_LUA_CFLAGS) -o $(ASDIR)/jlua.s
+	$(CC) -c $(ASDIR)/jlua.s $(JEFF_LUA_CFLAGS) -o $(OBJDIR)/jlua.o
+
+
+$(LIBDIR)/libjdie.so: $(JEFF_H) $(OBJDIR)/jdie.o
+	$(CC) $(OBJDIR)/jdie.o $(JEFF_CFLAGS) $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjdie.so
+
+$(LIBDIR)/libjerr.so: $(JEFF_H) $(OBJDIR)/jerr.o
+	$(CC) $(OBJDIR)/jerr.o $(JEFF_CFLAGS) $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjerr.so
+
+$(LIBDIR)/libjoperators.so: $(JEFF_H) $(OBJDIR)/joperators.o
+	$(CC) $(OBJDIR)/joperators.o $(JEFF_CFLAGS) $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjoperators.so
+
+$(LIBDIR)/libjstring.so: $(JEFF_H) $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o
+	$(CC) $(OBJDIR)/jstring.o $(OBJDIR)/jerr.o $(OBJDIR)/jdie.o $(JEFF_CFLAGS) $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjstring.so
+
+$(LIBDIR)/libjlog.so: $(JEFF_H) $(OBJDIR)/jlog.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o
+	$(CC) $(OBJDIR)/jlog.o $(OBJDIR)/jerr.o $(OBJDIR)/jdie.o $(JEFF_CFLAGS) $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjlog.so
+
+$(LIBDIR)/libjlua.so: $(JEFF_H) $(OBJDIR)/jlua.o $(OBJDIR)/jerr.o
+	$(CC) $(OBJDIR)/jlua.o $(OBJDIR)/jerr.o $(JEFF_LUA_CFLAGS) $(JEFF_LUA_LDFLAGS) -shared -o $(LIBDIR)/libjlua.so
 
 
 libs: dirs $(JEFF_LIBS)

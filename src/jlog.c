@@ -7,23 +7,29 @@
 #include <jeff/jeff.h>
 #include <jeff/jlog.h>
 
-int fdlog(int fd, const char *const msg) {
+int fdlog(int fd, char *const msg) {
   if (fd < 0) {
-    verr("(fdlog): %s\n", "Invalid file descriptor");
+    err("(fdlog): %s\n", "Invalid file descriptor");
     return -1;
   }
 
-  return write(fd, msg, strnlen(msg, 1024));
+  if (!msg || msg == NULL) {
+    err("(fdlog): %s\n", "NULL format string");
+    return -1;
+  }
+
+  return write(fd, msg, strlen(msg) + 1);
 }
 
-int vfdlog(int fd, const char *const fmt, ...) {
+int vfdlog(int fd, char *const fmt, ...) {
   if (fd < 0) {
-    verr("(vfdlog): %s\n", "Invalid file descriptor");
+    err("(vfdlog): %s\n", "Invalid file descriptor");
     return -1;
   }
 
   if (!fmt || fmt == NULL) {
-    vdie(1, "NULL format string");
+    err("(vfdlog): %s\n", "NULL format string");
+    return -1;
   }
 
   va_list argp;
@@ -34,12 +40,12 @@ int vfdlog(int fd, const char *const fmt, ...) {
   return res;
 }
 
-int log_to_file(const char *path, const J_UULONG buf_max, const char *msg, const jbool need_fd) {
+int log_to_file(const char *path, const J_UULONG buf_max, char *const msg, const jbool need_fd) {
   if (!path || path == NULL) {
-    vdie(2, "File path invalid or NULL\n");
+    vdie(2, "(log_to_file): %s\n", "File path points to NULL");
   }
 
-  if (msg == NULL) {
+  if (!msg || msg == NULL) {
     verr("(log_to_file): %s\n", "No message was given to log");
     return -1;
   }
@@ -47,12 +53,13 @@ int log_to_file(const char *path, const J_UULONG buf_max, const char *msg, const
   int logfile_fd = -1;
   if ((logfile_fd = open(path, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IROTH | S_IRGRP)) <
       0) {
-    verr("Unable to write log to `%s`\n", path);
+    verr("(log_to_file): Unable to open `%s`\n", path);
     return -1;
   }
 
-  if (write(logfile_fd, msg, strnlen(msg, buf_max)) < 0) {
-    verr("Unable to write log to file: %s\n", path);
+  if (write(logfile_fd, msg, strlen(msg) + 1) < 0) {
+    verr("(log_to_file): Unable to write log to file: %s\n", path);
+    close(logfile_fd);
     return -1;
   }
 
@@ -63,11 +70,11 @@ int log_to_file(const char *path, const J_UULONG buf_max, const char *msg, const
   int close_d = close(logfile_fd);
 
   if (close_d < 0) {
-    verr("Unable to close file descriptor for `%s` (%d)\n", path, close_d);
+    verr("(log_to_file): Unable to close file descriptor for `%s` (%d)\n", path, close_d);
     return -1;
-  } else {
-    return 0;
   }
+
+  return 0;
 }
 
 /// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:

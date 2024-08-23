@@ -1,58 +1,43 @@
-#include <stdarg.h>     // for va_end, va_start
-#include <stdio.h>      // for NULL, vfprintf, FILE, printf, stderr
-#include <stdlib.h>     // for exit
-#include <jeff/jeff.h>  // for err, die, exec_vdie, vdie
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <jeff/jeff.h>
 
 void die(const int status, char *const msg) {
-  if (msg != NULL && status) {  /// If status is not 0 and message is available
-    err(NULL, msg);
-  } else if (msg != NULL) {  /// If status is 0 and message is available
-    printf("%s\n", msg);
+  FILE *f = status ? stderr : stdout;
+  if (msg != NULL) {  /// If status is not 0 and message is available
+    fprintf(f, "%s\n", msg);
   }
 
   exit(status);
 }
 
 void vdie(const int status, char *const fmt, ...) {
+  FILE *f = status ? stderr : stdout;
   va_list argp;
 
   if (fmt != NULL) {
     va_start(argp, fmt);
-
-    FILE *f = stdout;
-
-    if (status) {
-      f = stderr;
-    }
-
     vfprintf(f, fmt, argp);
+    va_end(argp);
   }
 
-  va_end(argp);
-
-  die(status, NULL);
+  exit(status);
 }
 
 void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...) {
+  FILE *f = status ? stderr : stdout;
   va_list argp;
 
   if (fmt != NULL) {
     va_start(argp, fmt);
-
-    FILE *f = stdout;
-
-    if (status) {
-      f = stderr;
-    }
-
     vfprintf(f, fmt, argp);
+    va_end(argp);
   }
-
-  va_end(argp);
 
   fun();
 
-  die(status, NULL);
+  exit(status);
 }
 
 /// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:

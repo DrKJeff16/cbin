@@ -7,38 +7,46 @@
 
 void str_append_nul(char *str) {
   char *new_str = NULL;
-  const size_t len = strlen(str);
 
-  if (str == NULL) {
-    new_str = MALLOC(char);
-    *new_str = '\0';
+  if (non_ptr(str)) {
+    str = MALLOC(char);
+    *str = '\0';
+    return;
+  }
+
+  const size_t len = strlen(str) + 1;
+  char *str_og = CALLOC(char, len);
+  new_str = CALLOC(char, len + 1);
+
+  /// If no NUL char in `str`
+  if (stpcpy(new_str, str) == NULL) {
+    new_str[len] = '\0';
   } else {
-    new_str = CALLOC(char, len + 1);
-
-    /// If no NUL char in `str`
-    if (stpcpy(new_str, str) == NULL) {
-      new_str[len] = '\0';
-    } else {
-      new_str = REALLOC(new_str, char, len);
-    }
+    new_str = REALLOC(new_str, char, len);
   }
 
   if (stpcpy(str, new_str) == NULL) {
+    stpcpy(str, str_og);
+
     free(new_str);
-    vdie(1, "(str_append_nul): %s\n", "Unable to copy `new_str` back to `str`");
+    free(str_og);
+
+    verr("(str_append_nul): %s\n", "Unable to copy `new_str` back to `str`");
+    return;
   }
 
   free(new_str);
+  free(str_og);
 }
 
 jbool compare_two_strings(const char *const s1, const char *const s2) {
-  size_t n = strlen(s1);
+  size_t n = strlen(s1) + 1;
 
-  if (n != strlen(s2)) {
+  if (n != strlen(s2) + 1) {
     return JFALSE;
   }
 
-  for (size_t i = 0; i < n - 1; i++) {
+  for (size_t i = 0; i < n; i++) {
     if (s1[i] != s2[i]) {
       return JFALSE;
     }
@@ -66,8 +74,8 @@ jbool compare_strv(char **const argv, const size_t len) {
   return JTRUE;
 }
 
-char **filter_argv(const uint argc, char **const argv) {
-  uint len = argc;
+char **filter_argv(const size_t argc, char **const argv) {
+  size_t len = argc;
 
   if (len <= 1) {
     return NULL;
@@ -75,9 +83,18 @@ char **filter_argv(const uint argc, char **const argv) {
 
   char **const result = CALLOC(char *, len - 1);
 
-  for (uint i = 1; i < len; i++) {
-    result[i - 1] = argv[i];
-    str_append_nul(result[i - 1]);
+  for (size_t i = 1; i < len; i++) {
+    if (argv[i] != NULL) {
+      const size_t i_len = strlen(argv[i]) + 1;
+      result[i - 1] = CALLOC(char, i_len);
+
+      if (stpcpy(result[i - 1], argv[i]) == NULL) {
+        str_append_nul(result[i - 1]);
+      }
+    } else {
+      free(result[i - 1]);
+      result[i - 1] = NULL;
+    }
   }
 
   return result;
