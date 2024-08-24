@@ -10,14 +10,15 @@ extern "C" {
 #include "jeff.h"
 
 typedef struct {
-  uint TAILS;
-  uint HEADS;
+  J_UULONG TAILS;
+  J_UULONG HEADS;
 } CHOICES;
 
 void seed(void);
 void decide(const jbool x, CHOICES *c);
 jbool toss(void);
 void final_decide(const CHOICES *c, char **coin);
+CHOICES *init_choices(void);
 
 static jbool SEEDED = JFALSE;
 

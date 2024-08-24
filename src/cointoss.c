@@ -16,6 +16,14 @@ void seed(void) {
   }
 }
 
+CHOICES *init_choices(void) {
+  CHOICES *c = MALLOC(CHOICES);
+  c->TAILS = 0;
+  c->HEADS = 0;
+
+  return c;
+}
+
 void decide(const jbool x, CHOICES *c) {
   switch (x) {
     case JTRUE:
@@ -55,9 +63,7 @@ int main(int argc, char **argv) {
 
   seed();
 
-  CHOICES *c = MALLOC(CHOICES);
-  c->TAILS = 0;
-  c->HEADS = 0;
+  CHOICES *c = init_choices();
 
   char **coin = CALLOC(char *, 2);
   for (uint i = 0; i < 2; i++) {
@@ -75,13 +81,15 @@ int main(int argc, char **argv) {
   }
 
   size_t *lengths = CALLOC(size_t, 2);
-  for (uint i = 0; i < 2; i++) {
+  for (size_t i = 0; i < 2; i++) {
     lengths[i] = strlen(coin[i]) + 1;
   }
 
-  for (uint i = 0; i < 2; i++) {
+  for (size_t i = 0; i < 2; i++) {
     coin[i] = REALLOC(coin[i], char, lengths[i]);
   }
+
+  free(lengths);
 
   for (J_UULONG i = 0L; i < 100000L; i++) {
     decide(toss(), c);
