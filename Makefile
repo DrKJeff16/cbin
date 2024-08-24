@@ -2,6 +2,8 @@ SHELL = /bin/bash
 
 include config.mk
 
+.SILENT:
+
 all: dirs $(ACTIONS)
 
 dirs: $(ASDIR) \
@@ -230,14 +232,15 @@ distclean: clean
 
 
 .PHONY: all \
-	distclean \
+	.SILENT \
 	clean \
+	distclean \
+	install_headers/local install_headers/global \
+	install_libs/fast \
+	install_libs/local/fast \
+	install_libs/local/stripped \
+	install_libs/stripped \
 	libs \
 	strip/bin \
 	strip/libs \
-	install_libs/fast \
-	install_libs/stripped \
-	install_libs/local/fast \
-	install_libs/local/stripped \
-	install_headers/local install_headers/global \
 	$(ACTIONS)
