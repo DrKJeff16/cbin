@@ -145,7 +145,6 @@ install_libs/fast:
 
 install_libs/local/stripped: install_libs/local/fast
 	strip $(HOME)/.local/lib/libj{die,err,operators,string,lua,log}.so
-	chown -R $(USER)\:$(USER) $(HOME)/.local/lib
 
 install_libs/stripped: install_libs/fast
 	strip /usr/lib/libj{die,err,operators,string,lua,log}.so
