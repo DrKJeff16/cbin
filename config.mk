@@ -62,11 +62,11 @@ JEFF_LIBS = $(LIBDIR)/libjdie.so \
 			$(LIBDIR)/libjlog.so
 JEFF_CFLAGS = $(CFLAGS) -fPIC
 JEFF_LDFLAGS = -L /usr/lib/jeff -lc -lm
-JEFF_ACTIONS = cointoss misc
+JEFF_ACTIONS = cointoss jmisc
 
 JEFF_LUA_H = $(JEFF_INCDIR)/jlua.h
 JEFF_LUA_CFLAGS = $(JEFF_CFLAGS)
-JEFF_LUA_LDFLAGS = $(JEFF_LDFLAGS) -ljdie -ljerr -ljoperators -llua
+JEFF_LUA_LDFLAGS = $(JEFF_LDFLAGS) -llua
 
 SDL_CFLAGS = $(CFLAGS) \
 			 -D_JASSET_PATH="\"$(ASSET_DIR)/face.png\\0\"" \

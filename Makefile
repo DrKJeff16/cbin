@@ -2,8 +2,6 @@ SHELL = /bin/bash
 
 include config.mk
 
-.SILENT:
-
 all: dirs $(ACTIONS)
 
 dirs: $(ASDIR) \
@@ -65,30 +63,30 @@ $(OBJDIR)/jlua.o: $(JEFF_H) $(SRCDIR)/jlua.c
 	$(CC) -c $(ASDIR)/jlua.s $(JEFF_LUA_CFLAGS) -o $(OBJDIR)/jlua.o
 
 
-$(LIBDIR)/libjdie.so: $(JEFF_H) $(OBJDIR)/jdie.o
-	$(CC) $(OBJDIR)/jdie.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjdie.so $(JEFF_LDFLAGS)
-
-$(LIBDIR)/libjerr.so: $(JEFF_H) $(OBJDIR)/jerr.o
-	$(CC) $(OBJDIR)/jerr.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjerr.so $(JEFF_LDFLAGS)
-
 $(LIBDIR)/libjoperators.so: $(JEFF_H) $(OBJDIR)/joperators.o
 	$(CC) $(OBJDIR)/joperators.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjoperators.so $(JEFF_LDFLAGS)
 
-$(LIBDIR)/libjstring.so: $(JEFF_H) $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o
-	$(CC) $(OBJDIR)/jstring.o $(OBJDIR)/jerr.o $(OBJDIR)/jdie.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjstring.so $(JEFF_LDFLAGS)
+$(LIBDIR)/libjdie.so: $(JEFF_H) $(OBJDIR)/joperators.o $(OBJDIR)/jdie.o
+	$(CC) $(OBJDIR)/jdie.o $(OBJDIR)/joperators.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjdie.so $(JEFF_LDFLAGS)
 
-$(LIBDIR)/libjlog.so: $(JEFF_H) $(OBJDIR)/jlog.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o
-	$(CC) $(OBJDIR)/jlog.o $(OBJDIR)/jerr.o $(OBJDIR)/jdie.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjlog.so $(JEFF_LDFLAGS)
+$(LIBDIR)/libjerr.so: $(JEFF_H) $(OBJDIR)/joperators.o $(OBJDIR)/jerr.o
+	$(CC) $(OBJDIR)/jerr.o $(OBJDIR)/joperators.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjerr.so $(JEFF_LDFLAGS)
 
-$(LIBDIR)/libjlua.so: $(JEFF_H) $(OBJDIR)/jlua.o $(OBJDIR)/jerr.o
-	$(CC) $(OBJDIR)/jlua.o $(OBJDIR)/jerr.o $(JEFF_LUA_CFLAGS) $(JEFF_LUA_LDFLAGS) -shared -o $(LIBDIR)/libjlua.so
+$(LIBDIR)/libjstring.so: $(JEFF_H) $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/joperators.o
+	$(CC) $(OBJDIR)/jstring.o $(OBJDIR)/joperators.o $(OBJDIR)/jerr.o $(OBJDIR)/jdie.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjstring.so $(JEFF_LDFLAGS)
+
+$(LIBDIR)/libjlog.so: $(JEFF_H) $(OBJDIR)/jlog.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/joperators.o
+	$(CC) $(OBJDIR)/jlog.o $(OBJDIR)/joperators.o $(OBJDIR)/jerr.o $(OBJDIR)/jdie.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjlog.so $(JEFF_LDFLAGS)
+
+$(LIBDIR)/libjlua.so: $(JEFF_H) $(OBJDIR)/jlua.o $(OBJDIR)/jerr.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/joperators.o
+	$(CC) $(OBJDIR)/jlua.o $(OBJDIR)/joperators.o $(OBJDIR)/jerr.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(JEFF_LUA_CFLAGS) -shared -o $(LIBDIR)/libjlua.so $(JEFF_LUA_LDFLAGS)
 
 
 libs: dirs $(JEFF_LIBS)
 
 
 cointoss: dirs $(BINDIR)/cointoss
-misc: dirs $(BINDIR)/jmisc
+jmisc: dirs $(BINDIR)/jmisc
 gl_1: dirs $(BINDIR)/jeff_gl_1
 gl_2: dirs $(BINDIR)/jeff_gl_2
 gtk_1: dirs $(BINDIR)/jeff_gtk_1
@@ -234,7 +232,6 @@ distclean: clean
 
 
 .PHONY: all \
-	.SILENT \
 	clean \
 	distclean \
 	install_headers/local install_headers/global \
