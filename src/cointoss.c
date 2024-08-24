@@ -43,7 +43,7 @@ void final_decide(const CHOICES *c, char **coin) {
 }
 
 jbool toss(void) {
-  return (jbool)(rand() % 2);
+  return rand() % 2;
 }
 
 int main(int argc, char **argv) {
@@ -61,7 +61,7 @@ int main(int argc, char **argv) {
 
   char **coin = CALLOC(char *, 2);
   for (uint i = 0; i < 2; i++) {
-    coin[i] = CALLOC(char, 512);
+    coin[i] = CALLOC(char, 1024);
   }
 
   for (uint i = 0; i < 2; i++) {
