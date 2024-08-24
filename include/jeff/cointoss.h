@@ -10,8 +10,8 @@ extern "C" {
 #include "jeff.h"
 
 typedef struct {
-  J_UULONG TAILS;
-  J_UULONG HEADS;
+  J_ULLONG TAILS;
+  J_ULLONG HEADS;
 } CHOICES;
 
 void seed(void);

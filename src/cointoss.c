@@ -91,7 +91,7 @@ int main(int argc, char **argv) {
 
   free(lengths);
 
-  for (J_UULONG i = 0L; i < 100000L; i++) {
+  for (J_ULLONG i = 0L; i < 100000L; i++) {
     decide(toss(), c);
   }
 

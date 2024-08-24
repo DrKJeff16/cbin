@@ -62,16 +62,14 @@ char *str_reversed(char *const str) {
     return NULL;
   }
 
-  const J_UULONG len = (J_UULONG)strlen(str);
+  const J_ULLONG len = (J_ULLONG)strlen(str);
   char *result = CALLOC(char, len + 1);
 
-  for (J_UULONG i = 1; i <= len; i++) {
+  for (J_ULLONG i = 1; i <= len; i++) {
     result[i - 1] = str[len - i];
   }
 
   result[len] = '\0';
-
-  printf("`%s` ==> `%s`\n", str, result);
 
   return result;
 }

@@ -12,25 +12,33 @@ typedef enum _jbool {
   JTRUE = 1,
 } jbool;
 
-#ifndef J_UULONG
-#define J_UULONG unsigned long long
-#endif  // !J_UULONG
+#ifndef J_ULLONG
+#define J_ULLONG unsigned long long
+#endif /* !J_ULLONG */
+
+#ifndef J_LLONG
+#define J_LLONG long long
+#endif /* !J_LLONG */
 
 #ifndef J_ULONG
 #define J_ULONG unsigned long
-#endif  // !J_ULONG
+#endif /* !J_ULONG */
 
 #ifndef J_UINT
 #define J_UINT unsigned int
-#endif  // !J_UINT
+#endif /* !J_UINT */
 
 #ifndef J_LUINT
 #define J_LUINT long unsigned int
-#endif  // !J_LUINT
+#endif /* !J_LUINT */
 
 #ifndef J_UCHAR
 #define J_UCHAR unsigned char
-#endif  // !J_UCHAR
+#endif /* !J_UCHAR */
+
+#ifndef J_LINT
+#define J_LINT long int
+#endif /* !J_LINT */
 
 #ifndef PI
 #define PI 3.14159f

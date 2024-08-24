@@ -36,7 +36,7 @@ typedef enum __jlua_operator {
 
 typedef struct _jlua_op {
   struct _jlua_op *_prev;
-  J_UULONG index;
+  J_ULLONG index;
   jlua_operator _operator;
   jlua_type _type;
   void *data;
@@ -58,7 +58,7 @@ void kill_op_buf(jlua_op_buf *const ptr, lua_State *L);
 /**
  * Generate a new jlua operator buffer to be indexed
  */
-void new_op_buf(jlua_op_buf *const predecessor, lua_State *L, const J_UULONG *const i);
+void new_op_buf(jlua_op_buf *const predecessor, lua_State *L, const J_ULLONG *const i);
 /**
  * Initialize an empty jlua operator buffer
  */
@@ -73,7 +73,7 @@ jlua_op_buf *init_op_buf(lua_State *L);
  */
 jlua_op_buf *append_op_buf(jlua_op_buf *const ptr, lua_State *L);
 
-J_UULONG lenof_op_buf(jlua_op_buf *const ptr, lua_State *L);
+J_ULLONG lenof_op_buf(jlua_op_buf *const ptr, lua_State *L);
 
 /**
  * Pop the last element of a jlua operation buffer

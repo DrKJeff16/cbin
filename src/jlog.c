@@ -40,7 +40,7 @@ int vfdlog(int fd, char *const fmt, ...) {
   return res;
 }
 
-int log_to_file(const char *path, const J_UULONG buf_max, char *const msg, const jbool need_fd) {
+int log_to_file(const char *path, const J_ULLONG buf_max, char *const msg, const jbool need_fd) {
   if (!path || path == NULL) {
     vdie(2, "(log_to_file): %s\n", "File path points to NULL");
   }

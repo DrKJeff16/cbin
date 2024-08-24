@@ -24,7 +24,7 @@ jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   }
 
   if (p && NULL != p) {
-    J_UULONG idx = 1;
+    J_ULLONG idx = 1;
     p->index = idx - 1;
 
     jlua_op_buf *first = p;
@@ -91,7 +91,7 @@ void kill_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   free(buf);
 }
 
-void new_op_buf(jlua_op_buf *const prev_buf, lua_State *L, const J_UULONG *const index) {
+void new_op_buf(jlua_op_buf *const prev_buf, lua_State *L, const J_ULLONG *const index) {
   if (!prev_buf || NULL == prev_buf) {
     err("(new_op_buf): %s\n", "Predecessor is NULL");
     return;
@@ -135,7 +135,7 @@ jlua_op_buf *append_op_buf(jlua_op_buf *const ptr, lua_State *L) {
     p = placeholder;
   }
 
-  J_UULONG i = 0; /* Start from index 0 */
+  J_ULLONG i = 0; /* Start from index 0 */
 
   /* Go element by element until reaching end */
   while (p->_next && NULL != p->_next) {
