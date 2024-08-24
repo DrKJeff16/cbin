@@ -66,19 +66,19 @@ $(OBJDIR)/jlua.o: $(JEFF_H) $(SRCDIR)/jlua.c
 
 
 $(LIBDIR)/libjdie.so: $(JEFF_H) $(OBJDIR)/jdie.o
-	$(CC) $(OBJDIR)/jdie.o $(JEFF_CFLAGS) $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjdie.so
+	$(CC) $(OBJDIR)/jdie.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjdie.so $(JEFF_LDFLAGS)
 
 $(LIBDIR)/libjerr.so: $(JEFF_H) $(OBJDIR)/jerr.o
-	$(CC) $(OBJDIR)/jerr.o $(JEFF_CFLAGS) $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjerr.so
+	$(CC) $(OBJDIR)/jerr.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjerr.so $(JEFF_LDFLAGS)
 
 $(LIBDIR)/libjoperators.so: $(JEFF_H) $(OBJDIR)/joperators.o
-	$(CC) $(OBJDIR)/joperators.o $(JEFF_CFLAGS) $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjoperators.so
+	$(CC) $(OBJDIR)/joperators.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjoperators.so $(JEFF_LDFLAGS)
 
 $(LIBDIR)/libjstring.so: $(JEFF_H) $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o
-	$(CC) $(OBJDIR)/jstring.o $(OBJDIR)/jerr.o $(OBJDIR)/jdie.o $(JEFF_CFLAGS) $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjstring.so
+	$(CC) $(OBJDIR)/jstring.o $(OBJDIR)/jerr.o $(OBJDIR)/jdie.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjstring.so $(JEFF_LDFLAGS)
 
 $(LIBDIR)/libjlog.so: $(JEFF_H) $(OBJDIR)/jlog.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o
-	$(CC) $(OBJDIR)/jlog.o $(OBJDIR)/jerr.o $(OBJDIR)/jdie.o $(JEFF_CFLAGS) $(JEFF_LDFLAGS) -shared -o $(LIBDIR)/libjlog.so
+	$(CC) $(OBJDIR)/jlog.o $(OBJDIR)/jerr.o $(OBJDIR)/jdie.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjlog.so $(JEFF_LDFLAGS)
 
 $(LIBDIR)/libjlua.so: $(JEFF_H) $(OBJDIR)/jlua.o $(OBJDIR)/jerr.o
 	$(CC) $(OBJDIR)/jlua.o $(OBJDIR)/jerr.o $(JEFF_LUA_CFLAGS) $(JEFF_LUA_LDFLAGS) -shared -o $(LIBDIR)/libjlua.so
@@ -127,21 +127,23 @@ install_headers/global: $(JEFF_H)
 
 
 install_libs/local/fast:
-	install -m 755 $(LIBDIR)/libjdie.so $(HOME)/.local/lib/libjdie.so
-	install -m 755 $(LIBDIR)/libjerr.so $(HOME)/.local/lib/libjerr.so
-	install -m 755 $(LIBDIR)/libjoperators.so $(HOME)/.local/lib/libjoperators.so
-	install -m 755 $(LIBDIR)/libjstring.so $(HOME)/.local/lib/libjstring.so
-	install -m 755 $(LIBDIR)/libjlua.so $(HOME)/.local/lib/libjlua.so
-	install -m 755 $(LIBDIR)/libjlog.so $(HOME)/.local/lib/libjlog.so
+	mkdir -p $(HOME)/.local/lib/jeff
+	install -m 755 $(LIBDIR)/libjdie.so $(HOME)/.local/lib/jeff/libjdie.so
+	install -m 755 $(LIBDIR)/libjerr.so $(HOME)/.local/lib/jeff/libjerr.so
+	install -m 755 $(LIBDIR)/libjoperators.so $(HOME)/.local/lib/jeff/libjoperators.so
+	install -m 755 $(LIBDIR)/libjstring.so $(HOME)/.local/lib/jeff/libjstring.so
+	install -m 755 $(LIBDIR)/libjlua.so $(HOME)/.local/lib/jeff/libjlua.so
+	install -m 755 $(LIBDIR)/libjlog.so $(HOME)/.local/lib/jeff/libjlog.so
 	chown -R $(USER)\:$(USER) $(HOME)/.local/lib
 
 install_libs/fast:
-	install -m 755 $(LIBDIR)/libjdie.so /usr/lib/libjdie.so
-	install -m 755 $(LIBDIR)/libjerr.so /usr/lib/libjerr.so
-	install -m 755 $(LIBDIR)/libjoperators.so /usr/lib/libjoperators.so
-	install -m 755 $(LIBDIR)/libjstring.so /usr/lib/libjstring.so
-	install -m 755 $(LIBDIR)/libjlua.so /usr/lib/libjlua.so
-	install -m 755 $(LIBDIR)/libjlog.so /usr/lib/libjlog.so
+	mkdir -p /usr/lib/jeff
+	install -m 755 $(LIBDIR)/libjdie.so /usr/lib/jeff/libjdie.so
+	install -m 755 $(LIBDIR)/libjerr.so /usr/lib/jeff/libjerr.so
+	install -m 755 $(LIBDIR)/libjoperators.so /usr/lib/jeff/libjoperators.so
+	install -m 755 $(LIBDIR)/libjstring.so /usr/lib/jeff/libjstring.so
+	install -m 755 $(LIBDIR)/libjlua.so /usr/lib/jeff/libjlua.so
+	install -m 755 $(LIBDIR)/libjlog.so /usr/lib/jeff/libjlog.so
 
 install_libs/local/stripped: install_libs/local/fast
 	strip $(HOME)/.local/lib/libj{die,err,operators,string,lua,log}.so

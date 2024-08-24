@@ -44,7 +44,7 @@ CXXFLAGS = $(CPPFLAGS) \
 		   -Wall \
 		   -pedantic \
 		   -pthread
-LDFLAGS = -Llib -ljerr -ljdie -ljoperators -ljstring -ljlog -lc -lm
+LDFLAGS = -L . -L /usr/lib/jeff -ljerr -ljdie -ljoperators -ljstring -ljlog -lc -lm
 
 PKG_CONFIG_BIN := pkgconf
 
@@ -61,12 +61,12 @@ JEFF_LIBS = $(LIBDIR)/libjdie.so \
 			$(LIBDIR)/libjlua.so \
 			$(LIBDIR)/libjlog.so
 JEFF_CFLAGS = $(CFLAGS) -fPIC
-JEFF_LDFLAGS = -lc -lm
+JEFF_LDFLAGS = -L /usr/lib/jeff -lc -lm
 JEFF_ACTIONS = cointoss misc
 
 JEFF_LUA_H = $(JEFF_INCDIR)/jlua.h
 JEFF_LUA_CFLAGS = $(JEFF_CFLAGS)
-JEFF_LUA_LDFLAGS = $(JEFF_LDFLAGS) -llua
+JEFF_LUA_LDFLAGS = $(JEFF_LDFLAGS) -ljdie -ljerr -ljoperators -llua
 
 SDL_CFLAGS = $(CFLAGS) \
 			 -D_JASSET_PATH="\"$(ASSET_DIR)/face.png\\0\"" \
