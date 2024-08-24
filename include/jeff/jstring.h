@@ -15,7 +15,6 @@ typedef struct _char_ptrs {
 } char_ptrs;
 
 void str_append_nul(char *str);
-jbool compare_two_strings(const char *const s1, const char *const s2);
 jbool compare_strv(char **const argv, const size_t len);
 char **filter_argv(const size_t argc, char **argv);
 

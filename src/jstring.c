@@ -6,14 +6,13 @@
 #include <jeff/jstring.h>
 
 void str_append_nul(char *str) {
-  char *new_str = NULL;
-
   if (non_ptr(str)) {
     str = MALLOC(char);
     *str = '\0';
     return;
   }
 
+  char *new_str = NULL;
   const size_t len = strlen(str) + 1;
   char *str_og = CALLOC(char, len);
   new_str = CALLOC(char, len + 1);
@@ -39,22 +38,6 @@ void str_append_nul(char *str) {
   free(str_og);
 }
 
-jbool compare_two_strings(const char *const s1, const char *const s2) {
-  size_t n = strlen(s1) + 1;
-
-  if (n != strlen(s2) + 1) {
-    return JFALSE;
-  }
-
-  for (size_t i = 0; i < n; i++) {
-    if (s1[i] != s2[i]) {
-      return JFALSE;
-    }
-  }
-
-  return JTRUE;
-}
-
 jbool compare_strv(char **const argv, const size_t len) {
   if (len < 2) {
     err(NULL, "`argv` must be of length 2 or greater");
@@ -66,7 +49,7 @@ jbool compare_strv(char **const argv, const size_t len) {
   }
 
   for (size_t i = 1; i < len - 1; i++) {
-    if (!compare_two_strings(argv[0], argv[i])) {
+    if (!strcmp(argv[0], argv[i])) {
       return JFALSE;
     }
   }
