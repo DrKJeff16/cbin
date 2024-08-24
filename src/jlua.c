@@ -6,7 +6,7 @@
 #include <jeff/jmemory.h>  // for MALLOC
 
 jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
-  if (!ptr || NULL == ptr) {
+  if (non_ptr(ptr)) {
     return NULL;
   }
 

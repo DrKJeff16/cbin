@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
     vdie(1, "No arguments given\n");
   }
 
-  for (uint i = 0; i < (uint)argc - 1; i++) {
+  for (size_t i = 0; i < (size_t)argc - 1; i++) {
     vfdlog(fd, "%s\n", args[i]);
     printf("%s\n", args[i]);
   }
@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
     vdie(1, "File descriptor couldn't be closed (%d)\n", fd);
   }
 
-  for (size_t i = 0; i < argc - 1; i++) {
+  for (size_t i = 0; i < (size_t)argc - 1; i++) {
     printf("%s\n", str_reversed(args[i]));
   }
 
