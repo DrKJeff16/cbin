@@ -14,6 +14,7 @@ typedef struct _char_ptrs {
   const char *s2;
 } char_ptrs;
 
+char *str_reversed(char *const str);
 void str_append_nul(char *str);
 jbool compare_strv(char **const argv, const size_t len);
 char **filter_argv(const size_t argc, char **argv);

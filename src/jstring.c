@@ -40,7 +40,7 @@ void str_append_nul(char *str) {
 
 jbool compare_strv(char **const argv, const size_t len) {
   if (len < 2) {
-    err(NULL, "`argv` must be of length 2 or greater");
+    verr(NULL, "`argv` must be of length 2 or greater (%d)\n", len);
     return JFALSE;
   }
   if (argv == NULL) {
@@ -55,6 +55,25 @@ jbool compare_strv(char **const argv, const size_t len) {
   }
 
   return JTRUE;
+}
+
+char *str_reversed(char *const str) {
+  if (non_ptr(str)) {
+    return NULL;
+  }
+
+  const J_UULONG len = (J_UULONG)strlen(str);
+  char *result = CALLOC(char, len + 1);
+
+  for (J_UULONG i = 1; i <= len; i++) {
+    result[i - 1] = str[len - i];
+  }
+
+  result[len] = '\0';
+
+  printf("`%s` ==> `%s`\n", str, result);
+
+  return result;
 }
 
 char **filter_argv(const size_t argc, char **const argv) {

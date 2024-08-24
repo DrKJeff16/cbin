@@ -38,6 +38,10 @@ int main(int argc, char **argv) {
     vdie(1, "File descriptor couldn't be closed (%d)\n", fd);
   }
 
+  for (size_t i = 0; i < argc - 1; i++) {
+    printf("%s\n", str_reversed(args[i]));
+  }
+
   die(0, NULL);
 }
 

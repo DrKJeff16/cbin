@@ -66,11 +66,11 @@ int main(int argc, char **argv) {
   CHOICES *c = init_choices();
 
   char **coin = CALLOC(char *, 2);
-  for (uint i = 0; i < 2; i++) {
+  for (size_t i = 0; i < 2; i++) {
     coin[i] = CALLOC(char, 1024);
   }
 
-  for (uint i = 0; i < 2; i++) {
+  for (size_t i = 0; i < 2; i++) {
     if (stpcpy(coin[i], argv[i + 1]) == NULL) {
       free(coin[1]);
       free(coin[0]);

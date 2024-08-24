@@ -9,6 +9,10 @@ extern "C" {
 #define MALLOC(type) (type *)malloc(sizeof(type))
 #endif /* !MALLOC */
 
+#ifndef N_MALLOC
+#define N_MALLOC(type, n) (type *)malloc(sizeof(type) * (n))
+#endif /* !N_MALLOC */
+
 #ifndef CALLOC
 #define CALLOC(type, n) (type *)calloc(n, sizeof(type))
 #endif /* !CALLOC */

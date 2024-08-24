@@ -120,7 +120,7 @@ install_headers/global: $(JEFF_H)
 	install -m 644 $(JEFF_INCDIR)/jeff.h /usr/include/jeff/jeff.h
 	install -m 644 $(JEFF_INCDIR)/jmemory.h /usr/include/jeff/jmemory.h
 	install -m 644 $(JEFF_INCDIR)/jstring.h /usr/include/jeff/jstring.h
-	install -m 644 $(JEFF_INCDIR)/jlua.h $(HOME)/.local/include/jeff/jlua.h
+	install -m 644 $(JEFF_INCDIR)/jlua.h /usr/include/jeff/jlua.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h /usr/include/jeff/jlog.h
 
 
