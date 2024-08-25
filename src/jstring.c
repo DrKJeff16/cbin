@@ -81,7 +81,7 @@ char **filter_argv(const size_t argc, char **const argv) {
     return NULL;
   }
 
-  char **const result = CALLOC(char *, len - 1);
+  char **result = CALLOC(char *, len - 1);
 
   for (size_t i = 1; i < len; i++) {
     if (argv[i] != NULL) {

@@ -17,15 +17,15 @@ int main(int argc, char **argv) {
   int fd = -1;
 
   if ((fd = open(logfile, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) < 0) {
+    free(args);
     vdie(1, "File descriptor unavailable (%d)\n", fd);
   }
 
   if (non_ptr(args)) {
-    if (fd > 0) {
-      vfdlog(fd, "No arguments given\n");
-      close(fd);
-    }
+    vfdlog(fd, "No arguments given\n");
+    close(fd);
 
+    free(args);
     vdie(1, "No arguments given\n");
   }
 
@@ -35,9 +35,11 @@ int main(int argc, char **argv) {
   }
 
   if (close(fd) < 0) {
+    free(args);
     vdie(1, "File descriptor couldn't be closed (%d)\n", fd);
   }
 
+  free(args);
   die(0, NULL);
 }
 
