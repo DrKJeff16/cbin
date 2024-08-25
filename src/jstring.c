@@ -40,11 +40,11 @@ void str_append_nul(char *str) {
 
 jbool compare_strv(char **const argv, const size_t len) {
   if (len < 2) {
-    verr(NULL, "`argv` must be of length 2 or greater (%d)\n", len);
+    verr("`argv` must be of length 2 or greater (%d)\n", len);
     return JFALSE;
   }
-  if (argv == NULL) {
-    err(NULL, "`argv`is NULL");
+  if (non_ptr(argv)) {
+    err("%s\n", "`argv`is NULL");
     return JFALSE;
   }
 
