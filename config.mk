@@ -69,7 +69,7 @@ JEFF_LUA_CFLAGS = $(JEFF_CFLAGS)
 JEFF_LUA_LDFLAGS = $(JEFF_LDFLAGS) -llua
 
 SDL_CFLAGS = $(CFLAGS) \
-			 -D_JASSET_PATH="\"$(ASSET_DIR)/face.png\\0\"" \
+			 -D_JASSET_PATH="\"$(ASSET_DIR)/face.png\"" \
 			 -D_REENTRANT \
 			 -I/usr/include/SDL2
 SDL_LDFLAGS = $(LDFLAGS) \
@@ -95,7 +95,7 @@ GTK_CFLAGS = $(CFLAGS) \
 			 -I/usr/include/sysprof-6 \
 			 -I/usr/lib/glib-2.0/include \
 			 -I/usr/lib/graphene-1.0/include \
-			 -D_JASSET_PATH="\"$(ASSET_DIR)/builder.ui\\0\"" \
+			 -D_JASSET_PATH="\"$(ASSET_DIR)/builder.ui\"" \
 			 -pthread
 GTK_LDFLAGS = $(LDFLAGS) \
 			  -lcairo \
@@ -138,7 +138,8 @@ GL_LDFLAGS = $(LDFLAGS) \
 			 -ldl \
 			 -lglfw \
 			 -lglut \
-			 -lpthread
+			 -lpthread \
+			 -pthread
 GL_H = $(JEFF_INCDIR)/jeff_gl.h
 GL_ACTIONS = gl_1 gl_2
 
