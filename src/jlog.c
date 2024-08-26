@@ -9,13 +9,13 @@
 
 int fdlog(int fd, char *const msg) {
   if (fd < 0) {
-    err("(fdlog): %s\n", "Invalid file descriptor");
-    return -1;
+    verr("(fdlog): %s (%d)\n", "Invalid file descriptor", fd);
+    return fd;
   }
 
-  if (!msg || msg == NULL) {
+  if (null_ptr(msg)) {
     err("(fdlog): %s\n", "NULL format string");
-    return -1;
+    return fd;
   }
 
   return write(fd, msg, strlen(msg) + 1);
@@ -23,13 +23,13 @@ int fdlog(int fd, char *const msg) {
 
 int vfdlog(int fd, char *const fmt, ...) {
   if (fd < 0) {
-    err("(vfdlog): %s\n", "Invalid file descriptor");
-    return -1;
+    verr("(vfdlog): %s (%d)\n", "Invalid file descriptor", fd);
+    return fd;
   }
 
   if (!fmt || fmt == NULL) {
     err("(vfdlog): %s\n", "NULL format string");
-    return -1;
+    return fd;
   }
 
   va_list argp;
@@ -40,25 +40,27 @@ int vfdlog(int fd, char *const fmt, ...) {
   return res;
 }
 
-int log_to_file(const char *path, const J_ULLONG buf_max, char *const msg, const jbool need_fd) {
-  if (!path || path == NULL) {
-    vdie(2, "(log_to_file): %s\n", "File path points to NULL");
-  }
-
-  if (!msg || msg == NULL) {
-    verr("(log_to_file): %s\n", "No message was given to log");
+int log_to_file(char *const path, const J_ULLONG buf_max, char *const msg, const jbool need_fd) {
+  if (null_ptr(path)) {
+    err("(log_to_file): %s\n", "File path points to NULL");
     return -1;
   }
 
-  int logfile_fd = -1;
-  if ((logfile_fd = open(path, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IROTH | S_IRGRP)) <
-      0) {
-    verr("(log_to_file): Unable to open `%s`\n", path);
+  if (null_ptr(msg)) {
+    err("(log_to_file): %s\n", "No message was given to log");
     return -1;
   }
 
-  if (write(logfile_fd, msg, strlen(msg) + 1) < 0) {
-    verr("(log_to_file): Unable to write log to file: %s\n", path);
+  int logfile_fd = open(path, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IROTH | S_IRGRP);
+  if (logfile_fd < 0) {
+    verr("(log_to_file): Unable to open `%s` (fd: %d)\n", path, logfile_fd);
+    return -1;
+  }
+
+  int write_d = write(logfile_fd, msg, strlen(msg) + 1);
+
+  if (write_d < 0) {
+    verr("(log_to_file): Unable to write log to file: `%s` (%d)\n", path, write_d);
     close(logfile_fd);
     return -1;
   }

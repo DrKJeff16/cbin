@@ -27,7 +27,8 @@ CFLAGS = $(CPPFLAGS) \
 		 -g \
 		 -ggdb \
 		 -Wall \
-		 -pedantic
+		 -pedantic \
+		 -pthread
 CXXFLAGS = $(CPPFLAGS) \
 		   -std=gnu++17 \
 		   -march=znver3 \
@@ -36,8 +37,9 @@ CXXFLAGS = $(CPPFLAGS) \
 		   -g \
 		   -ggdb \
 		   -Wall \
-		   -pedantic
-LDFLAGS = -Llib -L/usr/lib/jeff -ljeff -lc -lm
+		   -pedantic \
+		   -pthread
+LDFLAGS = -Llib -L/usr/lib/jeff -ljeff -lc -lm -lpthread
 
 PKG_CONFIG_BIN := pkgconf
 

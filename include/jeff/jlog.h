@@ -15,7 +15,7 @@ typedef enum __j_fdflags {
 } j_fdflag;
 
 int fdlog(int fd, char *const msg);
-int log_to_file(const char *path, const J_ULLONG buf_max, char *const msg, const jbool need_fd);
+int log_to_file(char *const path, const J_ULLONG buf_max, char *const msg, const jbool need_fd);
 int vfdlog(int fd, char *const fmt, ...);
 
 #ifdef __cplusplus

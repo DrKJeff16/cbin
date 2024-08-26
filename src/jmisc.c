@@ -1,32 +1,30 @@
+#include <sys/types.h>
+#include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <unistd.h>
 #include <jeff/jeff.h>
 #include <jeff/jlog.h>
-#include <jeff/jmemory.h>
 #include <jeff/jstring.h>
 #include <jeff/jmisc.h>
 
 const char logfile[9] = "misc.log";
 
 int main(int argc, char **argv) {
-  char **args = filter_argv((size_t)argc, argv);
-  int fd = -1;
+  int fd = fd = open(logfile, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 
-  if ((fd = open(logfile, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) < 0) {
-    free(args);
+  if (fd < 0) {
     vdie(1, "File descriptor unavailable (%d)\n", fd);
   }
 
+  char **args = filter_argv((size_t)argc, argv);
+
   if (null_ptr(args)) {
-    vfdlog(fd, "No arguments given\n");
+    fdlog(fd, "No arguments given");
     close(fd);
 
     free(args);
-    vdie(1, "No arguments given\n");
+    die(1, "No arguments given");
   }
 
   for (size_t i = 0; i < (size_t)argc - 1; i++) {
@@ -34,9 +32,9 @@ int main(int argc, char **argv) {
     printf("%s\n", args[i]);
   }
 
-  if (close(fd) < 0) {
-    free(args);
-    vdie(1, "File descriptor couldn't be closed (%d)\n", fd);
+  int close_d = close(fd);
+  if (close_d < 0) {
+    verr("File descriptor couldn't be closed (%d)\n", close_d);
   }
 
   free(args);
