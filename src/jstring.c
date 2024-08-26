@@ -6,7 +6,7 @@
 #include <jeff/jstring.h>
 
 void str_append_nul(char *str) {
-  if (non_ptr(str)) {
+  if (null_ptr(str)) {
     str = MALLOC(char);
     *str = '\0';
     return;
@@ -43,7 +43,7 @@ jbool compare_strv(char **const argv, const size_t len) {
     verr("`argv` must be of length 2 or greater (%d)\n", len);
     return JFALSE;
   }
-  if (non_ptr(argv)) {
+  if (null_ptr(argv)) {
     err("%s\n", "`argv`is NULL");
     return JFALSE;
   }
@@ -58,7 +58,7 @@ jbool compare_strv(char **const argv, const size_t len) {
 }
 
 char *str_reversed(char *const str) {
-  if (non_ptr(str)) {
+  if (null_ptr(str)) {
     return NULL;
   }
 

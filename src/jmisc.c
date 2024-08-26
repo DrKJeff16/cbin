@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
     vdie(1, "File descriptor unavailable (%d)\n", fd);
   }
 
-  if (non_ptr(args)) {
+  if (null_ptr(args)) {
     vfdlog(fd, "No arguments given\n");
     close(fd);
 

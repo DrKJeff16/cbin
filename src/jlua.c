@@ -6,7 +6,7 @@
 #include <jeff/jmemory.h>  // for MALLOC
 
 jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
-  if (non_ptr(ptr)) {
+  if (null_ptr(ptr)) {
     return NULL;
   }
 
@@ -14,7 +14,7 @@ jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   jlua_op_buf *const safeguard = ptr;
 
   /* Reset position to beginning of linked list */
-  while (!non_ptr(p->_prev)) {
+  while (!null_ptr(p->_prev)) {
     placeholder = p->_prev;
     p = placeholder;
 
@@ -23,13 +23,13 @@ jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
     }
   }
 
-  if (!non_ptr(p)) {
+  if (!null_ptr(p)) {
     J_ULLONG idx = 1;
     p->index = idx - 1;
 
     jlua_op_buf *const first = p;
 
-    while (!non_ptr(p->_next)) {
+    while (!null_ptr(p->_next)) {
       placeholder = p->_next;
       p = placeholder;
 
@@ -48,7 +48,7 @@ jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
 }
 
 jlua_op_buf *last_op_buf(jlua_op_buf *const ptr, lua_State *L) {
-  if (non_ptr(ptr)) {
+  if (null_ptr(ptr)) {
     return NULL;
   }
 
@@ -56,7 +56,7 @@ jlua_op_buf *last_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   jlua_op_buf *const safeguard = ptr;
 
   /* Reset position to beginning of linked list */
-  while (!non_ptr(p->_next)) {
+  while (!null_ptr(p->_next)) {
     placeholder = p->_next;
     p = placeholder;
 
@@ -69,13 +69,13 @@ jlua_op_buf *last_op_buf(jlua_op_buf *const ptr, lua_State *L) {
 }
 
 void kill_op_buf(jlua_op_buf *const ptr, lua_State *L) {
-  if (non_ptr(ptr)) {
+  if (null_ptr(ptr)) {
     return;
   }
 
   jlua_op_buf *buf = last_op_buf(ptr, L), *placeholder = NULL;
 
-  while (!non_ptr(buf->_prev)) {
+  while (!null_ptr(buf->_prev)) {
     placeholder = buf->_prev;
     buf = placeholder;
 
@@ -92,7 +92,7 @@ void kill_op_buf(jlua_op_buf *const ptr, lua_State *L) {
 }
 
 void new_op_buf(jlua_op_buf *const prev_buf, lua_State *L, const J_ULLONG *const index) {
-  if (non_ptr(prev_buf)) {
+  if (null_ptr(prev_buf)) {
     verr("(new_op_buf): %s\n", "Predecessor is NULL");
     return;
   }
@@ -120,10 +120,10 @@ jlua_op_buf *init_op_buf(lua_State *L) {
 }
 
 jlua_op_buf *append_op_buf(jlua_op_buf *const ptr, lua_State *L) {
-  if (non_ptr(ptr)) {
+  if (null_ptr(ptr)) {
     return NULL;
   }
-  if (non_ptr(L)) {
+  if (null_ptr(L)) {
     vdie(127, "(append_op_buf): %s\n", "Lua State has not been initialized");
   }
 
@@ -132,7 +132,7 @@ jlua_op_buf *append_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   J_ULLONG i = 0; /* Start from index 0 */
 
   /* Go element by element until reaching end */
-  while (!non_ptr(p->_next)) {
+  while (!null_ptr(p->_next)) {
     /* Correct index of each element if not aligned */
     if (i != p->index) {
       p->index = i;
@@ -150,10 +150,10 @@ jlua_op_buf *append_op_buf(jlua_op_buf *const ptr, lua_State *L) {
 }
 
 jlua_op_buf *pop_op_buf(jlua_op_buf *const ptr, lua_State *L) {
-  if (non_ptr(ptr)) {
+  if (null_ptr(ptr)) {
     return NULL;
   }
-  if (non_ptr(L)) {
+  if (null_ptr(L)) {
     vdie(127, "(pop_op_buf): %s\n", "Lua State has not been initialized");
   }
 

@@ -5,7 +5,7 @@
 
 void die(const int status, char *const msg) {
   FILE *f = status ? stderr : stdout;
-  if (!non_ptr(msg)) {  /// If status is not 0 and message is available
+  if (!null_ptr(msg)) {  /// If status is not 0 and message is available
     fprintf(f, "%s\n", msg);
   }
 
@@ -16,7 +16,7 @@ void vdie(const int status, char *const fmt, ...) {
   FILE *f = status ? stderr : stdout;
   va_list argp;
 
-  if (!non_ptr(fmt)) {
+  if (!null_ptr(fmt)) {
     va_start(argp, fmt);
     vfprintf(f, fmt, argp);
     va_end(argp);
@@ -29,7 +29,7 @@ void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...) {
   FILE *f = status ? stderr : stdout;
   va_list argp;
 
-  if (!non_ptr(fmt)) {
+  if (!null_ptr(fmt)) {
     va_start(argp, fmt);
     vfprintf(f, fmt, argp);
     va_end(argp);

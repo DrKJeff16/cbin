@@ -1,11 +1,11 @@
 #include <stdlib.h>
 #include <jeff/jeff.h>
 
-jbool jxor(const jbool x, const jbool y) {
+jbool jxor(const J_ULLONG x, const J_ULLONG y) {
   return ((x && !y) || (!x && y));
 }
 
-jbool non_ptr(void *const ptr) {
+jbool null_ptr(void *const ptr) {
   return !ptr || ptr == NULL;
 }
 

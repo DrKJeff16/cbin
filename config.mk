@@ -2,19 +2,14 @@ CC := gcc
 CXX := g++
 
 ASSET_DIR := $(HOME)/.local/share/jassets
-ASDIR := assembly
-CPPDIR := preproc
 BINDIR := bin
 INCDIR := include
 LIBDIR := lib
 OBJDIR := obj
 SRCDIR := src
 
-ALL_DIRS = $(ASDIR) \
-		   $(ASSET_DIR) \
+ALL_DIRS = $(ASSET_DIR) \
 		   $(BINDIR) \
-		   $(CPPDIR) \
-		   $(CPPDIR) \
 		   $(INCDIR) \
 		   $(LIBDIR) \
 		   $(OBJDIR) \
@@ -44,7 +39,7 @@ CXXFLAGS = $(CPPFLAGS) \
 		   -Wall \
 		   -pedantic \
 		   -pthread
-LDFLAGS = -L . -L /usr/lib/jeff -ljerr -ljdie -ljoperators -ljstring -ljlog -lc -lm
+LDFLAGS = -Llib -L/usr/lib/jeff -ljeff -lc -lm
 
 PKG_CONFIG_BIN := pkgconf
 
@@ -54,14 +49,10 @@ JEFF_H = $(JEFF_INCDIR)/jeff.h \
 		 $(JEFF_INCDIR)/jstring.h \
 		 $(JEFF_INCDIR)/jlua.h \
 		 $(JEFF_INCDIR)/jlog.h
-JEFF_LIBS = $(LIBDIR)/libjdie.so \
-			$(LIBDIR)/libjerr.so \
-			$(LIBDIR)/libjoperators.so \
-			$(LIBDIR)/libjstring.so \
-			$(LIBDIR)/libjlua.so \
-			$(LIBDIR)/libjlog.so
+JEFF_LIBS = $(LIBDIR)/libjeff.so \
+			$(LIBDIR)/libjlua.so
 JEFF_CFLAGS = $(CFLAGS) -fPIC
-JEFF_LDFLAGS = -L /usr/lib/jeff -lc -lm
+JEFF_LDFLAGS = -L/usr/lib/jeff -lc -lm
 JEFF_ACTIONS = cointoss jmisc
 
 JEFF_LUA_H = $(JEFF_INCDIR)/jlua.h
