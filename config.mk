@@ -22,23 +22,21 @@ CPPFLAGS = -Iinclude \
 CFLAGS = $(CPPFLAGS) \
 		 -march=znver3 \
 		 -pipe \
-		 -std=gnu99 \
+		 -std=gnu11 \
 		 -O2 \
 		 -g \
 		 -ggdb \
 		 -Wall \
-		 -pedantic \
-		 -pthread
+		 -pedantic
 CXXFLAGS = $(CPPFLAGS) \
-		   -std=c++17 \
+		   -std=gnu++17 \
 		   -march=znver3 \
 		   -pipe \
 		   -O2 \
 		   -g \
 		   -ggdb \
 		   -Wall \
-		   -pedantic \
-		   -pthread
+		   -pedantic
 LDFLAGS = -Llib -L/usr/lib/jeff -ljeff -lc -lm
 
 PKG_CONFIG_BIN := pkgconf
