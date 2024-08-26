@@ -40,20 +40,23 @@ typedef enum _jbool {
 #define J_LINT long int
 #endif /* !J_LINT */
 
-#ifndef PI
-#define PI 3.14159f
-#endif /* !PI */
+#define J_PI_F 3.14159265358979323846
 
-/* libjoperators */
+#define J_PI_LF 3.1415926535897932384626433832795028841971693993
+
+#define J_TAU_F 2.0 * J_PI_F
+#define J_TAU_LF 2.0 * J_PI_LF
+
+/* joperators */
 jbool jxor(const J_ULLONG x, const J_ULLONG y);
 jbool null_ptr(void *const ptr);
 
-/* libjerr */
+/* jerr */
 void err(char *const fmt, char *const msg);
 void verr(char *const fmt, ...);
 void exec_verr(void (*fun)(void), char *const fmt, ...);
 
-/* libjdie */
+/* jdie */
 void die(const int status, char *const msg);
 void vdie(const int status, char *const fmt, ...);
 void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...);
