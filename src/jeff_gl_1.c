@@ -29,7 +29,7 @@ void display(void) {
   float x = 0.f, y = 0.f;
   float i;
 
-  for (i = 0.f; i < (2.f * PI); i += 0.001f) {
+  for (i = 0.f; i < (J_TAU_F); i += 0.001f) {
     x = 200.f * cos(i);
     y = 200.f * sin(i);
 
