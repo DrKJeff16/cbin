@@ -132,7 +132,7 @@ GL_LDFLAGS = $(LDFLAGS) \
 			 -lpthread \
 			 -pthread
 GL_H = $(JEFF_INCDIR)/jeff_gl.h
-GL_ACTIONS = gl_1 gl_2
+GL_ACTIONS = gl_1
 
 LUA_CFLAGS = $(CFLAGS) \
 			 -I/usr/include/luajit-2.1

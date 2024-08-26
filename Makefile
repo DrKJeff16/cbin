@@ -57,7 +57,6 @@ libs: dirs $(JEFF_LIBS)
 cointoss: dirs $(BINDIR)/cointoss
 jmisc: dirs $(BINDIR)/jmisc
 gl_1: dirs $(BINDIR)/jeff_gl_1
-gl_2: dirs $(BINDIR)/jeff_gl_2
 gtk_1: dirs $(BINDIR)/jeff_gtk_1
 gtk_2: dirs $(BINDIR)/jeff_gtk_2
 gtk_3: dirs $(BINDIR)/jeff_gtk_3
@@ -122,10 +121,6 @@ $(BINDIR)/jmisc: $(SRCDIR)/jmisc.c $(JEFF_INCDIR)/jmisc.h
 $(BINDIR)/jeff_gl_1: $(SRCDIR)/jeff_gl_1.c $(GL_H)
 	$(CC) -c $(SRCDIR)/jeff_gl_1.c $(GL_CFLAGS) -o $(OBJDIR)/jeff_gl_1.o
 	$(CC) $(OBJDIR)/jeff_gl_1.o $(GL_CFLAGS) $(GL_LDFLAGS) -o $@
-
-$(BINDIR)/jeff_gl_2: $(SRCDIR)/jeff_gl_2.c $(GL_H)
-	$(CC) -c $(SRCDIR)/jeff_gl_2.c $(GL_CFLAGS) -o $(OBJDIR)/jeff_gl_2.o
-	$(CC) $(OBJDIR)/jeff_gl_2.o $(GL_CFLAGS) $(GL_LDFLAGS) -o $@
 
 $(BINDIR)/jeff_gtk_1: $(SRCDIR)/jeff_gtk_1.c $(GTK_H)
 	$(CC) -c $(SRCDIR)/jeff_gtk_1.c $(GTK_CFLAGS) -o $(OBJDIR)/jeff_gtk_1.o

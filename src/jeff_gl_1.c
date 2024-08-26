@@ -1,78 +1,63 @@
-#include <GL/gl.h>
-#include <GL/glu.h>           // for gluOrtho2D
-#include <GL/freeglut_std.h>  // for glutCreateWindow, glutDisplayFunc, glut...
-#include <math.h>             // for cos, sin
-#include <stdlib.h>           // for free, NULL
-#include <jeff/jeff.h>        // for die, PI
-#include <jeff/jmemory.h>     // for MALLOC
-#include <jeff/jeff_gl.h>     // for gl_init_t, rgb_t, rgba_t, display, init
+#include <GL/glew.h>       // for glewExperimental, GL_TRUE, glClear, glewInit
+#include <GLFW/glfw3.h>    // for glfwWindowHint, GLFWwindow, glfwCreateWindow
+#include <stdlib.h>        // for NULL
+#include <sys/types.h>     // for u_char, uint
+#include <jeff/jeff.h>     // for die
+#include <jeff/jeff_gl.h>  // for esc_not_pressed, glew_init, glfw_init, win...
 
-void init(gl_init_t *args) {
-  if (args == NULL) {
-    die(127, "Init args are NULL");
+void glfw_init(void) {
+  glewExperimental = (u_char)1;
+  if (!glfwInit()) {
+    die(-1, "`glfwInit()` failed");
   }
 
-  glClearColor(args->rgba->red, args->rgba->green, args->rgba->blue, args->rgba->alpha);
-
-  glColor3f(args->rgb->red, args->rgb->green, args->rgb->blue);
-
-  glPointSize(1.f);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-
-  gluOrtho2D(-780, 780, -420, 420);
+  glfwWindowHint(GLFW_SAMPLES, 4);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 }
 
-void display(void) {
-  glClear(GL_COLOR_BUFFER_BIT);
-  glBegin(GL_POINTS);
-  float x = 0.f, y = 0.f;
-  float i;
-
-  for (i = 0.f; i < (J_TAU_F); i += 0.001f) {
-    x = 200.f * cos(i);
-    y = 200.f * sin(i);
-
-    glVertex2i(x, y);
+void glew_init(GLFWwindow *window) {
+  if (window == NULL) {
+    glfwTerminate();
+    die(1, "Failed to open GLFW window. Incompatible with version 3.3. Try 2.1");
   }
 
-  glEnd();
-  glFlush();
+  glfwMakeContextCurrent(window);
+  if (!glewExperimental) {
+    glewExperimental = (u_char)1;
+  }
+
+  if (glewInit() != GLEW_OK) {
+    die(1, "Failed to initialize GLEW.");
+  }
+}
+
+uint esc_not_pressed(GLFWwindow *window) {
+  return (
+    uint)((glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && !glfwWindowShouldClose(window)));
+}
+
+void window_run(GLFWwindow *window) {
+  glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+
+  do {
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+  } while (esc_not_pressed(window));
 }
 
 int main(int argc, char **argv) {
-  gl_init_t *init_args = MALLOC(gl_init_t);
-  init_args->rgba = MALLOC(rgba_t);
-  init_args->rgb = MALLOC(rgb_t);
+  glfw_init();
 
-  init_args->rgba->red = 0.f;
-  init_args->rgba->green = 0.f;
-  init_args->rgba->blue = 0.f;
-  init_args->rgba->alpha = 1.f;
+  GLFWwindow *window = glfwCreateWindow(1920, 1080, "Tutorial 02", NULL, NULL);
 
-  init_args->rgb->red = 0.f;
-  init_args->rgb->green = 1.f;
-  init_args->rgb->blue = 0.f;
+  glew_init(window);
+  window_run(window);
 
-  int *pargc = MALLOC(int);
-  *pargc = argc;
-
-  glutInit(pargc, argv);
-  glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-
-  glutInitWindowSize(1920, 1080);
-  glutInitWindowPosition(0, 0);
-
-  glutCreateWindow("Circle Drawing");
-  init(init_args);
-
-  glutDisplayFunc(display);
-  glutMainLoop();
-
-  free(pargc);
-  free(init_args->rgb);
-  free(init_args->rgba);
-  free(init_args);
   return 0;
 }
 
