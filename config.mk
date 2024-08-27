@@ -100,6 +100,7 @@ GTK_LDFLAGS = $(LDFLAGS) \
 			  -lharfbuzz \
 			  -lpango-1.0 \
 			  -lpangocairo-1.0 \
+			  -lpthread \
 			  -lvulkan \
 			  -mfpmath=sse \
 			  -msse \
@@ -129,8 +130,7 @@ GL_LDFLAGS = $(LDFLAGS) \
 			 -ldl \
 			 -lglfw \
 			 -lglut \
-			 -lpthread \
-			 -pthread
+			 -lpthread
 GL_H = $(JEFF_INCDIR)/jeff_gl.h
 GL_ACTIONS = gl_1
 

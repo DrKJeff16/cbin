@@ -8,6 +8,8 @@ extern "C" {
 #include <cairo.h>
 #include <gtk/gtk.h>
 
+static const char title[16] = "org.gtk.example";
+
 void clear_surface(void);
 void draw_cb(GtkDrawingArea *drawing_area, cairo_t *cr, const int width, const int height,
              gpointer data);

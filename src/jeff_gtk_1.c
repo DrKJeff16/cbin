@@ -1,12 +1,12 @@
-#include <gio/gio.h>           // for g_application_run, G_APPLICATION, G_AP...
-#include <glib-object.h>       // for g_object_unref, g_signal_connect
-#include <glib.h>              // for gpointer
-#include <gtk/gtk.h>           // for GTK_WINDOW, GtkApplication, gtk_applic...
-#include <stdlib.h>            // for NULL
-#include <gobject/gclosure.h>  // for G_CALLBACK
-#include <jeff/jeff_gtk.h>     // for activate
+#include <gio/gio.h>
+#include <glib-object.h>
+#include <glib.h>
+#include <gtk/gtk.h>
+#include <stdlib.h>
+#include <gobject/gclosure.h>
+#include <jeff/jeff_gtk.h>
 
-const char app_id[] = "org.gtk.example";
+extern const char title[16];
 
 void activate(GtkApplication *app, gpointer user_data) {
   GtkWidget *window = gtk_application_window_new(app);
@@ -16,9 +16,11 @@ void activate(GtkApplication *app, gpointer user_data) {
 }
 
 int main(int argc, char **argv) {
-  GtkApplication *app = gtk_application_new(app_id, G_APPLICATION_DEFAULT_FLAGS);
+  int status = 0;
+
+  GtkApplication *app = gtk_application_new(title, G_APPLICATION_DEFAULT_FLAGS);
   g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
-  int status = g_application_run(G_APPLICATION(app), argc, argv);
+  status = g_application_run(G_APPLICATION(app), argc, argv);
 
   g_object_unref(app);
 

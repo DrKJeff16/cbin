@@ -9,6 +9,8 @@ extern "C" {
 #include <GLFW/glfw3.h>
 #include <sys/types.h>
 
+#include <jeff/jeff.h>
+
 typedef struct _gl_rgba {
   double red;
   double green;
@@ -31,7 +33,7 @@ void init(gl_init_t *args);
 void display(void);
 void glfw_init(void);
 void glew_init(GLFWwindow *window);
-uint esc_not_pressed(GLFWwindow *window);
+jbool esc_not_pressed(GLFWwindow *const window);
 void window_run(GLFWwindow *window);
 
 #ifdef __cplusplus

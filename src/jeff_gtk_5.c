@@ -1,13 +1,15 @@
-#include <cairo.h>             // for cairo_create, cairo_destroy, cairo_paint
-#include <gdk/gdk.h>           // for GdkSurface, gdk_surface_create_similar...
-#include <gio/gio.h>           // for g_application_run, G_APPLICATION, G_AP...
-#include <glib-object.h>       // for g_signal_connect, g_object_unref, g_si...
-#include <glib.h>              // for gpointer
-#include <gtk/gtk.h>           // for GtkWidget, gtk_gesture_single_set_button
-#include <stdlib.h>            // for NULL, free
-#include <gobject/gclosure.h>  // for G_CALLBACK
-#include <jeff/jmemory.h>      // for MALLOC
-#include <jeff/jeff_gtk.h>     // for activate, clear_surface, close_window
+#include <cairo.h>
+#include <gdk/gdk.h>
+#include <gio/gio.h>
+#include <glib-object.h>
+#include <glib.h>
+#include <gtk/gtk.h>
+#include <stdlib.h>
+#include <gobject/gclosure.h>
+#include <jeff/jmemory.h>
+#include <jeff/jeff_gtk.h>
+
+extern const char example[16];
 
 static cairo_surface_t *surface = NULL;
 static double start_x = 0., start_y = 0.;
@@ -59,8 +61,6 @@ void draw_brush(GtkWidget *widget, const double x, const double y) {
   gtk_widget_queue_draw(widget);
 }
 
-static double start_x, start_y;
-
 void drag_begin(GtkGestureDrag *gesture, const double x, const double y, GtkWidget *area) {
   start_x = x;
   start_y = y;
@@ -89,8 +89,8 @@ void close_window(void) {
 }
 
 void activate(GtkApplication *app, gpointer user_data) {
-  GtkWidget *window, *frame, *drawing_area;
-  GtkGesture *drag, *press;
+  GtkWidget *window = NULL, *frame = NULL, *drawing_area = NULL;
+  GtkGesture *drag = NULL, *press = NULL;
 
   window = gtk_application_window_new(app);
   gtk_window_set_title(GTK_WINDOW(window), "Drawing Area");
@@ -127,10 +127,12 @@ void activate(GtkApplication *app, gpointer user_data) {
 }
 
 int main(int argc, char **argv) {
-  GtkApplication *app = gtk_application_new("org.gtk.example", G_APPLICATION_DEFAULT_FLAGS);
+  int status = 0;
+
+  GtkApplication *app = gtk_application_new(title, G_APPLICATION_DEFAULT_FLAGS);
   g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
 
-  int status = g_application_run(G_APPLICATION(app), argc, argv);
+  status = g_application_run(G_APPLICATION(app), argc, argv);
   g_object_unref(app);
 
   return status;

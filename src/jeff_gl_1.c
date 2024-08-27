@@ -1,14 +1,15 @@
-#include <GL/glew.h>       // for glewExperimental, GL_TRUE, glClear, glewInit
-#include <GLFW/glfw3.h>    // for glfwWindowHint, GLFWwindow, glfwCreateWindow
-#include <stdlib.h>        // for NULL
-#include <sys/types.h>     // for u_char, uint
-#include <jeff/jeff.h>     // for die
-#include <jeff/jeff_gl.h>  // for esc_not_pressed, glew_init, glfw_init, win...
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <jeff/jeff.h>
+#include <jeff/jeff_gl.h>
 
 void glfw_init(void) {
   glewExperimental = (u_char)1;
-  if (!glfwInit()) {
-    die(-1, "`glfwInit()` failed");
+  int glfw_s = glfwInit();
+  if (!glfw_s) {
+    vdie(-1, "`glfwInit()` failed (%d)\n", glfw_s);
   }
 
   glfwWindowHint(GLFW_SAMPLES, 4);
@@ -19,9 +20,9 @@ void glfw_init(void) {
 }
 
 void glew_init(GLFWwindow *window) {
-  if (window == NULL) {
-    glfwTerminate();
-    die(1, "Failed to open GLFW window. Incompatible with version 3.3. Try 2.1");
+  if (null_ptr(window)) {
+    exec_vdie(1, glfwTerminate, "Failed to open GLFW window\n%s\n",
+              " Incompatible with version 3.3. Try 2.1");
   }
 
   glfwMakeContextCurrent(window);
@@ -29,14 +30,14 @@ void glew_init(GLFWwindow *window) {
     glewExperimental = (u_char)1;
   }
 
-  if (glewInit() != GLEW_OK) {
-    die(1, "Failed to initialize GLEW.");
+  GLenum init_s = glewInit();
+  if (init_s != GLEW_OK) {
+    vdie(1, "Failed to initialize GLEW (%d)\n", init_s);
   }
 }
 
-uint esc_not_pressed(GLFWwindow *window) {
-  return (
-    uint)((glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && !glfwWindowShouldClose(window)));
+jbool esc_not_pressed(GLFWwindow *const window) {
+  return glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && !glfwWindowShouldClose(window);
 }
 
 void window_run(GLFWwindow *window) {
@@ -58,6 +59,7 @@ int main(int argc, char **argv) {
   glew_init(window);
   window_run(window);
 
+  exec_vdie(0, glfwTerminate, NULL);
   return 0;
 }
 

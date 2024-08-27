@@ -1,17 +1,19 @@
-#include <gio/gio.h>           // for g_application_run, G_APPLICATION, G_AP...
-#include <glib-object.h>       // for g_object_unref, g_signal_connect, g_si...
-#include <glib.h>              // for g_print, gpointer
-#include <gtk/gtk.h>           // for GTK_WINDOW, GtkWidget, GTK_ALIGN_CENTER
-#include <stdlib.h>            // for NULL
-#include <gobject/gclosure.h>  // for G_CALLBACK
-#include <jeff/jeff_gtk.h>     // for activate, print_hello
+#include <gio/gio.h>
+#include <glib-object.h>
+#include <glib.h>
+#include <gtk/gtk.h>
+#include <stdlib.h>
+#include <gobject/gclosure.h>
+#include <jeff/jeff_gtk.h>
+
+extern const char title[16];
 
 void print_hello(GtkWidget *widget, gpointer data) {
   g_print("Hello World!\n");
 }
 
 void activate(GtkApplication *app, gpointer user_data) {
-  GtkWidget *window, *button, *box;
+  GtkWidget *window = NULL, *button = NULL, *box = NULL;
 
   window = gtk_application_window_new(app);
   gtk_window_set_title(GTK_WINDOW(window), "Window");
@@ -34,8 +36,7 @@ void activate(GtkApplication *app, gpointer user_data) {
 
 int main(int argc, char **argv) {
   int status = 0;
-  GtkApplication *app;
-  app = gtk_application_new("org.gtk.example", G_APPLICATION_DEFAULT_FLAGS);
+  GtkApplication *app = gtk_application_new(title, G_APPLICATION_DEFAULT_FLAGS);
   g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
   status = g_application_run(G_APPLICATION(app), argc, argv);
   g_object_unref(app);
