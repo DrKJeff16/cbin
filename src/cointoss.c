@@ -27,6 +27,10 @@ void decide(const jbool x, CHOICES *c) {
   }
 }
 
+jbool toss(void) {
+  return fd_rand(1, 0);
+}
+
 void final_decide(const CHOICES *c, char **coin) {
   if (null_ptr(coin)) {
     vdie(1, "No coin to print\n");
@@ -39,10 +43,6 @@ void final_decide(const CHOICES *c, char **coin) {
   } else {
     printf("%s\n", coin[toss()]);
   }
-}
-
-jbool toss(void) {
-  return fd_rand(1, 0);
 }
 
 int main(int argc, char **argv) {
@@ -60,7 +60,8 @@ int main(int argc, char **argv) {
   }
 
   for (size_t i = 0; i < 2; i++) {
-    if (stpcpy(coin[i], argv[i + 1]) == NULL) {
+    coin[i] = REALLOC(coin[i], char, strlen(argv[i + 1]) + 1);
+    if (null_ptr(stpcpy(coin[i], argv[i + 1]))) {
       free(coin[1]);
       free(coin[0]);
       free(coin);
@@ -68,17 +69,6 @@ int main(int argc, char **argv) {
       vdie(2, "Unable to copy string to new array");
     }
   }
-
-  size_t *lengths = CALLOC(size_t, 2);
-  for (size_t i = 0; i < 2; i++) {
-    lengths[i] = strlen(coin[i]) + 1;
-  }
-
-  for (size_t i = 0; i < 2; i++) {
-    coin[i] = REALLOC(coin[i], char, lengths[i]);
-  }
-
-  free(lengths);
 
   for (J_ULLONG i = 0L; i < 100000L; i++) {
     decide(toss(), c);

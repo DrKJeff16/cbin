@@ -12,36 +12,43 @@ void err(char *const fmt, char *const msg) {
   format[2] = '\n';
   format[3] = '\0';
 
-  if (msg != NULL) {
-    if (fmt != NULL) {
-      format = REALLOC(format, char, strlen(fmt) + 1);
-      if (null_ptr(stpcpy(format, fmt))) {
-        return;
-      }
+  if (!null_ptr(fmt)) {
+    format = REALLOC(format, char, strlen(fmt) + 1);
+    if (null_ptr(stpcpy(format, fmt))) {
+      free(format);
+      return;
     }
+  }
 
+  if (!null_ptr(msg)) {
     fprintf(stderr, format, msg);
   }
+
+  free(format);
 }
 
 void verr(char *const fmt, ...) {
+  if (null_ptr(fmt)) {
+    return;
+  }
+
   va_list argp;
 
-  if (fmt != NULL) {
-    va_start(argp, fmt);
-    vfprintf(stderr, fmt, argp);
-    va_end(argp);
-  }
+  va_start(argp, fmt);
+  vfprintf(stderr, fmt, argp);
+  va_end(argp);
 }
 
 void exec_verr(void (*fun)(void), char *const fmt, ...) {
+  if (null_ptr(fmt)) {
+    return;
+  }
+
   va_list argp;
 
-  if (fmt != NULL) {
-    va_start(argp, fmt);
-    vfprintf(stderr, fmt, argp);
-    va_end(argp);
-  }
+  va_start(argp, fmt);
+  vfprintf(stderr, fmt, argp);
+  va_end(argp);
 
   fun();
 }

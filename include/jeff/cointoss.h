@@ -5,8 +5,6 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <sys/types.h>
-
 #include "jeff.h"
 
 typedef struct {
@@ -14,13 +12,10 @@ typedef struct {
   J_ULLONG HEADS;
 } CHOICES;
 
-void seed(void);
 void decide(const jbool x, CHOICES *c);
 jbool toss(void);
 void final_decide(const CHOICES *c, char **coin);
 CHOICES *init_choices(void);
-
-static jbool SEEDED = JFALSE;
 
 #ifdef __cplusplus
 }
