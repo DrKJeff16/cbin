@@ -2,19 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include <jeff/jeff.h>
 #include <jeff/jmemory.h>
+#include <jeff/jrandom.h>
 #include <jeff/cointoss.h>
-
-extern jbool SEEDED;
-
-void seed(void) {
-  if (!(SEEDED)) {
-    srand(time(NULL));
-    SEEDED = JTRUE;
-  }
-}
 
 CHOICES *init_choices(void) {
   CHOICES *c = MALLOC(CHOICES);
@@ -37,7 +28,7 @@ void decide(const jbool x, CHOICES *c) {
 }
 
 void final_decide(const CHOICES *c, char **coin) {
-  if (!coin || coin == NULL) {
+  if (null_ptr(coin)) {
     vdie(1, "No coin to print\n");
   }
 
@@ -51,7 +42,7 @@ void final_decide(const CHOICES *c, char **coin) {
 }
 
 jbool toss(void) {
-  return rand() % 2;
+  return fd_rand(1, 0);
 }
 
 int main(int argc, char **argv) {
@@ -60,8 +51,6 @@ int main(int argc, char **argv) {
   if (argc != 2) {
     vdie(127, "(main): %s\n", "Need two arguments, no more, no less");
   }
-
-  seed();
 
   CHOICES *c = init_choices();
 

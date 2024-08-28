@@ -34,6 +34,9 @@ $(OBJDIR)/jdie.o: $(JEFF_H) $(SRCDIR)/jdie.c
 $(OBJDIR)/jerr.o: $(JEFF_H) $(SRCDIR)/jerr.c
 	$(CC) -c $(SRCDIR)/jerr.c $(JEFF_CFLAGS) -o $(OBJDIR)/jerr.o
 
+$(OBJDIR)/jrandom.o: $(JEFF_H) $(SRCDIR)/jrandom.c
+	$(CC) -c $(SRCDIR)/jrandom.c $(JEFF_CFLAGS) -o $(OBJDIR)/jrandom.o
+
 $(OBJDIR)/jstring.o: $(JEFF_H) $(SRCDIR)/jstring.c
 	$(CC) -c $(SRCDIR)/jstring.c $(JEFF_CFLAGS) -o $(OBJDIR)/jstring.o
 
@@ -44,8 +47,8 @@ $(OBJDIR)/jlua.o: $(JEFF_H) $(SRCDIR)/jlua.c
 	$(CC) -c $(SRCDIR)/jlua.c $(JEFF_LUA_CFLAGS) -o $(OBJDIR)/jlua.o
 
 
-$(LIBDIR)/libjeff.so: $(JEFF_H) $(OBJDIR)/joperators.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/jlog.o
-	$(CC) $(OBJDIR)/joperators.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/jlog.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjeff.so $(JEFF_LDFLAGS)
+$(LIBDIR)/libjeff.so: $(JEFF_H) $(OBJDIR)/joperators.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/jlog.o $(OBJDIR)/jrandom.o
+	$(CC) $(OBJDIR)/joperators.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/jlog.o $(OBJDIR)/jrandom.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjeff.so $(JEFF_LDFLAGS)
 
 $(LIBDIR)/libjlua.so: $(JEFF_H) $(OBJDIR)/jlua.o $(OBJDIR)/jerr.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/joperators.o
 	$(CC) $(OBJDIR)/jlua.o $(OBJDIR)/jerr.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/joperators.o $(JEFF_LUA_CFLAGS) -shared -o $(LIBDIR)/libjlua.so $(JEFF_LUA_LDFLAGS)
@@ -78,6 +81,7 @@ install_headers/local: $(JEFF_H)
 	mkdir -p $(HOME)/.local/include/jeff
 	install -m 644 $(JEFF_INCDIR)/jeff.h $(HOME)/.local/include/jeff/jeff.h
 	install -m 644 $(JEFF_INCDIR)/jmemory.h $(HOME)/.local/include/jeff/jmemory.h
+	install -m 644 $(JEFF_INCDIR)/jrandom.h $(HOME)/.local/include/jeff/jrandom.h
 	install -m 644 $(JEFF_INCDIR)/jstring.h $(HOME)/.local/include/jeff/jstring.h
 	install -m 644 $(JEFF_INCDIR)/jlua.h $(HOME)/.local/include/jeff/jlua.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h $(HOME)/.local/include/jeff/jlog.h
@@ -87,6 +91,7 @@ install_headers/global: $(JEFF_H)
 	mkdir -p /usr/include/jeff
 	install -m 644 $(JEFF_INCDIR)/jeff.h /usr/include/jeff/jeff.h
 	install -m 644 $(JEFF_INCDIR)/jmemory.h /usr/include/jeff/jmemory.h
+	install -m 644 $(JEFF_INCDIR)/jrandom.h /usr/include/jeff/jrandom.h
 	install -m 644 $(JEFF_INCDIR)/jstring.h /usr/include/jeff/jstring.h
 	install -m 644 $(JEFF_INCDIR)/jlua.h /usr/include/jeff/jlua.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h /usr/include/jeff/jlog.h
