@@ -31,9 +31,9 @@ jbool toss(void) {
   return fd_rand(1, 0);
 }
 
-void final_decide(const CHOICES *c, char **coin) {
+void final_decide(const CHOICES *const c, char **const coin) {
   if (null_ptr(coin)) {
-    vdie(1, "No coin to print\n");
+    die(1, "No coin to print");
   }
 
   if (c->HEADS > c->TAILS) {
@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
   argc--;
 
   if (argc != 2) {
-    vdie(127, "(main): %s\n", "Need two arguments, no more, no less");
+    vdie(127, "(main): Need two arguments, no more, no less (got %d)\n", argc);
   }
 
   CHOICES *c = init_choices();

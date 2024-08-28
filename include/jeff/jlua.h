@@ -58,7 +58,7 @@ void kill_op_buf(jlua_op_buf *const ptr, lua_State *L);
 /**
  * Generate a new jlua operator buffer to be indexed
  */
-void new_op_buf(jlua_op_buf *const predecessor, lua_State *L, const J_ULLONG *const i);
+void new_op_buf(jlua_op_buf *const predecessor, lua_State *L, J_ULLONG *const index);
 /**
  * Initialize an empty jlua operator buffer
  */

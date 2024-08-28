@@ -1,17 +1,17 @@
-#include <lua.h>    // for lua_State
-#include <stdio.h>  // for NULL, size_t
+#include <lua.h>
+#include <stdio.h>
 #include <stdlib.h>
-#include <jeff/jeff.h>     // for err
-#include <jeff/jlua.h>     // for jlua_op_buf, _jlua_op, __jlua_o...
-#include <jeff/jmemory.h>  // for MALLOC
+#include <jeff/jeff.h>
+#include <jeff/jmemory.h>
+#include <jeff/jlua.h>
 
 jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   if (null_ptr(ptr)) {
     return NULL;
   }
 
-  jlua_op_buf *p = ptr, *placeholder = NULL;
   jlua_op_buf *const safeguard = ptr;
+  jlua_op_buf *p = ptr, *placeholder = NULL;
 
   /* Reset position to beginning of linked list */
   while (!null_ptr(p->_prev)) {
@@ -52,8 +52,8 @@ jlua_op_buf *last_op_buf(jlua_op_buf *const ptr, lua_State *L) {
     return NULL;
   }
 
-  jlua_op_buf *p = ptr, *placeholder = NULL;
   jlua_op_buf *const safeguard = ptr;
+  jlua_op_buf *p = ptr, *placeholder = NULL;
 
   /* Reset position to beginning of linked list */
   while (!null_ptr(p->_next)) {
@@ -79,11 +79,11 @@ void kill_op_buf(jlua_op_buf *const ptr, lua_State *L) {
     placeholder = buf->_prev;
     buf = placeholder;
 
-    if (buf->_next && NULL != buf->_next) {
+    if (!null_ptr(buf->_next)) {
       free(buf->_next);
     }
 
-    if (buf->data && NULL != buf->data) {
+    if (!null_ptr(buf->data)) {
       free(buf->data);
     }
   }
@@ -91,7 +91,7 @@ void kill_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   free(buf);
 }
 
-void new_op_buf(jlua_op_buf *const prev_buf, lua_State *L, const J_ULLONG *const index) {
+void new_op_buf(jlua_op_buf *const prev_buf, lua_State *L, J_ULLONG *const index) {
   if (null_ptr(prev_buf)) {
     verr("(new_op_buf): %s\n", "Predecessor is NULL");
     return;
@@ -102,7 +102,7 @@ void new_op_buf(jlua_op_buf *const prev_buf, lua_State *L, const J_ULLONG *const
   prev_buf->_next->_prev = prev_buf;
   prev_buf->_next->_type = JLUA_NIL;
   prev_buf->_next->_operator = NOOP;
-  prev_buf->_next->index = (index != NULL) ? *index : 0;
+  prev_buf->_next->index = (!null_ptr(index)) ? *index : 0;
   prev_buf->_next->data = NULL;
 }
 
