@@ -11,7 +11,7 @@
 const char logfile[9] = "misc.log";
 
 int main(int argc, char **argv) {
-  int fd = fd = open(logfile, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+  int fd = open(logfile, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 
   if (fd < 0) {
     vdie(1, "File descriptor unavailable (%d)\n", fd);
@@ -34,7 +34,8 @@ int main(int argc, char **argv) {
 
   int close_d = close(fd);
   if (close_d < 0) {
-    verr("File descriptor couldn't be closed (%d)\n", close_d);
+    free(args);
+    vdie(1, "File descriptor couldn't be closed (%d)\n", close_d);
   }
 
   free(args);
