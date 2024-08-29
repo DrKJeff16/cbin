@@ -41,6 +41,7 @@ void verr(char *const fmt, ...) {
 
 void exec_verr(void (*fun)(void), char *const fmt, ...) {
   if (null_ptr(fmt)) {
+    fun();
     return;
   }
 

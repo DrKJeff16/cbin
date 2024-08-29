@@ -5,7 +5,8 @@
 
 void die(const int status, char *const msg) {
   FILE *f = status ? stderr : stdout;
-  if (!null_ptr(msg)) {  /// If status is not 0 and message is available
+
+  if (!null_ptr(msg)) {  /// If message is available
     fprintf(f, "%s\n", msg);
   }
 

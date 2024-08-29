@@ -31,9 +31,13 @@ jbool toss(void) {
   return fd_rand(1, 0);
 }
 
-void final_decide(const CHOICES *const c, char **const coin) {
+void final_decide(CHOICES *const c, char **const coin) {
   if (null_ptr(coin)) {
     die(1, "No coin to print");
+  }
+
+  if (null_ptr(c)) {
+    die(1, "No choices to make a decision from");
   }
 
   if (c->HEADS > c->TAILS) {
@@ -66,7 +70,7 @@ int main(int argc, char **argv) {
       free(coin[0]);
       free(coin);
       free(c);
-      vdie(2, "Unable to copy string to new array");
+      die(2, "Unable to copy string to new array");
     }
   }
 

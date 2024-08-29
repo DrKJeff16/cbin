@@ -8,7 +8,7 @@ J_ULLONG fd_rand(const J_ULLONG max, const J_ULLONG min) {
   int fd = open("/dev/urandom", O_RDONLY);
 
   if (fd < 0) {
-    verr("`/dev/urandom` inaccessible (%d)", fd);
+    verr("`/dev/urandom` inaccessible (%d)\n", fd);
     return 0;
   }
 

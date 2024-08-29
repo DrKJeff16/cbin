@@ -1,6 +1,5 @@
 #include <fcntl.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
 #include <unistd.h>
@@ -27,7 +26,7 @@ int vfdlog(int fd, char *const fmt, ...) {
     return fd;
   }
 
-  if (!fmt || fmt == NULL) {
+  if (null_ptr(fmt)) {
     err("(vfdlog): %s\n", "NULL format string");
     return fd;
   }

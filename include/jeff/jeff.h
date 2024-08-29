@@ -5,8 +5,6 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <sys/types.h>
-
 typedef enum _jbool {
   JFALSE = 0,
   JTRUE = 1,
@@ -44,8 +42,8 @@ typedef enum _jbool {
 
 #define J_PI_LF 3.1415926535897932384626433832795028841971693993
 
-#define J_TAU_F 2.0 * J_PI_F
-#define J_TAU_LF 2.0 * J_PI_LF
+#define J_TAU_F 2. * J_PI_F
+#define J_TAU_LF 2. * J_PI_LF
 
 /* joperators */
 jbool jxor(const J_ULLONG x, const J_ULLONG y);
