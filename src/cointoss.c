@@ -28,7 +28,7 @@ void decide(const jbool x, CHOICES *c) {
 }
 
 jbool toss(void) {
-  return fd_rand(1, 0);
+  return fd_urand(0, 1);
 }
 
 void final_decide(CHOICES *const c, char **const coin) {

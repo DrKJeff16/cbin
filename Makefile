@@ -40,6 +40,9 @@ $(OBJDIR)/jrandom.o: $(JEFF_H) $(SRCDIR)/jrandom.c
 $(OBJDIR)/jstring.o: $(JEFF_H) $(SRCDIR)/jstring.c
 	$(CC) -c $(SRCDIR)/jstring.c $(JEFF_CFLAGS) -o $(OBJDIR)/jstring.o
 
+$(OBJDIR)/jinput.o: $(JEFF_H) $(SRCDIR)/jinput.c
+	$(CC) -c $(SRCDIR)/jinput.c $(JEFF_CFLAGS) -o $(OBJDIR)/jinput.o
+
 $(OBJDIR)/jlog.o: $(JEFF_H) $(SRCDIR)/jlog.c
 	$(CC) -c $(SRCDIR)/jlog.c $(JEFF_CFLAGS) -o $(OBJDIR)/jlog.o
 
@@ -47,8 +50,8 @@ $(OBJDIR)/jlua.o: $(JEFF_H) $(SRCDIR)/jlua.c
 	$(CC) -c $(SRCDIR)/jlua.c $(JEFF_LUA_CFLAGS) -o $(OBJDIR)/jlua.o
 
 
-$(LIBDIR)/libjeff.so: $(JEFF_H) $(OBJDIR)/joperators.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/jlog.o $(OBJDIR)/jrandom.o
-	$(CC) $(OBJDIR)/joperators.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/jlog.o $(OBJDIR)/jrandom.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjeff.so $(JEFF_LDFLAGS)
+$(LIBDIR)/libjeff.so: $(JEFF_H) $(OBJDIR)/joperators.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/jlog.o $(OBJDIR)/jrandom.o $(OBJDIR)/jinput.o
+	$(CC) $(OBJDIR)/joperators.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/jlog.o $(OBJDIR)/jrandom.o $(OBJDIR)/jinput.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjeff.so $(JEFF_LDFLAGS)
 
 $(LIBDIR)/libjlua.so: $(JEFF_H) $(OBJDIR)/jlua.o $(OBJDIR)/jerr.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/joperators.o
 	$(CC) $(OBJDIR)/jlua.o $(OBJDIR)/jerr.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/joperators.o $(JEFF_LUA_CFLAGS) -shared -o $(LIBDIR)/libjlua.so $(JEFF_LUA_LDFLAGS)
@@ -84,14 +87,15 @@ install_headers/local: $(JEFF_H)
 	install -m 644 $(JEFF_INCDIR)/jrandom.h $(HOME)/.local/include/jeff/jrandom.h
 	install -m 644 $(JEFF_INCDIR)/jstring.h $(HOME)/.local/include/jeff/jstring.h
 	install -m 644 $(JEFF_INCDIR)/jlua.h $(HOME)/.local/include/jeff/jlua.h
+	install -m 644 $(JEFF_INCDIR)/jinput.h $(HOME)/.local/include/jeff/jinput.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h $(HOME)/.local/include/jeff/jlog.h
-	chown -Rc $(USER)\:$(USER) $(HOME)/.local/include
 
 install_headers/global: $(JEFF_H)
 	mkdir -p /usr/include/jeff
 	install -m 644 $(JEFF_INCDIR)/jeff.h /usr/include/jeff/jeff.h
 	install -m 644 $(JEFF_INCDIR)/jmemory.h /usr/include/jeff/jmemory.h
 	install -m 644 $(JEFF_INCDIR)/jrandom.h /usr/include/jeff/jrandom.h
+	install -m 644 $(JEFF_INCDIR)/jinput.h /usr/include/jeff/jinput.h
 	install -m 644 $(JEFF_INCDIR)/jstring.h /usr/include/jeff/jstring.h
 	install -m 644 $(JEFF_INCDIR)/jlua.h /usr/include/jeff/jlua.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h /usr/include/jeff/jlog.h
@@ -117,7 +121,7 @@ install_libs/stripped: install_libs/fast
 $(OBJDIR)/cointoss.o: $(SRCDIR)/cointoss.c $(JEFF_INCDIR)/cointoss.h
 	$(CC) -c $(SRCDIR)/cointoss.c $(CFLAGS) -o $@
 $(BINDIR)/cointoss: $(OBJDIR)/cointoss.o $(JEFF_INCDIR)/cointoss.h
-	$(CC) $(OBJDIR)/cointoss.o $(CFLAGS) -o $@ $(LDFLAGS)
+	$(CC) $(OBJDIR)/cointoss.o $(CFLAGS) $(LDFLAGS) -o $@
 
 $(OBJDIR)/jmisc.o: $(SRCDIR)/jmisc.c $(JEFF_INCDIR)/jmisc.h
 	$(CC) -c $(SRCDIR)/jmisc.c $(CFLAGS) -o $@

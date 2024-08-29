@@ -1,5 +1,5 @@
-#ifndef JRANDOM_H
-#define JRANDOM_H
+#ifndef JINPUT_H
+#define JINPUT_H 1
 
 #ifdef __cplusplus
 extern "C" {
@@ -7,10 +7,10 @@ extern "C" {
 
 #include "jeff.h"
 
-J_ULLONG fd_urand(const J_ULLONG min, const J_ULLONG max);
+char *buffer_get(char *const msg, size_t *const buf_len);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* !JRANDOM_H */
+#endif /* !JINPUT_H */

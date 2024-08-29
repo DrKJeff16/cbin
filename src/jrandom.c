@@ -4,7 +4,7 @@
 #include <jeff/jmemory.h>
 #include <jeff/jrandom.h>
 
-J_ULLONG fd_rand(const J_ULLONG max, const J_ULLONG min) {
+J_ULLONG fd_urand(const J_ULLONG min, const J_ULLONG max) {
   int fd = open("/dev/urandom", O_RDONLY);
 
   if (fd < 0) {
