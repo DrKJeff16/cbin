@@ -1,4 +1,3 @@
-#include <sys/types.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -32,13 +31,13 @@ int main(int argc, char **argv) {
     printf("%s\n", args[i]);
   }
 
+  free(args);
+
   int close_d = close(fd);
   if (close_d < 0) {
-    free(args);
-    vdie(1, "File descriptor couldn't be closed (%d)\n", close_d);
+    vdie(1, "File descriptor couldn't be closed (fd: %d)\n", close_d);
   }
 
-  free(args);
   die(0, NULL);
 }
 

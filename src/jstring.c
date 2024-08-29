@@ -12,19 +12,22 @@ void str_append_nul(char *str) {
     return;
   }
 
-  char *new_str = NULL;
   const size_t len = strlen(str) + 1;
   char *str_og = CALLOC(char, len);
-  new_str = CALLOC(char, len + 1);
+  char *new_str = CALLOC(char, len + 1);
+
+  if (!null_ptr(strchr(str, 0))) {
+    return;
+  }
 
   /// If no NUL char in `str`
-  if (stpcpy(new_str, str) == NULL) {
+  if (null_ptr(stpcpy(new_str, str))) {
     new_str[len] = '\0';
   } else {
     new_str = REALLOC(new_str, char, len);
   }
 
-  if (stpcpy(str, new_str) == NULL) {
+  if (null_ptr(stpcpy(str, new_str))) {
     stpcpy(str, str_og);
 
     free(new_str);
