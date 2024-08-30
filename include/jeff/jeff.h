@@ -6,8 +6,13 @@ extern "C" {
 #endif /* __cplusplus */
 
 typedef enum _jbool {
+#if defined(true) && defined(false)
+  JFALSE = false,
+  JTRUE = true,
+#else
   JFALSE = 0,
   JTRUE = 1,
+#endif
 } jbool;
 
 #ifndef J_ULLONG
@@ -38,12 +43,20 @@ typedef enum _jbool {
 #define J_LINT long int
 #endif /* !J_LINT */
 
-#define J_PI_F 3.14159265358979323846
+#ifndef J_SHINT
+#define J_SHINT short int
+#endif /* !J_SHINT */
 
-#define J_PI_LF 3.1415926535897932384626433832795028841971693993
+#ifndef J_USHINT
+#define J_USHINT short unsigned int
+#endif /* !J_USHINT */
 
-#define J_TAU_F 2. * J_PI_F
-#define J_TAU_LF 2. * J_PI_LF
+#define J_PI_F 3.14159265358979323846F
+
+#define J_PI_LF 3.1415926535897932384626433832795028841971693993L
+
+#define J_TAU_F (2.0F * J_PI_F)
+#define J_TAU_LF (2.0L * J_PI_LF)
 
 /* joperators */
 jbool jxor(const J_ULLONG x, const J_ULLONG y);
