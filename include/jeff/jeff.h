@@ -60,7 +60,27 @@ typedef enum _jbool {
 
 /* ------------------------------- joperators ---------------------------------*/
 
-jbool jxor(const J_ULLONG x, const J_ULLONG y);
+/* ----------------------------------------------------------------------------*/
+/**
+ * @brief Emulate `xor`
+ *
+ * @param x Value 1
+ * @param y Value 2
+ *
+ * @return `JFALSE (0) | JTRUE (1)`
+ */
+/* ----------------------------------------------------------------------------*/
+jbool jxor(const J_LLONG x, const J_LLONG y);
+
+/* --------------------------------------------------------------------------*/
+/**
+ * @brief Check if pointer is valid and not `NULL`
+ *
+ * @param ptr Arbitrary pointer
+ *
+ * @return `JFALSE (0) | JTRUE (1)`
+ */
+/* ----------------------------------------------------------------------------*/
 jbool null_ptr(void *const ptr);
 
 /* ---------------------------------- jerr ------------------------------------*/

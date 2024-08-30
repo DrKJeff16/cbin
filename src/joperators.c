@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <jeff/jeff.h>
 
-jbool jxor(const J_ULLONG x, const J_ULLONG y) {
+jbool jxor(const J_LLONG x, const J_LLONG y) {
   return ((x && !y) || (!x && y));
 }
 
