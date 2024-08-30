@@ -18,6 +18,8 @@ char *str_reversed(char *const str);
 void str_append_nul(char *str);
 jbool compare_strv(char **const argv, const size_t len);
 char **filter_argv(const size_t argc, char **argv);
+jbool is_lower(char *const str);
+jbool is_upper(char *const str);
 
 #ifdef __cplusplus
 }

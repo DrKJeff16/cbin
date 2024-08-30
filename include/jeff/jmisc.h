@@ -5,7 +5,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <sys/types.h>
+static int log_open(void);
 
 #ifdef __cplusplus
 }

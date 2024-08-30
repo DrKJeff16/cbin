@@ -41,6 +41,39 @@ void str_append_nul(char *str) {
   free(str_og);
 }
 
+jbool is_lower(char *const str) {
+  if (null_ptr(str)) {
+    return JFALSE;
+  }
+
+  jbool res = JTRUE;
+
+  for (size_t i = 0; i < strlen(str) + 1; i++) {
+    if (str[i] >= 65 && str[i] <= 90) {
+      res = JFALSE;
+      break;
+    }
+  }
+
+  return res;
+}
+jbool is_upper(char *const str) {
+  if (null_ptr(str)) {
+    return JFALSE;
+  }
+
+  jbool res = JTRUE;
+
+  for (size_t i = 0; i < strlen(str) + 1; i++) {
+    if (str[i] >= 97 && str[i] <= 122) {
+      res = JFALSE;
+      break;
+    }
+  }
+
+  return res;
+}
+
 jbool compare_strv(char **const argv, const size_t len) {
   if (len < 2) {
     verr("`argv` must be of length 2 or greater (%d)\n", len);
