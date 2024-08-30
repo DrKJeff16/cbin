@@ -58,18 +58,83 @@ typedef enum _jbool {
 #define J_TAU_F (2.0F * J_PI_F)
 #define J_TAU_LF (2.0L * J_PI_LF)
 
-/* joperators */
+/* ------------------------------- joperators ---------------------------------*/
+
 jbool jxor(const J_ULLONG x, const J_ULLONG y);
 jbool null_ptr(void *const ptr);
 
-/* jerr */
+/* ---------------------------------- jerr ------------------------------------*/
+
+/* ----------------------------------------------------------------------------*/
+/**
+ * @brief Print message to `stderr`
+ *
+ * @param fmt Format string; if `NULL`, defaults to `"%s\n"`
+ * @param msg Message string
+ */
+/* ----------------------------------------------------------------------------*/
 void err(char *const fmt, char *const msg);
+
+/* ----------------------------------------------------------------------------*/
+/**
+ * @brief Print formatted string and variable args to `stderr`
+ *
+ * @param fmt Format string; if `NULL`, function terminates
+ * @param ...
+ */
+/* ----------------------------------------------------------------------------*/
 void verr(char *const fmt, ...);
+
+/* ----------------------------------------------------------------------------*/
+/**
+ * @brief Print error message and execute function pointer
+ *
+ * @param fun Function pointer (**`void`, no args**)
+ * @param fmt Format string. If `NULL` then only `fun` executes and then returns
+ * @param ...
+ */
+/* ----------------------------------------------------------------------------*/
 void exec_verr(void (*fun)(void), char *const fmt, ...);
 
-/* jdie */
+/* ---------------------------------- jdie ------------------------------------*/
+
+/* ----------------------------------------------------------------------------*/
+/**
+ * @brief Terminate program and optionally print message
+ *
+ * If exit code is 0 message will be printed to `stdout`. Otherwise it'll be `stderr`
+ *
+ * @param status Exit code
+ * @param msg Output string to print before termination. If `NULL` then no message will be printed
+ */
+/* ----------------------------------------------------------------------------*/
 void die(const int status, char *const msg);
+
+/* ----------------------------------------------------------------------------*/
+/**
+ * @brief Terminate program and optionally print formatted string
+ *
+ * If exit code is 0 message will be printed to `stdout`. Otherwise it'll be `stderr`
+ *
+ * @param status Exit code
+ * @param fmt Formatted string to print before termination. If `NULL` then no message will be
+ * printed
+ * @param ...
+ */
+/* ----------------------------------------------------------------------------*/
 void vdie(const int status, char *const fmt, ...);
+
+/* ----------------------------------------------------------------------------*/
+/**
+ * @brief Terminate program, execute function and optionally print formatted string
+ *
+ * @param status Exit code
+ * @param fun Function pointer (**`void`, no args**)
+ * @param fmt Formatted string to print before termination. If `NULL` then no message will be
+ * printed
+ * @param ...
+ */
+/* ----------------------------------------------------------------------------*/
 void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...);
 
 #ifdef __cplusplus
