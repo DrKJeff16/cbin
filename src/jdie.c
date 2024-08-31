@@ -4,22 +4,19 @@
 #include <jeff/jeff.h>
 
 void die(const int status, char *const msg) {
-  FILE *f = status ? stderr : stdout;
-
   if (!null_ptr(msg)) {  /// If message is available
-    fprintf(f, "%s\n", msg);
+    fprintf(status ? stderr : stdout, "%s\n", msg);
   }
 
   exit(status);
 }
 
 void vdie(const int status, char *const fmt, ...) {
-  FILE *f = status ? stderr : stdout;
-  va_list argp;
-
   if (!null_ptr(fmt)) {
+    va_list argp;
+
     va_start(argp, fmt);
-    vfprintf(f, fmt, argp);
+    vfprintf(status ? stderr : stdout, fmt, argp);
     va_end(argp);
   }
 
@@ -27,12 +24,11 @@ void vdie(const int status, char *const fmt, ...) {
 }
 
 void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...) {
-  FILE *f = status ? stderr : stdout;
-  va_list argp;
-
   if (!null_ptr(fmt)) {
+    va_list argp;
+
     va_start(argp, fmt);
-    vfprintf(f, fmt, argp);
+    vfprintf(status ? stderr : stdout, fmt, argp);
     va_end(argp);
   }
 

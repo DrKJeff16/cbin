@@ -35,7 +35,8 @@ char *buffer_get(char *const msg, size_t *const buf_len) {
     snprintf(res, len, "Press any key...: ");
   }
 
-  if (null_ptr(strchr(res, 0))) {
+  char *chr = strchr(res, 0);
+  if (null_ptr(chr)) {
     res = REALLOC(res, char, len + 1);
     res[len] = '\0';
   } else {

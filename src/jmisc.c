@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
 
   *fd = log_open();
 
-  char **args = filter_argv((size_t)argc, argv);
+  char **args = filter_argv(JCAST(size_t, argc), argv);
 
   if (null_ptr(args)) {
     fdlog(*fd, "No arguments given");
@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
     die(1, "No arguments given");
   }
 
-  for (size_t i = 0; i < (size_t)argc - 1; i++) {
+  for (size_t i = 0; i < JCAST(size_t, argc - 1); i++) {
     vfdlog(*fd, "%s\n", args[i]);
     printf("%s\n", args[i]);
   }

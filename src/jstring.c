@@ -16,25 +16,26 @@ void str_append_nul(char *str) {
   char *str_og = CALLOC(char, len);
   char *new_str = CALLOC(char, len + 1);
 
-  if (!null_ptr(strchr(str, 0))) {
+  char *chr = strchr(str, 0);
+  if (!null_ptr(chr)) {
+    free(str_og);
+    free(new_str);
     return;
   }
 
+  chr = stpcpy(new_str, str);
   /// If no NUL char in `str`
-  if (null_ptr(stpcpy(new_str, str))) {
+  if (null_ptr(chr)) {
     new_str[len] = '\0';
   } else {
     new_str = REALLOC(new_str, char, len);
   }
 
-  if (null_ptr(stpcpy(str, new_str))) {
+  chr = stpcpy(str, new_str);
+  if (null_ptr(chr)) {
     stpcpy(str, str_og);
 
-    free(new_str);
-    free(str_og);
-
     verr("(str_append_nul): %s\n", "Unable to copy `new_str` back to `str`");
-    return;
   }
 
   free(new_str);
@@ -98,7 +99,7 @@ char *str_reversed(char *const str) {
     return NULL;
   }
 
-  const J_ULLONG len = (J_ULLONG)strlen(str);
+  const J_ULLONG len = JCAST(J_ULLONG, strlen(str));
   char *result = CALLOC(char, len + 1);
 
   for (J_ULLONG i = 1; i <= len; i++) {
@@ -118,13 +119,15 @@ char **filter_argv(const size_t argc, char **const argv) {
   }
 
   char **result = CALLOC(char *, len - 1);
+  char *chr = NULL;
 
   for (size_t i = 1; i < len; i++) {
-    if (argv[i] != NULL) {
+    if (!null_ptr(argv[i])) {
       const size_t i_len = strlen(argv[i]) + 1;
       result[i - 1] = CALLOC(char, i_len);
 
-      if (stpcpy(result[i - 1], argv[i]) == NULL) {
+      chr = stpcpy(result[i - 1], argv[i]);
+      if (null_ptr(chr)) {
         str_append_nul(result[i - 1]);
       }
     } else {

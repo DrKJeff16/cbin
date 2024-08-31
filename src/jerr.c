@@ -14,7 +14,8 @@ void err(char *const fmt, char *const msg) {
 
   if (!null_ptr(fmt)) {
     format = REALLOC(format, char, strlen(fmt) + 1);
-    if (null_ptr(stpcpy(format, fmt))) {
+    char *cpy = stpcpy(format, fmt);
+    if (null_ptr(cpy)) {
       free(format);
       return;
     }

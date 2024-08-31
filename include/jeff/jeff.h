@@ -5,6 +5,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#include <stdlib.h>
+
+#define JCAST(type, data) (type)(data)
 #define null_ptr(ptr) (!ptr || ptr == NULL)
 
 typedef enum _jbool {
