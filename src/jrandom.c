@@ -1,6 +1,5 @@
 #include <errno.h>
 #include <string.h>
-#include <fcntl.h>
 #include <unistd.h>
 #include <jeff/jeff.h>
 #include <jeff/jrandom.h>

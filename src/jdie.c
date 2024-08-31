@@ -1,4 +1,5 @@
 #include <errno.h>
+#include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,6 +35,25 @@ void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...) {
   }
 
   fun();
+
+  exit(status);
+}
+
+void errno_vdie(const int status, const int errno_val, char *const fmt, ...) {
+  FILE *out = status ? stderr : stdout;
+
+  errno = 0;
+  char *err_str = strerror(errno_val);
+  if (!null_ptr(err_str)) {
+    fprintf(out, "%s\n", err_str);
+  }
+
+  if (!null_ptr(fmt)) {
+    va_list argp;
+    va_start(argp, fmt);
+    vfprintf(out, fmt, argp);
+    va_end(argp);
+  }
 
   exit(status);
 }

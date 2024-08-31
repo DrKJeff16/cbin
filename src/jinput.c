@@ -1,8 +1,6 @@
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include <stdio.h>
 #include <jeff/jeff.h>
 #include <jeff/jmemory.h>

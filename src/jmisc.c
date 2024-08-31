@@ -17,7 +17,6 @@ static int log_open(void) {
 
   if (fd < 0) {
     verr("(log_open): %s\n%s (%d)\n", strerror(EBADFD), "File descriptor unavailable", fd);
-    return -1;
   }
 
   return fd;
@@ -27,6 +26,11 @@ int main(int argc, char **argv) {
   int *fd = MALLOC(int);
 
   *fd = log_open();
+
+  if (*fd < 1) {
+    free(fd);
+    vdie(1, "%s\n", strerror(EBADFD));
+  }
 
   char **args = filter_argv(JCAST(size_t, argc), argv);
 
@@ -44,10 +48,10 @@ int main(int argc, char **argv) {
     printf("%s\n", args[i]);
   }
 
-  free(args);
-
   int close_d = close(*fd);
+
   free(fd);
+  free(args);
   if (close_d < 0) {
     vdie(1, "(jmisc): %s\n%s (%d)\n", strerror(EIO), "File descriptor couldn't be closed", close_d);
   }
