@@ -60,17 +60,17 @@ $(LIBDIR)/libjlua.so: $(JEFF_H) $(OBJDIR)/jlua.o $(OBJDIR)/jerr.o $(OBJDIR)/jstr
 libs: dirs $(JEFF_LIBS)
 
 
-cointoss: dirs $(BINDIR)/cointoss
-jmisc: dirs $(BINDIR)/jmisc
-gl_1: dirs $(BINDIR)/jeff_gl_1
-gtk_1: dirs $(BINDIR)/jeff_gtk_1
-gtk_2: dirs $(BINDIR)/jeff_gtk_2
-gtk_3: dirs $(BINDIR)/jeff_gtk_3
-gtk_4: dirs $(BINDIR)/jeff_gtk_4
-gtk_5: dirs $(BINDIR)/jeff_gtk_5
-lua_1: dirs $(BINDIR)/jeff_lua_1
-ncurses_1: dirs $(BINDIR)/jeff_ncurses_1
-sdl_1: dirs $(BINDIR)/jeff_sdl_1
+cointoss: libs dirs $(BINDIR)/cointoss
+jmisc: libs dirs $(BINDIR)/jmisc
+gl_1: libs dirs $(BINDIR)/jeff_gl_1
+gtk_1: libs dirs $(BINDIR)/jeff_gtk_1
+gtk_2: libs dirs $(BINDIR)/jeff_gtk_2
+gtk_3: libs dirs $(BINDIR)/jeff_gtk_3
+gtk_4: libs dirs $(BINDIR)/jeff_gtk_4
+gtk_5: libs dirs $(BINDIR)/jeff_gtk_5
+lua_1: libs dirs $(BINDIR)/jeff_lua_1
+ncurses_1: libs dirs $(BINDIR)/jeff_ncurses_1
+sdl_1: libs dirs $(BINDIR)/jeff_sdl_1
 
 
 strip/bin: $(BINDIR)

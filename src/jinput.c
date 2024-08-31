@@ -1,3 +1,4 @@
+#include <errno.h>
 #include <string.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -25,7 +26,7 @@ char *buffer_get(char *const msg, size_t *const buf_len) {
 
   char *res = CALLOC(char, len);
 
-  for (J_UINT i = 0; i < len; i++) {
+  for (J_ULONG i = 0; i < len; i++) {
     res[i] = '\0';
   }
 
@@ -49,8 +50,11 @@ char *buffer_get(char *const msg, size_t *const buf_len) {
   }
 
   if (null_ptr(res)) {
-    vdie(1, "(buffer_get): %s\n", "Buffer got null'd for some reason");
+    free(res);
+    vdie(1, "(buffer_get): %s\n%s\n", strerror(EFAULT), "Buffer got null'd for some reason");
   }
 
   return res;
 }
+
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:

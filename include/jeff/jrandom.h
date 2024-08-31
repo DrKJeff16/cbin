@@ -7,7 +7,7 @@ extern "C" {
 
 #include "jeff.h"
 
-J_ULLONG fd_urand(const J_ULLONG min, const J_ULLONG max);
+J_ULLONG fd_urand(int fd, const J_ULLONG min, const J_ULLONG max);
 
 #ifdef __cplusplus
 }

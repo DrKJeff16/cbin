@@ -5,8 +5,6 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <stdlib.h>
-
 #define JCAST(type, data) (type)(data)
 #define null_ptr(ptr) (!ptr || ptr == NULL)
 
@@ -137,6 +135,8 @@ void die(const int status, char *const msg);
  */
 /* ----------------------------------------------------------------------------*/
 void vdie(const int status, char *const fmt, ...);
+
+void errno_vdie(const int status, const int errno_val, char *const fmt, ...);
 
 /* ----------------------------------------------------------------------------*/
 /**

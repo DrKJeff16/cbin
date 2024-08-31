@@ -39,7 +39,7 @@ CXXFLAGS = $(CPPFLAGS) \
 		   -Wall \
 		   -pedantic \
 		   -pthread
-LDFLAGS = -Llib -L/usr/lib/jeff -ljeff -lc -lm -lpthread
+LDFLAGS = -L/usr/lib/jeff -ljeff
 
 PKG_CONFIG_BIN := pkgconf
 
@@ -54,7 +54,7 @@ JEFF_H = $(JEFF_INCDIR)/jeff.h \
 JEFF_LIBS = $(LIBDIR)/libjeff.so \
 			$(LIBDIR)/libjlua.so
 JEFF_CFLAGS = $(CFLAGS) -fPIC
-JEFF_LDFLAGS = -L/usr/lib/jeff -lc -lm
+JEFF_LDFLAGS = -lc -lm
 JEFF_ACTIONS = cointoss jmisc
 
 JEFF_LUA_H = $(JEFF_INCDIR)/jlua.h

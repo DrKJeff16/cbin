@@ -13,8 +13,8 @@ typedef struct {
 } CHOICES;
 
 void decide(const jbool x, CHOICES *c);
-jbool toss(void);
-void final_decide(CHOICES *const c, char **const coin);
+jbool toss(int fd);
+void final_decide(int fd, CHOICES *const c, char **const coin);
 CHOICES *init_choices(void);
 
 #ifdef __cplusplus

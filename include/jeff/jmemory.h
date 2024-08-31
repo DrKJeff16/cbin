@@ -5,8 +5,6 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <stdlib.h>
-
 #ifndef MALLOC
 #define MALLOC(type) (type *)malloc(sizeof(type))
 #endif /* !MALLOC */

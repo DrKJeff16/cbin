@@ -1,3 +1,5 @@
+#include <errno.h>
+#include <string.h>
 #include <lua.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,7 +21,7 @@ jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
     p = placeholder;
 
     if (safeguard == p) {
-      lua_err(L, "(first_op_buf): %s\n", "Looping list. Aborting");
+      lua_err(L, "(first_op_buf): %s\n%s\n", strerror(E2BIG), "Looping list");
     }
   }
 
@@ -34,7 +36,7 @@ jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
       p = placeholder;
 
       if (first == p) {
-        lua_err(L, "(first_op_buf): %s\n", "Looping list. Aborting");
+        lua_err(L, "(first_op_buf): %s\n%s\n", strerror(E2BIG), "Looping list");
       }
 
       p->index = idx;
@@ -61,7 +63,7 @@ jlua_op_buf *last_op_buf(jlua_op_buf *const ptr, lua_State *L) {
     p = placeholder;
 
     if (safeguard == p) {
-      lua_err(L, "(last_op_buf): %s\n", "Looping list. Aborting");
+      lua_err(L, "(last_op_buf): %s\n%s\n", strerror(E2BIG), "Looping list");
     }
   }
 
@@ -93,7 +95,7 @@ void kill_op_buf(jlua_op_buf *const ptr, lua_State *L) {
 
 void new_op_buf(jlua_op_buf *const prev_buf, lua_State *L, J_ULLONG *const index) {
   if (null_ptr(prev_buf)) {
-    verr("(new_op_buf): %s\n", "Predecessor is NULL");
+    verr("(new_op_buf): %s\n%s\n", strerror(EFAULT), "Predecessor is NULL");
     return;
   }
 
@@ -124,7 +126,7 @@ jlua_op_buf *append_op_buf(jlua_op_buf *const ptr, lua_State *L) {
     return NULL;
   }
   if (null_ptr(L)) {
-    vdie(127, "(append_op_buf): %s\n", "Lua State has not been initialized");
+    vdie(127, "(append_op_buf): %s\n%s\n", strerror(ESRCH), "Lua State has not been initialized");
   }
 
   jlua_op_buf *p = first_op_buf(ptr, L), *placeholder = NULL;
@@ -154,7 +156,7 @@ jlua_op_buf *pop_op_buf(jlua_op_buf *const ptr, lua_State *L) {
     return NULL;
   }
   if (null_ptr(L)) {
-    vdie(127, "(pop_op_buf): %s\n", "Lua State has not been initialized");
+    vdie(127, "(pop_op_buf): %s\n%s\n", strerror(ESRCH), "Lua State has not been initialized");
   }
 
   jlua_op_buf *last = last_op_buf(ptr, L);

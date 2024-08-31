@@ -1,13 +1,13 @@
+#include <errno.h>
+#include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <jeff/jeff.h>
 #include <jeff/jrandom.h>
 
-J_ULLONG fd_urand(const J_ULLONG min, const J_ULLONG max) {
-  int fd = open("/dev/urandom", O_RDONLY);
-
+J_ULLONG fd_urand(int fd, const J_ULLONG min, const J_ULLONG max) {
   if (fd < 0) {
-    verr("`/dev/urandom` inaccessible (%d)\n", fd);
+    verr("(fd_urand): %s\n%s (fd: %d)\n", strerror(EBADF), "File descriptor inaccessible", fd);
     return 0;
   }
 
@@ -16,12 +16,9 @@ J_ULLONG fd_urand(const J_ULLONG min, const J_ULLONG max) {
   int read_d = read(fd, &result, sizeof(result));
 
   if (read_d < 0) {
-    err("(fd_urand): Failed to read into buffer\n", NULL);
-    close(fd);
+    verr("(fd_urand): %s\n%s (%d)\n", strerror(EIO), "Failed to read into buffer", read_d);
     return 0;
   }
-
-  close(fd);
 
   return JCAST(J_ULLONG, result % (max - min + 1) + min);
 }

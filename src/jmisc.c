@@ -1,5 +1,7 @@
+#include <errno.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <jeff/jeff.h>
@@ -14,7 +16,7 @@ static int log_open(void) {
   int fd = open(logfile, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 
   if (fd < 0) {
-    verr("File descriptor unavailable (%d)\n", fd);
+    verr("(log_open): %s\n%s (%d)\n", strerror(EBADFD), "File descriptor unavailable", fd);
     return -1;
   }
 
@@ -29,12 +31,12 @@ int main(int argc, char **argv) {
   char **args = filter_argv(JCAST(size_t, argc), argv);
 
   if (null_ptr(args)) {
-    fdlog(*fd, "No arguments given");
+    vfdlog(*fd, "(jmisc): %s\n%s\n", strerror(ENOKEY), "No arguments given");
     close(*fd);
 
     free(args);
     free(fd);
-    die(1, "No arguments given");
+    vdie(1, "(jmisc): %s\n%s\n", strerror(ENOKEY), "No arguments given");
   }
 
   for (size_t i = 0; i < JCAST(size_t, argc - 1); i++) {
@@ -47,7 +49,7 @@ int main(int argc, char **argv) {
   int close_d = close(*fd);
   free(fd);
   if (close_d < 0) {
-    vdie(1, "File descriptor couldn't be closed (fd: %d)\n", close_d);
+    vdie(1, "(jmisc): %s\n%s (%d)\n", strerror(EIO), "File descriptor couldn't be closed", close_d);
   }
 
   die(0, NULL);
