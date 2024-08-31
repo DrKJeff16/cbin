@@ -5,6 +5,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#define null_ptr(ptr) (!ptr || ptr == NULL)
+
 typedef enum _jbool {
 #if defined(true) && defined(false)
   JFALSE = false,
@@ -71,17 +73,6 @@ typedef enum _jbool {
  */
 /* ----------------------------------------------------------------------------*/
 jbool jxor(const J_LLONG x, const J_LLONG y);
-
-/* --------------------------------------------------------------------------*/
-/**
- * @brief Check if pointer is valid and not `NULL`
- *
- * @param ptr Arbitrary pointer
- *
- * @return `JFALSE (0) | JTRUE (1)`
- */
-/* ----------------------------------------------------------------------------*/
-jbool null_ptr(void *const ptr);
 
 /* ---------------------------------- jerr ------------------------------------*/
 
