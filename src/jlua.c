@@ -7,8 +7,38 @@
 #include <jeff/jmemory.h>
 #include <jeff/jlua.h>
 
+char *jlua_op_char(const jlua_operator x) {
+  switch (x) {
+    case PUSH:
+      return "PUSH";
+    case CHECK_STACK:
+      return "StackCheck";
+    case NOOP:
+    default:
+      return "NOOP";
+  }
+}
+
+char *jlua_type_char(const jlua_type x) {
+  switch (x) {
+    case JLUA_NIL:
+      return "nil";
+    case JLUA_BOOL:
+      return "boolean";
+    case JLUA_LSTR:
+      return "lstring";
+    case JLUA_NUM:
+      return "number";
+    case JLUA_STR:
+      return "string";
+    default:
+      return NULL;
+  }
+}
+
 jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   if (null_ptr(ptr)) {
+    verr("(first_op_buf): %s\n%s\n", strerror(EFAULT), "Argument is NULL");
     return NULL;
   }
 
@@ -25,25 +55,8 @@ jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
     }
   }
 
-  if (!null_ptr(p)) {
-    J_ULLONG idx = 1;
-    p->index = idx - 1;
-
-    jlua_op_buf *const first = p;
-
-    while (!null_ptr(p->_next)) {
-      placeholder = p->_next;
-      p = placeholder;
-
-      if (first == p) {
-        lua_err(L, "(first_op_buf): %s\n%s\n", strerror(E2BIG), "Looping list");
-      }
-
-      p->index = idx;
-      idx++;
-    }
-
-    p = first;
+  if (null_ptr(p)) {
+    lua_err(L, "(first_op_buf): %s\n%s\n", strerror(EFAULT), "NULL pointer");
   }
 
   return p;
@@ -51,6 +64,7 @@ jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
 
 jlua_op_buf *last_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   if (null_ptr(ptr)) {
+    verr("(last_op_buf): %s\n%s\n", strerror(EFAULT), "Argument is NULL");
     return NULL;
   }
 
@@ -65,6 +79,10 @@ jlua_op_buf *last_op_buf(jlua_op_buf *const ptr, lua_State *L) {
     if (safeguard == p) {
       lua_err(L, "(last_op_buf): %s\n%s\n", strerror(E2BIG), "Looping list");
     }
+  }
+
+  if (null_ptr(p)) {
+    lua_err(L, "(last_op_buf): %s\n%s\n", strerror(EFAULT), "NULL pointer");
   }
 
   return p;
@@ -82,15 +100,11 @@ void kill_op_buf(jlua_op_buf *const ptr, lua_State *L) {
     placeholder = buf->_prev;
     buf = placeholder;
 
-    if (!null_ptr(buf->_next)) {
-      free(buf->_next);
-    }
-
-    if (!null_ptr(buf->data)) {
-      free(buf->data);
-    }
+    printf("Freeing address: %p\n", JCAST(void *, buf->_next));
+    free(buf->_next);
   }
 
+  printf("Freeing final address: %p\n", JCAST(void *, buf));
   free(buf);
 }
 
@@ -152,21 +166,40 @@ jlua_op_buf *append_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   return p->_next;
 }
 
-jlua_op_buf *pop_op_buf(jlua_op_buf *const ptr, lua_State *L) {
-  if (null_ptr(ptr)) {
-    return NULL;
-  }
+void op_buf_iprint(jlua_op_buf *const ptr, lua_State *L) {
   if (null_ptr(L)) {
-    vdie(127, "(pop_op_buf): %s\n%s\n", strerror(ESRCH), "Lua State has not been initialized");
+    verr("NULL Lua state, can't print\n");
+    return;
+  }
+  if (null_ptr(ptr)) {
+    verr("NULL buffer, can't print\n");
+    return;
   }
 
-  jlua_op_buf *last = last_op_buf(ptr, L);
-  jlua_op_buf *new_last = last->_prev;
+  printf("Slot %llu ==> %p\n", ptr->index, JCAST(void *, ptr));
 
-  last->_prev = NULL;
-  new_last->_next = NULL;
+  if (!null_ptr(ptr->_prev)) {
+    printf("|    Previous Slot (%llu) ==> %p\n", ptr->_prev->index, JCAST(void *, ptr->_prev));
+  } else {
+    printf("|    Previous Slot ==> NULL\n");
+  }
+  if (!null_ptr(ptr->_next)) {
+    printf("|    Next Slot (%llu) ==> %p\n", ptr->_next->index, JCAST(void *, ptr->_next));
+  } else {
+    printf("|    Next Slot ==> NULL\n");
+  }
 
-  return last;
+  char *_char = jlua_type_char(ptr->_type);
+  printf("|    Type ==> %s\n", !null_ptr(_char) ? _char : "unknown");
+
+  _char = jlua_op_char(ptr->_operator);
+  printf("|    Operator ==> %s\n", !null_ptr(_char) ? _char : "NOOP");
+
+  if (!null_ptr(ptr->data)) {
+    printf("|    Data ==> %p\n", JCAST(void *, ptr->data));
+  } else {
+    printf("|    Data ==> NULL\n");
+  }
 }
 
 /// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:

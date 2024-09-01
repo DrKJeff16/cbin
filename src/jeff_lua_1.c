@@ -1,14 +1,14 @@
-#include <sys/types.h>     // for uint
-#include <lauxlib.h>       // for luaL_newstate
-#include <lua.h>           // for lua_State, lua_close
-#include <lualib.h>        // for luaL_openlibs
-#include <stdarg.h>        // for va_end, va_start
-#include <stdio.h>         // for printf, vfprintf, NULL, stderr, va_list
-#include <stdlib.h>        // for free, exit, EXIT_FAILURE
-#include <string.h>        // for strcmp
-#include <jeff/jeff.h>     // for _jbool, die, err
-#include <jeff/jmemory.h>  // for MALLOC
-#include <jeff/jlua.h>     // for p_flags, init_lua_state, k_flags, lua_err
+#include <errno.h>
+#include <lauxlib.h>
+#include <lua.h>
+#include <lualib.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <jeff/jeff.h>
+#include <jeff/jmemory.h>
+#include <jeff/jlua.h>
 
 static p_flags *PROGRAM_FLAGS = NULL;
 
@@ -30,7 +30,7 @@ static void stack_dump(lua_State *L) {
         printf(lua_toboolean(L, i) ? "true" : "false");
         break;
       case LUA_TNUMBER: /* numbers */
-        printf("%g", lua_tonumber(L, i));
+        printf("%g", lua_tonumberx(L, i, NULL));
         break;
       default: /* other values */
         printf("%s", lua_typename(L, t));
@@ -42,14 +42,23 @@ static void stack_dump(lua_State *L) {
 }
 
 void lua_err(lua_State *L, char *const fmt, ...) {
-  va_list argp;
+  if (!null_ptr(fmt)) {
+    va_list argp;
 
-  va_start(argp, fmt);
-  vfprintf(stderr, fmt, argp);
-  va_end(argp);
+    va_start(argp, fmt);
+    vfprintf(stderr, fmt, argp);
+    va_end(argp);
+  }
 
-  lua_close(L);
+  if (!null_ptr(L)) {
+    lua_close(L);
+  }
+
   free(PROGRAM_FLAGS);
+
+  if (errno) {
+    vdie(errno, "%s\n", strerror(errno));
+  }
 
   exit(EXIT_FAILURE);
 }
@@ -91,7 +100,7 @@ void parse_argv(const uint argc, char **argv) {
         PROGRAM_FLAGS->LIBS = JTRUE;
       } else {
         free(PROGRAM_FLAGS);
-        vdie(127, "Invalid argument `%s`\n", str);
+        vdie(1, "Invalid argument `%s`\n", str);
       }
     }
   }
@@ -104,12 +113,13 @@ int main(int argc, char **argv) {
   parse_argv((uint)argc, argv);
   lua_State *L = init_lua_state();
 
-  getchar();
-
   stack_dump(L);
   lua_pushboolean(L, JTRUE);
-  lua_pushnumber(L, 10.);
+  stack_dump(L);
+  lua_pushnumber(L, 10);
+  stack_dump(L);
   lua_pushnil(L);
+  stack_dump(L);
   lua_pushstring(L, "hello");
   stack_dump(L);
   /* true  10  nil  `hello'  */
@@ -140,28 +150,27 @@ int main(int argc, char **argv) {
   J_ULLONG idx = 0;
 
   jlua_op_buf *op_buf = init_op_buf(L);
+
   printf("Op Buffer ==> %p\n", JCAST(void *, op_buf));
   op_buf->index = idx;
   op_buf->_type = JLUA_BOOL;
   op_buf->_operator = NOOP;
   op_buf->data = x;
 
+  jlua_op_buf *buf_head = op_buf, *placeholder = NULL;
   idx++;
 
-  new_op_buf(op_buf, L, &idx);
+  new_op_buf(buf_head, L, &idx);
   idx++;
-  new_op_buf(op_buf, L, &idx);
+  placeholder = buf_head->_next;
+  buf_head = placeholder;
+  new_op_buf(buf_head, L, &idx);
   idx++;
+  placeholder = buf_head->_next;
+  buf_head = placeholder;
 
-  jlua_op_buf *first = first_op_buf(op_buf, L);
-  jlua_op_buf *last = last_op_buf(op_buf, L);
-  printf("First address ==> %p\n", JCAST(void *, first));
-  printf("Last address ==> %p\n", JCAST(void *, last));
-  jlua_op_buf *popped;
-  popped = pop_op_buf(op_buf, L);
-  printf("Popped address: %p\n", JCAST(void *, popped));
-  popped = pop_op_buf(op_buf, L);
-  printf("Popped address: %p\n", JCAST(void *, popped));
+  printf("First address ==> %p\n", JCAST(void *, first_op_buf(op_buf, L)));
+  printf("Last address ==> %p\n", JCAST(void *, last_op_buf(op_buf, L)));
 
   kill_op_buf(op_buf, L);
 

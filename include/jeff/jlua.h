@@ -6,7 +6,6 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <lua.h>
-#include <sys/types.h>
 
 #include "jeff.h"
 
@@ -44,12 +43,15 @@ typedef struct _jlua_op {
 } jlua_op_buf;
 
 lua_State *init_lua_state(void);
-void parse_argv(const uint argc, char **const argv);
+void parse_argv(const J_UINT argc, char **const argv);
 
 /**
  * Print an error message, shut down the Lua state and exit with code 1
  */
 void lua_err(lua_State *L, char *const fmt, ...);
+
+char *jlua_op_char(const jlua_operator x);
+char *jlua_type_char(const jlua_type x);
 
 jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L);
 jlua_op_buf *last_op_buf(jlua_op_buf *const ptr, lua_State *L);
@@ -73,16 +75,10 @@ jlua_op_buf *init_op_buf(lua_State *L);
  */
 jlua_op_buf *append_op_buf(jlua_op_buf *const ptr, lua_State *L);
 
-J_ULLONG lenof_op_buf(jlua_op_buf *const ptr, lua_State *L);
+void op_buf_iprint(jlua_op_buf *const ptr, lua_State *L);
 
-/**
- * Pop the last element of a jlua operation buffer
- *
- * @param ptr The pointer to the linked list to be added
- * @return The memory address of the appended struct, not any of the preceding
- * ones
- */
-jlua_op_buf *pop_op_buf(jlua_op_buf *const ptr, lua_State *L);
+J_ULLONG op_buf_len(jlua_op_buf *const ptr, lua_State *L);
+
 jlua_op_buf *insert_op_buf(jlua_op_buf *const ptr, lua_State *L);
 void lua_op(lua_State *L, jlua_op_buf *const buf);
 

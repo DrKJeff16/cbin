@@ -73,11 +73,11 @@ ncurses_1: libs dirs $(BINDIR)/jeff_ncurses_1
 sdl_1: libs dirs $(BINDIR)/jeff_sdl_1
 
 
-strip/bin: $(BINDIR)
+strip/bin:
 	strip $(BINDIR)/*
 
-strip/libs: $(LIBDIR)
-	strip $(LIBDIR)/*
+strip/libs:
+	strip $(LIBDIR)/*.so
 
 
 install_headers/local: $(JEFF_H)
