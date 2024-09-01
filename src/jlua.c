@@ -72,6 +72,7 @@ jlua_op_buf *last_op_buf(jlua_op_buf *const ptr, lua_State *L) {
 
 void kill_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   if (null_ptr(ptr)) {
+    verr("(kill_op_buf): %s\n%s\n", strerror(EFAULT), "Nothing to kill, returning");
     return;
   }
 

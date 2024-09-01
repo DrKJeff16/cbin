@@ -50,7 +50,7 @@ jbool is_lower(char *const str) {
   jbool res = JTRUE;
 
   for (size_t i = 0; i < strlen(str) + 1; i++) {
-    if (str[i] >= 65 && str[i] <= 90) {
+    if (str[i] >= JCAST(char, 65) && str[i] <= JCAST(char, 90)) {
       res = JFALSE;
       break;
     }
@@ -66,7 +66,7 @@ jbool is_upper(char *const str) {
   jbool res = JTRUE;
 
   for (size_t i = 0; i < strlen(str) + 1; i++) {
-    if (str[i] >= 97 && str[i] <= 122) {
+    if (str[i] >= JCAST(char, 97) && str[i] <= JCAST(char, 122)) {
       res = JFALSE;
       break;
     }
