@@ -21,8 +21,6 @@ char *jlua_op_char(const jlua_operator x) {
 
 char *jlua_type_char(const jlua_type x) {
   switch (x) {
-    case JLUA_NIL:
-      return "nil";
     case JLUA_BOOL:
       return "boolean";
     case JLUA_LSTR:
@@ -31,8 +29,9 @@ char *jlua_type_char(const jlua_type x) {
       return "number";
     case JLUA_STR:
       return "string";
+    case JLUA_NIL:
     default:
-      return NULL;
+      return "nil";
   }
 }
 
