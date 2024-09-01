@@ -134,6 +134,37 @@ int main(int argc, char **argv) {
   stack_dump(L);
   /* true  */
 
+  jbool *x = MALLOC(jbool);
+  *x = JTRUE;
+
+  J_ULLONG idx = 0;
+
+  jlua_op_buf *op_buf = init_op_buf(L);
+  printf("Op Buffer ==> %p\n", JCAST(void *, op_buf));
+  op_buf->index = idx;
+  op_buf->_type = JLUA_BOOL;
+  op_buf->_operator = NOOP;
+  op_buf->data = x;
+
+  idx++;
+
+  new_op_buf(op_buf, L, &idx);
+  idx++;
+  new_op_buf(op_buf, L, &idx);
+  idx++;
+
+  jlua_op_buf *first = first_op_buf(op_buf, L);
+  jlua_op_buf *last = last_op_buf(op_buf, L);
+  printf("First address ==> %p\n", JCAST(void *, first));
+  printf("Last address ==> %p\n", JCAST(void *, last));
+  jlua_op_buf *popped;
+  popped = pop_op_buf(op_buf, L);
+  printf("Popped address: %p\n", JCAST(void *, popped));
+  popped = pop_op_buf(op_buf, L);
+  printf("Popped address: %p\n", JCAST(void *, popped));
+
+  kill_op_buf(op_buf, L);
+
   lua_close(L);
   return 0;
 }
