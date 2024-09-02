@@ -139,6 +139,7 @@ void die(const int status, char *const msg);
 /* ----------------------------------------------------------------------------*/
 void vdie(const int status, char *const fmt, ...);
 
+void errno_die(const int status, const int code, char *const msg);
 void errno_vdie(const int status, const int errno_val, char *const fmt, ...);
 
 /* ----------------------------------------------------------------------------*/

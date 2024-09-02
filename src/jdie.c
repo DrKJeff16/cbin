@@ -39,14 +39,21 @@ void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...) {
   exit(status);
 }
 
-void errno_vdie(const int status, const int errno_val, char *const fmt, ...) {
+void errno_die(const int status, const int code, char *const msg) {
+  FILE *f = status ? stderr : stdout;
+  fprintf(f, "%s\n", strerror((code >= EPERM && code <= EHWPOISON) ? code : ENOMSG));
+
+  if (!null_ptr(msg)) {  /// If message is available
+    fprintf(f, "%s\n", msg);
+  }
+
+  exit(status);
+}
+
+void errno_vdie(const int status, const int code, char *const fmt, ...) {
   FILE *out = status ? stderr : stdout;
 
-  errno = 0;
-  char *err_str = strerror(errno_val);
-  if (!null_ptr(err_str)) {
-    fprintf(out, "%s\n", err_str);
-  }
+  fprintf(out, "%s\n", strerror((code >= EPERM && code <= EHWPOISON) ? code : ENOMSG));
 
   if (!null_ptr(fmt)) {
     va_list argp;
