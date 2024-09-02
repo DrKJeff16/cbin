@@ -25,9 +25,6 @@ $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
 
-$(OBJDIR)/joperators.o: $(JEFF_H) $(SRCDIR)/joperators.c
-	$(CC) -c $(SRCDIR)/joperators.c $(JEFF_CFLAGS) -o $(OBJDIR)/joperators.o
-
 $(OBJDIR)/jdie.o: $(JEFF_H) $(SRCDIR)/jdie.c
 	$(CC) -c $(SRCDIR)/jdie.c $(JEFF_CFLAGS) -o $(OBJDIR)/jdie.o
 
@@ -50,11 +47,11 @@ $(OBJDIR)/jlua.o: $(JEFF_H) $(SRCDIR)/jlua.c
 	$(CC) -c $(SRCDIR)/jlua.c $(JEFF_LUA_CFLAGS) -o $(OBJDIR)/jlua.o
 
 
-$(LIBDIR)/libjeff.so: $(JEFF_H) $(OBJDIR)/joperators.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/jlog.o $(OBJDIR)/jrandom.o $(OBJDIR)/jinput.o
-	$(CC) $(OBJDIR)/joperators.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/jlog.o $(OBJDIR)/jrandom.o $(OBJDIR)/jinput.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjeff.so $(JEFF_LDFLAGS)
+$(LIBDIR)/libjeff.so: $(JEFF_H) $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/jlog.o $(OBJDIR)/jrandom.o $(OBJDIR)/jinput.o
+	$(CC) $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/jlog.o $(OBJDIR)/jrandom.o $(OBJDIR)/jinput.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjeff.so $(JEFF_LDFLAGS)
 
-$(LIBDIR)/libjlua.so: $(JEFF_H) $(OBJDIR)/jlua.o $(OBJDIR)/jerr.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/joperators.o
-	$(CC) $(OBJDIR)/jlua.o $(OBJDIR)/jerr.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/joperators.o $(JEFF_LUA_CFLAGS) -shared -o $(LIBDIR)/libjlua.so $(JEFF_LUA_LDFLAGS)
+$(LIBDIR)/libjlua.so: $(JEFF_H) $(OBJDIR)/jlua.o $(OBJDIR)/jerr.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o
+	$(CC) $(OBJDIR)/jlua.o $(OBJDIR)/jerr.o $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(JEFF_LUA_CFLAGS) -shared -o $(LIBDIR)/libjlua.so $(JEFF_LUA_LDFLAGS)
 
 
 libs: dirs $(JEFF_LIBS)
