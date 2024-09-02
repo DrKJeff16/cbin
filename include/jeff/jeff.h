@@ -97,6 +97,9 @@ void err(char *const fmt, char *const msg);
 /* ----------------------------------------------------------------------------*/
 void verr(char *const fmt, ...);
 
+void errno_err(const int code, char *const fmt, char *const msg);
+void errno_verr(const int code, char *const fmt, ...);
+
 /* ----------------------------------------------------------------------------*/
 /**
  * @brief Print error message and execute function pointer
