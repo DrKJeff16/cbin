@@ -13,13 +13,7 @@
 const char logfile[9] = "misc.log";
 
 static int log_open(void) {
-  int fd = open(logfile, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-
-  if (fd < 0) {
-    verr("(log_open): %s\n%s (%d)\n", strerror(EBADFD), "File descriptor unavailable", fd);
-  }
-
-  return fd;
+  return open(logfile, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 }
 
 int main(int argc, char **argv) {
@@ -29,7 +23,7 @@ int main(int argc, char **argv) {
 
   if (*fd < 1) {
     free(fd);
-    vdie(1, "%s\n", strerror(EBADFD));
+    errno_vdie(1, EBADFD, "(jmisc): %s\n", "File descriptor could not be opened");
   }
 
   char **args = filter_argv(JCAST(size_t, argc), argv);
@@ -38,22 +32,28 @@ int main(int argc, char **argv) {
     vfdlog(*fd, "(jmisc): %s\n%s\n", strerror(ENOKEY), "No arguments given");
     close(*fd);
 
-    free(args);
     free(fd);
     vdie(1, "(jmisc): %s\n%s\n", strerror(ENOKEY), "No arguments given");
   }
 
   for (size_t i = 0; i < JCAST(size_t, argc - 1); i++) {
-    vfdlog(*fd, "%s\n", args[i]);
-    printf("%s\n", args[i]);
+    char *arg = CALLOC(char, strlen(args[i]) + 1);
+    stpcpy(arg, args[i]);
+
+    capitalize(arg, NULL);
+    vfdlog(*fd, "%s\n", arg);
+    printf("%s\n", arg);
+
+    free(arg);
   }
 
-  int close_d = close(*fd);
-
-  free(fd);
   free(args);
+
+  int close_d = close(*fd);
+  free(fd);
+
   if (close_d < 0) {
-    vdie(1, "(jmisc): %s\n%s (%d)\n", strerror(EIO), "File descriptor couldn't be closed", close_d);
+    errno_vdie(1, EIO, "(jmisc): %s (%d)\n", "File descriptor couldn't be closed", close_d);
   }
 
   die(0, NULL);

@@ -7,21 +7,17 @@
 
 void str_append_nul(char *str) {
   if (null_ptr(str)) {
-    str = MALLOC(char);
-    *str = '\0';
+    return;
+  }
+
+  char *chr = strchr(str, 0);
+  if (!null_ptr(chr)) {
     return;
   }
 
   const size_t len = strlen(str) + 1;
   char *str_og = CALLOC(char, len);
   char *new_str = CALLOC(char, len + 1);
-
-  char *chr = strchr(str, 0);
-  if (!null_ptr(chr)) {
-    free(str_og);
-    free(new_str);
-    return;
-  }
 
   chr = stpcpy(new_str, str);
   /// If no NUL char in `str`
@@ -49,8 +45,8 @@ jbool is_lower(char *const str) {
 
   jbool res = JTRUE;
 
-  for (size_t i = 0; i < strlen(str) + 1; i++) {
-    if (str[i] >= JCAST(char, 65) && str[i] <= JCAST(char, 90)) {
+  for (size_t i = 0; i <= strlen(str); i++) {
+    if (str[i] >= 'A' && str[i] <= 'Z') {
       res = JFALSE;
       break;
     }
@@ -58,6 +54,7 @@ jbool is_lower(char *const str) {
 
   return res;
 }
+
 jbool is_upper(char *const str) {
   if (null_ptr(str)) {
     return JFALSE;
@@ -65,14 +62,38 @@ jbool is_upper(char *const str) {
 
   jbool res = JTRUE;
 
-  for (size_t i = 0; i < strlen(str) + 1; i++) {
-    if (str[i] >= JCAST(char, 97) && str[i] <= JCAST(char, 122)) {
+  for (size_t i = 0; i <= strlen(str); i++) {
+    if (str[i] >= 'a' && str[i] <= 'z') {
       res = JFALSE;
       break;
     }
   }
 
   return res;
+}
+
+void capitalize(char *str, jbool *use_dot) {
+  if (null_ptr(str)) {
+    verr("%s\n", "NULL string cannot be capitalized");
+    return;
+  }
+
+  jbool space = JTRUE;
+
+  char capital_d = 'a' - 'A';
+
+  for (size_t i = 0; i < strlen(str) + 1; i++) {
+    if ((str[i] >= 'a' && str[i] <= 'z') && space) {
+      space = JFALSE;
+      str[i] -= capital_d;
+    } else if ((str[i] >= 'A' && str[i] <= 'Z') && !space) {
+      str[i] += capital_d;
+    } else if ((str[i] >= 'A' && str[i] <= 'Z') && space) {
+      space = JFALSE;
+    } else if (str[i] == ' ' || str[i] == '\n') {
+      space = JTRUE;
+    }
+  }
 }
 
 jbool compare_strv(char **const argv, const size_t len) {
@@ -85,7 +106,7 @@ jbool compare_strv(char **const argv, const size_t len) {
     return JFALSE;
   }
 
-  for (size_t i = 1; i < len - 1; i++) {
+  for (size_t i = 1; i < len; i++) {
     if (!strcmp(argv[0], argv[i])) {
       return JFALSE;
     }
@@ -99,10 +120,10 @@ char *str_reversed(char *const str) {
     return NULL;
   }
 
-  const J_ULLONG len = JCAST(J_ULLONG, strlen(str));
+  const size_t len = strlen(str);
   char *result = CALLOC(char, len + 1);
 
-  for (J_ULLONG i = 1; i <= len; i++) {
+  for (size_t i = 1; i <= len; i++) {
     result[i - 1] = str[len - i];
   }
 
@@ -131,7 +152,6 @@ char **filter_argv(const size_t argc, char **const argv) {
         str_append_nul(result[i - 1]);
       }
     } else {
-      free(result[i - 1]);
       result[i - 1] = NULL;
     }
   }
