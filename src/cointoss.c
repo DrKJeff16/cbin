@@ -18,6 +18,10 @@ CHOICES *init_choices(void) {
 }
 
 void decide(const jbool x, CHOICES *c) {
+  if (null_ptr(c)) {
+    errno_die(127, EFAULT, "Choices struct is NULL");
+  }
+
   switch (x) {
     case JFALSE:
       c->TAILS++;
@@ -31,8 +35,7 @@ void decide(const jbool x, CHOICES *c) {
 
 jbool toss(int fd) {
   if (fd < 0) {
-    perror("toss");
-    verr("(toss): %s (fd: %d)\n", "File descriptor unavailable", fd);
+    errno_verr(EBADF, "(toss): %s (fd: %d)\n", "File descriptor unavailable", fd);
     return JFALSE;
   }
 
@@ -64,14 +67,13 @@ int main(int argc, char **argv) {
   argc--;
 
   if (argc != 2) {
-    vdie(127, "(cointoss): %s\n%s (got %d)\n", strerror(EPERM),
-         "Need two arguments, no more, no less", argc);
+    errno_vdie(127, ENOTSUP, "(cointoss): %s (got %d)\n", "Need two arguments, no more, no less",
+               argc);
   }
 
   int fd = open("/dev/urandom", O_RDONLY);
   if (fd < 0) {
-    vdie(127, "(cointoss): %s\n%s (fd: %d)\n", strerror(ENOENT), "`/dev/urandom` is unavailable",
-         fd);
+    errno_vdie(127, ENOENT, "(cointoss): %s (fd: %d)\n", "`/dev/urandom` is unavailable", fd);
   }
 
   CHOICES *c = init_choices();
@@ -79,11 +81,7 @@ int main(int argc, char **argv) {
   char **coin = CALLOC(char *, 2);
 
   for (size_t i = 0; i < 2; i++) {
-    coin[i] = CALLOC(char, 1024);
-  }
-
-  for (size_t i = 0; i < 2; i++) {
-    coin[i] = REALLOC(coin[i], char, strlen(argv[i + 1]) + 1);
+    coin[i] = CALLOC(char, strlen(argv[i + 1]) + 1);
 
     char *chr = stpcpy(coin[i], argv[i + 1]);
     if (null_ptr(chr)) {
@@ -94,7 +92,7 @@ int main(int argc, char **argv) {
 
       close(fd);
 
-      vdie(2, "(cointoss): %s\n%s\n", strerror(EBADE), "Unable to copy string to new array");
+      errno_vdie(2, EBADE, "(cointoss): %s\n", "Unable to copy string to new array");
     }
   }
 
@@ -111,7 +109,7 @@ int main(int argc, char **argv) {
 
   close(fd);
 
-  return 0;
+  die(0, NULL);
 }
 
 /// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:
