@@ -6,7 +6,7 @@
 
 J_ULLONG fd_urand(int fd, const J_ULLONG min, const J_ULLONG max) {
   if (fd < 0) {
-    verr("(fd_urand): %s\n%s (fd: %d)\n", strerror(EBADF), "File descriptor inaccessible", fd);
+    errno_verr(EBADF, "(fd_urand): %s (fd: %d)\n", "File descriptor inaccessible", fd);
     return 0;
   }
 
@@ -15,11 +15,11 @@ J_ULLONG fd_urand(int fd, const J_ULLONG min, const J_ULLONG max) {
   int read_d = read(fd, &result, sizeof(result));
 
   if (read_d < 0) {
-    verr("(fd_urand): %s\n%s (%d)\n", strerror(EIO), "Failed to read into buffer", read_d);
+    errno_verr(EIO, "(fd_urand): %s (%d)\n", "Failed to read into buffer", read_d);
     return 0;
   }
 
-  return JCAST(J_ULLONG, result % (max - min + 1) + min);
+  return result % (max - min + 1) + min;
 }
 
 /// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:
