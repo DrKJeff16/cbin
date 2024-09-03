@@ -20,6 +20,10 @@ const k_flags KEYWORD_FLAGS = {
 static void stack_dump(lua_State *L) {
   int i = 1, top = lua_gettop(L);
 
+  if (top >= i) {
+    printf("| ");
+  }
+
   for (; i <= top; i++) { /* repeat for each level */
     int t = lua_type(L, i);
     switch (t) {

@@ -37,7 +37,7 @@ char *jlua_type_char(const jlua_type x) {
 
 jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   if (null_ptr(ptr)) {
-    verr("(first_op_buf): %s\n%s\n", strerror(EFAULT), "Argument is NULL");
+    errno_verr(EFAULT, "(first_op_buf): %s\n", "Argument is NULL");
     return NULL;
   }
 
@@ -63,7 +63,7 @@ jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
 
 jlua_op_buf *last_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   if (null_ptr(ptr)) {
-    verr("(last_op_buf): %s\n%s\n", strerror(EFAULT), "Argument is NULL");
+    errno_verr(EFAULT, "(last_op_buf): %s\n", "Argument is NULL");
     return NULL;
   }
 
@@ -89,11 +89,16 @@ jlua_op_buf *last_op_buf(jlua_op_buf *const ptr, lua_State *L) {
 
 void kill_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   if (null_ptr(ptr)) {
-    verr("(kill_op_buf): %s\n%s\n", strerror(EFAULT), "Nothing to kill, returning");
+    errno_verr(EFAULT, "(kill_op_buf): %s\n", "Nothing to kill, returning");
     return;
   }
 
   jlua_op_buf *buf = last_op_buf(ptr, L), *placeholder = NULL;
+
+  if (null_ptr(buf)) {
+    errno_verr(EFAULT, "(kill_op_buf): %s\n", "Couldn't retriev buffer end");
+    return;
+  }
 
   while (!null_ptr(buf->_prev)) {
     placeholder = buf->_prev;
@@ -109,17 +114,19 @@ void kill_op_buf(jlua_op_buf *const ptr, lua_State *L) {
 
 void new_op_buf(jlua_op_buf *const prev_buf, lua_State *L, J_ULLONG *const index) {
   if (null_ptr(prev_buf)) {
-    verr("(new_op_buf): %s\n%s\n", strerror(EFAULT), "Predecessor is NULL");
+    errno_verr(EFAULT, "(new_op_buf): %s\n", "Predecessor is NULL");
     return;
   }
 
-  prev_buf->_next = MALLOC(jlua_op_buf);
-  prev_buf->_next->_next = NULL;
-  prev_buf->_next->_prev = prev_buf;
-  prev_buf->_next->_type = JLUA_NIL;
-  prev_buf->_next->_operator = NOOP;
-  prev_buf->_next->index = (!null_ptr(index)) ? *index : 0;
-  prev_buf->_next->data = NULL;
+  jlua_op_buf *buf = last_op_buf(prev_buf, L);
+
+  buf->_next = MALLOC(jlua_op_buf);
+  buf->_next->_next = NULL;
+  buf->_next->_prev = prev_buf;
+  buf->_next->_type = JLUA_NIL;
+  buf->_next->_operator = NOOP;
+  buf->_next->index = (!null_ptr(index)) ? *index : 0;
+  buf->_next->data = NULL;
 }
 
 jlua_op_buf *init_op_buf(lua_State *L) {
@@ -140,7 +147,7 @@ jlua_op_buf *append_op_buf(jlua_op_buf *const ptr, lua_State *L) {
     return NULL;
   }
   if (null_ptr(L)) {
-    vdie(127, "(append_op_buf): %s\n%s\n", strerror(ESRCH), "Lua State has not been initialized");
+    errno_vdie(127, ESRCH, "(append_op_buf): %s\n", "Lua State has not been initialized");
   }
 
   jlua_op_buf *p = first_op_buf(ptr, L), *placeholder = NULL;
