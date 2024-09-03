@@ -96,6 +96,88 @@ void capitalize(char *str, jbool *use_dot) {
   }
 }
 
+char *parse_esc(char *const old_str) {
+  if (null_ptr(old_str)) {
+    return NULL;
+  }
+  if (!strchr(old_str, '\\')) {
+    return old_str;
+  }
+
+  size_t len = strlen(old_str);
+  char *res = CALLOC(char, len + 1);
+
+  jbool esc = JFALSE;
+
+  size_t i = 0;
+
+  /* FIXME: Fix this */
+  while (i < len) {
+    if (!esc) {
+      esc = (old_str[i] == '\\') ? JTRUE : JFALSE;
+    } else if (old_str[i] == '\\') {
+      esc = JFALSE;
+    } else {
+      switch (old_str[i]) {
+        case 'n':
+          i--;
+          len--;
+          res = REALLOC(res, char, len);
+          res[i] = '\n';
+          break;
+        case 'r':
+          i--;
+          len--;
+          res = REALLOC(res, char, len);
+          res[i] = '\r';
+          break;
+        case 'a':
+          i--;
+          len--;
+          res = REALLOC(res, char, len);
+          res[i] = '\a';
+          break;
+        case 'e':
+          i--;
+          len--;
+          res = REALLOC(res, char, len);
+          res[i] = '\e';
+          break;
+        case 'v':
+          i--;
+          len--;
+          res = REALLOC(res, char, len);
+          res[i] = '\v';
+          break;
+        case 'f':
+          i--;
+          len--;
+          res = REALLOC(res, char, len);
+          res[i] = '\f';
+          break;
+        case '"':
+          i--;
+          len--;
+          res = REALLOC(res, char, len);
+          res[i] = '\"';
+          break;
+        case '?':
+          i--;
+          len--;
+          res = REALLOC(res, char, len);
+          res[i] = '\?';
+          break;
+        default:
+          break;
+      }
+    }
+
+    i++;
+  }
+
+  return res;
+}
+
 jbool compare_strv(char **const argv, const size_t len) {
   if (len < 2) {
     verr("`argv` must be of length 2 or greater (%d)\n", len);
