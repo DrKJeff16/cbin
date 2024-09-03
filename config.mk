@@ -22,7 +22,7 @@ CPPFLAGS = -Iinclude \
 CFLAGS = $(CPPFLAGS) \
 		 -march=znver3 \
 		 -pipe \
-		 -std=gnu11 \
+		 -std=gnu17 \
 		 -O2 \
 		 -g \
 		 -ggdb \
