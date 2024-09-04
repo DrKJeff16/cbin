@@ -54,12 +54,12 @@ JEFF_H = $(JEFF_INCDIR)/jeff.h \
 JEFF_LIBS = $(LIBDIR)/libjeff.so \
 			$(LIBDIR)/libjlua.so
 JEFF_CFLAGS = $(CFLAGS) -fPIC
-JEFF_LDFLAGS = -lc -lpthread
+JEFF_LDFLAGS = -lc -lpthread -lm
 JEFF_ACTIONS = cointoss jmisc
 
 JEFF_LUA_H = $(JEFF_INCDIR)/jlua.h
 JEFF_LUA_CFLAGS = $(JEFF_CFLAGS) -I/usr/include/luajit-2.1
-JEFF_LUA_LDFLAGS = $(JEFF_LDFLAGS) -lc -llua -lpthread -lm -lluajit-5.1
+JEFF_LUA_LDFLAGS = -L/usr/lib/jeff -Llib -L. $(JEFF_LDFLAGS) -ljeff -llua -lluajit-5.1
 
 SDL_CFLAGS = $(CFLAGS) \
 			 -D_JASSET_PATH="\"$(ASSET_DIR)/face.png\"" \
