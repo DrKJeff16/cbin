@@ -12,7 +12,7 @@ char *jlua_op_char(const jlua_operator x) {
     case PUSH:
       return "PUSH";
     case CHECK_STACK:
-      return "StackCheck";
+      return "CHECK_STACK";
     case NOOP:
     default:
       return "NOOP";
@@ -36,6 +36,9 @@ char *jlua_type_char(const jlua_type x) {
 }
 
 jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
+  if (null_ptr(L)) {
+    errno_vdie(127, ESRCH, "(first_op_buf): %s\n", "Lua State has not been initialized");
+  }
   if (null_ptr(ptr)) {
     errno_verr(EFAULT, "(first_op_buf): %s\n", "Argument is NULL");
     return NULL;
@@ -50,7 +53,8 @@ jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
     p = placeholder;
 
     if (safeguard == p) {
-      lua_err(L, "(first_op_buf): %s\n%s\n", strerror(E2BIG), "Looping list");
+      errno_verr(E2BIG, "(first_op_buf): %s\n", "Looping list");
+      return NULL;
     }
   }
 
@@ -62,6 +66,9 @@ jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
 }
 
 jlua_op_buf *last_op_buf(jlua_op_buf *const ptr, lua_State *L) {
+  if (null_ptr(L)) {
+    errno_vdie(127, ESRCH, "(last_op_buf): %s\n", "Lua State has not been initialized");
+  }
   if (null_ptr(ptr)) {
     errno_verr(EFAULT, "(last_op_buf): %s\n", "Argument is NULL");
     return NULL;
@@ -76,7 +83,8 @@ jlua_op_buf *last_op_buf(jlua_op_buf *const ptr, lua_State *L) {
     p = placeholder;
 
     if (safeguard == p) {
-      lua_err(L, "(last_op_buf): %s\n%s\n", strerror(E2BIG), "Looping list");
+      errno_verr(E2BIG, "(last_op_buf): %s\n", "Looping list");
+      return NULL;
     }
   }
 
@@ -88,6 +96,9 @@ jlua_op_buf *last_op_buf(jlua_op_buf *const ptr, lua_State *L) {
 }
 
 void kill_op_buf(jlua_op_buf *const ptr, lua_State *L) {
+  if (null_ptr(L)) {
+    errno_vdie(127, ESRCH, "(kill_op_buf): %s\n", "Lua State has not been initialized");
+  }
   if (null_ptr(ptr)) {
     errno_verr(EFAULT, "(kill_op_buf): %s\n", "Nothing to kill, returning");
     return;
@@ -96,7 +107,7 @@ void kill_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   jlua_op_buf *buf = last_op_buf(ptr, L), *placeholder = NULL;
 
   if (null_ptr(buf)) {
-    errno_verr(EFAULT, "(kill_op_buf): %s\n", "Couldn't retriev buffer end");
+    errno_verr(EFAULT, "(kill_op_buf): %s\n", "Couldn't retrieve buffer end");
     return;
   }
 
@@ -113,6 +124,9 @@ void kill_op_buf(jlua_op_buf *const ptr, lua_State *L) {
 }
 
 void new_op_buf(jlua_op_buf *const prev_buf, lua_State *L, J_ULLONG *const index) {
+  if (null_ptr(L)) {
+    errno_vdie(127, ESRCH, "(new_op_buf): %s\n", "Lua State has not been initialized");
+  }
   if (null_ptr(prev_buf)) {
     errno_verr(EFAULT, "(new_op_buf): %s\n", "Predecessor is NULL");
     return;
@@ -130,6 +144,9 @@ void new_op_buf(jlua_op_buf *const prev_buf, lua_State *L, J_ULLONG *const index
 }
 
 jlua_op_buf *init_op_buf(lua_State *L) {
+  if (null_ptr(L)) {
+    errno_vdie(127, ESRCH, "(init_op_buf): %s\n", "Lua State has not been initialized");
+  }
   jlua_op_buf *buffer = MALLOC(jlua_op_buf);
 
   buffer->_next = NULL;
@@ -142,12 +159,42 @@ jlua_op_buf *init_op_buf(lua_State *L) {
   return buffer;
 }
 
-jlua_op_buf *append_op_buf(jlua_op_buf *const ptr, lua_State *L) {
-  if (null_ptr(ptr)) {
-    return NULL;
+void fix_buf_indeces(jlua_op_buf *const ptr, lua_State *L) {
+  if (null_ptr(L)) {
+    errno_vdie(127, ESRCH, "(fix_buf_indeces): %s\n", "Lua State has not been initialized");
   }
+  if (null_ptr(ptr)) {
+    lua_err(L, "(fix_buf_indeces): %s\n%s\n", strerror(EFAULT), "Null pointer");
+  }
+
+  jlua_op_buf *buf = first_op_buf(ptr, L), *placeholder = NULL;
+
+  if (null_ptr(buf)) {
+    errno_verr(EFAULT, "(fix_buf_indeces): %s\n", "Couldn't retrieve buffer start");
+    return;
+  }
+
+  jlua_op_buf *const safeguard = buf;
+
+  J_ULLONG i = 0;
+
+  do {
+    if (i != buf->index) {
+      buf->index = i;
+    }
+    i++;
+
+    placeholder = buf->_next;
+    buf = placeholder;
+  } while (!null_ptr(buf) && buf != safeguard);
+}
+
+jlua_op_buf *append_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   if (null_ptr(L)) {
     errno_vdie(127, ESRCH, "(append_op_buf): %s\n", "Lua State has not been initialized");
+  }
+  if (null_ptr(ptr)) {
+    return NULL;
   }
 
   jlua_op_buf *p = first_op_buf(ptr, L), *placeholder = NULL;

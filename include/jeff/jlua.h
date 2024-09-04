@@ -65,6 +65,9 @@ void new_op_buf(jlua_op_buf *const predecessor, lua_State *L, J_ULLONG *const in
  * Initialize an empty jlua operator buffer
  */
 jlua_op_buf *init_op_buf(lua_State *L);
+
+void fix_buf_indeces(jlua_op_buf *const ptr, lua_State *L);
+
 /**
  * Append new buffer to a jlua operator buffer
  *

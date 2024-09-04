@@ -43,16 +43,14 @@ jbool is_lower(char *const str) {
     return JFALSE;
   }
 
-  jbool res = JTRUE;
-
   for (size_t i = 0; i <= strlen(str); i++) {
     if (str[i] >= 'A' && str[i] <= 'Z') {
-      res = JFALSE;
+      return JFALSE;
       break;
     }
   }
 
-  return res;
+  return JTRUE;
 }
 
 jbool is_upper(char *const str) {
@@ -60,16 +58,14 @@ jbool is_upper(char *const str) {
     return JFALSE;
   }
 
-  jbool res = JTRUE;
-
   for (size_t i = 0; i <= strlen(str); i++) {
     if (str[i] >= 'a' && str[i] <= 'z') {
-      res = JFALSE;
+      return JFALSE;
       break;
     }
   }
 
-  return res;
+  return JTRUE;
 }
 
 void capitalize(char *str, jbool *use_dot) {
