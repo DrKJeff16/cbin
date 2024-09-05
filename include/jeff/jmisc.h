@@ -5,7 +5,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
-static int log_open(void);
+static const char logfile[9] = "misc.log";
+
+int log_open(void);
 
 #ifdef __cplusplus
 }

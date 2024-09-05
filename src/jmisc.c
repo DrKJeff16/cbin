@@ -10,9 +10,9 @@
 #include <jeff/jstring.h>
 #include <jeff/jmisc.h>
 
-const char logfile[9] = "misc.log";
+extern const char logfile[9];
 
-static int log_open(void) {
+int log_open(void) {
   return open(logfile, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 }
 
