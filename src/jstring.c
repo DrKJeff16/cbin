@@ -46,7 +46,6 @@ jbool is_lower(char *const str) {
   for (size_t i = 0; i <= strlen(str); i++) {
     if (str[i] >= 'A' && str[i] <= 'Z') {
       return JFALSE;
-      break;
     }
   }
 
@@ -61,7 +60,6 @@ jbool is_upper(char *const str) {
   for (size_t i = 0; i <= strlen(str); i++) {
     if (str[i] >= 'a' && str[i] <= 'z') {
       return JFALSE;
-      break;
     }
   }
 
