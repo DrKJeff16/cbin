@@ -1,5 +1,5 @@
 #ifndef JEFF_GL_H
-#define JEFF_GL_H
+#define JEFF_GL_H 1
 
 #ifdef __cplusplus
 extern "C" {
@@ -7,9 +7,8 @@ extern "C" {
 
 #include <GL/glut.h>
 #include <GLFW/glfw3.h>
-#include <sys/types.h>
 
-#include <jeff/jeff.h>
+#include "jeff.h"
 
 typedef struct _gl_rgba {
   double red;

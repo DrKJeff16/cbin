@@ -1,5 +1,5 @@
 #ifndef JEFF_SDL_H
-#define JEFF_SDL_H
+#define JEFF_SDL_H 1
 
 #ifdef __cplusplus
 extern "C" {

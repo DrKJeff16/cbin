@@ -1,5 +1,5 @@
 #ifndef JEFF_NCURSES_H
-#define JEFF_NCURSES_H
+#define JEFF_NCURSES_H 1
 
 #ifdef __cplusplus
 extern "C" {

@@ -1,5 +1,5 @@
 #ifndef COINTOSS_H
-#define COINTOSS_H
+#define COINTOSS_H 1
 
 #ifdef __cplusplus
 extern "C" {

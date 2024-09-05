@@ -1,5 +1,5 @@
 #ifndef JMISC_H
-#define JMISC_H
+#define JMISC_H 1
 
 #ifdef __cplusplus
 extern "C" {

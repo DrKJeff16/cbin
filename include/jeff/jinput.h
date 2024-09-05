@@ -5,7 +5,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include "jeff.h"
+#include <sys/types.h>
 
 char *buffer_get(char *const msg, size_t *const buf_len);
 

@@ -1,5 +1,5 @@
 #ifndef JEFF_H
-#define JEFF_H
+#define JEFF_H 1
 
 #ifdef __cplusplus
 extern "C" {

@@ -1,5 +1,5 @@
 #ifndef JMEMORY_H
-#define JMEMORY_H
+#define JMEMORY_H 1
 
 #ifdef __cplusplus
 extern "C" {

@@ -1,5 +1,5 @@
 #ifndef JRANDOM_H
-#define JRANDOM_H
+#define JRANDOM_H 1
 
 #ifdef __cplusplus
 extern "C" {

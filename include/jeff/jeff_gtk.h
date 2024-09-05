@@ -1,5 +1,5 @@
 #ifndef JEFF_GTK_H
-#define JEFF_GTK_H
+#define JEFF_GTK_H 1
 
 #ifdef __cplusplus
 extern "C" {

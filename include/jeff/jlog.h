@@ -1,11 +1,9 @@
 #ifndef JLOG_H
-#define JLOG_H
+#define JLOG_H 1
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
-
-#include <sys/types.h>
 
 #include "jeff.h"
 
