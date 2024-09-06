@@ -48,10 +48,12 @@ JEFF_H = $(JEFF_INCDIR)/jeff.h \
 		 $(JEFF_INCDIR)/jmemory.h \
 		 $(JEFF_INCDIR)/jstring.h \
 		 $(JEFF_INCDIR)/jinput.h \
+		 $(JEFF_INCDIR)/jautomata.h \
 		 $(JEFF_INCDIR)/jlua.h \
 		 $(JEFF_INCDIR)/jlog.h \
 		 $(JEFF_INCDIR)/jrandom.h
 JEFF_LIBS = $(LIBDIR)/libjeff.so \
+			$(LIBDIR)/libjautomata.so \
 			$(LIBDIR)/libjlua.so
 JEFF_CFLAGS = $(CFLAGS) -fPIC
 JEFF_LDFLAGS = -lc -lpthread -lm

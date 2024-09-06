@@ -26,32 +26,38 @@ $(OBJDIR):
 
 
 $(OBJDIR)/jdie.o: $(JEFF_H) $(SRCDIR)/jdie.c
-	$(CC) -c $(SRCDIR)/jdie.c $(JEFF_CFLAGS) -o $(OBJDIR)/jdie.o
+	$(CC) -c $(SRCDIR)/jdie.c $(JEFF_CFLAGS) -o $@
 
 $(OBJDIR)/jerr.o: $(JEFF_H) $(SRCDIR)/jerr.c
-	$(CC) -c $(SRCDIR)/jerr.c $(JEFF_CFLAGS) -o $(OBJDIR)/jerr.o
+	$(CC) -c $(SRCDIR)/jerr.c $(JEFF_CFLAGS) -o $@
 
 $(OBJDIR)/jrandom.o: $(JEFF_H) $(SRCDIR)/jrandom.c
-	$(CC) -c $(SRCDIR)/jrandom.c $(JEFF_CFLAGS) -o $(OBJDIR)/jrandom.o
+	$(CC) -c $(SRCDIR)/jrandom.c $(JEFF_CFLAGS) -o $@
 
 $(OBJDIR)/jstring.o: $(JEFF_H) $(SRCDIR)/jstring.c
-	$(CC) -c $(SRCDIR)/jstring.c $(JEFF_CFLAGS) -o $(OBJDIR)/jstring.o
+	$(CC) -c $(SRCDIR)/jstring.c $(JEFF_CFLAGS) -o $@
 
 $(OBJDIR)/jinput.o: $(JEFF_H) $(SRCDIR)/jinput.c
-	$(CC) -c $(SRCDIR)/jinput.c $(JEFF_CFLAGS) -o $(OBJDIR)/jinput.o
+	$(CC) -c $(SRCDIR)/jinput.c $(JEFF_CFLAGS) -o $@
 
 $(OBJDIR)/jlog.o: $(JEFF_H) $(SRCDIR)/jlog.c
-	$(CC) -c $(SRCDIR)/jlog.c $(JEFF_CFLAGS) -o $(OBJDIR)/jlog.o
+	$(CC) -c $(SRCDIR)/jlog.c $(JEFF_CFLAGS) -o $@
+
+$(OBJDIR)/jautomata.o: $(JEFF_H) $(SRCDIR)/jautomata.c
+	$(CC) -c $(SRCDIR)/jautomata.c $(JEFF_CFLAGS) -o $@
 
 $(OBJDIR)/jlua.o: $(JEFF_H) $(SRCDIR)/jlua.c
-	$(CC) -c $(SRCDIR)/jlua.c $(JEFF_LUA_CFLAGS) -o $(OBJDIR)/jlua.o
+	$(CC) -c $(SRCDIR)/jlua.c $(JEFF_LUA_CFLAGS) -o $@
 
 
 $(LIBDIR)/libjeff.so: $(JEFF_H) $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/jlog.o $(OBJDIR)/jrandom.o $(OBJDIR)/jinput.o
-	$(CC) $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/jstring.o $(OBJDIR)/jlog.o $(OBJDIR)/jrandom.o $(OBJDIR)/jinput.o $(JEFF_CFLAGS) -shared -o $(LIBDIR)/libjeff.so $(JEFF_LDFLAGS)
+	$(CC) $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/jstring.o $(OBJDIR)/jlog.o $(OBJDIR)/jrandom.o $(OBJDIR)/jinput.o $(JEFF_CFLAGS) -shared -o $@ $(JEFF_LDFLAGS)
+
+$(LIBDIR)/libjautomata.so: $(JEFF_H) $(LIBDIR)/libjeff.so $(OBJDIR)/jautomata.o
+	$(CC) $(OBJDIR)/jautomata.o $(JEFF_CFLAGS) -shared -o $@ -Llib -L/usr/lib/jeff -ljeff $(JEFF_LDFLAGS)
 
 $(LIBDIR)/libjlua.so: $(JEFF_H) $(LIBDIR)/libjeff.so $(OBJDIR)/jlua.o
-	$(CC) $(OBJDIR)/jlua.o $(JEFF_LUA_CFLAGS) -shared -o $(LIBDIR)/libjlua.so $(JEFF_LUA_LDFLAGS)
+	$(CC) $(OBJDIR)/jlua.o $(JEFF_LUA_CFLAGS) -shared -o $@ $(JEFF_LUA_LDFLAGS)
 
 
 libs: dirs $(JEFF_LIBS)
@@ -95,24 +101,27 @@ install_headers/global: $(JEFF_H)
 	install -m 644 $(JEFF_INCDIR)/jinput.h /usr/include/jeff/jinput.h
 	install -m 644 $(JEFF_INCDIR)/jstring.h /usr/include/jeff/jstring.h
 	install -m 644 $(JEFF_INCDIR)/jlua.h /usr/include/jeff/jlua.h
+	install -m 644 $(JEFF_INCDIR)/jautomata.h /usr/include/jeff/jautomata.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h /usr/include/jeff/jlog.h
 
 
 install_libs/local/fast:
 	mkdir -p $(HOME)/.local/lib/jeff
 	install -m 755 $(LIBDIR)/libjeff.so $(HOME)/.local/lib/jeff/libjeff.so
+	install -m 755 $(LIBDIR)/libjautomata.so $(HOME)/.local/lib/jeff/libjautomata.so
 	install -m 755 $(LIBDIR)/libjlua.so $(HOME)/.local/lib/jeff/libjlua.so
 
 install_libs/fast:
 	mkdir -p /usr/lib/jeff
 	install -m 755 $(LIBDIR)/libjeff.so /usr/lib/jeff/libjeff.so
+	install -m 755 $(LIBDIR)/libjautomata.so /usr/lib/jeff/libjautomata.so
 	install -m 755 $(LIBDIR)/libjlua.so /usr/lib/jeff/libjlua.so
 
 install_libs/local/stripped: install_libs/local/fast
-	strip $(HOME)/.local/lib/libj{eff,lua}.so
+	strip $(HOME)/.local/lib/libj{eff,automata,lua}.so
 
 install_libs/stripped: install_libs/fast
-	strip /usr/lib/libj{eff,lua}.so
+	strip /usr/lib/libj{eff,automata,lua}.so
 
 
 $(OBJDIR)/cointoss.o: $(SRCDIR)/cointoss.c $(JEFF_INCDIR)/cointoss.h
