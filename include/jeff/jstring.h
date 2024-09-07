@@ -17,6 +17,8 @@ void str_append_nul(char *str);
 jbool compare_strv(char **const argv, const J_ULONG len);
 char **filter_argv(const J_ULONG argc, char **argv);
 
+char *dedup_str(char *const str);
+
 jbool is_lower(char *const str);
 jbool is_upper(char *const str);
 void capitalize(char *str, jbool *use_dot);

@@ -40,9 +40,17 @@ int main(int argc, char **argv) {
     char *arg = CALLOC(char, strlen(args[i]) + 1);
     stpcpy(arg, args[i]);
 
-    capitalize(arg, NULL);
-    vfdlog(*fd, "%s\n", arg);
-    printf("%s\n", arg);
+    /* capitalize(arg, NULL); */
+    char *ddp = dedup_str(arg);
+
+    if (null_ptr(ddp)) {
+      vfdlog(*fd, "%s\n", arg);
+      printf("%s\n", arg);
+    } else {
+      vfdlog(*fd, "%s\n", ddp);
+      printf("%s\n", ddp);
+      free(ddp);
+    }
 
     free(arg);
   }

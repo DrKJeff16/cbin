@@ -5,6 +5,29 @@
 #include <jeff/jmemory.h>
 #include <jeff/jstring.h>
 
+char *dedup_str(char *const str) {
+  J_ULONG len = strlen(str);
+  char *res = CALLOC(char, len + 1);
+  J_ULONG j = 0;
+
+  for (J_ULONG i = 0; i < len; i++) {
+    J_ULONG found = 0;
+    for (J_ULONG k = 0; k < j; k++) {
+      if (res[k] == str[i]) {
+        found = 1;
+        break;
+      }
+    }
+    if (!found) {
+      res[j++] = str[i];
+    }
+  }
+
+  res[j] = '\0';
+  res = REALLOC(res, char, j + 1);
+  return res;
+}
+
 void str_append_nul(char *str) {
   if (null_ptr(str)) {
     return;
