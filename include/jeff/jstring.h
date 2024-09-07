@@ -5,8 +5,6 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <sys/types.h>
-
 #include "jeff.h"
 
 typedef struct _char_ptrs {
@@ -16,8 +14,8 @@ typedef struct _char_ptrs {
 
 char *str_reversed(char *const str);
 void str_append_nul(char *str);
-jbool compare_strv(char **const argv, const size_t len);
-char **filter_argv(const size_t argc, char **argv);
+jbool compare_strv(char **const argv, const J_ULONG len);
+char **filter_argv(const J_ULONG argc, char **argv);
 
 jbool is_lower(char *const str);
 jbool is_upper(char *const str);

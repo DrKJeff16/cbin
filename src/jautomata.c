@@ -2,6 +2,7 @@
 #include <string.h>
 #include <jeff/jeff.h>
 #include <jeff/jmemory.h>
+#include <jeff/jstring.h>
 #include <jeff/jautomata.h>
 
 jautomaton *gen_automaton(char *const alpha, const J_UINT n, char **const inputs,
@@ -28,20 +29,18 @@ jautomaton *gen_automaton(char *const alpha, const J_UINT n, char **const inputs
   res->final_states = NULL;
 
   res->states = CALLOC(jstate, res->n_states);
-
   for (J_UINT i = 0; i < res->n_states; i++) {
     res->states[i].idx = i;
-
-    res->states[i].transitions = CALLOC(jstate_rel, alpha_len);
     res->states[i].FINAL = JFALSE;
 
+    res->states[i].transitions = CALLOC(jstate_rel, alpha_len);
     for (J_UINT j = 0; j < alpha_len; j++) {
       res->states[i].transitions[i].idx = indeces[i][j];
       res->states[i].transitions[i].input = inputs[i][j];
     }
   }
 
-  res->init_state = &(res->states);
+  res->init_state = res->states;
 
   return res;
 }

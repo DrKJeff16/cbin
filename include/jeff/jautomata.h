@@ -22,7 +22,7 @@ typedef struct _jautomaton {
   char *alphabet;
   J_UINT n_states;
   jstate *states;
-  jstate **init_state;
+  jstate *init_state;
   jstate *final_states;
 } jautomaton;
 
