@@ -5,6 +5,8 @@
 #include <jeff/jmemory.h>
 #include <jeff/jstring.h>
 
+/// I gave up, so tysm:
+/// https://www.quora.com/How-do-I-write-a-C-program-to-remove-duplicates-from-a-string
 char *dedup_str(char *const str) {
   J_ULONG len = strlen(str);
   char *res = CALLOC(char, len + 1);
