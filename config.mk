@@ -39,7 +39,7 @@ CXXFLAGS = $(CPPFLAGS) \
 		   -Wall \
 		   -pedantic \
 		   -pthread
-LDFLAGS = -L/usr/lib/jeff -ljeff
+LDFLAGS = -L/usr/lib/jeff -Llib -ljeff
 
 PKG_CONFIG_BIN := pkgconf
 
