@@ -22,6 +22,8 @@ char *dedup_str(char *const str);
 jbool is_lower(char *const str);
 jbool is_upper(char *const str);
 void capitalize(char *str, jbool *use_dot);
+void upperize(char *str);
+void lowerize(char *str);
 
 #ifdef __cplusplus
 }

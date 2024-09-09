@@ -68,7 +68,7 @@ jbool is_lower(char *const str) {
     return JFALSE;
   }
 
-  for (size_t i = 0; i <= strlen(str); i++) {
+  for (J_ULONG i = 0; i <= strlen(str); i++) {
     if (str[i] >= 'A' && str[i] <= 'Z') {
       return JFALSE;
     }
@@ -89,6 +89,38 @@ jbool is_upper(char *const str) {
   }
 
   return JTRUE;
+}
+
+void lowerize(char *str) {
+  if (null_ptr(str)) {
+    return;
+  }
+
+  for (J_ULONG i = 0; i <= strlen(str); i++) {
+    char *c = MALLOC(char);
+    *c = str[i];
+    if (is_upper(c)) {
+      str[i] += 32;
+    }
+
+    free(c);
+  }
+}
+
+void upperize(char *str) {
+  if (null_ptr(str)) {
+    return;
+  }
+
+  for (J_ULONG i = 0; i <= strlen(str); i++) {
+    char *c = MALLOC(char);
+    *c = str[i];
+    if (is_lower(c)) {
+      str[i] -= 32;
+    }
+
+    free(c);
+  }
 }
 
 void capitalize(char *str, jbool *use_dot) {
