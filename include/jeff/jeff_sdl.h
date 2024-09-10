@@ -1,4 +1,4 @@
-#ifndef JEFF_SDL_H
+#if !defined(JEFF_SDL_H)
 #define JEFF_SDL_H 1
 
 #if defined(__cplusplus)

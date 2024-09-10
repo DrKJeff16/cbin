@@ -1,4 +1,4 @@
-#ifndef JLOG_H
+#if !defined(JLOG_H)
 #define JLOG_H 1
 
 #if defined(__cplusplus)

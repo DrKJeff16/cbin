@@ -1,4 +1,4 @@
-#ifndef JMISC_H
+#if !defined(JMISC_H)
 #define JMISC_H 1
 
 #if defined(__cplusplus)

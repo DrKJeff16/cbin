@@ -1,4 +1,4 @@
-#ifndef JAUTOMATA_H
+#if !defined(JAUTOMATA_H)
 #define JAUTOMATA_H
 
 #if defined(__cplusplus)

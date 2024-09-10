@@ -1,4 +1,4 @@
-#ifndef JEFF_GTK_H
+#if !defined(JEFF_GTK_H)
 #define JEFF_GTK_H 1
 
 #if defined(__cplusplus)

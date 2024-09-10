@@ -1,4 +1,4 @@
-#ifndef COINTOSS_H
+#if !defined(COINTOSS_H)
 #define COINTOSS_H 1
 
 #if defined(__cplusplus)

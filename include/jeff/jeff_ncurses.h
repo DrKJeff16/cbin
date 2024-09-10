@@ -1,4 +1,4 @@
-#ifndef JEFF_NCURSES_H
+#if !defined(JEFF_NCURSES_H)
 #define JEFF_NCURSES_H 1
 
 #if defined(__cplusplus)

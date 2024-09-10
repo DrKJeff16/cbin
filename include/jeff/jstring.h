@@ -1,4 +1,4 @@
-#ifndef JSTRING_H
+#if !defined(JSTRING_H)
 #define JSTRING_H 1
 
 #if defined(__cplusplus)

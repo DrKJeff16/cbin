@@ -1,4 +1,4 @@
-#ifndef JEFF_LUA_H
+#if !defined(JEFF_LUA_H)
 #define JEFF_LUA_H 1
 
 #if defined(__cplusplus)

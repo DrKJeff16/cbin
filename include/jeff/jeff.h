@@ -1,4 +1,4 @@
-#ifndef JEFF_H
+#if !defined(JEFF_H)
 #define JEFF_H 1
 
 #if defined(__cplusplus)
@@ -18,39 +18,39 @@ typedef enum _jbool {
 #endif
 } jbool;
 
-#ifndef J_ULLONG
+#if !defined(J_ULLONG)
 #define J_ULLONG unsigned long long
 #endif /* !J_ULLONG */
 
-#ifndef J_LLONG
+#if !defined(J_LLONG)
 #define J_LLONG long long
 #endif /* !J_LLONG */
 
-#ifndef J_ULONG
+#if !defined(J_ULONG)
 #define J_ULONG unsigned long
 #endif /* !J_ULONG */
 
-#ifndef J_UINT
+#if !defined(J_UINT)
 #define J_UINT unsigned int
 #endif /* !J_UINT */
 
-#ifndef J_LUINT
+#if !defined(J_LUINT)
 #define J_LUINT long unsigned int
 #endif /* !J_LUINT */
 
-#ifndef J_UCHAR
+#if !defined(J_UCHAR)
 #define J_UCHAR unsigned char
 #endif /* !J_UCHAR */
 
-#ifndef J_LINT
+#if !defined(J_LINT)
 #define J_LINT long int
 #endif /* !J_LINT */
 
-#ifndef J_SHINT
+#if !defined(J_SHINT)
 #define J_SHINT short int
 #endif /* !J_SHINT */
 
-#ifndef J_USHINT
+#if !defined(J_USHINT)
 #define J_USHINT short unsigned int
 #endif /* !J_USHINT */
 

@@ -1,4 +1,4 @@
-#ifndef JINPUT_H
+#if !defined(JINPUT_H)
 #define JINPUT_H 1
 
 #if defined(__cplusplus)

@@ -1,4 +1,4 @@
-#ifndef JRANDOM_H
+#if !defined(JRANDOM_H)
 #define JRANDOM_H 1
 
 #if defined(__cplusplus)
