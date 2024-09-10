@@ -1,7 +1,7 @@
 #ifndef JINPUT_H
 #define JINPUT_H 1
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
@@ -9,7 +9,7 @@ extern "C" {
 
 char *buffer_get(char *const msg, size_t *const buf_len);
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 }
 #endif /* __cplusplus */
 

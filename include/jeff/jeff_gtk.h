@@ -1,7 +1,7 @@
 #ifndef JEFF_GTK_H
 #define JEFF_GTK_H 1
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
@@ -26,7 +26,7 @@ void activate(GtkApplication *app, gpointer user_data);
 void print_hello(GtkWidget *widget, gpointer data);
 void print_hello_reversed(GtkWidget *widget, gpointer data);
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 }
 #endif /* __cplusplus */
 

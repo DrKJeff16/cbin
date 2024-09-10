@@ -1,7 +1,7 @@
 #ifndef COINTOSS_H
 #define COINTOSS_H 1
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
@@ -17,7 +17,7 @@ jbool fd_toss(int fd);
 void final_decide(int fd, CHOICES *const c, char **const coin);
 CHOICES *init_choices(void);
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 }
 #endif /* __cplusplus */
 

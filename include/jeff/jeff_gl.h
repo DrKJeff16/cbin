@@ -1,7 +1,7 @@
 #ifndef JEFF_GL_H
 #define JEFF_GL_H 1
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
@@ -35,7 +35,7 @@ void glew_init(GLFWwindow *window);
 jbool esc_not_pressed(GLFWwindow *const window);
 void window_run(GLFWwindow *window);
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 }
 #endif /* __cplusplus */
 

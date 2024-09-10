@@ -1,7 +1,7 @@
 #ifndef JEFF_SDL_H
 #define JEFF_SDL_H 1
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
@@ -10,7 +10,7 @@ extern "C" {
 SDL_Window *default_win(void);
 SDL_Renderer *default_renderer(SDL_Window *, const Uint32);
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 }
 #endif /* __cplusplus */
 

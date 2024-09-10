@@ -1,7 +1,7 @@
 #ifndef JEFF_H
 #define JEFF_H 1
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
@@ -143,7 +143,7 @@ void errno_vdie(const int status, const int errno_val, char *const fmt, ...);
 /* ----------------------------------------------------------------------------*/
 void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...);
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 }
 #endif /* __cplusplus */
 

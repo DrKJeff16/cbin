@@ -1,7 +1,7 @@
 #ifndef JLOG_H
 #define JLOG_H 1
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
@@ -16,7 +16,7 @@ int fdlog(int fd, char *const msg);
 int log_to_file(char *const path, const J_ULLONG buf_max, char *const msg, const jbool need_fd);
 int vfdlog(int fd, char *const fmt, ...);
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 }
 #endif /* __cplusplus */
 

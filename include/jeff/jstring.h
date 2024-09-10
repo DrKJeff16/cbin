@@ -1,7 +1,7 @@
 #ifndef JSTRING_H
 #define JSTRING_H 1
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
@@ -25,7 +25,7 @@ void capitalize(char *str, jbool *use_dot);
 void upperize(char *str);
 void lowerize(char *str);
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 }
 #endif /* __cplusplus */
 

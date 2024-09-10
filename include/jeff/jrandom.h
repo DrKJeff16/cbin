@@ -1,7 +1,7 @@
 #ifndef JRANDOM_H
 #define JRANDOM_H 1
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
@@ -9,7 +9,7 @@ extern "C" {
 
 J_ULLONG fd_urand(int fd, const J_ULLONG min, const J_ULLONG max);
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 }
 #endif /* __cplusplus */
 

@@ -1,7 +1,7 @@
 #ifndef JEFF_LUA_H
 #define JEFF_LUA_H 1
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
@@ -85,7 +85,7 @@ J_ULLONG op_buf_len(jlua_op_buf *const ptr, lua_State *L);
 jlua_op_buf *insert_op_buf(jlua_op_buf *const ptr, lua_State *L);
 void lua_op(lua_State *L, jlua_op_buf *const buf);
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 }
 #endif /* __cplusplus */
 

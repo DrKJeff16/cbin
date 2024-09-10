@@ -1,7 +1,7 @@
 #ifndef JMEMORY_H
 #define JMEMORY_H 1
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
@@ -21,7 +21,7 @@ extern "C" {
 #define REALLOC(ptr, type, n) (type *)realloc((void *)ptr, sizeof(type) * n)
 #endif /* !REALLOC */
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 }
 #endif /* __cplusplus */
 
