@@ -225,7 +225,7 @@ SortJavaStaticImport: Before
 SortUsingDeclarations: LexicographicNumeric
 SpaceAfterCStyleCast: false
 SpaceAfterLogicalNot: false
-SpaceAfterTemplateKeyword: true
+SpaceAfterTemplateKeyword: false
 SpaceAroundPointerQualifiers: After
 SpaceBeforeAssignmentOperators: true
 SpaceBeforeCaseColon: false
@@ -236,10 +236,10 @@ SpaceBeforeJsonColon: false
 SpaceBeforeParens: Custom
 SpaceBeforeParensOptions:
   AfterControlStatements: true
-  AfterForeachMacros: false
+  AfterForeachMacros: true
   AfterFunctionDefinitionName: false
   AfterFunctionDeclarationName: false
-  AfterIfMacros:   false
+  AfterIfMacros:   true
   AfterOverloadedOperator: true
   AfterPlacementOperator: true
   AfterRequiresInClause: false
