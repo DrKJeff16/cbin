@@ -5,8 +5,7 @@
 #include <jeff/jstring.h>
 #include <jeff/jautomata.h>
 
-jautomaton *gen_automaton(char *const alpha, const J_UINT n, char **const inputs,
-                          J_UINT **const indeces) {
+jautomaton *gen_automaton(char *const alpha, const J_UINT n, char **const inputs, J_UINT **const indeces) {
   if (null_ptr(alpha) || null_ptr(inputs) || null_ptr(indeces) || n <= 1) {
     return NULL;
   }

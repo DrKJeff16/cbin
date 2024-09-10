@@ -26,8 +26,7 @@ typedef struct _jautomaton {
   jstate *final_states;
 } jautomaton;
 
-jautomaton *gen_automaton(char *const alpha, const J_UINT n, char **const inputs,
-                          J_UINT **const indeces);
+jautomaton *gen_automaton(char *const alpha, const J_UINT n, char **const inputs, J_UINT **const indeces);
 
 #ifdef __cplusplus
 }

@@ -21,8 +21,7 @@ void glfw_init(void) {
 
 void glew_init(GLFWwindow *window) {
   if (null_ptr(window)) {
-    exec_vdie(1, glfwTerminate, "Failed to open GLFW window\n%s\n",
-              " Incompatible with version 3.3. Try 2.1");
+    exec_vdie(1, glfwTerminate, "Failed to open GLFW window\n%s\n", " Incompatible with version 3.3. Try 2.1");
   }
 
   glfwMakeContextCurrent(window);

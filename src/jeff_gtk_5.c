@@ -35,8 +35,7 @@ void resize_cb(GtkWidget *widget, const int width, const int height, gpointer da
 
   if (*single_surface) {
     surface = gdk_surface_create_similar_surface(*single_surface, CAIRO_CONTENT_COLOR_ALPHA,
-                                                 gtk_widget_get_width(widget),
-                                                 gtk_widget_get_height(widget));
+                                                 gtk_widget_get_width(widget), gtk_widget_get_height(widget));
 
     clear_surface();
   }
@@ -44,8 +43,7 @@ void resize_cb(GtkWidget *widget, const int width, const int height, gpointer da
   free(single_surface);
 }
 
-void draw_cb(GtkDrawingArea *drawing_area, cairo_t *cr, const int width, const int height,
-             gpointer data) {
+void draw_cb(GtkDrawingArea *drawing_area, cairo_t *cr, const int width, const int height, gpointer data) {
   cairo_set_source_surface(cr, surface, 0, 0);
   cairo_paint(cr);
 }
@@ -76,8 +74,7 @@ void drag_end(GtkGestureDrag *gesture, const double x, const double y, GtkWidget
   draw_brush(area, start_x + x, start_y + y);
 }
 
-void pressed(GtkGestureClick *gesture, const int n_press, const double x, const double y,
-             GtkWidget *area) {
+void pressed(GtkGestureClick *gesture, const int n_press, const double x, const double y, GtkWidget *area) {
   clear_surface();
   gtk_widget_queue_draw(area);
 }

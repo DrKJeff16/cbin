@@ -48,8 +48,8 @@ SDL_Renderer *default_renderer(SDL_Window *win, const Uint32 flags) {
   return SDL_CreateRenderer(win, -1, flags);
 }
 
-void sdl_kill(SDL_Window *win, SDL_Renderer *rend, SDL_Surface *surface, SDL_Texture *texture,
-              SDL_Rect *dest, direction_flag *dflag, jbool *rect_created) {
+void sdl_kill(SDL_Window *win, SDL_Renderer *rend, SDL_Surface *surface, SDL_Texture *texture, SDL_Rect *dest,
+              direction_flag *dflag, jbool *rect_created) {
   free(rect_created);
   free(dflag);
   free(dest);

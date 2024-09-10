@@ -74,8 +74,7 @@ int log_to_file(char *const path, const J_ULLONG buf_max, char *const msg, const
   int close_d = close(logfile_fd);
 
   if (close_d < 0) {
-    errno_verr(ENOTTY, "(log_to_file): Unable to close file descriptor for `%s` (%d)\n", path,
-               close_d);
+    errno_verr(ENOTTY, "(log_to_file): Unable to close file descriptor for `%s` (%d)\n", path, close_d);
     return -1;
   }
 
