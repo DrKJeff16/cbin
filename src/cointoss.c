@@ -33,9 +33,9 @@ void decide(const jbool x, CHOICES *c) {
   }
 }
 
-jbool toss(int fd) {
+jbool fd_toss(int fd) {
   if (fd < 0) {
-    errno_verr(EBADF, "(toss): %s (fd: %d)\n", "File descriptor unavailable", fd);
+    errno_verr(EBADF, "(fd_toss): %s (fd: %d)\n", "File descriptor unavailable", fd);
     return JFALSE;
   }
 
@@ -44,16 +44,16 @@ jbool toss(int fd) {
 
 void final_decide(int fd, CHOICES *const c, char **const coin) {
   if (fd < 0) {
-    vdie(1, "(toss): %s\n%s (fd: %d)\n", strerror(EBADFD), "File descriptor unavailable", fd);
+    errno_vdie(1, EBADFD, "(final_decide): %s (fd: %d)\n", "File descriptor unavailable", fd);
   }
   if (null_ptr(coin)) {
-    vdie(1, "%s\n%s\n", strerror(EFAULT), "No coin to print");
+    errno_vdie(1, EFAULT, "(final_decide): %s\n", "No coin to print");
   }
   if (null_ptr(c)) {
-    vdie(1, "(final_decide): %s\n%s\n", strerror(EFAULT), "No choices to make a decision from");
+    errno_vdie(1, EFAULT, "(final_decide): %s\n", "No choices to make a decision from");
   }
 
-  char *result = coin[toss(fd)];
+  char *result = coin[fd_toss(fd)];
   if (c->HEADS > c->TAILS) {
     result = coin[1];
   } else if (c->TAILS > c->HEADS) {
@@ -67,8 +67,7 @@ int main(int argc, char **argv) {
   argc--;
 
   if (argc != 2) {
-    errno_vdie(127, ENOTSUP, "(cointoss): %s (got %d)\n", "Need two arguments, no more, no less",
-               argc);
+    errno_vdie(127, ENOTSUP, "(cointoss): %s (got %d)\n", "Need two arguments, no more, no less", argc);
   }
 
   int fd = open("/dev/urandom", O_RDONLY);
@@ -97,7 +96,7 @@ int main(int argc, char **argv) {
   }
 
   for (J_ULLONG i = 0; i < 1000000 && fd >= 0; i++) {
-    decide(toss(fd), c);
+    decide(fd_toss(fd), c);
   }
 
   final_decide(fd, c, coin);

@@ -7,13 +7,13 @@ extern "C" {
 
 #include "jeff.h"
 
-typedef struct {
+typedef struct _choices {
   J_ULLONG TAILS;
   J_ULLONG HEADS;
 } CHOICES;
 
 void decide(const jbool x, CHOICES *c);
-jbool toss(int fd);
+jbool fd_toss(int fd);
 void final_decide(int fd, CHOICES *const c, char **const coin);
 CHOICES *init_choices(void);
 
