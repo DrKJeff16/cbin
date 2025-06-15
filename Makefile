@@ -70,7 +70,6 @@ gtk_1: libs dirs $(BINDIR)/jeff_gtk_1
 gtk_2: libs dirs $(BINDIR)/jeff_gtk_2
 gtk_3: libs dirs $(BINDIR)/jeff_gtk_3
 gtk_4: libs dirs $(BINDIR)/jeff_gtk_4
-gtk_5: libs dirs $(BINDIR)/jeff_gtk_5
 lua_1: libs dirs $(BINDIR)/jeff_lua_1
 ncurses_1: libs dirs $(BINDIR)/jeff_ncurses_1
 sdl_1: libs dirs $(BINDIR)/jeff_sdl_1
@@ -156,13 +155,8 @@ $(BINDIR)/jeff_gtk_3: $(OBJDIR)/jeff_gtk_3.o $(GTK_H)
 
 $(OBJDIR)/jeff_gtk_4.o: $(SRCDIR)/jeff_gtk_4.c $(GTK_H)
 	$(CC) -c $(SRCDIR)/jeff_gtk_4.c $(GTK_CFLAGS) -o $@
-$(BINDIR)/jeff_gtk_4: $(OBJDIR)/jeff_gtk_4.o $(GTK_H) $(ASSET_DIR)/builder.ui
+$(BINDIR)/jeff_gtk_4: $(OBJDIR)/jeff_gtk_4.o $(GTK_H)
 	$(CC) $(OBJDIR)/jeff_gtk_4.o $(GTK_CFLAGS) -o $@ $(GTK_LDFLAGS)
-
-$(OBJDIR)/jeff_gtk_5.o: $(SRCDIR)/jeff_gtk_5.c $(GTK_H)
-	$(CC) -c $(SRCDIR)/jeff_gtk_5.c $(GTK_CFLAGS) -o $@
-$(BINDIR)/jeff_gtk_5: $(OBJDIR)/jeff_gtk_5.o $(GTK_H)
-	$(CC) $(OBJDIR)/jeff_gtk_5.o $(GTK_CFLAGS) -o $@ $(GTK_LDFLAGS)
 
 $(OBJDIR)/jeff_sdl_1.o: $(SRCDIR)/jeff_sdl_1.c $(SDL_H) $(ASSET_DIR)/face.png
 	$(CC) -c $(SRCDIR)/jeff_sdl_1.c $(SDL_CFLAGS) -o $@
