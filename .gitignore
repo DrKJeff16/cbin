@@ -56,3 +56,5 @@ compile_commands.json
 # VCS files
 *.diff
 *.patch
+
+*.lock
