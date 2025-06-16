@@ -2,7 +2,6 @@
 #include <glib-object.h>
 #include <glib.h>
 #include <gtk/gtk.h>
-#include <stdlib.h>
 #include <gobject/gclosure.h>
 #include <jeff/jeff_gtk.h>
 

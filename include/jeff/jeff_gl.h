@@ -8,25 +8,7 @@ extern "C" {
 #include <GL/glut.h>
 #include <GLFW/glfw3.h>
 
-#include "jeff.h"
-
-typedef struct _gl_rgba {
-  double red;
-  double green;
-  double blue;
-  double alpha;
-} rgba_t;
-
-typedef struct _gl_rgb {
-  double red;
-  double green;
-  double blue;
-} rgb_t;
-
-typedef struct _gl_init {
-  rgba_t *rgba;
-  rgb_t *rgb;
-} gl_init_t;
+#include "jtypes.h"
 
 void init(gl_init_t *args);
 void display(void);

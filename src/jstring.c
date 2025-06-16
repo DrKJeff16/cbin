@@ -8,13 +8,13 @@
 /// I gave up, so tysm:
 /// https://www.quora.com/How-do-I-write-a-C-program-to-remove-duplicates-from-a-string
 char *dedup_str(char *const str) {
-  J_ULONG len = strlen(str);
+  j_ulong len = strlen(str);
   char *res = CALLOC(char, len + 1);
-  J_ULONG j = 0;
+  j_ulong j = 0;
 
-  for (J_ULONG i = 0; i < len; i++) {
-    J_ULONG found = 0;
-    for (J_ULONG k = 0; k < j; k++) {
+  for (j_ulong i = 0; i < len; i++) {
+    j_ulong found = 0;
+    for (j_ulong k = 0; k < j; k++) {
       if (res[k] == str[i]) {
         found = 1;
         break;
@@ -68,7 +68,7 @@ jbool is_lower(char *const str) {
     return JFALSE;
   }
 
-  for (J_ULONG i = 0; i <= strlen(str); i++) {
+  for (j_ulong i = 0; i <= strlen(str); i++) {
     if (str[i] >= 'A' && str[i] <= 'Z') {
       return JFALSE;
     }
@@ -96,7 +96,7 @@ void lowerize(char *str) {
     return;
   }
 
-  for (J_ULONG i = 0; i <= strlen(str); i++) {
+  for (j_ulong i = 0; i <= strlen(str); i++) {
     char *c = MALLOC(char);
     *c = str[i];
     if (is_upper(c)) {
@@ -112,7 +112,7 @@ void upperize(char *str) {
     return;
   }
 
-  for (J_ULONG i = 0; i <= strlen(str); i++) {
+  for (j_ulong i = 0; i <= strlen(str); i++) {
     char *c = MALLOC(char);
     *c = str[i];
     if (is_lower(c)) {

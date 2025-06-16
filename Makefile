@@ -1,6 +1,6 @@
-SHELL = /bin/bash
-
 include config.mk
+
+SHELL = /bin/bash
 
 all: dirs libs $(ACTIONS)
 
@@ -67,46 +67,55 @@ $(BINDIR)/cointoss: $(OBJDIR)/cointoss.o $(JEFF_INCDIR)/cointoss.h
 
 $(OBJDIR)/jmisc.o: $(SRCDIR)/jmisc.c $(JEFF_INCDIR)/jmisc.h
 	$(CC) -c $(SRCDIR)/jmisc.c $(CFLAGS) -o $@
+
 $(BINDIR)/jmisc: $(OBJDIR)/jmisc.o $(JEFF_INCDIR)/jmisc.h
 	$(CC) $(OBJDIR)/jmisc.o $(CFLAGS) -o $@ $(LDFLAGS)
 
 $(OBJDIR)/jeff_gl_1.o: $(SRCDIR)/jeff_gl_1.c $(GL_H)
 	$(CC) -c $(SRCDIR)/jeff_gl_1.c $(GL_CFLAGS) -o $@
+
 $(BINDIR)/jeff_gl_1: $(OBJDIR)/jeff_gl_1.o $(GL_H)
 	$(CC) $(OBJDIR)/jeff_gl_1.o $(GL_CFLAGS) -o $@ $(GL_LDFLAGS)
 
 $(OBJDIR)/jeff_gtk_1.o: $(SRCDIR)/jeff_gtk_1.c $(GTK_H)
 	$(CC) -c $(SRCDIR)/jeff_gtk_1.c $(GTK_CFLAGS) -o $@
+
 $(BINDIR)/jeff_gtk_1: $(OBJDIR)/jeff_gtk_1.o $(GTK_H)
 	$(CC) $(OBJDIR)/jeff_gtk_1.o $(GTK_CFLAGS) -o $@ $(GTK_LDFLAGS)
 
 $(OBJDIR)/jeff_gtk_2.o: $(SRCDIR)/jeff_gtk_2.c $(GTK_H)
 	$(CC) -c $(SRCDIR)/jeff_gtk_2.c $(GTK_CFLAGS) -o $@
+
 $(BINDIR)/jeff_gtk_2: $(OBJDIR)/jeff_gtk_2.o $(GTK_H)
 	$(CC) $(OBJDIR)/jeff_gtk_2.o $(GTK_CFLAGS) -o $@ $(GTK_LDFLAGS)
 
 $(OBJDIR)/jeff_gtk_3.o: $(SRCDIR)/jeff_gtk_3.c $(GTK_H)
 	$(CC) -c $(SRCDIR)/jeff_gtk_3.c $(GTK_CFLAGS) -o $@
+
 $(BINDIR)/jeff_gtk_3: $(OBJDIR)/jeff_gtk_3.o $(GTK_H)
 	$(CC) $(OBJDIR)/jeff_gtk_3.o $(GTK_CFLAGS) -o $@ $(GTK_LDFLAGS)
 
 $(OBJDIR)/jeff_gtk_4.o: $(SRCDIR)/jeff_gtk_4.c $(GTK_H)
 	$(CC) -c $(SRCDIR)/jeff_gtk_4.c $(GTK_CFLAGS) -o $@
+
 $(BINDIR)/jeff_gtk_4: $(OBJDIR)/jeff_gtk_4.o $(GTK_H)
 	$(CC) $(OBJDIR)/jeff_gtk_4.o $(GTK_CFLAGS) -o $@ $(GTK_LDFLAGS)
 
 $(OBJDIR)/jeff_sdl_1.o: $(SRCDIR)/jeff_sdl_1.c $(SDL_H) $(ASSET_DIR)/face.png
 	$(CC) -c $(SRCDIR)/jeff_sdl_1.c $(SDL_CFLAGS) -o $@
+
 $(BINDIR)/jeff_sdl_1: $(OBJDIR)/jeff_sdl_1.o $(SDL_H) $(ASSET_DIR)/face.png
 	$(CC) $(OBJDIR)/jeff_sdl_1.o $(SDL_CFLAGS) -o $@ $(SDL_LDFLAGS)
 
 $(OBJDIR)/jeff_lua_1.o: $(SRCDIR)/jeff_lua_1.c $(LUA_H)
 	$(CC) -c $(SRCDIR)/jeff_lua_1.c $(LUA_CFLAGS) -o $@
+
 $(BINDIR)/jeff_lua_1: $(OBJDIR)/jeff_lua_1.o $(LUA_H)
 	$(CC) $(OBJDIR)/jeff_lua_1.o $(LUA_CFLAGS) -o $@ $(LUA_LDFLAGS)
 
 $(OBJDIR)/jeff_ncurses_1.o: $(SRCDIR)/jeff_ncurses_1.c $(NCURSES_H)
 	$(CC) -c $(SRCDIR)/jeff_ncurses_1.c $(NCURSES_CFLAGS) -o $@
+
 $(BINDIR)/jeff_ncurses_1: $(OBJDIR)/jeff_ncurses_1.o $(NCURSES_H)
 	$(CC) $(OBJDIR)/jeff_ncurses_1.o $(NCURSES_CFLAGS) -o $@ $(NCURSES_LDFLAGS)
 
@@ -129,44 +138,58 @@ strip/bin:
 strip/libs:
 	strip $(LIBDIR)/*.so
 
-install_headers/local: $(JEFF_H)
-	mkdir -p $(HOME)/.local/include/jeff
-	install -m 644 $(JEFF_INCDIR)/jeff.h $(HOME)/.local/include/jeff/jeff.h
-	install -m 644 $(JEFF_INCDIR)/jmemory.h $(HOME)/.local/include/jeff/jmemory.h
-	install -m 644 $(JEFF_INCDIR)/jrandom.h $(HOME)/.local/include/jeff/jrandom.h
-	install -m 644 $(JEFF_INCDIR)/jstring.h $(HOME)/.local/include/jeff/jstring.h
-	install -m 644 $(JEFF_INCDIR)/jlua.h $(HOME)/.local/include/jeff/jlua.h
-	install -m 644 $(JEFF_INCDIR)/jinput.h $(HOME)/.local/include/jeff/jinput.h
-	install -m 644 $(JEFF_INCDIR)/jlog.h $(HOME)/.local/include/jeff/jlog.h
+install_bin/fast:
+	mkdir -p $(GLOBAL_PREFIX)/bin
+	install -m 755 $(BINDIR)/cointoss $(GLOBAL_PREFIX)/bin/cointoss
 
-install_headers/global: $(JEFF_H)
-	mkdir -p /usr/include/jeff
-	install -m 644 $(JEFF_INCDIR)/jeff.h /usr/include/jeff/jeff.h
-	install -m 644 $(JEFF_INCDIR)/jmemory.h /usr/include/jeff/jmemory.h
-	install -m 644 $(JEFF_INCDIR)/jrandom.h /usr/include/jeff/jrandom.h
-	install -m 644 $(JEFF_INCDIR)/jinput.h /usr/include/jeff/jinput.h
-	install -m 644 $(JEFF_INCDIR)/jstring.h /usr/include/jeff/jstring.h
-	install -m 644 $(JEFF_INCDIR)/jlua.h /usr/include/jeff/jlua.h
-	install -m 644 $(JEFF_INCDIR)/jautomata.h /usr/include/jeff/jautomata.h
-	install -m 644 $(JEFF_INCDIR)/jlog.h /usr/include/jeff/jlog.h
+install_bin/local/fast:
+	mkdir -p $(HOME)/.bin/cbin
+	install -m 755 $(BINDIR)/cointoss $(HOME)/.bin/cbin/cointoss
+
+install_bin/stripped: install_bin/fast
+	strip $(GLOBAL_PREFIX)/bin/cointoss
+
+install_bin/local/stripped: install_bin/local/fast
+	strip $(HOME)/.bin/cbin/cointoss
+
+install_headers/local: $(JEFF_H)
+	mkdir -p $(LOCAL_PREFIX)/include/jeff
+	install -m 644 $(JEFF_INCDIR)/jeff.h $(LOCAL_PREFIX)/include/jeff/jeff.h
+	install -m 644 $(JEFF_INCDIR)/jmemory.h $(LOCAL_PREFIX)/include/jeff/jmemory.h
+	install -m 644 $(JEFF_INCDIR)/jrandom.h $(LOCAL_PREFIX)/include/jeff/jrandom.h
+	install -m 644 $(JEFF_INCDIR)/jstring.h $(LOCAL_PREFIX)/include/jeff/jstring.h
+	install -m 644 $(JEFF_INCDIR)/jlua.h $(LOCAL_PREFIX)/include/jeff/jlua.h
+	install -m 644 $(JEFF_INCDIR)/jinput.h $(LOCAL_PREFIX)/include/jeff/jinput.h
+	install -m 644 $(JEFF_INCDIR)/jlog.h $(LOCAL_PREFIX)/include/jeff/jlog.h
+
+install_headers: $(JEFF_H)
+	mkdir -p $(GLOBAL_PREFIX)/include/jeff
+	install -m 644 $(JEFF_INCDIR)/jeff.h $(GLOBAL_PREFIX)/include/jeff/jeff.h
+	install -m 644 $(JEFF_INCDIR)/jmemory.h $(GLOBAL_PREFIX)/include/jeff/jmemory.h
+	install -m 644 $(JEFF_INCDIR)/jrandom.h $(GLOBAL_PREFIX)/include/jeff/jrandom.h
+	install -m 644 $(JEFF_INCDIR)/jinput.h $(GLOBAL_PREFIX)/include/jeff/jinput.h
+	install -m 644 $(JEFF_INCDIR)/jstring.h $(GLOBAL_PREFIX)/include/jeff/jstring.h
+	install -m 644 $(JEFF_INCDIR)/jlua.h $(GLOBAL_PREFIX)/include/jeff/jlua.h
+	install -m 644 $(JEFF_INCDIR)/jautomata.h $(GLOBAL_PREFIX)/include/jeff/jautomata.h
+	install -m 644 $(JEFF_INCDIR)/jlog.h $(GLOBAL_PREFIX)/include/jeff/jlog.h
 
 install_libs/local/fast:
-	mkdir -p $(HOME)/.local/lib/jeff
-	install -m 755 $(LIBDIR)/libjeff.so $(HOME)/.local/lib/jeff/libjeff.so
-	install -m 755 $(LIBDIR)/libjautomata.so $(HOME)/.local/lib/jeff/libjautomata.so
-	install -m 755 $(LIBDIR)/libjlua.so $(HOME)/.local/lib/jeff/libjlua.so
+	mkdir -p $(LOCAL_PREFIX)/lib/jeff
+	install -m 755 $(LIBDIR)/libjeff.so $(LOCAL_PREFIX)/lib/jeff/libjeff.so
+	install -m 755 $(LIBDIR)/libjautomata.so $(LOCAL_PREFIX)/lib/jeff/libjautomata.so
+	install -m 755 $(LIBDIR)/libjlua.so $(LOCAL_PREFIX)/lib/jeff/libjlua.so
 
 install_libs/fast:
-	mkdir -p /usr/lib/jeff
-	install -m 755 $(LIBDIR)/libjeff.so /usr/lib/jeff/libjeff.so
-	install -m 755 $(LIBDIR)/libjautomata.so /usr/lib/jeff/libjautomata.so
-	install -m 755 $(LIBDIR)/libjlua.so /usr/lib/jeff/libjlua.so
+	mkdir -p $(GLOBAL_PREFIX)/lib/jeff
+	install -m 755 $(LIBDIR)/libjeff.so $(GLOBAL_PREFIX)/lib/jeff/libjeff.so
+	install -m 755 $(LIBDIR)/libjautomata.so $(GLOBAL_PREFIX)/lib/jeff/libjautomata.so
+	install -m 755 $(LIBDIR)/libjlua.so $(GLOBAL_PREFIX)/lib/jeff/libjlua.so
 
 install_libs/local/stripped: install_libs/local/fast
-	strip $(HOME)/.local/lib/jeff/libj{eff,automata,lua}.so
+	strip $(LOCAL_PREFIX)/lib/jeff/libj{eff,automata,lua}.so
 
 install_libs/stripped: install_libs/fast
-	strip /usr/lib/jeff/libj{eff,automata,lua}.so
+	strip $(GLOBAL_PREFIX)/lib/jeff/libj{eff,automata,lua}.so
 
 clean:
 	rm -rf $(OBJDIR)/*
@@ -179,6 +202,10 @@ distclean: clean
 	clean \
 	distclean \
 	install_headers/local install_headers/global \
+	install_bin/fast \
+	install_bin/local/fast \
+	install_bin/local/stripped \
+	install_bin/stripped \
 	install_libs/fast \
 	install_libs/local/fast \
 	install_libs/local/stripped \

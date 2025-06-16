@@ -5,17 +5,17 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include "jeff.h"
+#include "jtypes.h"
 
 typedef struct _choices {
-  J_ULLONG TAILS;
-  J_ULLONG HEADS;
-} CHOICES;
+  j_ullong TAILS;
+  j_ullong HEADS;
+} coin_t;
 
-void decide(const jbool x, CHOICES *c);
+void decide(const jbool x, coin_t *c);
 jbool fd_toss(int fd);
-void final_decide(int fd, CHOICES *const c, char **const coin);
-CHOICES *init_choices(void);
+void final_decide(int fd, coin_t *const c, char **const coin);
+coin_t *init_choices(void);
 
 #if defined(__cplusplus)
 }

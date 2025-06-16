@@ -5,28 +5,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include "jeff.h"
+#include "jtypes.h"
 
-typedef struct _jstate_rel {
-  char input;
-  J_UINT idx;
-} jstate_rel;
-
-typedef struct _jstate {
-  jstate_rel *transitions;
-  jbool FINAL;
-  J_UINT idx;
-} jstate;
-
-typedef struct _jautomaton {
-  char *alphabet;
-  J_UINT n_states;
-  jstate *states;
-  jstate *init_state;
-  jstate *final_states;
-} jautomaton;
-
-jautomaton *gen_automaton(char *const alpha, const J_UINT n, char **const inputs, J_UINT **const indeces);
+jautomaton *gen_automaton(char *const alpha, const j_uint n, char **const inputs, j_uint **const indeces);
 
 #if defined(__cplusplus)
 }

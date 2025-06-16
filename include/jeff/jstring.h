@@ -5,17 +5,12 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include "jeff.h"
-
-typedef struct _char_ptrs {
-  const char *s1;
-  const char *s2;
-} char_ptrs;
+#include "jtypes.h"
 
 char *str_reversed(char *const str);
 void str_append_nul(char *str);
-jbool compare_strv(char **const argv, const J_ULONG len);
-char **filter_argv(const J_ULONG argc, char **argv);
+jbool compare_strv(char **const argv, const j_ulong len);
+char **filter_argv(const j_ulong argc, char **argv);
 
 char *dedup_str(char *const str);
 

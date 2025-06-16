@@ -151,7 +151,7 @@ int main(int argc, char **argv) {
   jbool *x = MALLOC(jbool);
   *x = JTRUE;
 
-  J_ULLONG idx = 0;
+  j_ullong idx = 0;
 
   jlua_op_buf *op_buf = init_op_buf(L);
 

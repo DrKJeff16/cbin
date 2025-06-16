@@ -8,52 +8,6 @@ extern "C" {
 #define JCAST(type, data) (type)(data)
 #define null_ptr(ptr) (!ptr || ptr == NULL)
 
-typedef enum _jbool {
-#if defined(true) && defined(false)
-  JFALSE = false,
-  JTRUE = true,
-#else
-  JFALSE = 0,
-  JTRUE = 1,
-#endif
-} jbool;
-
-#if !defined(J_ULLONG)
-#define J_ULLONG unsigned long long
-#endif /* !J_ULLONG */
-
-#if !defined(J_LLONG)
-#define J_LLONG long long
-#endif /* !J_LLONG */
-
-#if !defined(J_ULONG)
-#define J_ULONG unsigned long
-#endif /* !J_ULONG */
-
-#if !defined(J_UINT)
-#define J_UINT unsigned int
-#endif /* !J_UINT */
-
-#if !defined(J_LUINT)
-#define J_LUINT long unsigned int
-#endif /* !J_LUINT */
-
-#if !defined(J_UCHAR)
-#define J_UCHAR unsigned char
-#endif /* !J_UCHAR */
-
-#if !defined(J_LINT)
-#define J_LINT long int
-#endif /* !J_LINT */
-
-#if !defined(J_SHINT)
-#define J_SHINT short int
-#endif /* !J_SHINT */
-
-#if !defined(J_USHINT)
-#define J_USHINT short unsigned int
-#endif /* !J_USHINT */
-
 #define J_PI_F 3.14159265358979323846F
 
 #define J_PI_LF 3.1415926535897932384626433832795028841971693993L

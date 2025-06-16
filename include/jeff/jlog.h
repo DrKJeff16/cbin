@@ -5,15 +5,10 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include "jeff.h"
-
-typedef enum __j_fdflags {
-  OVERWRITE = 0,
-  APPEND = 1,
-} j_fdflag;
+#include "jtypes.h"
 
 int fdlog(int fd, char *const msg);
-int log_to_file(char *const path, const J_ULLONG buf_max, char *const msg, const jbool need_fd);
+int log_to_file(char *const path, const j_ullong buf_max, char *const msg, const jbool need_fd);
 int vfdlog(int fd, char *const fmt, ...);
 
 #if defined(__cplusplus)

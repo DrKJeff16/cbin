@@ -11,6 +11,7 @@
 #include <SDL2/SDL_video.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <jeff/jtypes.h>
 #include <jeff/jeff.h>
 #include <jeff/jmemory.h>
 #include <jeff/jeff_sdl.h>
@@ -21,14 +22,6 @@
 
 #define WIDTH 1920
 #define HEIGHT 1080
-
-typedef enum _point_flag {
-  NOOP = 0,
-  TOP,
-  RIGHT,
-  BOTTOM,
-  LEFT,
-} direction_flag;
 
 typedef struct _sdl_env {
   SDL_Window *win;
@@ -90,7 +83,7 @@ void sdl_env_kill(SDL_Env *env) {
 void reset_cursor(SDL_Rect *dest, direction_flag *dflag) {
   if (!dflag || dflag == NULL) {
     dflag = MALLOC(direction_flag);
-    *dflag = NOOP;
+    *dflag = NO_OP;
   }
   if (!dest || dest == NULL) {
     dest = MALLOC(SDL_Rect);
@@ -143,7 +136,7 @@ void init_cursor(SDL_Rect *dest, direction_flag *dflag, jbool *rect_created) {
     *rect_created = JFALSE;
   }
 
-  *dflag = NOOP;
+  *dflag = NO_OP;
 
   if (!(*rect_created)) {
     dest->w /= 6;

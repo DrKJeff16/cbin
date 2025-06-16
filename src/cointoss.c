@@ -9,15 +9,15 @@
 #include <jeff/jrandom.h>
 #include <jeff/cointoss.h>
 
-CHOICES *init_choices(void) {
-  CHOICES *c = MALLOC(CHOICES);
+coin_t *init_choices(void) {
+  coin_t *c = MALLOC(coin_t);
   c->TAILS = 0;
   c->HEADS = 0;
 
   return c;
 }
 
-void decide(const jbool x, CHOICES *c) {
+void decide(const jbool x, coin_t *c) {
   if (null_ptr(c)) {
     errno_die(127, EFAULT, "Choices struct is NULL");
   }
@@ -42,7 +42,7 @@ jbool fd_toss(int fd) {
   return fd_urand(fd, 0, 1) ? JTRUE : JFALSE;
 }
 
-void final_decide(int fd, CHOICES *const c, char **const coin) {
+void final_decide(int fd, coin_t *const c, char **const coin) {
   if (fd < 0) {
     errno_vdie(1, EBADFD, "(final_decide): %s (fd: %d)\n", "File descriptor unavailable", fd);
   }
@@ -75,7 +75,7 @@ int main(int argc, char **argv) {
     errno_vdie(127, ENOENT, "(cointoss): %s (fd: %d)\n", "`/dev/urandom` is unavailable", fd);
   }
 
-  CHOICES *c = init_choices();
+  coin_t *c = init_choices();
 
   char **coin = CALLOC(char *, 2);
 
@@ -95,7 +95,7 @@ int main(int argc, char **argv) {
     }
   }
 
-  for (J_ULLONG i = 0; i < 1000000 && fd >= 0; i++) {
+  for (j_ullong i = 0; i < 1000000 && fd >= 0; i++) {
     decide(fd_toss(fd), c);
   }
 

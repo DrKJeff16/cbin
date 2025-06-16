@@ -3,13 +3,13 @@
 #include <jeff/jeff.h>
 #include <jeff/jrandom.h>
 
-J_ULLONG fd_urand(int fd, const J_ULLONG min, const J_ULLONG max) {
+j_ullong fd_urand(int fd, const j_ullong min, const j_ullong max) {
   if (fd < 0) {
     errno_verr(EBADF, "(fd_urand): %s (fd: %d)\n", "File descriptor inaccessible", fd);
     return 0;
   }
 
-  J_ULLONG result = 0;
+  j_ullong result = 0;
 
   int read_d = read(fd, &result, sizeof(result));
 

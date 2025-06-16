@@ -24,7 +24,7 @@ char *buffer_get(char *const msg, size_t *const buf_len) {
 
   char *res = CALLOC(char, len);
 
-  for (J_ULONG i = 0; i < len; i++) {
+  for (j_ulong i = 0; i < len; i++) {
     res[i] = '\0';
   }
 

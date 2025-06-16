@@ -5,9 +5,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include "jeff.h"
+#include "jtypes.h"
 
-J_ULLONG fd_urand(int fd, const J_ULLONG min, const J_ULLONG max);
+j_ullong fd_urand(int fd, const j_ullong min, const j_ullong max);
 
 #if defined(__cplusplus)
 }

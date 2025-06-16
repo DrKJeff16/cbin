@@ -42,7 +42,7 @@ int vfdlog(int fd, char *const fmt, ...) {
   return res;
 }
 
-int log_to_file(char *const path, const J_ULLONG buf_max, char *const msg, const jbool need_fd) {
+int log_to_file(char *const path, const j_ullong buf_max, char *const msg, const jbool need_fd) {
   if (null_ptr(path)) {
     errno_verr(EINVAL, "(log_to_file): %s\n", "File path points to NULL");
     return -1;

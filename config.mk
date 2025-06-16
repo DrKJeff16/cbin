@@ -1,7 +1,10 @@
 CC := gcc
 CXX := g++
 
-ASSET_DIR := $(HOME)/.local/share/jassets
+LOCAL_PREFIX := $(HOME)/.local
+GLOBAL_PREFIX := /usr/bin
+ASSET_DIR := $(LOCAL_PREFIX)/share/jassets
+INSTALL_BIN_DIR := $(GLOBAL_PREFIX)/bin
 BINDIR := bin
 INCDIR := include
 LIBDIR := lib

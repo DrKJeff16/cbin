@@ -123,7 +123,7 @@ void kill_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   free(buf);
 }
 
-void new_op_buf(jlua_op_buf *const prev_buf, lua_State *L, J_ULLONG *const index) {
+void new_op_buf(jlua_op_buf *const prev_buf, lua_State *L, j_ullong *const index) {
   if (null_ptr(L)) {
     errno_vdie(127, ESRCH, "(new_op_buf): %s\n", "Lua State has not been initialized");
   }
@@ -176,7 +176,7 @@ void fix_buf_indeces(jlua_op_buf *const ptr, lua_State *L) {
 
   jlua_op_buf *const safeguard = buf;
 
-  J_ULLONG i = 0;
+  j_ullong i = 0;
 
   do {
     if (i != buf->index) {
@@ -199,7 +199,7 @@ jlua_op_buf *append_op_buf(jlua_op_buf *const ptr, lua_State *L) {
 
   jlua_op_buf *p = first_op_buf(ptr, L), *placeholder = NULL;
 
-  J_ULLONG i = 0; /* Start from index 0 */
+  j_ullong i = 0; /* Start from index 0 */
 
   /* Go element by element until reaching end */
   while (!null_ptr(p->_next)) {
