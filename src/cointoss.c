@@ -7,6 +7,7 @@
 #include <jeff/jeff.h>
 #include <jeff/jmemory.h>
 #include <jeff/jrandom.h>
+#include <jeff/jstring.h>
 #include <jeff/cointoss.h>
 
 coin_t *init_choices(void) {
@@ -69,6 +70,10 @@ void final_decide(int fd, coin_t *const c, char **const coin) {
 
 int main(int argc, char **argv) {
   argc--;
+
+  if (check_jarg("-h", argv, argc)) {
+    return 0;
+  }
 
   if (argc != 2) {
     errno_vdie(127, ENOTSUP, "(cointoss): %s (got %d)\n", "Need two arguments, no more, no less", argc);

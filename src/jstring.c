@@ -292,4 +292,27 @@ char **filter_argv(const size_t argc, char **const argv) {
   return result;
 }
 
+jbool check_jarg(const char *arg, char **argv, const j_uint argc) {
+  if (null_ptr(arg)) {
+    return JFALSE;
+  }
+
+  jbool res = JFALSE;
+
+  for (j_ullong i = 1; i <= argc; i++) {
+    char *s = CALLOC(char, strlen(argv[i]) + 1);
+    strcpy(s, argv[i]);
+
+    res = (strcmp(arg, s) == 0) ? JTRUE : JFALSE;
+
+    free(s);
+
+    if (res) {
+      break;
+    }
+  }
+
+  return res;
+}
+
 /// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:

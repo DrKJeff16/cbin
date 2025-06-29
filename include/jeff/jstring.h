@@ -16,6 +16,7 @@ char *dedup_str(char *const str);
 
 jbool is_lower(char *const str);
 jbool is_upper(char *const str);
+jbool check_jarg(const char *arg, char **argv, const j_uint argc);
 void capitalize(char *str, jbool *use_dot);
 void upperize(char *str);
 void lowerize(char *str);
