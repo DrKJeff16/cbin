@@ -12,7 +12,9 @@ void err(char *const fmt, char *const msg) {
 
   if (!null_ptr(fmt)) {
     format = REALLOC(format, char, strlen(fmt) + 1);
+
     char *cpy = strcpy(format, fmt);
+
     if (null_ptr(cpy)) {
       free(format);
       return;
@@ -47,7 +49,9 @@ void errno_err(const int code, char *const fmt, char *const msg) {
 
   if (!null_ptr(fmt)) {
     format = REALLOC(format, char, strlen(fmt) + 1);
+
     char *cpy = stpcpy(format, fmt);
+
     if (null_ptr(cpy)) {
       free(format);
       return;

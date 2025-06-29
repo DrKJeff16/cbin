@@ -11,6 +11,7 @@
 
 coin_t *init_choices(void) {
   coin_t *c = MALLOC(coin_t);
+
   c->TAILS = 0;
   c->HEADS = 0;
 
@@ -54,10 +55,13 @@ void final_decide(int fd, coin_t *const c, char **const coin) {
   }
 
   char *result = coin[fd_toss(fd)];
+
   if (c->HEADS > c->TAILS) {
     result = coin[1];
   } else if (c->TAILS > c->HEADS) {
     result = coin[0];
+  } else {
+    result = coin[fd_toss(fd)];
   }
 
   printf("%s\n", result);
@@ -106,7 +110,9 @@ int main(int argc, char **argv) {
   free(coin);
   free(c);
 
-  close(fd);
+  if ((close(fd)) != 0) {
+    die(1, "File descriptor could not be closed correctly!\n");
+  }
 
   die(0, NULL);
 }
