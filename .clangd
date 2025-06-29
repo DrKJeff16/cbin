@@ -8,6 +8,7 @@ CompileFlags:
       -D_GNU_SOURCE,
       -D_REENTRANT,
       -D_XOPEN_SOURCE=600,
+      -I.,
       -I../../include,
       -I../include,
       -I/usr/include/SDL2,
@@ -20,6 +21,7 @@ CompileFlags:
       -I/usr/include/graphene-1.0,
       -I/usr/include/gtk-4.0,
       -I/usr/include/harfbuzz,
+      -I/usr/include/jeff,
       -I/usr/include/libmount,
       -I/usr/include/libpng16,
       -I/usr/include/pango-1.0,
@@ -78,7 +80,7 @@ CompileFlags:
   Compiler: gcc
 
 Index:
-  Background: Build
+  Background: Skip
   StandardLibrary: No
 
 Completion:
@@ -110,6 +112,7 @@ CompileFlags:
       -D_GNU_SOURCE,
       -D_REENTRANT,
       -D_XOPEN_SOURCE=600,
+      -I.,
       -I../../include,
       -I../include,
       -I/usr/include/SDL2,
@@ -122,6 +125,7 @@ CompileFlags:
       -I/usr/include/graphene-1.0,
       -I/usr/include/gtk-4.0,
       -I/usr/include/harfbuzz,
+      -I/usr/include/jeff,
       -I/usr/include/libmount,
       -I/usr/include/libpng16,
       -I/usr/include/luajit-2.1,
@@ -179,7 +183,7 @@ CompileFlags:
   Compiler: gcc
 
 Index:
-  Background: Build
+  Background: Skip
   StandardLibrary: No
 
 Completion:
@@ -212,6 +216,7 @@ CompileFlags:
       -D_GNU_SOURCE,
       -D_REENTRANT,
       -D_XOPEN_SOURCE=600,
+      -I.,
       -I../../include,
       -I../include,
       -I/usr/include/SDL2,
@@ -224,6 +229,7 @@ CompileFlags:
       -I/usr/include/graphene-1.0,
       -I/usr/include/gtk-4.0,
       -I/usr/include/harfbuzz,
+      -I/usr/include/jeff,
       -I/usr/include/libmount,
       -I/usr/include/libpng16,
       -I/usr/include/luajit-2.1,
@@ -281,7 +287,7 @@ CompileFlags:
   Compiler: g++
 
 Index:
-  Background: Build
+  Background: Skip
   StandardLibrary: No
 
 Completion:
@@ -314,6 +320,7 @@ CompileFlags:
       -D_GNU_SOURCE,
       -D_REENTRANT,
       -D_XOPEN_SOURCE=600,
+      -I.,
       -I../../include,
       -I../include,
       -I/usr/include/SDL2,
@@ -326,6 +333,7 @@ CompileFlags:
       -I/usr/include/graphene-1.0,
       -I/usr/include/gtk-4.0,
       -I/usr/include/harfbuzz,
+      -I/usr/include/jeff,
       -I/usr/include/libmount,
       -I/usr/include/libpng16,
       -I/usr/include/luajit-2.1,
@@ -381,7 +389,7 @@ CompileFlags:
   Compiler: g++
 
 Index:
-  Background: Build
+  Background: Skip
   StandardLibrary: No
 
 Completion:

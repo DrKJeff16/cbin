@@ -19,21 +19,23 @@ ALL_DIRS = $(ASSET_DIR) \
 		   $(SRCDIR)
 
 CPPFLAGS = -Iinclude \
+		   -I. \
 		   -DNDEBUG \
 		   -D_GNU_SOURCE \
 		   -D_FORTIFY_SOURCE=2
 CFLAGS = $(CPPFLAGS) \
 		 -march=znver3 \
 		 -pipe \
-		 -std=gnu17 \
+		 -std=c99 \
 		 -O2 \
 		 -g \
 		 -ggdb \
 		 -Wall \
 		 -pedantic \
 		 -pthread
+
 CXXFLAGS = $(CPPFLAGS) \
-		   -std=gnu++17 \
+		   -std=c++17 \
 		   -march=znver3 \
 		   -pipe \
 		   -O2 \
@@ -42,6 +44,7 @@ CXXFLAGS = $(CPPFLAGS) \
 		   -Wall \
 		   -pedantic \
 		   -pthread
+
 LDFLAGS = -L/usr/lib/jeff -Llib -ljeff
 
 PKG_CONFIG_BIN := pkgconf
@@ -55,9 +58,11 @@ JEFF_H = $(JEFF_INCDIR)/jeff.h \
 		 $(JEFF_INCDIR)/jlua.h \
 		 $(JEFF_INCDIR)/jlog.h \
 		 $(JEFF_INCDIR)/jrandom.h
+
 JEFF_LIBS = $(LIBDIR)/libjeff.so \
 			$(LIBDIR)/libjautomata.so \
 			$(LIBDIR)/libjlua.so
+
 JEFF_CFLAGS = $(CFLAGS) -fPIC
 JEFF_LDFLAGS = -lc -lpthread -lm
 JEFF_ACTIONS = cointoss jmisc
@@ -70,9 +75,11 @@ SDL_CFLAGS = $(CFLAGS) \
 			 -D_JASSET_PATH="\"$(ASSET_DIR)/face.png\"" \
 			 -D_REENTRANT \
 			 -I/usr/include/SDL2
+
 SDL_LDFLAGS = $(LDFLAGS) \
 			  -lSDL2 \
 			  -lSDL2_image
+
 SDL_H = $(JEFF_INCDIR)/jeff_sdl.h
 SDL_ACTIONS = sdl_1
 
@@ -95,6 +102,7 @@ GTK_CFLAGS = $(CFLAGS) \
 			 -I/usr/lib/graphene-1.0/include \
 			 -D_JASSET_PATH="\"$(ASSET_DIR)/builder.ui\"" \
 			 -pthread
+
 GTK_LDFLAGS = $(LDFLAGS) \
 			  -lcairo \
 			  -lcairo-gobject \
@@ -112,19 +120,19 @@ GTK_LDFLAGS = $(LDFLAGS) \
 			  -mfpmath=sse \
 			  -msse \
 			  -msse2
+
 GTK_H = $(JEFF_INCDIR)/jeff_gtk.h
 GTK_ACTIONS = gtk_1 gtk_2 gtk_3 gtk_4 gtk_5
 
 NCURSES_CFLAGS = $(CFLAGS) \
 				 -D_DEFAULT_SOURCE \
 				 -D_XOPEN_SOURCE=600
-NCURSES_LDFLAGS = $(LDFLAGS) \
-				  -lncursesw
+
+NCURSES_LDFLAGS = $(LDFLAGS) -lncursesw
 NCURSES_H = $(JEFF_INCDIR)/jeff_ncurses.h
 NCURSES_ACTIONS = ncurses_1
 
-GL_CFLAGS = $(CFLAGS) \
-			-pthread
+GL_CFLAGS = $(CFLAGS) -pthread
 GL_LDFLAGS = $(LDFLAGS) \
 			 -lEGL \
 			 -lGL \
@@ -138,6 +146,7 @@ GL_LDFLAGS = $(LDFLAGS) \
 			 -lglfw \
 			 -lglut \
 			 -lpthread
+
 GL_H = $(JEFF_INCDIR)/jeff_gl.h
 GL_ACTIONS = gl_1
 
@@ -147,6 +156,7 @@ LUA_LDFLAGS = $(LDFLAGS) \
 			  -ljlua \
 			  -llua \
 			  -lluajit-5.1
+
 LUA_H = $(JEFF_INCDIR)/jlua.h
 LUA_ACTIONS = lua_1
 

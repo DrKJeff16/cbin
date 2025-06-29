@@ -4,10 +4,7 @@ SHELL = /bin/bash
 
 all: dirs libs $(ACTIONS)
 
-dirs: $(JEFF_INCDIR) \
-	$(LIBDIR) \
-	$(OBJDIR) \
-	$(BINDIR)
+dirs: $(JEFF_INCDIR) $(LIBDIR) $(OBJDIR) $(BINDIR)
 
 $(INCDIR):
 	mkdir -p $(INCDIR)
@@ -162,7 +159,7 @@ install_headers/local: $(JEFF_H)
 	install -m 644 $(JEFF_INCDIR)/jinput.h $(LOCAL_PREFIX)/include/jeff/jinput.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h $(LOCAL_PREFIX)/include/jeff/jlog.h
 
-install_headers: $(JEFF_H)
+install_headers:
 	mkdir -p $(GLOBAL_PREFIX)/include/jeff
 	install -m 644 $(JEFF_INCDIR)/jeff.h $(GLOBAL_PREFIX)/include/jeff/jeff.h
 	install -m 644 $(JEFF_INCDIR)/jmemory.h $(GLOBAL_PREFIX)/include/jeff/jmemory.h
