@@ -2,7 +2,7 @@ CC := gcc
 CXX := g++
 
 LOCAL_PREFIX := $(HOME)/.local
-GLOBAL_PREFIX := /usr/bin
+GLOBAL_PREFIX := /usr
 ASSET_DIR := $(LOCAL_PREFIX)/share/jassets
 INSTALL_BIN_DIR := $(GLOBAL_PREFIX)/bin
 BINDIR := bin

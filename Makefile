@@ -8,8 +8,6 @@ dirs: $(JEFF_INCDIR) $(LIBDIR) $(OBJDIR) $(BINDIR)
 
 $(INCDIR):
 	mkdir -p $(INCDIR)
-
-$(JEFF_INCDIR): $(INCDIR)
 	mkdir -p $(JEFF_INCDIR)
 
 $(LIBDIR):
@@ -135,21 +133,21 @@ strip/bin:
 strip/libs:
 	strip $(LIBDIR)/*.so
 
-install_bin/fast:
+install_bin:
 	mkdir -p $(GLOBAL_PREFIX)/bin
 	install -m 755 $(BINDIR)/cointoss $(GLOBAL_PREFIX)/bin/cointoss
 
-install_bin/local/fast:
+install_local_bin:
 	mkdir -p $(HOME)/.bin/cbin
 	install -m 755 $(BINDIR)/cointoss $(HOME)/.bin/cbin/cointoss
 
-install_bin/stripped: install_bin/fast
+install_bin/stripped: install_bin
 	strip $(GLOBAL_PREFIX)/bin/cointoss
 
-install_bin/local/stripped: install_bin/local/fast
+install_local_bin/stripped: install_local_bin
 	strip $(HOME)/.bin/cbin/cointoss
 
-install_headers/local: $(JEFF_H)
+install_local_headers:
 	mkdir -p $(LOCAL_PREFIX)/include/jeff
 	install -m 644 $(JEFF_INCDIR)/jeff.h $(LOCAL_PREFIX)/include/jeff/jeff.h
 	install -m 644 $(JEFF_INCDIR)/jmemory.h $(LOCAL_PREFIX)/include/jeff/jmemory.h
@@ -170,22 +168,22 @@ install_headers:
 	install -m 644 $(JEFF_INCDIR)/jautomata.h $(GLOBAL_PREFIX)/include/jeff/jautomata.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h $(GLOBAL_PREFIX)/include/jeff/jlog.h
 
-install_libs/local/fast:
+install_local_libs:
 	mkdir -p $(LOCAL_PREFIX)/lib/jeff
 	install -m 755 $(LIBDIR)/libjeff.so $(LOCAL_PREFIX)/lib/jeff/libjeff.so
 	install -m 755 $(LIBDIR)/libjautomata.so $(LOCAL_PREFIX)/lib/jeff/libjautomata.so
 	install -m 755 $(LIBDIR)/libjlua.so $(LOCAL_PREFIX)/lib/jeff/libjlua.so
 
-install_libs/fast:
+install_libs:
 	mkdir -p $(GLOBAL_PREFIX)/lib/jeff
 	install -m 755 $(LIBDIR)/libjeff.so $(GLOBAL_PREFIX)/lib/jeff/libjeff.so
 	install -m 755 $(LIBDIR)/libjautomata.so $(GLOBAL_PREFIX)/lib/jeff/libjautomata.so
 	install -m 755 $(LIBDIR)/libjlua.so $(GLOBAL_PREFIX)/lib/jeff/libjlua.so
 
-install_libs/local/stripped: install_libs/local/fast
+install_local_libs/stripped: install_local_libs
 	strip $(LOCAL_PREFIX)/lib/jeff/libj{eff,automata,lua}.so
 
-install_libs/stripped: install_libs/fast
+install_libs/stripped: install_libs
 	strip $(GLOBAL_PREFIX)/lib/jeff/libj{eff,automata,lua}.so
 
 clean:
@@ -198,16 +196,18 @@ distclean: clean
 .PHONY: all \
 	clean \
 	distclean \
-	install_headers/local install_headers/global \
-	install_bin/fast \
-	install_bin/local/fast \
-	install_bin/local/stripped \
+	install_bin \
 	install_bin/stripped \
-	install_libs/fast \
-	install_libs/local/fast \
-	install_libs/local/stripped \
+	install_headers \
+	install_libs \
 	install_libs/stripped \
+	install_local_bin \
+	install_local_bin/stripped \
+	install_local_headers \
+	install_local_libs \
+	install_local_libs/stripped \
 	libs \
 	strip/bin \
 	strip/libs \
+	$(JEFF_INCDIR) \
 	$(ACTIONS)
