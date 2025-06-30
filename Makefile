@@ -116,16 +116,16 @@ $(BINDIR)/jeff_ncurses_1: $(OBJDIR)/jeff_ncurses_1.o $(NCURSES_H)
 
 libs: dirs $(JEFF_LIBS)
 
-cointoss: libs dirs $(BINDIR)/cointoss
-jmisc: libs dirs $(BINDIR)/jmisc
-gl_1: libs dirs $(BINDIR)/jeff_gl_1
-gtk_1: libs dirs $(BINDIR)/jeff_gtk_1
-gtk_2: libs dirs $(BINDIR)/jeff_gtk_2
-gtk_3: libs dirs $(BINDIR)/jeff_gtk_3
-gtk_4: libs dirs $(BINDIR)/jeff_gtk_4
-lua_1: libs dirs $(BINDIR)/jeff_lua_1
-ncurses_1: libs dirs $(BINDIR)/jeff_ncurses_1
-sdl_1: libs dirs $(BINDIR)/jeff_sdl_1
+cointoss: libs $(BINDIR)/cointoss
+jmisc: libs $(BINDIR)/jmisc
+gl_1: libs $(BINDIR)/jeff_gl_1
+gtk_1: libs $(BINDIR)/jeff_gtk_1
+gtk_2: libs $(BINDIR)/jeff_gtk_2
+gtk_3: libs $(BINDIR)/jeff_gtk_3
+gtk_4: libs $(BINDIR)/jeff_gtk_4
+lua_1: libs $(BINDIR)/jeff_lua_1
+ncurses_1: libs $(BINDIR)/jeff_ncurses_1
+sdl_1: libs $(BINDIR)/jeff_sdl_1
 
 strip/bin:
 	strip $(BINDIR)/*
@@ -137,12 +137,12 @@ install_bin:
 	mkdir -p $(GLOBAL_PREFIX)/bin
 	install -m 755 $(BINDIR)/cointoss $(GLOBAL_PREFIX)/bin/cointoss
 
+install_bin/stripped: install_bin
+	strip $(GLOBAL_PREFIX)/bin/cointoss
+
 install_local_bin:
 	mkdir -p $(HOME)/.bin/cbin
 	install -m 755 $(BINDIR)/cointoss $(HOME)/.bin/cbin/cointoss
-
-install_bin/stripped: install_bin
-	strip $(GLOBAL_PREFIX)/bin/cointoss
 
 install_local_bin/stripped: install_local_bin
 	strip $(HOME)/.bin/cbin/cointoss
@@ -150,6 +150,7 @@ install_local_bin/stripped: install_local_bin
 install_local_headers:
 	mkdir -p $(LOCAL_PREFIX)/include/jeff
 	install -m 644 $(JEFF_INCDIR)/jeff.h $(LOCAL_PREFIX)/include/jeff/jeff.h
+	install -m 644 $(JEFF_INCDIR)/jtypes.h $(LOCAL_PREFIX)/include/jeff/jtypes.h
 	install -m 644 $(JEFF_INCDIR)/jmemory.h $(LOCAL_PREFIX)/include/jeff/jmemory.h
 	install -m 644 $(JEFF_INCDIR)/jrandom.h $(LOCAL_PREFIX)/include/jeff/jrandom.h
 	install -m 644 $(JEFF_INCDIR)/jstring.h $(LOCAL_PREFIX)/include/jeff/jstring.h
@@ -160,6 +161,7 @@ install_local_headers:
 install_headers:
 	mkdir -p $(GLOBAL_PREFIX)/include/jeff
 	install -m 644 $(JEFF_INCDIR)/jeff.h $(GLOBAL_PREFIX)/include/jeff/jeff.h
+	install -m 644 $(JEFF_INCDIR)/jtypes.h $(GLOBAL_PREFIX)/include/jeff/jtypes.h
 	install -m 644 $(JEFF_INCDIR)/jmemory.h $(GLOBAL_PREFIX)/include/jeff/jmemory.h
 	install -m 644 $(JEFF_INCDIR)/jrandom.h $(GLOBAL_PREFIX)/include/jeff/jrandom.h
 	install -m 644 $(JEFF_INCDIR)/jinput.h $(GLOBAL_PREFIX)/include/jeff/jinput.h
