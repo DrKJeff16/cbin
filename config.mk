@@ -26,7 +26,7 @@ CPPFLAGS = -Iinclude \
 CFLAGS = $(CPPFLAGS) \
 		 -march=znver3 \
 		 -pipe \
-		 -std=c99 \
+		 -std=gnu99 \
 		 -O2 \
 		 -g \
 		 -ggdb \
@@ -51,6 +51,7 @@ PKG_CONFIG_BIN := pkgconf
 
 JEFF_INCDIR = $(INCDIR)/jeff
 JEFF_H = $(JEFF_INCDIR)/jeff.h \
+		 $(JEFF_INCDIR)/jtypes.h \
 		 $(JEFF_INCDIR)/jmemory.h \
 		 $(JEFF_INCDIR)/jstring.h \
 		 $(JEFF_INCDIR)/jinput.h \
