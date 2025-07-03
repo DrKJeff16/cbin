@@ -14,3 +14,5 @@ j_ullong fd_urand(int fd, const j_ullong min, const j_ullong max);
 #endif /* __cplusplus */
 
 #endif /* !JRANDOM_H */
+
+/// vim:ts=4:sts=4:sw=4:et:ai:si:sta:noci:nopi:

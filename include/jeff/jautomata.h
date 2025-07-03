@@ -14,3 +14,5 @@ jautomaton *gen_automaton(char *const alpha, const j_uint n, char **const inputs
 #endif /* __cplusplus */
 
 #endif /* !JAUTOMATA_H */
+
+/// vim:ts=4:sts=4:sw=4:et:ai:si:sta:noci:nopi:

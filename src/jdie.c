@@ -65,4 +65,4 @@ void errno_vdie(const int status, const int code, char *const fmt, ...) {
   exit(status);
 }
 
-/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:
+/// vim:ts=4:sts=4:sw=4:et:ai:si:sta:noci:nopi:

@@ -44,4 +44,4 @@ jautomaton *gen_automaton(char *const alpha, const j_uint n, char **const inputs
   return res;
 }
 
-/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:
+/// vim:ts=4:sts=4:sw=4:et:ai:si:sta:noci:nopi:

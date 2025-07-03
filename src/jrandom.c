@@ -21,4 +21,4 @@ j_ullong fd_urand(int fd, const j_ullong min, const j_ullong max) {
   return result % (max - min + 1) + min;
 }
 
-/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:
+/// vim:ts=4:sts=4:sw=4:et:ai:si:sta:noci:nopi:
