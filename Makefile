@@ -137,14 +137,14 @@ install_bin:
 	mkdir -p $(GLOBAL_PREFIX)/bin
 	install -m 755 $(BINDIR)/cointoss $(GLOBAL_PREFIX)/bin/cointoss
 
-install_bin/stripped: install_bin
+install_bin_stripped: install_bin
 	strip $(GLOBAL_PREFIX)/bin/cointoss
 
 install_local_bin:
 	mkdir -p $(HOME)/.bin/cbin
 	install -m 755 $(BINDIR)/cointoss $(HOME)/.bin/cbin/cointoss
 
-install_local_bin/stripped: install_local_bin
+install_local_bin_stripped: install_local_bin
 	strip $(HOME)/.bin/cbin/cointoss
 
 install_local_headers:
@@ -182,10 +182,10 @@ install_libs:
 	install -m 755 $(LIBDIR)/libjautomata.so $(GLOBAL_PREFIX)/lib/jeff/libjautomata.so
 	install -m 755 $(LIBDIR)/libjlua.so $(GLOBAL_PREFIX)/lib/jeff/libjlua.so
 
-install_local_libs/stripped: install_local_libs
+install_local_libs_stripped: install_local_libs
 	strip $(LOCAL_PREFIX)/lib/jeff/libj{eff,automata,lua}.so
 
-install_libs/stripped: install_libs
+install_libs_stripped: install_libs
 	strip $(GLOBAL_PREFIX)/lib/jeff/libj{eff,automata,lua}.so
 
 clean:
@@ -199,15 +199,15 @@ distclean: clean
 	clean \
 	distclean \
 	install_bin \
-	install_bin/stripped \
+	install_bin_stripped \
 	install_headers \
 	install_libs \
-	install_libs/stripped \
+	install_libs_stripped \
 	install_local_bin \
-	install_local_bin/stripped \
+	install_local_bin_stripped \
 	install_local_headers \
 	install_local_libs \
-	install_local_libs/stripped \
+	install_local_libs_stripped \
 	libs \
 	strip/bin \
 	strip/libs \

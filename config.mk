@@ -161,10 +161,12 @@ LUA_LDFLAGS = $(LDFLAGS) \
 LUA_H = $(JEFF_INCDIR)/jlua.h
 LUA_ACTIONS = lua_1
 
-ACTIONS = dirs \
-		  $(JEFF_ACTIONS) \
-		  $(GTK_ACTIONS) \
-		  $(SDL_ACTIONS) \
-		  $(NCURSES_ACTIONS) \
-		  $(GL_ACTIONS) \
-		  $(LUA_ACTIONS)
+ACTIONS = dirs $(JEFF_ACTIONS)
+
+# ACTIONS = dirs \
+# 		  $(JEFF_ACTIONS) \
+# 		  $(GTK_ACTIONS) \
+# 		  $(SDL_ACTIONS) \
+# 		  $(NCURSES_ACTIONS) \
+# 		  $(GL_ACTIONS) \
+# 		  $(LUA_ACTIONS)
