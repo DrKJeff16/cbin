@@ -66,6 +66,18 @@ $(OBJDIR)/jmisc.o: $(SRCDIR)/jmisc.c $(JEFF_INCDIR)/jmisc.h
 $(BINDIR)/jmisc: $(OBJDIR)/jmisc.o $(JEFF_INCDIR)/jmisc.h
 	$(CC) $(OBJDIR)/jmisc.o $(CFLAGS) -o $@ $(LDFLAGS)
 
+$(OBJDIR)/jparse.o: $(SRCDIR)/jparse.cpp
+	$(CXX) -c $(SRCDIR)/jparse.cpp $(CXXFLAGS) -o $@
+
+$(BINDIR)/jparse: $(OBJDIR)/jparse.o
+	$(CXX) $(OBJDIR)/jparse.o $(CXXFLAGS) -o $@ $(LDFLAGS) $(LDXXFLAGS)
+
+$(OBJDIR)/jargs.o: $(SRCDIR)/jargs.c $(JEFF_INCDIR)/jargs.h
+	$(CC) -c $(SRCDIR)/jargs.c $(CFLAGS) -o $@
+
+$(BINDIR)/jargs: $(OBJDIR)/jargs.o $(JEFF_INCDIR)/jargs.h
+	$(CC) $(OBJDIR)/jargs.o $(CFLAGS) -o $@ $(LDFLAGS)
+
 $(OBJDIR)/jeff_gl_1.o: $(SRCDIR)/jeff_gl_1.c $(GL_H)
 	$(CC) -c $(SRCDIR)/jeff_gl_1.c $(GL_CFLAGS) -o $@
 
@@ -118,6 +130,8 @@ libs: dirs $(JEFF_LIBS)
 
 cointoss: libs $(BINDIR)/cointoss
 jmisc: libs $(BINDIR)/jmisc
+jparse: libs $(BINDIR)/jparse
+jargs: libs $(BINDIR)/jargs
 gl_1: libs $(BINDIR)/jeff_gl_1
 gtk_1: libs $(BINDIR)/jeff_gtk_1
 gtk_2: libs $(BINDIR)/jeff_gtk_2
@@ -162,6 +176,7 @@ install_headers:
 	mkdir -p $(GLOBAL_PREFIX)/include/jeff
 	install -m 644 $(JEFF_INCDIR)/jeff.h $(GLOBAL_PREFIX)/include/jeff/jeff.h
 	install -m 644 $(JEFF_INCDIR)/jtypes.h $(GLOBAL_PREFIX)/include/jeff/jtypes.h
+	install -m 644 $(JEFF_INCDIR)/jargs.h $(GLOBAL_PREFIX)/include/jeff/jargs.h
 	install -m 644 $(JEFF_INCDIR)/jmemory.h $(GLOBAL_PREFIX)/include/jeff/jmemory.h
 	install -m 644 $(JEFF_INCDIR)/jrandom.h $(GLOBAL_PREFIX)/include/jeff/jrandom.h
 	install -m 644 $(JEFF_INCDIR)/jinput.h $(GLOBAL_PREFIX)/include/jeff/jinput.h

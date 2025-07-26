@@ -37,30 +37,29 @@ void decide(const jbool x, coin_t *c) {
 
 jbool fd_toss(int fd) {
   if (fd < 0) {
-    errno_verr(EBADF, "(fd_toss): %s (fd: %d)\n", "File descriptor unavailable", fd);
-    return JFALSE;
+    errno_vdie(127, EBADF, "(fd_toss): %s (fd: %d)\n", "File descriptor unavailable");
   }
 
-  return fd_urand(fd, 0, 1) ? JTRUE : JFALSE;
+  return fd_urand(fd, JFALSE, JTRUE) ? JTRUE : JFALSE;
 }
 
 void final_decide(int fd, coin_t *const c, char **const coin) {
   if (fd < 0) {
-    errno_vdie(1, EBADFD, "(final_decide): %s (fd: %d)\n", "File descriptor unavailable", fd);
+    errno_vdie(JTRUE, EBADFD, "(final_decide): %s (fd: %d)\n", "File descriptor unavailable", fd);
   }
   if (null_ptr(coin)) {
-    errno_vdie(1, EFAULT, "(final_decide): %s\n", "No coin to print");
+    errno_vdie(JTRUE, EFAULT, "(final_decide): %s\n", "No coin to print");
   }
   if (null_ptr(c)) {
-    errno_vdie(1, EFAULT, "(final_decide): %s\n", "No choices to make a decision from");
+    errno_vdie(JTRUE, EFAULT, "(final_decide): %s\n", "No choices to make a decision from");
   }
 
   char *result = coin[fd_toss(fd)];
 
   if (c->HEADS > c->TAILS) {
-    result = coin[1];
+    result = coin[JTRUE];
   } else if (c->TAILS > c->HEADS) {
-    result = coin[0];
+    result = coin[JFALSE];
   } else {
     result = coin[fd_toss(fd)];
   }
@@ -88,13 +87,13 @@ int main(int argc, char **argv) {
 
   char **coin = CALLOC(char *, 2);
 
-  for (size_t i = 0; i < 2; i++) {
+  for (size_t i = 0; i <= JTRUE; i++) {
     coin[i] = CALLOC(char, strlen(argv[i + 1]) + 1);
 
     char *chr = stpcpy(coin[i], argv[i + 1]);
     if (null_ptr(chr)) {
-      free(coin[1]);
-      free(coin[0]);
+      free(coin[JTRUE]);
+      free(coin[JFALSE]);
       free(coin);
       free(c);
 
@@ -110,16 +109,16 @@ int main(int argc, char **argv) {
 
   final_decide(fd, c, coin);
 
-  free(coin[1]);
-  free(coin[0]);
+  free(coin[JTRUE]);
+  free(coin[JFALSE]);
   free(coin);
   free(c);
 
   if ((close(fd)) != 0) {
-    die(1, "File descriptor could not be closed correctly!\n");
+    die(JTRUE, "File descriptor could not be closed correctly!\n");
   }
 
-  die(0, NULL);
+  die(JFALSE, "\n\n");
 }
 
 /// vim:ts=4:sts=4:sw=4:et:ai:si:sta:noci:nopi:

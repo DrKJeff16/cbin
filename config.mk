@@ -23,35 +23,41 @@ CPPFLAGS = -Iinclude \
 		   -DNDEBUG \
 		   -D_GNU_SOURCE \
 		   -D_FORTIFY_SOURCE=2
+
 CFLAGS = $(CPPFLAGS) \
-		 -march=znver3 \
+		 -march=native \
 		 -pipe \
 		 -std=gnu99 \
 		 -O2 \
 		 -g \
 		 -ggdb \
 		 -Wall \
+		 -Wextra \
 		 -pedantic \
 		 -pthread
 
 CXXFLAGS = $(CPPFLAGS) \
+		   -I/usr/include/docopt \
 		   -std=c++17 \
-		   -march=znver3 \
+		   -march=native \
 		   -pipe \
 		   -O2 \
 		   -g \
 		   -ggdb \
 		   -Wall \
+		   -Wextra \
 		   -pedantic \
 		   -pthread
 
 LDFLAGS = -L/usr/lib/jeff -Llib -ljeff
+LDXXFLAGS = -L/usr/lib/jeff -Llib -ldocopt
 
 PKG_CONFIG_BIN := pkgconf
 
 JEFF_INCDIR = $(INCDIR)/jeff
 JEFF_H = $(JEFF_INCDIR)/jeff.h \
 		 $(JEFF_INCDIR)/jtypes.h \
+		 $(JEFF_INCDIR)/jargs.h \
 		 $(JEFF_INCDIR)/jmemory.h \
 		 $(JEFF_INCDIR)/jstring.h \
 		 $(JEFF_INCDIR)/jinput.h \
@@ -66,7 +72,7 @@ JEFF_LIBS = $(LIBDIR)/libjeff.so \
 
 JEFF_CFLAGS = $(CFLAGS) -fPIC
 JEFF_LDFLAGS = -lc -lpthread -lm
-JEFF_ACTIONS = cointoss jmisc
+JEFF_ACTIONS = cointoss jmisc jparse jargs
 
 JEFF_LUA_H = $(JEFF_INCDIR)/jlua.h
 JEFF_LUA_CFLAGS = $(JEFF_CFLAGS) -I/usr/include/luajit-2.1
