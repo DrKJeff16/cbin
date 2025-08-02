@@ -7,7 +7,7 @@
 
 void die(const int status, char *const msg) {
   if (!null_ptr(msg)) {  /// If message is available
-    fprintf(status ? stderr : stdout, "%s\n", msg);
+    fprintf(output(status), "%s\n", msg);
   }
 
   exit(status);
@@ -18,7 +18,7 @@ void vdie(const int status, char *const fmt, ...) {
     va_list argp;
 
     va_start(argp, fmt);
-    vfprintf(status ? stderr : stdout, fmt, argp);
+    vfprintf(output(status), fmt, argp);
     va_end(argp);
   }
 
@@ -30,7 +30,7 @@ void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...) {
     va_list argp;
 
     va_start(argp, fmt);
-    vfprintf(status ? stderr : stdout, fmt, argp);
+    vfprintf(output(status), fmt, argp);
     va_end(argp);
   }
 
@@ -40,18 +40,18 @@ void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...) {
 }
 
 void errno_die(const int status, const int code, char *const msg) {
-  FILE *f = status ? stderr : stdout;
-  fprintf(f, "%s\n", strerror((code >= EPERM && code <= EHWPOISON) ? code : ENOMSG));
+  FILE *out = output(status);
+  fprintf(out, "%s\n", strerror((code >= EPERM && code <= EHWPOISON) ? code : ENOMSG));
 
   if (!null_ptr(msg)) {  /// If message is available
-    fprintf(f, "%s\n", msg);
+    fprintf(out, "%s\n", msg);
   }
 
   exit(status);
 }
 
 void errno_vdie(const int status, const int code, char *const fmt, ...) {
-  FILE *out = status ? stderr : stdout;
+  FILE *out = output(status);
 
   fprintf(out, "%s\n", strerror((code >= EPERM && code <= EHWPOISON) ? code : ENOMSG));
 

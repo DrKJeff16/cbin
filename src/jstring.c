@@ -230,12 +230,13 @@ void capitalize(char *str, jbool *use_dot) {
 // }
 
 jbool compare_strv(char **const argv, const size_t len) {
-  if (len < 2) {
-    verr("`argv` must be of length 2 or greater (%d)\n", len);
-    return JFALSE;
-  }
   if (null_ptr(argv)) {
     err("%s\n", "`argv`is NULL");
+    return JFALSE;
+  }
+
+  if (len < 2) {
+    verr("`argv` must be of length 2 or greater (%d)\n", len);
     return JFALSE;
   }
 
@@ -246,6 +247,20 @@ jbool compare_strv(char **const argv, const size_t len) {
   }
 
   return JTRUE;
+}
+
+void reverse_str(char *str) {
+  if (null_ptr(str)) {
+    return;
+  }
+
+  char *rev = str_reversed(str);
+
+  if (null_ptr(rev)) {
+    return;
+  }
+
+  stpcpy(str, rev);
 }
 
 char *str_reversed(char *const str) {
@@ -281,6 +296,7 @@ char **filter_argv(const size_t argc, char **const argv) {
       result[i - 1] = CALLOC(char, i_len);
 
       chr = stpcpy(result[i - 1], argv[i]);
+
       if (null_ptr(chr)) {
         str_append_nul(result[i - 1]);
       }
@@ -303,7 +319,7 @@ jbool check_jarg(const char *arg, char **argv, const j_uint argc) {
     char *s = CALLOC(char, strlen(argv[i]) + 1);
     strcpy(s, argv[i]);
 
-    res = (strcmp(arg, s) == 0) ? JTRUE : JFALSE;
+    res = (!strcmp(arg, s)) ? JTRUE : JFALSE;
 
     free(s);
 
@@ -315,4 +331,4 @@ jbool check_jarg(const char *arg, char **argv, const j_uint argc) {
   return res;
 }
 
-/// vim:ts=4:sts=4:sw=4:et:ai:si:sta:noci:nopi:
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:

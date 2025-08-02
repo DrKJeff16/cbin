@@ -7,6 +7,7 @@ extern "C" {
 
 #include "jtypes.h"
 
+void reverse_str(char *str);
 char *str_reversed(char *const str);
 void str_append_nul(char *str);
 jbool compare_strv(char **const argv, const j_ulong len);

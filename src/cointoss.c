@@ -47,22 +47,16 @@ void final_decide(int fd, coin_t *const c, char **const coin) {
   if (fd < 0) {
     errno_vdie(JTRUE, EBADFD, "(final_decide): %s (fd: %d)\n", "File descriptor unavailable", fd);
   }
+
   if (null_ptr(coin)) {
     errno_vdie(JTRUE, EFAULT, "(final_decide): %s\n", "No coin to print");
   }
+
   if (null_ptr(c)) {
     errno_vdie(JTRUE, EFAULT, "(final_decide): %s\n", "No choices to make a decision from");
   }
 
-  char *result = coin[fd_toss(fd)];
-
-  if (c->HEADS > c->TAILS) {
-    result = coin[JTRUE];
-  } else if (c->TAILS > c->HEADS) {
-    result = coin[JFALSE];
-  } else {
-    result = coin[fd_toss(fd)];
-  }
+  char *result = coin[(c->HEADS > c->TAILS) ? JTRUE : ((c->TAILS > c->HEADS) ? JFALSE : fd_toss(fd))];
 
   printf("%s\n", result);
 }
@@ -118,7 +112,7 @@ int main(int argc, char **argv) {
     die(JTRUE, "File descriptor could not be closed correctly!\n");
   }
 
-  die(JFALSE, "\n\n");
+  die(JFALSE, NULL);
 }
 
 /// vim:ts=4:sts=4:sw=4:et:ai:si:sta:noci:nopi:
