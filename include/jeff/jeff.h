@@ -8,9 +8,8 @@ extern "C" {
 #define JCAST(type, data) (type)(data)
 #define null_ptr(ptr) (!ptr || ptr == NULL)
 
-#define J_PI_F 3.14159265358979323846F
-
-#define J_PI_LF 3.1415926535897932384626433832795028841971693993L
+#define J_PI_F 3.14159265358979323846
+#define J_PI_LF 3.1415926535897932384626433832795028841971693993
 
 #define J_TAU_F (2.0F * J_PI_F)
 #define J_TAU_LF (2.0L * J_PI_LF)
