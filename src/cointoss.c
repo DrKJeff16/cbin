@@ -85,6 +85,7 @@ int main(int argc, char **argv) {
     coin[i] = CALLOC(char, strlen(argv[i + 1]) + 1);
 
     char *chr = stpcpy(coin[i], argv[i + 1]);
+
     if (null_ptr(chr)) {
       free(coin[JTRUE]);
       free(coin[JFALSE]);
