@@ -57,6 +57,7 @@ $(LIBDIR)/libjlua.so: $(JEFF_H) $(LIBDIR)/libjeff.so $(OBJDIR)/jlua.o
 
 $(OBJDIR)/cointoss.o: $(SRCDIR)/cointoss.c $(JEFF_INCDIR)/cointoss.h
 	$(CC) -c $(SRCDIR)/cointoss.c $(CFLAGS) -o $@
+
 $(BINDIR)/cointoss: $(OBJDIR)/cointoss.o $(JEFF_INCDIR)/cointoss.h
 	$(CC) $(OBJDIR)/cointoss.o $(CFLAGS) -o $@ $(LDFLAGS)
 
