@@ -5,7 +5,6 @@
 #include <stdarg.h>
 #include <string.h>
 #include <jeff/jeff.h>
-#include <jeff/jlog.h>
 
 int fdlog(int fd, char *const msg) {
   if (fd < 0) {
@@ -42,7 +41,7 @@ int vfdlog(int fd, char *const fmt, ...) {
   return res;
 }
 
-int log_to_file(char *const path, const j_ullong buf_max, char *const msg, const jbool need_fd) {
+int log_to_file(char *const path, char *const msg, const jbool need_fd) {
   if (null_ptr(path)) {
     errno_verr(EINVAL, "(log_to_file): %s\n", "File path points to NULL");
     return -1;

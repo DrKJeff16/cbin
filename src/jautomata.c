@@ -1,9 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <jeff/jeff.h>
-#include <jeff/jmemory.h>
-#include <jeff/jstring.h>
-#include <jeff/jautomata.h>
 
 jautomaton *gen_automaton(char *const alpha, const j_uint n, char **const inputs, j_uint **const indeces) {
   if (null_ptr(alpha) || null_ptr(inputs) || null_ptr(indeces) || n <= 1) {

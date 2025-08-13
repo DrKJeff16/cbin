@@ -1,7 +1,6 @@
 #include <errno.h>
 #include <unistd.h>
 #include <jeff/jeff.h>
-#include <jeff/jrandom.h>
 
 j_ullong fd_urand(int fd, const j_ullong min, const j_ullong max) {
   if (fd < 0) {

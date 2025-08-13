@@ -7,8 +7,6 @@ extern "C" {
 
 static const char logfile[9] = "misc.log";
 
-int log_open(void);
-
 #if defined(__cplusplus)
 }
 #endif /* __cplusplus */

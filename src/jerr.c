@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <jeff/jeff.h>
-#include <jeff/jmemory.h>
 
 void err(char *const fmt, char *const msg) {
   char *format = CALLOC(char, 4);

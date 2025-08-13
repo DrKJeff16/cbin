@@ -4,8 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <jeff/jeff.h>
-#include <jeff/jmemory.h>
-#include <jeff/jlua.h>
 
 char *jlua_op_char(const jlua_operator x) {
   switch (x) {

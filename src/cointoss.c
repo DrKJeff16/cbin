@@ -5,9 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <jeff/jeff.h>
-#include <jeff/jmemory.h>
-#include <jeff/jrandom.h>
-#include <jeff/jstring.h>
 #include <jeff/cointoss.h>
 
 coin_t *init_choices(void) {

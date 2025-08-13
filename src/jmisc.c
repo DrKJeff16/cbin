@@ -5,14 +5,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <jeff/jeff.h>
-#include <jeff/jmemory.h>
-#include <jeff/jlog.h>
-#include <jeff/jstring.h>
 #include <jeff/jmisc.h>
 
 extern const char logfile[9];
 
-int log_open(void) {
+static int log_open(void) {
   return open(logfile, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 }
 

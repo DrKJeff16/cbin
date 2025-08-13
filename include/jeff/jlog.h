@@ -8,7 +8,7 @@ extern "C" {
 #include "jtypes.h"
 
 int fdlog(int fd, char *const msg);
-int log_to_file(char *const path, const j_ullong buf_max, char *const msg, const jbool need_fd);
+int log_to_file(char *const path, char *const msg, const jbool need_fd);
 int vfdlog(int fd, char *const fmt, ...);
 
 #if defined(__cplusplus)

@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <jeff/jeff.h>
-#include <jeff/jmemory.h>
-#include <jeff/jstring.h>
 
 /// I gave up, so tysm:
 /// https://www.quora.com/How-do-I-write-a-C-program-to-remove-duplicates-from-a-string

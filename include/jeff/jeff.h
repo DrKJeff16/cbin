@@ -5,6 +5,17 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#include <jeff/jtypes.h>
+
+#include <jeff/jautomata.h>
+#include <jeff/jinput.h>
+#include <jeff/jlog.h>
+#include <jeff/jlua.h>
+#include <jeff/jmemory.h>
+#include <jeff/jmisc.h>
+#include <jeff/jrandom.h>
+#include <jeff/jstring.h>
+
 #define JCAST(type, data) (type)(data)
 #define null_ptr(ptr) (!ptr || ptr == NULL)
 
