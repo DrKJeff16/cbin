@@ -1,19 +1,12 @@
 # Repo dirs and special files
 compile_commands.json
-/assembly
-/assets
-/bin
-/build
-/lib
-/obj
-/preproc
-/assets/*
-/assembly/*
-/bin/*
-/build/*
-/lib/*
-/obj/*
-/preproc/*
+/assembly/
+/assets/
+/bin/
+/build/
+/lib/
+/obj/
+/preproc/
 
 # Binary files
 *.S
