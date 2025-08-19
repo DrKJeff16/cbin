@@ -42,11 +42,11 @@ $(OBJDIR)/jlua.o: $(JEFF_H) $(SRCDIR)/jlua.c
 	$(CC) -c $(SRCDIR)/jlua.c $(JEFF_LUA_CFLAGS) -o $@
 
 
-$(LIBDIR)/libjeff.so: $(OBJDIR)/jstring.o $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/jlog.o $(OBJDIR)/jrandom.o $(OBJDIR)/jinput.o $(OBJDIR)/jautomata.o
-	$(CC) $(OBJDIR)/jdie.o $(OBJDIR)/jerr.o $(OBJDIR)/jstring.o $(OBJDIR)/jlog.o $(OBJDIR)/jrandom.o $(OBJDIR)/jinput.o $(OBJDIR)/jautomata.o $(JEFF_CFLAGS) -shared -o $@ $(JEFF_LDFLAGS)
+$(LIBDIR)/libjeff.so: $(JEFF_OBJECTS)
+	$(CC) $(JEFF_OBJECTS) $(JEFF_CFLAGS) -shared -o $@ $(JEFF_LDFLAGS)
 
-$(LIBDIR)/libjlua.so: $(JEFF_H) $(LIBDIR)/libjeff.so $(OBJDIR)/jlua.o
-	$(CC) $(OBJDIR)/jlua.o $(JEFF_LUA_CFLAGS) -shared -o $@ $(JEFF_LUA_LDFLAGS)
+$(LIBDIR)/libjlua.so: $(OBJDIR)/jlua.o $(LIBDIR)/libjeff.so
+	$(CC) $< $(JEFF_LUA_CFLAGS) -shared -o $@ $(JEFF_LUA_LDFLAGS)
 
 
 $(OBJDIR)/cointoss.o: $(SRCDIR)/cointoss.c $(JEFF_INCDIR)/cointoss.h
@@ -84,7 +84,7 @@ install_bin:
 	install -m 755 $(BINDIR)/cointoss $(GLOBAL_PREFIX)/bin/cointoss
 
 install_bin_stripped: install_bin
-	strip $(GLOBAL_PREFIX)/bin/cointoss
+	-@strip $(GLOBAL_PREFIX)/bin/cointoss
 
 install_local_bin:
 	-@mkdir -p $(HOME)/.bin/cbin

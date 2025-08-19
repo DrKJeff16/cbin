@@ -55,6 +55,7 @@ LDXXFLAGS = -L/usr/lib/jeff -Llib -ldocopt
 PKG_CONFIG_BIN := pkgconf
 
 JEFF_INCDIR = $(INCDIR)/jeff
+
 JEFF_H = $(JEFF_INCDIR)/jeff.h \
 		 $(JEFF_INCDIR)/jautomata.h \
 		 $(JEFF_INCDIR)/jinput.h \
@@ -64,6 +65,14 @@ JEFF_H = $(JEFF_INCDIR)/jeff.h \
 		 $(JEFF_INCDIR)/jrandom.h \
 		 $(JEFF_INCDIR)/jstring.h \
 		 $(JEFF_INCDIR)/jtypes.h
+
+JEFF_OBJECTS = $(OBJDIR)/jstring.o \
+			   $(OBJDIR)/jdie.o \
+			   $(OBJDIR)/jerr.o \
+			   $(OBJDIR)/jlog.o \
+			   $(OBJDIR)/jrandom.o \
+			   $(OBJDIR)/jinput.o \
+			   $(OBJDIR)/jautomata.o
 
 JEFF_LIBS = $(LIBDIR)/libjeff.so $(LIBDIR)/libjlua.so
 
