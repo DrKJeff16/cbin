@@ -12,7 +12,6 @@ extern "C" {
 #include <jeff/jlog.h>
 #include <jeff/jlua.h>
 #include <jeff/jmemory.h>
-#include <jeff/jmisc.h>
 #include <jeff/jrandom.h>
 #include <jeff/jstring.h>
 

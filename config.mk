@@ -78,14 +78,15 @@ JEFF_LIBS = $(LIBDIR)/libjeff.so $(LIBDIR)/libjlua.so
 
 JEFF_CFLAGS = $(CFLAGS) -fPIC
 JEFF_LDFLAGS = -lc -lpthread -lm
-JEFF_ACTIONS = cointoss jparse
+JEFF_ACTIONS = cointoss jparse jeff_lua_1
 
 JEFF_LUA_H = $(JEFF_INCDIR)/jlua.h
 JEFF_LUA_CFLAGS = $(JEFF_CFLAGS) -I/usr/include/luajit-2.1
 JEFF_LUA_LDFLAGS = -L/usr/lib/jeff -Llib -L. $(JEFF_LDFLAGS) -ljeff -llua -lluajit-5.1
 
 LUA_H = $(JEFF_INCDIR)/jlua.h
-LUA_ACTIONS = lua_1
+LUA_CFLAGS = -I/usr/include/luajit-2.1 -I/usr/include/jeff
+LUA_LDFLAGS = -L/usr/lib/jeff -Llib -L. -ljeff -ljlua -llua -lluajit-5.1
 
 ACTIONS = dirs $(JEFF_ACTIONS)
 

@@ -70,8 +70,12 @@ $(BINDIR)/jeff_lua_1: $(OBJDIR)/jeff_lua_1.o $(LUA_H)
 
 libs: $(LIBDIR) $(OBJDIR) $(BINDIR) $(JEFF_LIBS)
 
+
 cointoss: libs $(BINDIR)/cointoss
+
 jparse: libs $(BINDIR)/jparse
+
+jeff_lua_1: $(BINDIR)/jeff_lua_1
 
 strip/bin:
 	strip $(BINDIR)/*
