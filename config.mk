@@ -3,16 +3,15 @@ CXX := g++
 
 LOCAL_PREFIX := $(HOME)/.local
 GLOBAL_PREFIX := /usr
-ASSET_DIR := $(LOCAL_PREFIX)/share/jassets
 INSTALL_BIN_DIR := $(GLOBAL_PREFIX)/bin
+
 BINDIR := bin
 INCDIR := include
 LIBDIR := lib
 OBJDIR := obj
 SRCDIR := src
 
-ALL_DIRS = $(ASSET_DIR) \
-		   $(BINDIR) \
+ALL_DIRS = $(BINDIR) \
 		   $(INCDIR) \
 		   $(LIBDIR) \
 		   $(OBJDIR) \
@@ -20,9 +19,10 @@ ALL_DIRS = $(ASSET_DIR) \
 
 CPPFLAGS = -Iinclude \
 		   -I. \
+		   -I/usr/include/jeff \
 		   -DNDEBUG \
-		   -D_GNU_SOURCE \
-		   -D_FORTIFY_SOURCE=2
+		   -D_REENTRANT \
+		   -D_GNU_SOURCE
 
 CFLAGS = $(CPPFLAGS) \
 		 -march=native \
@@ -37,6 +37,7 @@ CFLAGS = $(CPPFLAGS) \
 		 -pthread
 
 CXXFLAGS = $(CPPFLAGS) \
+		   -D_GLIBCXX_ASSERTIONS \
 		   -I/usr/include/docopt \
 		   -std=c++17 \
 		   -march=native \
@@ -49,7 +50,7 @@ CXXFLAGS = $(CPPFLAGS) \
 		   -pedantic \
 		   -pthread
 
-LDFLAGS = -L/usr/lib/jeff -Llib -ljeff
+LDFLAGS = -L/usr/lib/jeff -Llib -ljeff -lc -lm
 LDXXFLAGS = -L/usr/lib/jeff -Llib -ldocopt
 
 PKG_CONFIG_BIN := pkgconf
@@ -78,7 +79,7 @@ JEFF_LIBS = $(LIBDIR)/libjeff.so $(LIBDIR)/libjlua.so
 
 JEFF_CFLAGS = $(CFLAGS) -fPIC
 JEFF_LDFLAGS = -lc -lpthread -lm
-JEFF_ACTIONS = cointoss jparse jeff_lua_1
+JEFF_ACTIONS = cointoss jparse jeff_lua_1 yes_no
 
 JEFF_LUA_H = $(JEFF_INCDIR)/jlua.h
 JEFF_LUA_CFLAGS = $(JEFF_CFLAGS) -I/usr/include/luajit-2.1
@@ -88,12 +89,4 @@ LUA_H = $(JEFF_INCDIR)/jlua.h
 LUA_CFLAGS = -I/usr/include/luajit-2.1 -I/usr/include/jeff
 LUA_LDFLAGS = -L/usr/lib/jeff -Llib -L. -ljeff -ljlua -llua -lluajit-5.1
 
-ACTIONS = dirs $(JEFF_ACTIONS)
-
-# ACTIONS = dirs \
-# 		  $(JEFF_ACTIONS) \
-# 		  $(GTK_ACTIONS) \
-# 		  $(SDL_ACTIONS) \
-# 		  $(NCURSES_ACTIONS) \
-# 		  $(GL_ACTIONS) \
-# 		  $(LUA_ACTIONS)
+ACTIONS = $(JEFF_ACTIONS)

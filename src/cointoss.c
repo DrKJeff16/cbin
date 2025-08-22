@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <jeff/jeff.h>
-#include <jeff/cointoss.h>
+#include <cointoss.h>
 
 coin_t *init_choices(void) {
   coin_t *c = MALLOC(coin_t);

@@ -4,69 +4,75 @@ SHELL = /bin/bash
 
 all: libs $(ACTIONS)
 
-$(INCDIR):
-	-@mkdir -p $@/$(JEFF_INCDIR)
+$(JEFF_INCDIR):
+	mkdir -p $@
 
 $(LIBDIR):
-	-@mkdir -p $@
+	mkdir -p $@
 
 $(BINDIR):
-	-@mkdir -p $@
+	mkdir -p $@
 
 $(OBJDIR):
-	-@mkdir -p $@
+	mkdir -p $@
 
 
-$(OBJDIR)/jdie.o: $(JEFF_H) $(SRCDIR)/jdie.c
-	$(CC) -c $(SRCDIR)/jdie.c $(JEFF_CFLAGS) -o $@
+$(OBJDIR)/jdie.o: $(SRCDIR)/jdie.c $(JEFF_H)
+	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jerr.o: $(JEFF_H) $(SRCDIR)/jerr.c
-	$(CC) -c $(SRCDIR)/jerr.c $(JEFF_CFLAGS) -o $@
+$(OBJDIR)/jerr.o: $(SRCDIR)/jerr.c $(JEFF_H)
+	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jrandom.o: $(JEFF_H) $(SRCDIR)/jrandom.c
-	$(CC) -c $(SRCDIR)/jrandom.c $(JEFF_CFLAGS) -o $@
+$(OBJDIR)/jrandom.o: $(SRCDIR)/jrandom.c $(JEFF_H)
+	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jstring.o: $(JEFF_H) $(SRCDIR)/jstring.c
-	$(CC) -c $(SRCDIR)/jstring.c $(JEFF_CFLAGS) -o $@
+$(OBJDIR)/jstring.o: $(SRCDIR)/jstring.c $(JEFF_H)
+	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jinput.o: $(JEFF_H) $(SRCDIR)/jinput.c
-	$(CC) -c $(SRCDIR)/jinput.c $(JEFF_CFLAGS) -o $@
+$(OBJDIR)/jinput.o: $(SRCDIR)/jinput.c $(JEFF_H)
+	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jlog.o: $(JEFF_H) $(SRCDIR)/jlog.c
-	$(CC) -c $(SRCDIR)/jlog.c $(JEFF_CFLAGS) -o $@
+$(OBJDIR)/jlog.o: $(SRCDIR)/jlog.c $(JEFF_H)
+	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jautomata.o: $(JEFF_H) $(SRCDIR)/jautomata.c
-	$(CC) -c $(SRCDIR)/jautomata.c $(JEFF_CFLAGS) -o $@
+$(OBJDIR)/jautomata.o: $(SRCDIR)/jautomata.c $(JEFF_H)
+	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jlua.o: $(JEFF_H) $(SRCDIR)/jlua.c
-	$(CC) -c $(SRCDIR)/jlua.c $(JEFF_LUA_CFLAGS) -o $@
+$(OBJDIR)/jlua.o: $(SRCDIR)/jlua.c $(JEFF_H)
+	$(CC) -c $< $(JEFF_LUA_CFLAGS) -o $@
 
 
 $(LIBDIR)/libjeff.so: $(JEFF_OBJECTS)
 	$(CC) $(JEFF_OBJECTS) $(JEFF_CFLAGS) -shared -o $@ $(JEFF_LDFLAGS)
 
-$(LIBDIR)/libjlua.so: $(OBJDIR)/jlua.o $(LIBDIR)/libjeff.so
+$(LIBDIR)/libjlua.so: $(OBJDIR)/jlua.o
 	$(CC) $< $(JEFF_LUA_CFLAGS) -shared -o $@ $(JEFF_LUA_LDFLAGS)
 
 
-$(OBJDIR)/cointoss.o: $(SRCDIR)/cointoss.c $(JEFF_INCDIR)/cointoss.h
-	$(CC) -c $(SRCDIR)/cointoss.c $(CFLAGS) -o $@
+$(OBJDIR)/cointoss.o: $(SRCDIR)/cointoss.c $(INCDIR)/cointoss.h
+	$(CC) -c $< $(CFLAGS) -o $@
 
 $(OBJDIR)/jeff_lua_1.o: $(SRCDIR)/jeff_lua_1.c $(LUA_H)
-	$(CC) -c $(SRCDIR)/jeff_lua_1.c $(LUA_CFLAGS) -o $@
+	$(CC) -c $< $(LUA_CFLAGS) -o $@
+
+$(OBJDIR)/yes_no.o: $(SRCDIR)/yes_no.c $(INCDIR)/yes_no.h
+	$(CC) -c $< $(CFLAGS) -o $@
 
 $(OBJDIR)/jparse.o: $(SRCDIR)/jparse.cpp
-	$(CXX) -c $(SRCDIR)/jparse.cpp $(CXXFLAGS) -o $@
+	$(CXX) -c $< $(CXXFLAGS) -o $@
 
 
-$(BINDIR)/cointoss: $(OBJDIR)/cointoss.o $(JEFF_INCDIR)/cointoss.h
-	$(CC) $(OBJDIR)/cointoss.o $(CFLAGS) -o $@ $(LDFLAGS)
+$(BINDIR)/cointoss: $(OBJDIR)/cointoss.o
+	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
 
 $(BINDIR)/jparse: $(OBJDIR)/jparse.o
-	$(CXX) $(OBJDIR)/jparse.o $(CXXFLAGS) -o $@ $(LDFLAGS) $(LDXXFLAGS)
+	$(CXX) $< $(CXXFLAGS) -o $@ $(LDFLAGS) $(LDXXFLAGS)
 
-$(BINDIR)/jeff_lua_1: $(OBJDIR)/jeff_lua_1.o $(LUA_H)
-	$(CC) $(OBJDIR)/jeff_lua_1.o $(LUA_CFLAGS) -o $@ $(LUA_LDFLAGS)
+$(BINDIR)/jeff_lua_1: $(OBJDIR)/jeff_lua_1.o
+	$(CC) $< $(LUA_CFLAGS) -o $@ $(LUA_LDFLAGS)
+
+$(BINDIR)/yes_no: $(OBJDIR)/yes_no.o
+	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
 
 libs: $(LIBDIR) $(OBJDIR) $(BINDIR) $(JEFF_LIBS)
 
@@ -76,6 +82,8 @@ cointoss: libs $(BINDIR)/cointoss
 jparse: libs $(BINDIR)/jparse
 
 jeff_lua_1: $(BINDIR)/jeff_lua_1
+
+yes_no: $(BINDIR)/yes_no
 
 strip/bin:
 	strip $(BINDIR)/*

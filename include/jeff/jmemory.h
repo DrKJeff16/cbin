@@ -18,7 +18,7 @@ extern "C" {
 #endif /* !CALLOC */
 
 #if !defined(REALLOC)
-#define REALLOC(ptr, type, n) (type *)realloc((void *)ptr, sizeof(type) * n)
+#define REALLOC(ptr, type, n) (type *)realloc((void *)ptr, sizeof(type) * (n))
 #endif /* !REALLOC */
 
 #if defined(__cplusplus)
@@ -27,4 +27,4 @@ extern "C" {
 
 #endif /* !JMEMORY_H */
 
-/// vim:ts=4:sts=4:sw=4:et:ai:si:sta:noci:nopi:
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:

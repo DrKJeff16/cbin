@@ -7,7 +7,7 @@
 
 void err(char *const fmt, char *const msg) {
   char *format = CALLOC(char, 4);
-  stpcpy(format, "%s\n");
+  strcpy(format, "%s\n");
 
   if (!null_ptr(fmt)) {
     format = REALLOC(format, char, strlen(fmt) + 1);
@@ -41,7 +41,7 @@ void verr(char *const fmt, ...) {
 
 void errno_err(const int code, char *const fmt, char *const msg) {
   char *format = CALLOC(char, 4);
-  stpcpy(format, "%s\n");
+  strcpy(format, "%s\n");
 
   int e_code = (code >= EPERM && code <= EHWPOISON) ? code : ENOMSG;
   err(format, strerror(e_code));

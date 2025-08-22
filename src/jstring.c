@@ -145,88 +145,6 @@ void capitalize(char *str, jbool *use_dot) {
   }
 }
 
-// char *parse_esc(char *const old_str) {
-//   if (null_ptr(old_str)) {
-//     return NULL;
-//   }
-//   if (!strchr(old_str, '\\')) {
-//     return old_str;
-//   }
-//
-//   size_t len = strlen(old_str);
-//   char *res = CALLOC(char, len + 1);
-//
-//   jbool esc = JFALSE;
-//
-//   size_t i = 0;
-//
-//   /* FIXME: Fix this */
-//   while (i < len) {
-//     if (!esc) {
-//       esc = (old_str[i] == '\\') ? JTRUE : JFALSE;
-//     } else if (old_str[i] == '\\') {
-//       esc = JFALSE;
-//     } else {
-//       switch (old_str[i]) {
-//         case 'n':
-//           i--;
-//           len--;
-//           res = REALLOC(res, char, len);
-//           res[i] = '\n';
-//           break;
-//         case 'r':
-//           i--;
-//           len--;
-//           res = REALLOC(res, char, len);
-//           res[i] = '\r';
-//           break;
-//         case 'a':
-//           i--;
-//           len--;
-//           res = REALLOC(res, char, len);
-//           res[i] = '\a';
-//           break;
-//         case 'e':
-//           i--;
-//           len--;
-//           res = REALLOC(res, char, len);
-//           res[i] = '\e';
-//           break;
-//         case 'v':
-//           i--;
-//           len--;
-//           res = REALLOC(res, char, len);
-//           res[i] = '\v';
-//           break;
-//         case 'f':
-//           i--;
-//           len--;
-//           res = REALLOC(res, char, len);
-//           res[i] = '\f';
-//           break;
-//         case '"':
-//           i--;
-//           len--;
-//           res = REALLOC(res, char, len);
-//           res[i] = '\"';
-//           break;
-//         case '?':
-//           i--;
-//           len--;
-//           res = REALLOC(res, char, len);
-//           res[i] = '\?';
-//           break;
-//         default:
-//           break;
-//       }
-//     }
-//
-//     i++;
-//   }
-//
-//   return res;
-// }
-
 jbool compare_strv(char **const argv, const size_t len) {
   if (null_ptr(argv)) {
     err("%s\n", "`argv`is NULL");
@@ -247,18 +165,21 @@ jbool compare_strv(char **const argv, const size_t len) {
   return JTRUE;
 }
 
-void reverse_str(char *str) {
-  if (null_ptr(str)) {
+void reverse_str(char *s) {
+  if (null_ptr(s)) {
     return;
   }
 
-  char *rev = str_reversed(str);
+  size_t l = 0, r = strlen(s) - 1;
 
-  if (null_ptr(rev)) {
-    return;
+  while (l < r) {
+    char t = s[l];
+    s[l] = s[r];
+    s[r] = t;
+
+    l++;
+    r--;
   }
-
-  stpcpy(str, rev);
 }
 
 char *str_reversed(char *const str) {
@@ -266,16 +187,15 @@ char *str_reversed(char *const str) {
     return NULL;
   }
 
-  const size_t len = strlen(str);
-  char *result = CALLOC(char, len + 1);
+  char *new_str = CALLOC(char, strlen(str) + 1);
 
-  for (size_t i = 1; i <= len; i++) {
-    result[i - 1] = str[len - i];
+  if (null_ptr(stpcpy(new_str, str))) {
+    return NULL;
   }
 
-  result[len] = '\0';
+  reverse_str(new_str);
 
-  return result;
+  return new_str;
 }
 
 char **filter_argv(const size_t argc, char **const argv) {
@@ -327,6 +247,59 @@ jbool check_jarg(const char *arg, char **argv, const j_uint argc) {
   }
 
   return res;
+}
+
+void lstrip(const char c, char *str) {
+  if (null_ptr(str)) {
+    die(4, "(lstrip): No str to strip!");
+  }
+
+  size_t len = strlen(str), i = 0;
+  size_t new_len = len;
+
+  if (c == '\0' || len == 0 || null_ptr(strchr(str, c))) {
+    return;
+  }
+
+  while (i <= len && str[i] == c) {
+    new_len--;
+    i++;
+  }
+
+  char *new_str = CALLOC(char, new_len + 1);
+
+  for (i = 0; i <= new_len; i++) {
+    new_str[i] = str[len - new_len + i];
+  }
+
+  new_str[i] = '\0';
+
+  str = REALLOC(str, char, new_len + 1);
+
+  if (null_ptr(str)) {
+    free(new_str);
+    die(2, "(lstrip): FAILED TO REALLOCATE str!");
+  }
+
+  if (null_ptr(stpcpy(str, new_str))) {
+    free(new_str);
+    free(str);
+
+    die(3, "(lstrip): FAILED TO COPY new_str INTO str!");
+  }
+
+  free(new_str);
+}
+
+void rstrip(const char c, char *str) {
+  reverse_str(str);
+  lstrip(c, str);
+  reverse_str(str);
+}
+
+void strip(const char c, char *str) {
+  lstrip(c, str);
+  rstrip(c, str);
 }
 
 /// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:
