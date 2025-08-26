@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
 
   if (*fd < 1) {
     free(fd);
-    errno_vdie(1, EBADFD, "(jmisc): %s\n", "File descriptor could not be opened");
+    j_errno_vdie(1, EBADFD, "(jmisc): %s\n", "File descriptor could not be opened");
   }
 
   char **args = filter_argv(JCAST(size_t, argc), argv);
@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
   free(fd);
 
   if (close_d < 0) {
-    errno_vdie(1, EIO, "(jmisc): %s (%d)\n", "File descriptor couldn't be closed", close_d);
+    j_errno_vdie(1, EIO, "(jmisc): %s (%d)\n", "File descriptor couldn't be closed", close_d);
   }
 
   die(0, NULL);

@@ -54,7 +54,7 @@ void str_append_nul(char *str) {
   if (null_ptr(chr)) {
     stpcpy(str, str_og);
 
-    verr("(str_append_nul): %s\n", "Unable to copy `new_str` back to `str`");
+    j_verr("(str_append_nul): %s\n", "Unable to copy `new_str` back to `str`");
   }
 
   free(new_str);
@@ -123,7 +123,7 @@ void upperize(char *str) {
 
 void capitalize(char *str, jbool *use_dot) {
   if (null_ptr(str)) {
-    verr("%s\n", "NULL string cannot be capitalized");
+    j_verr("%s\n", "NULL string cannot be capitalized");
     return;
   }
 
@@ -133,8 +133,8 @@ void capitalize(char *str, jbool *use_dot) {
 
   for (size_t i = 0; i < strlen(str) + 1; i++) {
     if ((str[i] >= 'a' && str[i] <= 'z') && space) {
-      space = JFALSE;
       str[i] -= capital_d;
+      space = JFALSE;
     } else if ((str[i] >= 'A' && str[i] <= 'Z') && !space) {
       str[i] += capital_d;
     } else if ((str[i] >= 'A' && str[i] <= 'Z') && space) {
@@ -147,12 +147,12 @@ void capitalize(char *str, jbool *use_dot) {
 
 jbool compare_strv(char **const argv, const size_t len) {
   if (null_ptr(argv)) {
-    err("%s\n", "`argv`is NULL");
+    j_verr("%s\n", "`argv`is NULL");
     return JFALSE;
   }
 
   if (len < 2) {
-    verr("`argv` must be of length 2 or greater (%d)\n", len);
+    j_verr("`argv` must be of length 2 or greater (%d)\n", len);
     return JFALSE;
   }
 
@@ -249,7 +249,7 @@ jbool check_jarg(const char *arg, char **argv, const j_uint argc) {
   return res;
 }
 
-void lstrip(const char c, char *str) {
+void j_lstrip(const char c, char *str) {
   if (null_ptr(str)) {
     die(4, "(lstrip): No str to strip!");
   }
@@ -291,15 +291,15 @@ void lstrip(const char c, char *str) {
   free(new_str);
 }
 
-void rstrip(const char c, char *str) {
+void j_rstrip(const char c, char *str) {
   reverse_str(str);
-  lstrip(c, str);
+  j_lstrip(c, str);
   reverse_str(str);
 }
 
-void strip(const char c, char *str) {
-  lstrip(c, str);
-  rstrip(c, str);
+void j_strip(const char c, char *str) {
+  j_lstrip(c, str);
+  j_rstrip(c, str);
 }
 
 /// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:

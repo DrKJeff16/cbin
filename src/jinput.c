@@ -45,7 +45,7 @@ char *buffer_get(char *const msg, size_t *const buf_len) {
   }
 
   if (null_ptr(res)) {
-    errno_vdie(1, EFAULT, "(buffer_get): %s\n", "Buffer got null'd for some reason");
+    j_errno_vdie(1, EFAULT, "(buffer_get): %s\n", "Buffer got null'd for some reason");
   }
 
   return res;

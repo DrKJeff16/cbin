@@ -12,10 +12,11 @@ typedef struct _choices {
   j_ullong HEADS;
 } coin_t;
 
-void decide(const jbool x, coin_t *c);
 jbool fd_toss(int fd);
-void final_decide(int fd, coin_t *const c, char **const coin);
 coin_t *init_choices(void);
+
+void decide(const jbool x, coin_t *c);
+void verdict(int fd, coin_t *const c, char **const coin);
 
 #if defined(__cplusplus)
 }

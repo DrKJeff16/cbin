@@ -7,6 +7,17 @@
 #include <jeff/jeff.h>
 #include <cointoss.h>
 
+/* @brief Garbage collector
+ *
+ */
+static void gc(char **coin, coin_t *c) {
+  free(coin[JTRUE]);
+  free(coin[JFALSE]);
+  free(coin);
+
+  free(c);
+}
+
 coin_t *init_choices(void) {
   coin_t *c = MALLOC(coin_t);
 
@@ -18,7 +29,7 @@ coin_t *init_choices(void) {
 
 void decide(const jbool x, coin_t *c) {
   if (null_ptr(c)) {
-    errno_die(127, EFAULT, "Choices struct is NULL");
+    j_errno_die(127, EFAULT, "Choices struct is NULL");
   }
 
   switch (x) {
@@ -34,23 +45,23 @@ void decide(const jbool x, coin_t *c) {
 
 jbool fd_toss(int fd) {
   if (fd < 0) {
-    errno_vdie(127, EBADF, "(fd_toss): %s (fd: %d)\n", "File descriptor unavailable");
+    j_errno_vdie(127, EBADF, "(fd_toss): %s (fd: %d)\n", "File descriptor unavailable");
   }
 
   return fd_urand(fd, JFALSE, JTRUE) ? JTRUE : JFALSE;
 }
 
-void final_decide(int fd, coin_t *const c, char **const coin) {
+void verdict(int fd, coin_t *const c, char **const coin) {
   if (fd < 0) {
-    errno_vdie(JTRUE, EBADFD, "(final_decide): %s (fd: %d)\n", "File descriptor unavailable", fd);
+    j_errno_vdie(JTRUE, EBADFD, "(verdict): %s (fd: %d)\n", "File descriptor unavailable", fd);
   }
 
   if (null_ptr(coin)) {
-    errno_vdie(JTRUE, EFAULT, "(final_decide): %s\n", "No coin to print");
+    j_errno_vdie(JTRUE, EFAULT, "(verdict): %s\n", "No coin to print");
   }
 
   if (null_ptr(c)) {
-    errno_vdie(JTRUE, EFAULT, "(final_decide): %s\n", "No choices to make a decision from");
+    j_errno_vdie(JTRUE, EFAULT, "(verdict): %s\n", "No choices to make a decision from");
   }
 
   char *result = coin[(c->HEADS > c->TAILS) ? JTRUE : ((c->TAILS > c->HEADS) ? JFALSE : fd_toss(fd))];
@@ -66,12 +77,12 @@ int main(int argc, char **argv) {
   }
 
   if (argc != 2) {
-    errno_vdie(127, ENOTSUP, "(cointoss): %s (got %d)\n", "Need two arguments, no more, no less", argc);
+    j_errno_vdie(127, ENOTSUP, "(cointoss): %s (got %d)\n", "Need two arguments, no more, no less", argc);
   }
 
   int fd = open("/dev/urandom", O_RDONLY);
   if (fd < 0) {
-    errno_vdie(127, ENOENT, "(cointoss): %s (fd: %d)\n", "`/dev/urandom` is unavailable", fd);
+    j_errno_vdie(127, ENOENT, "(cointoss): %s (fd: %d)\n", "`/dev/urandom` is unavailable", fd);
   }
 
   coin_t *c = init_choices();
@@ -91,7 +102,7 @@ int main(int argc, char **argv) {
 
       close(fd);
 
-      errno_vdie(2, EBADE, "(cointoss): %s\n", "Unable to copy string to new array");
+      j_errno_vdie(2, EBADE, "(cointoss): %s\n", "Unable to copy string to new array");
     }
   }
 
@@ -99,12 +110,9 @@ int main(int argc, char **argv) {
     decide(fd_toss(fd), c);
   }
 
-  final_decide(fd, c, coin);
+  verdict(fd, c, coin);
 
-  free(coin[JTRUE]);
-  free(coin[JFALSE]);
-  free(coin);
-  free(c);
+  gc(coin, c);
 
   if ((close(fd)) != 0) {
     die(JTRUE, "File descriptor could not be closed correctly!\n");
@@ -113,4 +121,4 @@ int main(int argc, char **argv) {
   die(JFALSE, NULL);
 }
 
-/// vim:ts=4:sts=4:sw=4:et:ai:si:sta:noci:nopi:
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:

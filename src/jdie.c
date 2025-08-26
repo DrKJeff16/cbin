@@ -39,7 +39,7 @@ void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...) {
   exit(status);
 }
 
-void errno_die(const int status, const int code, char *const msg) {
+void j_errno_die(const int status, const int code, char *const msg) {
   FILE *out = output(status);
   fprintf(out, "%s\n", strerror((code >= EPERM && code <= EHWPOISON) ? code : ENOMSG));
 
@@ -50,7 +50,7 @@ void errno_die(const int status, const int code, char *const msg) {
   exit(status);
 }
 
-void errno_vdie(const int status, const int code, char *const fmt, ...) {
+void j_errno_vdie(const int status, const int code, char *const fmt, ...) {
   FILE *out = output(status);
 
   fprintf(out, "%s\n", strerror((code >= EPERM && code <= EHWPOISON) ? code : ENOMSG));

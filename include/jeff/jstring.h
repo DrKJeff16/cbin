@@ -23,9 +23,9 @@ void capitalize(char *str, jbool *use_dot);
 void upperize(char *str);
 void lowerize(char *str);
 
-void lstrip(const char c, char *str);
-void rstrip(const char c, char *str);
-void strip(const char c, char *str);
+void j_lstrip(const char c, char *str);
+void j_rstrip(const char c, char *str);
+void j_strip(const char c, char *str);
 
 #if defined(__cplusplus)
 }

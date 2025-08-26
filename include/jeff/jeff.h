@@ -6,14 +6,14 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <jeff/jtypes.h>
+#include <jeff/jmemory.h>
+#include <jeff/jstring.h>
 
 #include <jeff/jautomata.h>
 #include <jeff/jinput.h>
 #include <jeff/jlog.h>
 #include <jeff/jlua.h>
-#include <jeff/jmemory.h>
 #include <jeff/jrandom.h>
-#include <jeff/jstring.h>
 
 #define JCAST(type, data) (type)(data)
 #define null_ptr(ptr) (!ptr || ptr == NULL)
@@ -38,7 +38,7 @@ extern "C" {
  * @param msg Message string
  */
 /* ----------------------------------------------------------------------------*/
-void err(char *const fmt, char *const msg);
+void j_err(char *const fmt, char *const msg);
 
 /* ----------------------------------------------------------------------------*/
 /**
@@ -48,10 +48,10 @@ void err(char *const fmt, char *const msg);
  * @param ...
  */
 /* ----------------------------------------------------------------------------*/
-void verr(char *const fmt, ...);
+void j_verr(char *const fmt, ...);
 
-void errno_err(const int code, char *const fmt, char *const msg);
-void errno_verr(const int code, char *const fmt, ...);
+void j_errno_err(const int code, char *const fmt, char *const msg);
+void j_errno_verr(const int code, char *const fmt, ...);
 
 /* ----------------------------------------------------------------------------*/
 /**
@@ -62,7 +62,7 @@ void errno_verr(const int code, char *const fmt, ...);
  * @param ...
  */
 /* ----------------------------------------------------------------------------*/
-void exec_verr(void (*fun)(void), char *const fmt, ...);
+void j_exec_verr(void (*fun)(void), char *const fmt, ...);
 
 /* ---------------------------------- jdie ------------------------------------*/
 
@@ -92,8 +92,8 @@ void die(const int status, char *const msg);
 /* ----------------------------------------------------------------------------*/
 void vdie(const int status, char *const fmt, ...);
 
-void errno_die(const int status, const int code, char *const msg);
-void errno_vdie(const int status, const int errno_val, char *const fmt, ...);
+void j_errno_die(const int status, const int code, char *const msg);
+void j_errno_vdie(const int status, const int errno_val, char *const fmt, ...);
 
 /* ----------------------------------------------------------------------------*/
 /**

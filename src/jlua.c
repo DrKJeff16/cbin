@@ -35,10 +35,10 @@ char *jlua_type_char(const jlua_type x) {
 
 jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   if (null_ptr(L)) {
-    errno_vdie(127, ESRCH, "(first_op_buf): %s\n", "Lua State has not been initialized");
+    j_errno_vdie(127, ESRCH, "(first_op_buf): %s\n", "Lua State has not been initialized");
   }
   if (null_ptr(ptr)) {
-    errno_verr(EFAULT, "(first_op_buf): %s\n", "Argument is NULL");
+    j_errno_verr(EFAULT, "(first_op_buf): %s\n", "Argument is NULL");
     return NULL;
   }
 
@@ -51,7 +51,7 @@ jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
     p = placeholder;
 
     if (safeguard == p) {
-      errno_verr(E2BIG, "(first_op_buf): %s\n", "Looping list");
+      j_errno_verr(E2BIG, "(first_op_buf): %s\n", "Looping list");
       return NULL;
     }
   }
@@ -65,10 +65,10 @@ jlua_op_buf *first_op_buf(jlua_op_buf *const ptr, lua_State *L) {
 
 jlua_op_buf *last_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   if (null_ptr(L)) {
-    errno_vdie(127, ESRCH, "(last_op_buf): %s\n", "Lua State has not been initialized");
+    j_errno_vdie(127, ESRCH, "(last_op_buf): %s\n", "Lua State has not been initialized");
   }
   if (null_ptr(ptr)) {
-    errno_verr(EFAULT, "(last_op_buf): %s\n", "Argument is NULL");
+    j_errno_verr(EFAULT, "(last_op_buf): %s\n", "Argument is NULL");
     return NULL;
   }
 
@@ -81,7 +81,7 @@ jlua_op_buf *last_op_buf(jlua_op_buf *const ptr, lua_State *L) {
     p = placeholder;
 
     if (safeguard == p) {
-      errno_verr(E2BIG, "(last_op_buf): %s\n", "Looping list");
+      j_errno_verr(E2BIG, "(last_op_buf): %s\n", "Looping list");
       return NULL;
     }
   }
@@ -95,17 +95,17 @@ jlua_op_buf *last_op_buf(jlua_op_buf *const ptr, lua_State *L) {
 
 void kill_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   if (null_ptr(L)) {
-    errno_vdie(127, ESRCH, "(kill_op_buf): %s\n", "Lua State has not been initialized");
+    j_errno_vdie(127, ESRCH, "(kill_op_buf): %s\n", "Lua State has not been initialized");
   }
   if (null_ptr(ptr)) {
-    errno_verr(EFAULT, "(kill_op_buf): %s\n", "Nothing to kill, returning");
+    j_errno_verr(EFAULT, "(kill_op_buf): %s\n", "Nothing to kill, returning");
     return;
   }
 
   jlua_op_buf *buf = last_op_buf(ptr, L), *placeholder = NULL;
 
   if (null_ptr(buf)) {
-    errno_verr(EFAULT, "(kill_op_buf): %s\n", "Couldn't retrieve buffer end");
+    j_errno_verr(EFAULT, "(kill_op_buf): %s\n", "Couldn't retrieve buffer end");
     return;
   }
 
@@ -123,10 +123,10 @@ void kill_op_buf(jlua_op_buf *const ptr, lua_State *L) {
 
 void new_op_buf(jlua_op_buf *const prev_buf, lua_State *L, j_ullong *const index) {
   if (null_ptr(L)) {
-    errno_vdie(127, ESRCH, "(new_op_buf): %s\n", "Lua State has not been initialized");
+    j_errno_vdie(127, ESRCH, "(new_op_buf): %s\n", "Lua State has not been initialized");
   }
   if (null_ptr(prev_buf)) {
-    errno_verr(EFAULT, "(new_op_buf): %s\n", "Predecessor is NULL");
+    j_errno_verr(EFAULT, "(new_op_buf): %s\n", "Predecessor is NULL");
     return;
   }
 
@@ -143,7 +143,7 @@ void new_op_buf(jlua_op_buf *const prev_buf, lua_State *L, j_ullong *const index
 
 jlua_op_buf *init_op_buf(lua_State *L) {
   if (null_ptr(L)) {
-    errno_vdie(127, ESRCH, "(init_op_buf): %s\n", "Lua State has not been initialized");
+    j_errno_vdie(127, ESRCH, "(init_op_buf): %s\n", "Lua State has not been initialized");
   }
   jlua_op_buf *buffer = MALLOC(jlua_op_buf);
 
@@ -159,7 +159,7 @@ jlua_op_buf *init_op_buf(lua_State *L) {
 
 void fix_buf_indeces(jlua_op_buf *const ptr, lua_State *L) {
   if (null_ptr(L)) {
-    errno_vdie(127, ESRCH, "(fix_buf_indeces): %s\n", "Lua State has not been initialized");
+    j_errno_vdie(127, ESRCH, "(fix_buf_indeces): %s\n", "Lua State has not been initialized");
   }
   if (null_ptr(ptr)) {
     lua_err(L, "(fix_buf_indeces): %s\n%s\n", strerror(EFAULT), "Null pointer");
@@ -168,7 +168,7 @@ void fix_buf_indeces(jlua_op_buf *const ptr, lua_State *L) {
   jlua_op_buf *buf = first_op_buf(ptr, L), *placeholder = NULL;
 
   if (null_ptr(buf)) {
-    errno_verr(EFAULT, "(fix_buf_indeces): %s\n", "Couldn't retrieve buffer start");
+    j_errno_verr(EFAULT, "(fix_buf_indeces): %s\n", "Couldn't retrieve buffer start");
     return;
   }
 
@@ -189,7 +189,7 @@ void fix_buf_indeces(jlua_op_buf *const ptr, lua_State *L) {
 
 jlua_op_buf *append_op_buf(jlua_op_buf *const ptr, lua_State *L) {
   if (null_ptr(L)) {
-    errno_vdie(127, ESRCH, "(append_op_buf): %s\n", "Lua State has not been initialized");
+    j_errno_vdie(127, ESRCH, "(append_op_buf): %s\n", "Lua State has not been initialized");
   }
   if (null_ptr(ptr)) {
     return NULL;
@@ -219,11 +219,11 @@ jlua_op_buf *append_op_buf(jlua_op_buf *const ptr, lua_State *L) {
 
 void op_buf_iprint(jlua_op_buf *const ptr, lua_State *L) {
   if (null_ptr(L)) {
-    verr("NULL Lua state, can't print\n");
+    j_verr("NULL Lua state, can't print\n");
     return;
   }
   if (null_ptr(ptr)) {
-    verr("NULL buffer, can't print\n");
+    j_verr("NULL buffer, can't print\n");
     return;
   }
 

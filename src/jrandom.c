@@ -4,7 +4,7 @@
 
 j_ullong fd_urand(int fd, const j_ullong min, const j_ullong max) {
   if (fd < 0) {
-    errno_verr(EBADF, "(fd_urand): %s (fd: %d)\n", "File descriptor inaccessible", fd);
+    j_errno_verr(EBADF, "(fd_urand): %s (fd: %d)\n", "File descriptor inaccessible", fd);
     return 0;
   }
 
@@ -13,7 +13,7 @@ j_ullong fd_urand(int fd, const j_ullong min, const j_ullong max) {
   int read_d = read(fd, &result, sizeof(result));
 
   if (read_d < 0) {
-    errno_verr(EIO, "(fd_urand): %s (%d)\n", "Failed to read into buffer", read_d);
+    j_errno_verr(EIO, "(fd_urand): %s (%d)\n", "Failed to read into buffer", read_d);
     return 0;
   }
 
