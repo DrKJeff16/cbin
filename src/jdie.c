@@ -5,8 +5,9 @@
 #include <stdlib.h>
 #include <jeff/jeff.h>
 
+/// Kill program ekecution with optional output message
 void die(const int status, char *const msg) {
-  if (!null_ptr(msg)) {  /// If message is available
+  if (!null_ptr(msg)) {
     fprintf(output(status), "%s\n", msg);
   }
 
