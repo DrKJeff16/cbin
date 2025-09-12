@@ -29,6 +29,9 @@ $(OBJDIR)/jrandom.o: $(SRCDIR)/jrandom.c $(JEFF_H)
 $(OBJDIR)/jstring.o: $(SRCDIR)/jstring.c $(JEFF_H)
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
+$(OBJDIR)/jsignal.o: $(SRCDIR)/jsignal.c $(JEFF_H)
+	$(CC) -c $< $(JEFF_CFLAGS) -o $@
+
 $(OBJDIR)/jinput.o: $(SRCDIR)/jinput.c $(JEFF_H)
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
@@ -114,6 +117,7 @@ install_headers:
 	install -m 644 $(JEFF_INCDIR)/jrandom.h $(GLOBAL_PREFIX)/include/jeff/jrandom.h
 	install -m 644 $(JEFF_INCDIR)/jinput.h $(GLOBAL_PREFIX)/include/jeff/jinput.h
 	install -m 644 $(JEFF_INCDIR)/jstring.h $(GLOBAL_PREFIX)/include/jeff/jstring.h
+	install -m 644 $(JEFF_INCDIR)/jsignal.h $(GLOBAL_PREFIX)/include/jeff/jsignal.h
 	install -m 644 $(JEFF_INCDIR)/jlua.h $(GLOBAL_PREFIX)/include/jeff/jlua.h
 	install -m 644 $(JEFF_INCDIR)/jautomata.h $(GLOBAL_PREFIX)/include/jeff/jautomata.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h $(GLOBAL_PREFIX)/include/jeff/jlog.h

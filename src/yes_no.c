@@ -13,13 +13,10 @@ void free_valid(char **valid, const size_t argc) {
   free(valid);
 }
 
-void sig_handler(int sig) {
-  vdie(sig, "\nCaught signal %d\n", sig);
-}
-
 int main(int argc, char **argv) {
   signal(SIGINT, sig_handler);
   signal(SIGTERM, sig_handler);
+  signal(SIGABRT, sig_handler);
 
   argc--;
 

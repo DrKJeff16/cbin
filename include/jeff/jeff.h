@@ -14,6 +14,7 @@ extern "C" {
 #include <jeff/jlog.h>
 #include <jeff/jlua.h>
 #include <jeff/jrandom.h>
+#include <jeff/jsignal.h>
 
 #define JCAST(type, data) (type)(data)
 #define null_ptr(ptr) (!ptr || ptr == NULL)

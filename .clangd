@@ -36,22 +36,22 @@ CompileFlags:
   Compiler: gcc
 
 Index:
-  Background: Skip
-  StandardLibrary: No
+  Background: Build
+  StandardLibrary: true
 
 Completion:
-  AllScopes: Yes
+  AllScopes: true
 
 InlayHints:
-  BlockEnd: Yes
-  Designators: Yes
-  Enabled: Yes
-  ParameterNames: Yes
-  DeducedTypes: Yes
+  BlockEnd: true
+  Designators: true
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true
   TypeNameLimit: 18
 
 Hover:
-  ShowAKA: Yes
+  ShowAKA: true
 
 ---
 If:
@@ -90,22 +90,22 @@ CompileFlags:
   Compiler: gcc
 
 Index:
-  Background: Skip
-  StandardLibrary: No
+  Background: Build
+  StandardLibrary: true
 
 Completion:
-  AllScopes: Yes
+  AllScopes: true
 
 InlayHints:
-  BlockEnd: Yes
-  Designators: Yes
-  Enabled: Yes
-  ParameterNames: Yes
-  DeducedTypes: Yes
+  BlockEnd: true
+  Designators: true
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true
   TypeNameLimit: 18
 
 Hover:
-  ShowAKA: Yes
+  ShowAKA: true
 
 ---
 If:
@@ -145,22 +145,22 @@ CompileFlags:
   Compiler: g++
 
 Index:
-  Background: Skip
-  StandardLibrary: No
+  Background: Build
+  StandardLibrary: true
 
 Completion:
-  AllScopes: Yes
+  AllScopes: true
 
 InlayHints:
-  BlockEnd: Yes
-  Designators: Yes
-  Enabled: Yes
-  ParameterNames: Yes
-  DeducedTypes: Yes
+  BlockEnd: true
+  Designators: true
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true
   TypeNameLimit: 18
 
 Hover:
-  ShowAKA: Yes
+  ShowAKA: true
 
 ---
 If:
@@ -200,19 +200,19 @@ CompileFlags:
   Compiler: g++
 
 Index:
-  Background: Skip
-  StandardLibrary: No
+  Background: Build
+  StandardLibrary: true
 
 Completion:
-  AllScopes: Yes
+  AllScopes: true
 
 InlayHints:
-  BlockEnd: Yes
-  Designators: Yes
-  Enabled: Yes
-  ParameterNames: Yes
-  DeducedTypes: Yes
+  BlockEnd: true
+  Designators: true
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true
   TypeNameLimit: 18
 
 Hover:
-  ShowAKA: Yes
+  ShowAKA: true

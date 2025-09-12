@@ -74,6 +74,7 @@ JEFF_H = $(JEFF_INCDIR)/jeff.h \
 		 $(JEFF_INCDIR)/jlua.h \
 		 $(JEFF_INCDIR)/jmemory.h \
 		 $(JEFF_INCDIR)/jrandom.h \
+		 $(JEFF_INCDIR)/jsignal.h \
 		 $(JEFF_INCDIR)/jstring.h \
 		 $(JEFF_INCDIR)/jtypes.h
 
@@ -82,6 +83,7 @@ JEFF_OBJECTS = $(OBJDIR)/jstring.o \
 			   $(OBJDIR)/jerr.o \
 			   $(OBJDIR)/jlog.o \
 			   $(OBJDIR)/jrandom.o \
+			   $(OBJDIR)/jsignal.o \
 			   $(OBJDIR)/jinput.o \
 			   $(OBJDIR)/jautomata.o
 
