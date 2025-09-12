@@ -5,11 +5,11 @@ LOCAL_PREFIX := $(HOME)/.local
 GLOBAL_PREFIX := /usr
 INSTALL_BIN_DIR := $(GLOBAL_PREFIX)/bin
 
-BINDIR := bin
-INCDIR := include
-LIBDIR := lib
-OBJDIR := obj
-SRCDIR := src
+BINDIR = bin
+INCDIR = include
+LIBDIR = lib
+OBJDIR = obj
+SRCDIR = src
 
 ALL_DIRS = $(BINDIR) \
 		   $(INCDIR) \
@@ -33,6 +33,7 @@ CFLAGS = $(CPPFLAGS) \
 		 -ggdb \
 		 -Wall \
 		 -Wextra \
+		 -Wno-unused \
 		 -pedantic \
 		 -pthread
 
@@ -47,11 +48,20 @@ CXXFLAGS = $(CPPFLAGS) \
 		   -ggdb \
 		   -Wall \
 		   -Wextra \
+		   -Wno-unused \
 		   -pedantic \
 		   -pthread
 
-LDFLAGS = -L/usr/lib/jeff -Llib -ljeff -lc -lm
-LDXXFLAGS = -L/usr/lib/jeff -Llib -ldocopt
+LDFLAGS = -L/usr/lib/jeff \
+		  -Llib \
+		  -ljeff \
+		  -lc \
+		  -lm \
+		  -lpthread
+
+LDXXFLAGS = -L/usr/lib/jeff \
+			-Llib \
+			-ldocopt
 
 PKG_CONFIG_BIN := pkgconf
 
@@ -75,18 +85,44 @@ JEFF_OBJECTS = $(OBJDIR)/jstring.o \
 			   $(OBJDIR)/jinput.o \
 			   $(OBJDIR)/jautomata.o
 
-JEFF_LIBS = $(LIBDIR)/libjeff.so $(LIBDIR)/libjlua.so
+JEFF_LIBS = $(LIBDIR)/libjeff.so \
+			$(LIBDIR)/libjlua.so
 
-JEFF_CFLAGS = $(CFLAGS) -fPIC
-JEFF_LDFLAGS = -lc -lpthread -lm
-JEFF_ACTIONS = cointoss jparse jeff_lua_1 yes_no
+JEFF_CFLAGS = $(CFLAGS) \
+			  -fPIC
+
+JEFF_LDFLAGS = -lc \
+			   -lm \
+			   -lpthread
+
+JEFF_ACTIONS = cointoss \
+			   jeff_lua_1 \
+			   jparse \
+			   yes_no
 
 JEFF_LUA_H = $(JEFF_INCDIR)/jlua.h
-JEFF_LUA_CFLAGS = $(JEFF_CFLAGS) -I/usr/include/luajit-2.1
-JEFF_LUA_LDFLAGS = -L/usr/lib/jeff -Llib -L. $(JEFF_LDFLAGS) -ljeff -llua -lluajit-5.1
+JEFF_LUA_CFLAGS = $(JEFF_CFLAGS) \
+				  -I/usr/include/luajit-2.1
+
+JEFF_LUA_LDFLAGS = $(JEFF_LDFLAGS) \
+				   -L/usr/lib/jeff \
+				   -Llib \
+				   -L. \
+				   -ljeff \
+				   -llua \
+				   -lluajit-5.1
 
 LUA_H = $(JEFF_INCDIR)/jlua.h
-LUA_CFLAGS = -I/usr/include/luajit-2.1 -I/usr/include/jeff
-LUA_LDFLAGS = -L/usr/lib/jeff -Llib -L. -ljeff -ljlua -llua -lluajit-5.1
+
+LUA_CFLAGS = -I/usr/include/luajit-2.1 \
+			 -I/usr/include/jeff
+LUA_LDFLAGS = -L/usr/lib/jeff \
+			  -Llib \
+			  -L. \
+			  -ljeff \
+			  -ljlua \
+			  -llua \
+			  -lluajit-5.1 \
+			  -lpthread
 
 ACTIONS = $(JEFF_ACTIONS)

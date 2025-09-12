@@ -23,11 +23,6 @@ int main(int argc, char **argv) {
 
   argc--;
 
-  if (argc == 0) {
-    j_err("%s\n", "No arguments provided!");
-    return 127;
-  }
-
   // size_t i = 0, len = (size_t)argc;
   // char **valid = CALLOC(char *, len);
 
@@ -47,15 +42,25 @@ int main(int argc, char **argv) {
 
   // free_valid(valid, len);
 
+  jbool no_args = JFALSE;
+  if (argc == 0) {
+    no_args = JTRUE;
+  }
+
   while (JTRUE) {
     char input[4];
-    char *msg = CALLOC(char, strlen(argv[1]) + 1);
-    stpcpy(msg, argv[1]);
-    j_rstrip('?', msg);
+    char *msg = CALLOC(char, strlen(no_args ? "Confirm" : argv[1]) + 1);
+    stpcpy(msg, no_args ? "Confirm" : argv[1]);
 
-    printf("%s?[Y/N]: ", msg);
+    j_rstrip(' ', msg);
+    j_rstrip('?', msg);
+    j_rstrip('.', msg);
+
+    printf("%s? [Y/N]: ", msg);
     fgets(input, sizeof(input), stdin);
     input[strcspn(input, "\n")] = 0;
+
+    free(msg);
 
     switch (input[0]) {
       case 'y':

@@ -137,10 +137,10 @@ install_libs_stripped: install_libs
 	strip $(GLOBAL_PREFIX)/lib/jeff/libj{eff,lua}.so
 
 clean:
-	rm -rf $(OBJDIR)/*
+	rm -rf $(OBJDIR)/* *.log
 
 distclean: clean
-	rm -rf $(BINDIR)/* $(LIBDIR)/* build compile_commands.json *.log
+	rm -rf $(BINDIR)/* $(LIBDIR)/* compile_commands.json
 
 
 .PHONY: all \
