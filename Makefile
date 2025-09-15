@@ -2,7 +2,7 @@ include config.mk
 
 SHELL = /bin/bash
 
-all: libs $(ACTIONS)
+all: $(ACTIONS)
 
 $(JEFF_INCDIR):
 	mkdir -p $@
@@ -58,7 +58,7 @@ $(OBJDIR)/cointoss.o: $(SRCDIR)/cointoss.c $(INCDIR)/cointoss.h
 $(OBJDIR)/jeff_lua_1.o: $(SRCDIR)/jeff_lua_1.c $(LUA_H)
 	$(CC) -c $< $(LUA_CFLAGS) -o $@
 
-$(OBJDIR)/yes_no.o: $(SRCDIR)/yes_no.c $(INCDIR)/yes_no.h
+$(OBJDIR)/yn.o: $(SRCDIR)/yn.c $(INCDIR)/yn.h
 	$(CC) -c $< $(CFLAGS) -o $@
 
 $(OBJDIR)/jparse.o: $(SRCDIR)/jparse.cpp
@@ -74,19 +74,19 @@ $(BINDIR)/jparse: $(OBJDIR)/jparse.o
 $(BINDIR)/jeff_lua_1: $(OBJDIR)/jeff_lua_1.o
 	$(CC) $< $(LUA_CFLAGS) -o $@ $(LUA_LDFLAGS)
 
-$(BINDIR)/yes_no: $(OBJDIR)/yes_no.o
+$(BINDIR)/yn: $(OBJDIR)/yn.o
 	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
 
 libs: $(LIBDIR) $(OBJDIR) $(BINDIR) $(JEFF_LIBS)
 
 
-cointoss: libs $(BINDIR)/cointoss
+cointoss: $(BINDIR)/cointoss
 
-jparse: libs $(BINDIR)/jparse
+jparse: $(BINDIR)/jparse
 
 jeff_lua_1: $(BINDIR)/jeff_lua_1
 
-yes_no: $(BINDIR)/yes_no
+yn: $(BINDIR)/yn
 
 strip/bin:
 	strip $(BINDIR)/*
@@ -97,30 +97,33 @@ strip/libs:
 install_bin:
 	-@mkdir -p $(GLOBAL_PREFIX)/bin
 	install -m 755 $(BINDIR)/cointoss $(GLOBAL_PREFIX)/bin/cointoss
+	install -m 755 $(BINDIR)/yn $(GLOBAL_PREFIX)/bin/yn
 
 install_bin_stripped: install_bin
-	-@strip $(GLOBAL_PREFIX)/bin/cointoss
+	strip $(GLOBAL_PREFIX)/bin/cointoss
+	strip $(GLOBAL_PREFIX)/bin/yn
 
-install_local_bin:
-	-@mkdir -p $(HOME)/.bin/cbin
+install_local_bin: cointoss yn
 	install -m 755 $(BINDIR)/cointoss $(HOME)/.bin/cbin/cointoss
+	install -m 755 $(BINDIR)/yn $(HOME)/.bin/cbin/yn
 
 install_local_bin_stripped: install_local_bin
-	-@strip $(HOME)/.bin/cbin/cointoss
+	strip $(HOME)/.bin/cbin/cointoss
+	strip $(HOME)/.bin/cbin/yn
 
 install_headers:
 	-@rm -rf $(GLOBAL_PREFIX)/include/jeff
 	-@mkdir -p $(GLOBAL_PREFIX)/include/jeff
 	install -m 644 $(JEFF_INCDIR)/jeff.h $(GLOBAL_PREFIX)/include/jeff/jeff.h
-	install -m 644 $(JEFF_INCDIR)/jtypes.h $(GLOBAL_PREFIX)/include/jeff/jtypes.h
+	install -m 644 $(JEFF_INCDIR)/jautomata.h $(GLOBAL_PREFIX)/include/jeff/jautomata.h
+	install -m 644 $(JEFF_INCDIR)/jinput.h $(GLOBAL_PREFIX)/include/jeff/jinput.h
+	install -m 644 $(JEFF_INCDIR)/jlog.h $(GLOBAL_PREFIX)/include/jeff/jlog.h
+	install -m 644 $(JEFF_INCDIR)/jlua.h $(GLOBAL_PREFIX)/include/jeff/jlua.h
 	install -m 644 $(JEFF_INCDIR)/jmemory.h $(GLOBAL_PREFIX)/include/jeff/jmemory.h
 	install -m 644 $(JEFF_INCDIR)/jrandom.h $(GLOBAL_PREFIX)/include/jeff/jrandom.h
-	install -m 644 $(JEFF_INCDIR)/jinput.h $(GLOBAL_PREFIX)/include/jeff/jinput.h
-	install -m 644 $(JEFF_INCDIR)/jstring.h $(GLOBAL_PREFIX)/include/jeff/jstring.h
 	install -m 644 $(JEFF_INCDIR)/jsignal.h $(GLOBAL_PREFIX)/include/jeff/jsignal.h
-	install -m 644 $(JEFF_INCDIR)/jlua.h $(GLOBAL_PREFIX)/include/jeff/jlua.h
-	install -m 644 $(JEFF_INCDIR)/jautomata.h $(GLOBAL_PREFIX)/include/jeff/jautomata.h
-	install -m 644 $(JEFF_INCDIR)/jlog.h $(GLOBAL_PREFIX)/include/jeff/jlog.h
+	install -m 644 $(JEFF_INCDIR)/jstring.h $(GLOBAL_PREFIX)/include/jeff/jstring.h
+	install -m 644 $(JEFF_INCDIR)/jtypes.h $(GLOBAL_PREFIX)/include/jeff/jtypes.h
 
 install_local_libs:
 	-@rm -rf $(LOCAL_PREFIX)/lib/jeff

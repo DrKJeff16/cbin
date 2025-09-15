@@ -3,7 +3,7 @@
 #include <string.h>
 #include <signal.h>
 #include <jeff/jeff.h>
-#include <yes_no.h>
+#include <yn.h>
 
 void free_valid(char **valid, const size_t argc) {
   for (size_t i = 0; i < argc; i++) {
