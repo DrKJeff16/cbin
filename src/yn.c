@@ -13,6 +13,10 @@ void free_valid(char **valid, const size_t argc) {
   free(valid);
 }
 
+char *get_no_args(jbool no_args, char *positive) {
+  return no_args ? "Confirm" : positive;
+}
+
 int main(int argc, char **argv) {
   signal(SIGINT, sig_handler);
   signal(SIGTERM, sig_handler);
@@ -39,19 +43,19 @@ int main(int argc, char **argv) {
 
   // free_valid(valid, len);
 
-  jbool no_args = JFALSE;
-  if (argc == 0) {
-    no_args = JTRUE;
-  }
+  jbool *no_args = MALLOC(jbool);
+  *no_args = (argc == 0) ? JTRUE : JFALSE;
 
   while (JTRUE) {
     char input[4];
-    char *msg = CALLOC(char, strlen(no_args ? "Confirm" : argv[1]) + 1);
-    stpcpy(msg, no_args ? "Confirm" : argv[1]);
+    char *msg = CALLOC(char, strlen(get_no_args(*no_args, argv[1])) + 1);
+    stpcpy(msg, get_no_args(*no_args, argv[1]));
 
     j_rstrip(' ', msg);
     j_rstrip('?', msg);
+    j_rstrip(' ', msg);
     j_rstrip('.', msg);
+    j_rstrip(' ', msg);
 
     printf("%s? [Y/N]: ", msg);
     fgets(input, sizeof(input), stdin);
@@ -72,6 +76,8 @@ int main(int argc, char **argv) {
         break;
     }
   }
+
+  free(no_args);
 
   return 127;
 }

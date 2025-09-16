@@ -4,8 +4,7 @@ If:
 CompileFlags:
   Add:
     [
-      -D_DEFAULT_SOURCE,
-      -D_REENTRANT,
+      -D_GNU_SOURCE,
       -I.,
       -I../../include,
       -I../include,
@@ -13,27 +12,13 @@ CompileFlags:
       -I/usr/include/luajit-2.1,
       -I/usr/local/include,
       -Iinclude,
-      -L.,
-      -L../lib,
-      -L/usr/lib/jeff,
-      -L/usr/local/lib,
-      -L/usr/local/lib/jeff,
-      -Llib,
       -Wall,
       -Wextra,
       -Wno-unused,
-      -lc,
-      -ljeff,
-      -ljlua,
-      -llua,
-      -lluajit-5.1,
-      -lm,
-      -lpthread,
       -pthread,
       -std=gnu99,
       -xc,
     ]
-  Remove: [-D_FORTIFY_SOURCE=*]
   CompilationDatabase: .
   Compiler: gcc
 
@@ -62,8 +47,7 @@ If:
 CompileFlags:
   Add:
     [
-      -D_DEFAULT_SOURCE,
-      -D_REENTRANT,
+      -D_GNU_SOURCE,
       -I.,
       -I../../include,
       -I../include,
@@ -71,25 +55,13 @@ CompileFlags:
       -I/usr/include/luajit-2.1,
       -I/usr/local/include,
       -Iinclude,
-      -L.,
-      -L../lib,
-      -L/usr/lib/jeff,
-      -Llib,
       -Wall,
       -Wextra,
       -Wno-unused,
-      -lc,
-      -ljeff,
-      -ljlua,
-      -llua,
-      -lluajit-5.1,
-      -lm,
-      -lpthread,
       -pthread,
       -std=gnu99,
       -xc-header,
     ]
-  Remove: [-D_FORTIFY_SOURCE=*]
   CompilationDatabase: .
   Compiler: gcc
 
@@ -118,9 +90,8 @@ If:
 CompileFlags:
   Add:
     [
-      -D_DEFAULT_SOURCE,
+      -D_GNU_SOURCE,
       -D_GLIBCXX_ASSERTIONS,
-      -D_REENTRANT,
       -I.,
       -I../../include,
       -I../include,
@@ -128,25 +99,13 @@ CompileFlags:
       -I/usr/include/luajit-2.1,
       -I/usr/local/include,
       -Iinclude,
-      -L.,
-      -L../lib,
-      -L/usr/lib/jeff,
-      -Llib,
       -Wall,
       -Wextra,
       -Wno-unused,
-      -lc,
-      -ljeff,
-      -ljlua,
-      -llua,
-      -lluajit-5.1,
-      -lm,
-      -lpthread,
       -pthread,
       -std=gnu++17,
       -xc++,
     ]
-  Remove: [-D_FORTIFY_SOURCE=*]
   CompilationDatabase: .
   Compiler: g++
 
@@ -175,9 +134,8 @@ If:
 CompileFlags:
   Add:
     [
-      -D_DEFAULT_SOURCE,
+      -D_GNU_SOURCE,
       -D_GLIBCXX_ASSERTIONS,
-      -D_REENTRANT,
       -I.,
       -I../../include,
       -I../include,
@@ -185,25 +143,13 @@ CompileFlags:
       -I/usr/include/luajit-2.1,
       -I/usr/local/include,
       -Iinclude,
-      -L.,
-      -L../lib,
-      -L/usr/lib/jeff,
-      -Llib,
       -Wall,
       -Wextra,
       -Wno-unused,
-      -lc,
-      -ljeff,
-      -ljlua,
-      -llua,
-      -lluajit-5.1,
-      -lm,
-      -lpthread,
       -pthread,
       -std=gnu++17,
       -xc++-header,
     ]
-  Remove: [-D_FORTIFY_SOURCE=*]
   CompilationDatabase: .
   Compiler: g++
 

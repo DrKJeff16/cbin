@@ -5,7 +5,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-void sig_handler(int sig);
+void sig_handler(const int sig);
 
 #if defined(__cplusplus)
 }

@@ -1,6 +1,6 @@
 # Repo dirs and special files
 compile_commands.json
-/assembly/
+/as/
 /assets/
 /bin/
 /build/

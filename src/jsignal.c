@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <jeff/jeff.h>
 
-void sig_handler(int sig) {
+void sig_handler(const int sig) {
   switch (sig) {
     case SIGINT:
       {

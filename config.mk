@@ -20,8 +20,6 @@ ALL_DIRS = $(BINDIR) \
 CPPFLAGS = -Iinclude \
 		   -I. \
 		   -I$(GLOBAL_PREFIX)/include/jeff \
-		   -DNDEBUG \
-		   -D_REENTRANT \
 		   -D_GNU_SOURCE
 
 CFLAGS = $(CPPFLAGS) \
