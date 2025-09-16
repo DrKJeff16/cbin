@@ -1,9 +1,9 @@
 CC := gcc
 CXX := g++
 
-LOCAL_PREFIX := $(HOME)/.local
 GLOBAL_PREFIX := /usr
-INSTALL_BIN_DIR := $(GLOBAL_PREFIX)/bin
+LOCAL_PREFIX := $(HOME)/.local
+INSTALL_BIN_DIR = $(GLOBAL_PREFIX)/bin
 
 BINDIR = bin
 INCDIR = include
@@ -25,30 +25,26 @@ CPPFLAGS = -Iinclude \
 CFLAGS = $(CPPFLAGS) \
 		 -march=native \
 		 -pipe \
-		 -std=c17 \
-		 -Og \
+		 -std=gnu17 \
+		 -O2 \
 		 -g \
-		 -g3 \
 		 -Wall \
 		 -Wextra \
 		 -Wno-unused \
-		 -pedantic \
-		 -pthread
+		 -pedantic
 
 CXXFLAGS = $(CPPFLAGS) \
-		   -D_GLIBCXX_ASSERTIONS \
 		   -I$(GLOBAL_PREFIX)/include/docopt \
+		   -D_GLIBCXX_ASSERTIONS \
 		   -std=c++17 \
 		   -march=native \
 		   -pipe \
-		   -Og \
+		   -O2 \
 		   -g \
-		   -g3 \
 		   -Wall \
 		   -Wextra \
 		   -Wno-unused \
-		   -pedantic \
-		   -pthread
+		   -pedantic
 
 LDFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
 		  -Llib \
