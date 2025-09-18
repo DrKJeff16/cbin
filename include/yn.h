@@ -7,7 +7,6 @@ extern "C" {
 
 #include <jeff/jeff.h>
 
-void free_valid(char **valid, const size_t argc);
 char *get_no_args(jbool no_args, char *positive);
 
 #if defined(__cplusplus)
