@@ -30,10 +30,10 @@ int main(int argc, char **argv) {
     j_rstrip(' ', msg);
 
     printf("%s? [Y/N]: ", msg);
+    free(msg);
+
     fgets(input, sizeof(input), stdin);
     input[strcspn(input, "\n")] = 0;
-
-    free(msg);
 
     switch (input[0]) {
       case 'y':

@@ -15,8 +15,7 @@ CompileFlags:
       -Wall,
       -Wextra,
       -Wno-unused,
-      -pthread,
-      -std=gnu99,
+      -std=gnu17,
       -xc,
     ]
   CompilationDatabase: .
@@ -59,7 +58,7 @@ CompileFlags:
       -Wextra,
       -Wno-unused,
       -pthread,
-      -std=gnu99,
+      -std=gnu17,
       -xc-header,
     ]
   CompilationDatabase: .
