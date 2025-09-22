@@ -6,48 +6,53 @@
 #include <yn.h>
 
 char *get_no_args(jbool no_args, char *positive) {
-  return no_args ? "Confirm" : positive;
+  return (no_args || null_ptr(positive)) ? "Confirm" : positive;
+}
+
+void prompt(char *msg) {
+  j_rstrip(' ', msg);
+  j_rstrip('?', msg);
+  j_rstrip(' ', msg);
+  j_rstrip('.', msg);
+  j_rstrip(' ', msg);
+
+  printf("%s? [y/n]: ", msg);
 }
 
 int main(int argc, char **argv) {
   signal(SIGINT, sig_handler);
   signal(SIGTERM, sig_handler);
   signal(SIGABRT, sig_handler);
-
   argc--;
 
-  jbool no_args = (argc == 0) ? JTRUE : JFALSE;
+  char *c = get_no_args(((argc == 0) ? JTRUE : JFALSE), argv[1]);
+  char *msg = CALLOC(char, strlen(c) + 1);
+  stpcpy(msg, c);
 
-  while (JTRUE) {
-    char input[4];
-    char *msg = CALLOC(char, strlen(get_no_args(no_args, argv[1])) + 1);
-    stpcpy(msg, get_no_args(no_args, argv[1]));
+  char in;
+  prompt(msg);
+  while ((in = getchar())) {
+    if (in == '\n' || in == '\r') {
+      prompt(msg);
+      continue;
+    }
 
-    j_rstrip(' ', msg);
-    j_rstrip('?', msg);
-    j_rstrip(' ', msg);
-    j_rstrip('.', msg);
-    j_rstrip(' ', msg);
-
-    printf("%s? [Y/N]: ", msg);
-    free(msg);
-
-    fgets(input, sizeof(input), stdin);
-    input[strcspn(input, "\n")] = 0;
-
-    switch (input[0]) {
-      case 'y':
-      case 'Y':
-        return 0;
-
+    switch (in) {
       case 'n':
       case 'N':
+        free(msg);
         return 1;
+
+      case 'y':
+      case 'Y':
+        free(msg);
+        return 0;
 
       default:
         break;
     }
   }
 
+  free(msg);
   return 127;
 }

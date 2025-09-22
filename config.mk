@@ -26,7 +26,7 @@ CFLAGS = $(CPPFLAGS) \
 		 -march=native \
 		 -pipe \
 		 -std=gnu17 \
-		 -O2 \
+		 -Og \
 		 -g \
 		 -Wall \
 		 -Wextra \
@@ -39,7 +39,7 @@ CXXFLAGS = $(CPPFLAGS) \
 		   -std=c++17 \
 		   -march=native \
 		   -pipe \
-		   -O2 \
+		   -Og \
 		   -g \
 		   -Wall \
 		   -Wextra \
