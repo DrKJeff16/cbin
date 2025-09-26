@@ -15,29 +15,23 @@ void prompt(char *msg) {
   j_rstrip(' ', msg);
   j_rstrip('.', msg);
   j_rstrip(' ', msg);
-
   printf("%s? [Y/n]: ", msg);
 }
 
 int main(int argc, char **argv) {
+  argc--;
+
   signal(SIGINT, sig_handler);
   signal(SIGTERM, sig_handler);
   signal(SIGABRT, sig_handler);
-  argc--;
 
-  char *c = get_no_args(((argc == 0) ? JTRUE : JFALSE), argv[1]);
-  char *msg = CALLOC(char, strlen(c) + 1);
+  char *c = get_no_args(((argc == 0) ? JTRUE : JFALSE), argv[1]), *msg = CALLOC(char, strlen(c) + 1);
   stpcpy(msg, c);
 
-  char in;
-  jbool prev = JFALSE;
   prompt(msg);
+  jbool prev = JFALSE;
+  char in;
   while ((in = getchar())) {
-    if (in == '\r') {
-      prompt(msg);
-      continue;
-    }
-
     switch (in) {
       case 'n':
       case 'N':
@@ -49,15 +43,14 @@ int main(int argc, char **argv) {
         free(msg);
         return 0;
 
-      case 10:  /// Newline
-        {
-          if (!prev) {
-            free(msg);
-            return 0;
-          }
-          prompt(msg);
-          break;
+      case '\r':
+      case '\n':  /// Newline
+        if (!prev) {
+          free(msg);
+          return 0;
         }
+        prompt(msg);
+        break;
       default:
         prev = JTRUE;
         break;

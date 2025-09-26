@@ -17,7 +17,6 @@ void die(const int status, char *const msg) {
 void vdie(const int status, char *const fmt, ...) {
   if (!null_ptr(fmt)) {
     va_list argp;
-
     va_start(argp, fmt);
     vfprintf(output(status), fmt, argp);
     va_end(argp);
@@ -29,7 +28,6 @@ void vdie(const int status, char *const fmt, ...) {
 void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...) {
   if (!null_ptr(fmt)) {
     va_list argp;
-
     va_start(argp, fmt);
     vfprintf(output(status), fmt, argp);
     va_end(argp);

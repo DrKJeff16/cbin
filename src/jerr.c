@@ -7,19 +7,12 @@
 
 void j_err(char *const fmt, char *const msg) {
   char *format = CALLOC(char, 4);
-  strcpy(format, "%s\n");
+  stpcpy(format, "%s\n");
 
   if (!null_ptr(fmt)) {
     format = REALLOC(format, char, strlen(fmt) + 1);
-
-    char *cpy = strcpy(format, fmt);
-
-    if (null_ptr(cpy)) {
-      free(format);
-      return;
-    }
+    stpcpy(format, fmt);
   }
-
   if (!null_ptr(msg)) {
     fprintf(stderr, format, msg);
   } else {
@@ -35,7 +28,6 @@ void j_verr(char *const fmt, ...) {
   }
 
   va_list argp;
-
   va_start(argp, fmt);
   vfprintf(stderr, fmt, argp);
   va_end(argp);
@@ -43,22 +35,14 @@ void j_verr(char *const fmt, ...) {
 
 void j_errno_err(const int code, char *const fmt, char *const msg) {
   char *format = CALLOC(char, 4);
-  strcpy(format, "%s\n");
-
   int e_code = (code >= EPERM && code <= EHWPOISON) ? code : ENOMSG;
+
+  stpcpy(format, "%s\n");
   j_err(format, strerror(e_code));
 
   if (!null_ptr(fmt)) {
     format = REALLOC(format, char, strlen(fmt) + 1);
-
-    char *cpy = stpcpy(format, fmt);
-
-    if (null_ptr(cpy)) {
-      free(format);
-      return;
-    }
   }
-
   if (!null_ptr(msg)) {
     j_err(format, msg);
   }
@@ -69,13 +53,11 @@ void j_errno_err(const int code, char *const fmt, char *const msg) {
 void j_errno_verr(const int code, char *const fmt, ...) {
   int e_code = (code >= EPERM && code <= EHWPOISON) ? code : ENOMSG;
   j_err("%s\n", strerror(e_code));
-
   if (null_ptr(fmt)) {
     return;
   }
 
   va_list argp;
-
   va_start(argp, fmt);
   vfprintf(stderr, fmt, argp);
   va_end(argp);
@@ -84,7 +66,6 @@ void j_errno_verr(const int code, char *const fmt, ...) {
 void j_exec_verr(void (*fun)(void), char *const fmt, ...) {
   if (!null_ptr(fmt)) {
     va_list argp;
-
     va_start(argp, fmt);
     vfprintf(stderr, fmt, argp);
     va_end(argp);
