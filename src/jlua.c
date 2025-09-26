@@ -253,4 +253,4 @@ void op_buf_iprint(jlua_op_buf *const ptr, lua_State *L) {
   }
 }
 
-/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:

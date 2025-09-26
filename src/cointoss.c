@@ -115,4 +115,4 @@ int main(int argc, char **argv) {
   die(JFALSE, NULL);  /// Successful exit
 }
 
-/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:

@@ -116,4 +116,4 @@ typedef enum _point_flag {
 
 #endif /* !JTYPES_H */
 
-/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:

@@ -15,4 +15,4 @@ char *buffer_get(char *const msg, size_t *const buf_len);
 
 #endif /* !JINPUT_H */
 
-/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:

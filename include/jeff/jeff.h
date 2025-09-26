@@ -115,4 +115,4 @@ void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...);
 
 #endif /* !JEFF_H */
 
-/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:

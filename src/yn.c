@@ -16,7 +16,7 @@ void prompt(char *msg) {
   j_rstrip('.', msg);
   j_rstrip(' ', msg);
 
-  printf("%s? [y/n]: ", msg);
+  printf("%s? [Y/n]: ", msg);
 }
 
 int main(int argc, char **argv) {
@@ -30,9 +30,10 @@ int main(int argc, char **argv) {
   stpcpy(msg, c);
 
   char in;
+  jbool prev = JFALSE;
   prompt(msg);
   while ((in = getchar())) {
-    if (in == '\n' || in == '\r') {
+    if (in == '\r') {
       prompt(msg);
       continue;
     }
@@ -48,7 +49,17 @@ int main(int argc, char **argv) {
         free(msg);
         return 0;
 
+      case 10:  /// Newline
+        {
+          if (!prev) {
+            free(msg);
+            return 0;
+          }
+          prompt(msg);
+          break;
+        }
       default:
+        prev = JTRUE;
         break;
     }
   }

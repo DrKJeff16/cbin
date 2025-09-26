@@ -93,4 +93,4 @@ void j_exec_verr(void (*fun)(void), char *const fmt, ...) {
   fun();
 }
 
-/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:

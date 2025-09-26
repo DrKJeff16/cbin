@@ -15,4 +15,4 @@ char *get_no_args(jbool no_args, char *positive);
 
 #endif /* !YES_NO_H */
 
-/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:noci:nopi:
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:
