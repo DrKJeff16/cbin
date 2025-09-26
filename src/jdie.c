@@ -36,7 +36,6 @@ void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...) {
   }
 
   fun();
-
   exit(status);
 }
 
@@ -53,7 +52,6 @@ void j_errno_die(const int status, const int code, char *const msg) {
 
 void j_errno_vdie(const int status, const int code, char *const fmt, ...) {
   FILE *out = output(status);
-
   fprintf(out, "%s\n", strerror((code >= EPERM && code <= EHWPOISON) ? code : ENOMSG));
 
   if (!null_ptr(fmt)) {
@@ -66,4 +64,4 @@ void j_errno_vdie(const int status, const int code, char *const fmt, ...) {
   exit(status);
 }
 
-/// vim:ts=4:sts=4:sw=4:et:ai:si:sta:
+/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:
