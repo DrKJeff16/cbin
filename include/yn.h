@@ -7,7 +7,7 @@ extern "C" {
 
 #include <jeff/jeff.h>
 
-char *get_no_args(jbool no_args, char *positive);
+char *get_no_args(const jbool no_args, char *const positive);
 
 #if defined(__cplusplus)
 }
