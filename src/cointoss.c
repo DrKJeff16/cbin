@@ -43,15 +43,14 @@ void decide(const jbool x, coin_t *c) {
   }
 }
 
-jbool fd_toss(int fd) {
+jbool fd_toss(const int fd) {
   if (fd < 0) {
     j_errno_vdie(JTRUE, EBADFD, "(fd_toss): %s (fd: %d)\n", "File descriptor unavailable!", fd);
   }
-
   return fd_urand(fd, JFALSE, JTRUE) ? JTRUE : JFALSE;
 }
 
-void verdict(int fd, coin_t *const c, char **const coin) {
+void verdict(const int fd, coin_t *const c, char **const coin) {
   if (fd < 0) {
     j_errno_vdie(JTRUE, EBADFD, "(verdict): %s (fd: %d)\n", "File descriptor unavailable!", fd);
   }
@@ -62,9 +61,7 @@ void verdict(int fd, coin_t *const c, char **const coin) {
     j_errno_vdie(JTRUE, EFAULT, "(verdict): %s\n", "No available choices!");
   }
 
-  char *result = coin[(c->HEADS > c->TAILS) ? JTRUE : ((c->TAILS > c->HEADS) ? JFALSE : fd_toss(fd))];
-
-  printf("%s\n", result);
+  printf("%s\n", coin[(c->HEADS > c->TAILS) ? JTRUE : ((c->TAILS > c->HEADS) ? JFALSE : fd_toss(fd))]);
 }
 
 int main(int argc, char **argv) {
@@ -73,25 +70,20 @@ int main(int argc, char **argv) {
   if (check_jarg("-h", argv, argc)) {
     return 0;
   }
-
   if (argc != 2) {
     j_errno_vdie(127, ENOTSUP, "(cointoss): Need two arguments, no more, no less (got %d)!\n", argc);
   }
-
   int fd = open("/dev/urandom", O_RDONLY);
   if (fd < 0) {
     j_errno_vdie(127, ENOENT, "(cointoss): `/dev/urandom` is unavailable (fd: %d)!\n", fd);
   }
 
   coin_t *c = init_choices();
-
   char **coin = CALLOC(char *, 2);
 
   for (size_t i = 0; i <= JTRUE; i++) {
     coin[i] = CALLOC(char, strlen(argv[i + 1]) + 1);
-
     char *chr = stpcpy(coin[i], argv[i + 1]);
-
     if (null_ptr(chr)) {
       gc(coin, c);
       close(fd);
@@ -105,9 +97,7 @@ int main(int argc, char **argv) {
   }
 
   verdict(fd, c, coin);
-
   gc(coin, c);
-
   if ((close(fd)) != 0) {
     die(JTRUE, "File descriptor could not be closed correctly!\n");  /// Unsuccessful exit
   }

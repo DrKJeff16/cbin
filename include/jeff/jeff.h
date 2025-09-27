@@ -9,7 +9,6 @@ extern "C" {
 #include <jeff/jmemory.h>
 #include <jeff/jstring.h>
 
-#include <jeff/jautomata.h>
 #include <jeff/jinput.h>
 #include <jeff/jlog.h>
 #include <jeff/jlua.h>

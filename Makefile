@@ -38,9 +38,6 @@ $(OBJDIR)/jinput.o: $(SRCDIR)/jinput.c $(JEFF_H)
 $(OBJDIR)/jlog.o: $(SRCDIR)/jlog.c $(JEFF_H)
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jautomata.o: $(SRCDIR)/jautomata.c $(JEFF_H)
-	$(CC) -c $< $(JEFF_CFLAGS) -o $@
-
 $(OBJDIR)/jlua.o: $(SRCDIR)/jlua.c $(JEFF_H)
 	$(CC) -c $< $(JEFF_LUA_CFLAGS) -o $@
 
@@ -115,7 +112,6 @@ install_headers:
 	-@rm -rf $(GLOBAL_PREFIX)/include/jeff
 	-@mkdir -p $(GLOBAL_PREFIX)/include/jeff
 	install -m 644 $(JEFF_INCDIR)/jeff.h $(GLOBAL_PREFIX)/include/jeff/jeff.h
-	install -m 644 $(JEFF_INCDIR)/jautomata.h $(GLOBAL_PREFIX)/include/jeff/jautomata.h
 	install -m 644 $(JEFF_INCDIR)/jinput.h $(GLOBAL_PREFIX)/include/jeff/jinput.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h $(GLOBAL_PREFIX)/include/jeff/jlog.h
 	install -m 644 $(JEFF_INCDIR)/jlua.h $(GLOBAL_PREFIX)/include/jeff/jlua.h

@@ -58,7 +58,6 @@ PKG_CONFIG_BIN := pkgconf
 
 JEFF_INCDIR = $(INCDIR)/jeff
 JEFF_H = $(JEFF_INCDIR)/jeff.h \
-		 $(JEFF_INCDIR)/jautomata.h \
 		 $(JEFF_INCDIR)/jinput.h \
 		 $(JEFF_INCDIR)/jlog.h \
 		 $(JEFF_INCDIR)/jlua.h \
@@ -75,7 +74,6 @@ JEFF_OBJECTS = $(OBJDIR)/jstring.o \
 			   $(OBJDIR)/jrandom.o \
 			   $(OBJDIR)/jsignal.o \
 			   $(OBJDIR)/jinput.o \
-			   $(OBJDIR)/jautomata.o
 
 JEFF_LIBS = $(LIBDIR)/libjeff.so \
 			$(LIBDIR)/libjlua.so

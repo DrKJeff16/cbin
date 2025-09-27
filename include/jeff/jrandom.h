@@ -7,7 +7,7 @@ extern "C" {
 
 #include "jtypes.h"
 
-j_ullong fd_urand(int fd, const j_ullong min, const j_ullong max);
+j_ullong fd_urand(const int fd, const j_ullong min, const j_ullong max);
 
 #if defined(__cplusplus)
 }
