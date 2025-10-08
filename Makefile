@@ -85,6 +85,7 @@ jeff_lua_1: $(BINDIR)/jeff_lua_1
 
 yn: $(BINDIR)/yn
 
+
 strip/bin:
 	strip $(BINDIR)/*
 
@@ -109,8 +110,8 @@ install_local_bin_stripped: install_local_bin
 	strip $(HOME)/.bin/cbin/yn
 
 install_headers:
-	-@rm -rf $(GLOBAL_PREFIX)/include/jeff
-	-@mkdir -p $(GLOBAL_PREFIX)/include/jeff
+	rm -rf $(GLOBAL_PREFIX)/include/jeff
+	mkdir -p $(GLOBAL_PREFIX)/include/jeff
 	install -m 644 $(JEFF_INCDIR)/jeff.h $(GLOBAL_PREFIX)/include/jeff/jeff.h
 	install -m 644 $(JEFF_INCDIR)/jinput.h $(GLOBAL_PREFIX)/include/jeff/jinput.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h $(GLOBAL_PREFIX)/include/jeff/jlog.h
@@ -122,14 +123,14 @@ install_headers:
 	install -m 644 $(JEFF_INCDIR)/jtypes.h $(GLOBAL_PREFIX)/include/jeff/jtypes.h
 
 install_local_libs:
-	-@rm -rf $(LOCAL_PREFIX)/lib/jeff
-	-@mkdir -p $(LOCAL_PREFIX)/lib/jeff
+	rm -rf $(LOCAL_PREFIX)/lib/jeff
+	mkdir -p $(LOCAL_PREFIX)/lib/jeff
 	install -m 755 $(LIBDIR)/libjeff.so $(LOCAL_PREFIX)/lib/jeff/libjeff.so
 	install -m 755 $(LIBDIR)/libjlua.so $(LOCAL_PREFIX)/lib/jeff/libjlua.so
 
 install_libs:
-	-@rm -rf $(GLOBAL_PREFIX)/lib/jeff
-	-@mkdir -p $(GLOBAL_PREFIX)/lib/jeff
+	rm -rf $(GLOBAL_PREFIX)/lib/jeff
+	mkdir -p $(GLOBAL_PREFIX)/lib/jeff
 	install -m 755 $(LIBDIR)/libjeff.so $(GLOBAL_PREFIX)/lib/jeff/libjeff.so
 	install -m 755 $(LIBDIR)/libjlua.so $(GLOBAL_PREFIX)/lib/jeff/libjlua.so
 
