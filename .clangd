@@ -1,33 +1,14 @@
 If:
   PathMatch: .*\.c
-
 CompileFlags:
-  Add:
-    [
-      -D_GNU_SOURCE,
-      -I.,
-      -I../../include,
-      -I../include,
-      -I/usr/include/jeff,
-      -I/usr/include/luajit-2.1,
-      -I/usr/local/include,
-      -Iinclude,
-      -Wall,
-      -Wextra,
-      -Wno-unused,
-      -std=gnu17,
-      -xc,
-    ]
+  Add: [-D_GNU_SOURCE, -I., -I../../include, -I../include, -I/usr/include/jeff, -I/usr/include/luajit-2.1, -I/usr/local/include, -Iinclude, -Wall, -Wextra, -Wno-unused, -std=gnu17, -xc]
   CompilationDatabase: .
   Compiler: gcc
-
 Index:
   Background: Build
   StandardLibrary: true
-
 Completion:
   AllScopes: true
-
 InlayHints:
   BlockEnd: true
   Designators: true
@@ -35,42 +16,20 @@ InlayHints:
   ParameterNames: true
   DeducedTypes: true
   TypeNameLimit: 18
-
 Hover:
   ShowAKA: true
-
 ---
 If:
   PathMatch: .*\.h
-
 CompileFlags:
-  Add:
-    [
-      -D_GNU_SOURCE,
-      -I.,
-      -I../../include,
-      -I../include,
-      -I/usr/include/jeff,
-      -I/usr/include/luajit-2.1,
-      -I/usr/local/include,
-      -Iinclude,
-      -Wall,
-      -Wextra,
-      -Wno-unused,
-      -pthread,
-      -std=gnu17,
-      -xc-header,
-    ]
+  Add: [-D_GNU_SOURCE, -I., -I../../include, -I../include, -I/usr/include/jeff, -I/usr/include/luajit-2.1, -I/usr/local/include, -Iinclude, -Wall, -Wextra, -Wno-unused, -pthread, -std=gnu17, -xc-header]
   CompilationDatabase: .
   Compiler: gcc
-
 Index:
   Background: Build
   StandardLibrary: true
-
 Completion:
   AllScopes: true
-
 InlayHints:
   BlockEnd: true
   Designators: true
@@ -78,43 +37,20 @@ InlayHints:
   ParameterNames: true
   DeducedTypes: true
   TypeNameLimit: 18
-
 Hover:
   ShowAKA: true
-
 ---
 If:
   PathMatch: [.*\.cc, .*\.cpp, .*\.c\+\+, .*\.C, .*\.cxx]
-
 CompileFlags:
-  Add:
-    [
-      -D_GNU_SOURCE,
-      -D_GLIBCXX_ASSERTIONS,
-      -I.,
-      -I../../include,
-      -I../include,
-      -I/usr/include/jeff,
-      -I/usr/include/luajit-2.1,
-      -I/usr/local/include,
-      -Iinclude,
-      -Wall,
-      -Wextra,
-      -Wno-unused,
-      -pthread,
-      -std=gnu++17,
-      -xc++,
-    ]
+  Add: [-D_GNU_SOURCE, -D_GLIBCXX_ASSERTIONS, -I., -I../../include, -I../include, -I/usr/include/jeff, -I/usr/include/luajit-2.1, -I/usr/local/include, -Iinclude, -Wall, -Wextra, -Wno-unused, -pthread, -std=gnu++17, -xc++]
   CompilationDatabase: .
   Compiler: g++
-
 Index:
   Background: Build
   StandardLibrary: true
-
 Completion:
   AllScopes: true
-
 InlayHints:
   BlockEnd: true
   Designators: true
@@ -122,43 +58,20 @@ InlayHints:
   ParameterNames: true
   DeducedTypes: true
   TypeNameLimit: 18
-
 Hover:
   ShowAKA: true
-
 ---
 If:
   PathMatch: [.*\.hh, .*\.hpp, .*\.h\+\+, .*\.H, .*\.hxx]
-
 CompileFlags:
-  Add:
-    [
-      -D_GNU_SOURCE,
-      -D_GLIBCXX_ASSERTIONS,
-      -I.,
-      -I../../include,
-      -I../include,
-      -I/usr/include/jeff,
-      -I/usr/include/luajit-2.1,
-      -I/usr/local/include,
-      -Iinclude,
-      -Wall,
-      -Wextra,
-      -Wno-unused,
-      -pthread,
-      -std=gnu++17,
-      -xc++-header,
-    ]
+  Add: [-D_GNU_SOURCE, -D_GLIBCXX_ASSERTIONS, -I., -I../../include, -I../include, -I/usr/include/jeff, -I/usr/include/luajit-2.1, -I/usr/local/include, -Iinclude, -Wall, -Wextra, -Wno-unused, -pthread, -std=gnu++17, -xc++-header]
   CompilationDatabase: .
   Compiler: g++
-
 Index:
   Background: Build
   StandardLibrary: true
-
 Completion:
   AllScopes: true
-
 InlayHints:
   BlockEnd: true
   Designators: true
@@ -166,6 +79,5 @@ InlayHints:
   ParameterNames: true
   DeducedTypes: true
   TypeNameLimit: 18
-
 Hover:
   ShowAKA: true
