@@ -108,6 +108,8 @@ void j_errno_vdie(const int status, const int errno_val, char *const fmt, ...);
 /* ----------------------------------------------------------------------------*/
 void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...);
 
+static void usage(int code);
+
 #if defined(__cplusplus)
 }
 #endif /* __cplusplus */
