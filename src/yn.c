@@ -2,19 +2,44 @@
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
+#include <jeff/jeff.h>
 #include <yn.h>
 
 char *get_no_args(const jbool no_args, char *const positive) {
   return (no_args || null_ptr(positive)) ? "Confirm" : positive;
 }
 
-void prompt(char *msg) {
+jbool set_default(char *const arg) {
+  if (null_ptr(arg)) {
+    return JFALSE;
+  }
+
+  j_uint res;
+  switch (*arg) {
+    case 'n':
+    case 'N':
+    case '1':
+      res = JTRUE;
+      break;
+
+    case 'y':
+    case 'Y':
+    case '0':
+    default:
+      res = JFALSE;
+      break;
+  }
+
+  return res;
+}
+
+void prompt(char *msg, const jbool fallback) {
   j_rstrip(' ', msg);
   j_rstrip('?', msg);
   j_rstrip(' ', msg);
   j_rstrip('.', msg);
   j_rstrip(' ', msg);
-  printf("%s? [Y/n]: ", msg);
+  printf("%s? [%s]: ", (fallback == JFALSE) ? "Y/n" : "y/N", msg);
 }
 
 int main(int argc, char **argv) {
@@ -24,10 +49,11 @@ int main(int argc, char **argv) {
   signal(SIGABRT, sig_handler);
 
   char *c = get_no_args(((argc == 0) ? JTRUE : JFALSE), argv[1]);
+  jbool fallback = set_default((argc >= 2) ? argv[2] : NULL);
   char *msg = CALLOC(char, strlen(c) + 1);
   stpcpy(msg, c);
 
-  prompt(msg);
+  prompt(msg, fallback);
   jbool prev = JFALSE;
   char *in = MALLOC(char);
   *in = getchar();
@@ -50,9 +76,9 @@ int main(int argc, char **argv) {
         if (!prev) {
           free(msg);
           free(in);
-          return 0;
+          return fallback;
         }
-        prompt(msg);
+        prompt(msg, fallback);
         break;
 
       default:

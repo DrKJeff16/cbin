@@ -8,6 +8,8 @@ extern "C" {
 #include <jeff/jeff.h>
 
 char *get_no_args(const jbool no_args, char *const positive);
+jbool set_default(char *const arg);
+void prompt(char *msg, const jbool fallback);
 
 #if defined(__cplusplus)
 }
