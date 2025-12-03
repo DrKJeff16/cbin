@@ -51,7 +51,7 @@ void prompt(char *msg, const jbool fallback) {
   j_rstrip(' ', msg);
   j_rstrip('.', msg);
   j_rstrip(' ', msg);
-  printf("%s? [%s]: ", msg, (fallback == JFALSE) ? "Y/n" : "y/N");
+  printf("%s? [%s]: ", msg, (!fallback) ? "Y/n" : "y/N");
 }
 
 int main(int argc, char **argv) {
