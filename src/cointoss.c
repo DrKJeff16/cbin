@@ -12,9 +12,10 @@ static void usage(int code) {
 
   if (!code) {
     printf("%s\n", txt);
-  } else {
-    j_verr("%s\n", txt);
+    return;
   }
+
+  j_verr("%s\n", txt);
 }
 
 /* @brief Garbage collector

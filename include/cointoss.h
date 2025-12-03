@@ -5,7 +5,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <jeff/jeff.h>
+#include <jeff/jtypes.h>
 
 typedef struct _choices {
   j_ullong TAILS;
