@@ -58,15 +58,9 @@ $(OBJDIR)/jeff_lua_1.o: $(SRCDIR)/jeff_lua_1.c $(LUA_H)
 $(OBJDIR)/yn.o: $(SRCDIR)/yn.c $(INCDIR)/yn.h
 	$(CC) -c $< $(CFLAGS) -o $@
 
-$(OBJDIR)/jparse.o: $(SRCDIR)/jparse.cpp
-	$(CXX) -c $< $(CXXFLAGS) -o $@
-
 
 $(BINDIR)/cointoss: $(OBJDIR)/cointoss.o
 	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
-
-$(BINDIR)/jparse: $(OBJDIR)/jparse.o
-	$(CXX) $< $(CXXFLAGS) -o $@ $(LDFLAGS) $(LDXXFLAGS)
 
 $(BINDIR)/jeff_lua_1: $(OBJDIR)/jeff_lua_1.o
 	$(CC) $< $(LUA_CFLAGS) -o $@ $(LUA_LDFLAGS)
@@ -79,29 +73,28 @@ libs: $(LIBDIR) $(OBJDIR) $(BINDIR) $(JEFF_LIBS)
 
 cointoss: $(BINDIR)/cointoss
 
-jparse: $(BINDIR)/jparse
-
 jeff_lua_1: $(BINDIR)/jeff_lua_1
 
 yn: $(BINDIR)/yn
 
 
-strip/bin:
-	strip $(BINDIR)/*
+strip_bin:
+	@strip $(BINDIR)/*
 
-strip/libs:
-	strip $(LIBDIR)/*.so
+strip_libs:
+	@strip $(LIBDIR)/*.so
 
 install_bin:
-	-@mkdir -p $(GLOBAL_PREFIX)/bin
+	@mkdir -p $(GLOBAL_PREFIX)/bin
 	install -m 755 $(BINDIR)/cointoss $(GLOBAL_PREFIX)/bin/cointoss
 	install -m 755 $(BINDIR)/yn $(GLOBAL_PREFIX)/bin/yn
 
 install_bin_stripped: install_bin
-	strip $(GLOBAL_PREFIX)/bin/cointoss
-	strip $(GLOBAL_PREFIX)/bin/yn
+	@strip $(GLOBAL_PREFIX)/bin/cointoss
+	@strip $(GLOBAL_PREFIX)/bin/yn
 
 install_local_bin: cointoss yn
+	@mkdir -p $(HOME)/.bin/cbin
 	install -m 755 $(BINDIR)/cointoss $(HOME)/.bin/cbin/cointoss
 	install -m 755 $(BINDIR)/yn $(HOME)/.bin/cbin/yn
 
@@ -149,6 +142,7 @@ distclean: clean
 
 .PHONY: all \
 	clean \
+	cointoss \
 	distclean \
 	install_bin \
 	install_bin_stripped \
@@ -160,6 +154,7 @@ distclean: clean
 	install_local_libs \
 	install_local_libs_stripped \
 	libs \
-	strip/bin \
-	strip/libs \
+	strip_bin \
+	strip_libs \
+	yn \
 	$(ACTIONS)
