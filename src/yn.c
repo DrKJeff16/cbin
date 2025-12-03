@@ -5,8 +5,20 @@
 #include <jeff/jeff.h>
 #include <yn.h>
 
-char *get_no_args(const jbool no_args, char *const positive) {
-  return (no_args || null_ptr(positive)) ? "Confirm" : positive;
+char *get_no_args(char **const argv, const int argc) {
+  char *c = CALLOC(char, 9);
+  const char *fallback = "Confirm";
+  stpcpy(c, fallback);
+
+  for (size_t i = 1; i <= (size_t)argc; i++) {
+    if (*argv[i] != '-') {
+      c = REALLOC(c, char, strlen(argv[i]) + 1);
+      stpcpy(c, argv[i]);
+      return c;
+    }
+  }
+
+  return c;
 }
 
 jbool set_default(char *const arg) {
@@ -39,7 +51,7 @@ void prompt(char *msg, const jbool fallback) {
   j_rstrip(' ', msg);
   j_rstrip('.', msg);
   j_rstrip(' ', msg);
-  printf("%s? [%s]: ", (fallback == JFALSE) ? "Y/n" : "y/N", msg);
+  printf("%s? [%s]: ", msg, (fallback == JFALSE) ? "Y/n" : "y/N");
 }
 
 int main(int argc, char **argv) {
@@ -48,8 +60,8 @@ int main(int argc, char **argv) {
   signal(SIGTERM, sig_handler);
   signal(SIGABRT, sig_handler);
 
-  char *c = get_no_args(((argc == 0) ? JTRUE : JFALSE), argv[1]);
-  jbool fallback = set_default((argc >= 2) ? argv[2] : NULL);
+  jbool fallback = check_jarg("-N", argv, argc);
+  char *c = get_no_args(argv, argc);
   char *msg = CALLOC(char, strlen(c) + 1);
   stpcpy(msg, c);
 

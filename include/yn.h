@@ -7,7 +7,7 @@ extern "C" {
 
 #include <jeff/jeff.h>
 
-char *get_no_args(const jbool no_args, char *const positive);
+char *get_no_args(char **const argv, const int argc);
 jbool set_default(char *const arg);
 void prompt(char *msg, const jbool fallback);
 
