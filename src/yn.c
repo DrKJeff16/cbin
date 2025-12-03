@@ -7,7 +7,7 @@
 
 char *get_no_args(char **const argv, const int argc) {
   char *c = CALLOC(char, 9);
-  const char *fallback = "Confirm";
+  const char *fallback = "Confirm?";
   stpcpy(c, fallback);
 
   for (size_t i = 1; i <= (size_t)argc; i++) {
@@ -47,11 +47,7 @@ jbool set_default(char *const arg) {
 
 void prompt(char *msg, const jbool fallback) {
   j_rstrip(' ', msg);
-  j_rstrip('?', msg);
-  j_rstrip(' ', msg);
-  j_rstrip('.', msg);
-  j_rstrip(' ', msg);
-  printf("%s? [%s]: ", msg, (!fallback) ? "Y/n" : "y/N");
+  printf("%s [%s]: ", msg, (!fallback) ? "Y/n" : "y/N");
 }
 
 int main(int argc, char **argv) {
