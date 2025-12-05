@@ -4,6 +4,28 @@
 #include <jeff/jeff.h>
 #include <jeff/jstring.h>
 
+char *str_rep(const char *const s, const size_t n) {
+  if (null_ptr(s)) {
+    return NULL;
+  }
+
+  size_t i, count = 0;
+  while (s[count] != '\0') {
+    ++count;
+  }
+
+  char *new_arr = CALLOC(char, (count * n) + 1);
+  char *na = new_arr;
+  for (i = 0; i < n; ++i) {
+    const char *p = s;
+    while (*p) {
+      *na++ = *p++;
+    }
+  }
+  *na = '\0';
+  return new_arr;
+}
+
 jbool in_str(char *const str, const char *const c) {
   if (null_ptr(c)) {
     die(3, "NULL char array!\n");

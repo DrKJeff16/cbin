@@ -15,6 +15,11 @@ char **filter_argv(const j_ulong argc, char **argv);
 
 char *dedup_str(char *const str);
 
+/// Source - https://stackoverflow.com/a
+/// Posted by BLUEPIXY
+/// Retrieved 2025-12-05, License - CC BY-SA 3.0
+char *str_rep(const char *const s, const size_t n);
+
 jbool in_str(char *const str, const char *const c);
 jbool is_lower(char *const str);
 jbool is_upper(char *const str);

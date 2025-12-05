@@ -5,6 +5,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#include <stddef.h>
+
 typedef unsigned short int j_ushint;
 typedef unsigned short j_ushort;
 typedef unsigned char j_uchar;
