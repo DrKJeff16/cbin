@@ -2,6 +2,29 @@
 #include <stdlib.h>
 #include <string.h>
 #include <jeff/jeff.h>
+#include <jeff/jstring.h>
+
+jbool in_str(char *const str, const char *const c) {
+  if (null_ptr(c)) {
+    die(3, "NULL char array!\n");
+  }
+  if (null_ptr(str)) {
+    die(3, "NULL string!\n");
+  }
+
+  char *s = CALLOC(char, strlen(str) + 1);
+  stpcpy(s, str);
+
+  for (size_t i = 0; i <= strlen(s); i++) {
+    for (size_t j = 0; j < strlen(c); j++) {
+      if (s[i] == c[j]) {
+        return JTRUE;
+      }
+    }
+  }
+
+  return JFALSE;
+}
 
 /// I gave up, so tysm:
 /// https://www.quora.com/How-do-I-write-a-C-program-to-remove-duplicates-from-a-string
@@ -121,14 +144,13 @@ void upperize(char *str) {
   }
 }
 
-void capitalize(char *str, jbool *use_dot) {
+void capitalize(char *str) {
   if (null_ptr(str)) {
     j_verr("%s\n", "NULL string cannot be capitalized");
     return;
   }
 
   jbool space = JTRUE;
-
   char capital_d = 'a' - 'A';
 
   for (size_t i = 0; i < strlen(str) + 1; i++) {
@@ -238,7 +260,6 @@ jbool check_jarg(const char *arg, char **argv, const j_uint argc) {
     strcpy(s, argv[i]);
 
     res = (!strcmp(arg, s)) ? JTRUE : JFALSE;
-
     free(s);
 
     if (res) {
@@ -251,13 +272,13 @@ jbool check_jarg(const char *arg, char **argv, const j_uint argc) {
 
 void j_lstrip(const char c, char *str) {
   if (null_ptr(str)) {
-    die(4, "(lstrip): No str to strip!");
+    die(4, "(j_lstrip): No str to strip!");
   }
 
   size_t len = strlen(str), i = 0;
   size_t new_len = len;
 
-  if (c == '\0' || len == 0 || null_ptr(strchr(str, c))) {
+  if (c == '\0' || !len || null_ptr(strchr(str, c))) {
     return;
   }
 
@@ -278,26 +299,33 @@ void j_lstrip(const char c, char *str) {
 
   if (null_ptr(str)) {
     free(new_str);
-    die(2, "(lstrip): FAILED TO REALLOCATE str!");
+    die(2, "(j_lstrip): FAILED TO REALLOCATE str!");
   }
 
   if (null_ptr(stpcpy(str, new_str))) {
     free(new_str);
     free(str);
-
-    die(3, "(lstrip): FAILED TO COPY new_str INTO str!");
+    die(3, "(j_lstrip): FAILED TO COPY new_str INTO str!");
   }
 
   free(new_str);
 }
 
 void j_rstrip(const char c, char *str) {
+  if (null_ptr(str)) {
+    die(4, "(j_rstrip): No str to strip!");
+  }
+
   reverse_str(str);
   j_lstrip(c, str);
   reverse_str(str);
 }
 
 void j_strip(const char c, char *str) {
+  if (null_ptr(str)) {
+    die(4, "(j_strip): No str to strip!");
+  }
+
   j_lstrip(c, str);
   j_rstrip(c, str);
 }
