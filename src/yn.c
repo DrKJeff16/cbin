@@ -64,26 +64,28 @@ int main(int argc, char **argv) {
   prompt(msg, fallback);
   jbool prev = JFALSE;
   char *in = MALLOC(char);
+
+  void **garbage = CALLOC(void *, 2);
+  garbage[0] = (void *)msg;
+  garbage[1] = (void *)in;
+
   *in = getchar();
   do {
     switch (*in) {
       case 78:   /// 'N'
       case 110:  /// 'n'
-        free(msg);
-        free(in);
+        j_gc(garbage, 2);
         return 1;
 
       case 89:   /// 'Y'
       case 121:  /// 'y'
-        free(msg);
-        free(in);
+        j_gc(garbage, 2);
         return 0;
 
       case 10:  /// '\n'
       case 13:  /// '\r'
         if (!prev) {
-          free(msg);
-          free(in);
+          j_gc(garbage, 2);
           return fallback;
         }
         prompt(msg, fallback);
@@ -95,7 +97,6 @@ int main(int argc, char **argv) {
     }
   } while ((*in = getchar()));
 
-  free(in);
-  free(msg);
+  j_gc(garbage, 2);
   return 127;
 }

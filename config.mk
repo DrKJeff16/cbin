@@ -68,6 +68,7 @@ JEFF_H = $(JEFF_INCDIR)/jeff.h \
 		 $(JEFF_INCDIR)/jtypes.h
 
 JEFF_OBJECTS = $(OBJDIR)/jstring.o \
+			   $(OBJDIR)/jmemory.o \
 			   $(OBJDIR)/jdie.o \
 			   $(OBJDIR)/jerr.o \
 			   $(OBJDIR)/jlog.o \

@@ -23,6 +23,9 @@ $(OBJDIR)/jdie.o: $(SRCDIR)/jdie.c $(JEFF_H)
 $(OBJDIR)/jerr.o: $(SRCDIR)/jerr.c $(JEFF_H)
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
+$(OBJDIR)/jmemory.o: $(SRCDIR)/jmemory.c $(JEFF_H)
+	$(CC) -c $< $(JEFF_CFLAGS) -o $@
+
 $(OBJDIR)/jrandom.o: $(SRCDIR)/jrandom.c $(JEFF_H)
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 

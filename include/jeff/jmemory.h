@@ -1,6 +1,8 @@
 #if !defined(JMEMORY_H)
 #define JMEMORY_H 1
 
+#include <stddef.h>
+
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
@@ -20,6 +22,8 @@ extern "C" {
 #if !defined(REALLOC)
 #define REALLOC(ptr, type, n) (type *)realloc((void *)ptr, sizeof(type) * (n))
 #endif /* !REALLOC */
+
+void j_gc(void **garbage, const size_t n);
 
 #if defined(__cplusplus)
 }
