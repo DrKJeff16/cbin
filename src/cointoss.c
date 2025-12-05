@@ -22,11 +22,13 @@ static void usage(int code) {
  *
  */
 static void gc(char **coin, coin_t *c) {
-  free(c);
+  void **garbage = CALLOC(void *, 4);
+  garbage[0] = (void *)c;
+  garbage[1] = (void *)coin[JTRUE];
+  garbage[2] = (void *)coin[JFALSE];
+  garbage[3] = (void *)coin;
 
-  free(coin[JTRUE]);
-  free(coin[JFALSE]);
-  free(coin);
+  j_gc(garbage, 4);
 }
 
 coin_t *init_choices(void) {
