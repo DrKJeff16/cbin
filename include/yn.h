@@ -5,11 +5,10 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <jeff/jeff.h>
+#include <jeff/jtypes.h>
 
 char *get_no_args(char **const argv, const int argc);
-jbool set_default(char *const arg);
-void prompt(char *msg, const jbool fallback);
+void prompt(char *msg, const jbool negative);
 
 #if defined(__cplusplus)
 }

@@ -14,40 +14,16 @@ char *get_no_args(char **const argv, const int argc) {
     if (*argv[i] != '-') {
       c = REALLOC(c, char, strlen(argv[i]) + 1);
       stpcpy(c, argv[i]);
-      return c;
+      break;
     }
   }
 
   return c;
 }
 
-jbool set_default(char *const arg) {
-  if (null_ptr(arg)) {
-    return JFALSE;
-  }
-
-  j_uint res;
-  switch (*arg) {
-    case 'n':
-    case 'N':
-    case '1':
-      res = JTRUE;
-      break;
-
-    case 'y':
-    case 'Y':
-    case '0':
-    default:
-      res = JFALSE;
-      break;
-  }
-
-  return res;
-}
-
-void prompt(char *msg, const jbool fallback) {
+void prompt(char *msg, const jbool negative) {
   j_rstrip(' ', msg);
-  printf("%s [%s]: ", msg, (!fallback) ? "Y/n" : "y/N");
+  printf("%s [%s]: ", msg, (!negative) ? "Y/n" : "y/N");
 }
 
 int main(int argc, char **argv) {
@@ -56,12 +32,12 @@ int main(int argc, char **argv) {
   signal(SIGTERM, sig_handler);
   signal(SIGABRT, sig_handler);
 
-  jbool fallback = check_jarg("-N", argv, argc);
+  jbool negative = check_jarg("-N", argv, argc);
   char *c = get_no_args(argv, argc);
   char *msg = CALLOC(char, strlen(c) + 1);
   stpcpy(msg, c);
 
-  prompt(msg, fallback);
+  prompt(msg, negative);
   jbool prev = JFALSE;
   char *in = MALLOC(char);
 
@@ -86,9 +62,9 @@ int main(int argc, char **argv) {
       case 13:  /// '\r'
         if (!prev) {
           j_gc(garbage, 2);
-          return fallback;
+          return negative;
         }
-        prompt(msg, fallback);
+        prompt(msg, negative);
         break;
 
       default:

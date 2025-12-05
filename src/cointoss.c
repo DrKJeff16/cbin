@@ -9,7 +9,6 @@
 
 static void usage(int code) {
   char *txt = "cointoss <X> <Y> [-h]\n\n        -h                 print usage\n";
-
   if (!code) {
     printf("%s\n", txt);
     return;
@@ -40,7 +39,7 @@ coin_t *init_choices(void) {
   return c;
 }
 
-char **init_decisions(int fd, coin_t *c, char **argv) {
+char **init_decisions(const int fd, coin_t *c, char **argv) {
   char **decisions = CALLOC(char *, 2);
   for (size_t i = 0; i <= JTRUE; i++) {
     decisions[i] = CALLOC(char, strlen(argv[i + 1]) + 1);
@@ -104,8 +103,8 @@ int main(int argc, char **argv) {
     die(JFALSE, NULL);
   }
   if (argc != 2) {
-    usage(127);
-    die(127, NULL);
+    usage(1);
+    die(1, NULL);
   }
 
   int fd = open("/dev/urandom", O_RDONLY);

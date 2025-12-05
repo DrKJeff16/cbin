@@ -14,7 +14,7 @@ typedef struct _choices {
 
 jbool fd_toss(const int fd);
 coin_t *init_choices(void);
-char **init_decisions(int fd, coin_t *c, char **argv);
+char **init_decisions(const int fd, coin_t *c, char **argv);
 
 void decide(const jbool x, coin_t *c);
 void verdict(const int fd, coin_t *const c, char **const coin);
