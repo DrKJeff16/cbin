@@ -6,7 +6,7 @@
 #include <yn.h>
 
 static void usage(int code) {
-  vdie(code, "%s\n%s\n%s\n", "yn <X> [-N] [-h]\n", "        -h                 print usage",
+  vdie(code, "%s\n%s\n%s\n", "yn [-N] [-h] <X>\n", "        -h                 print usage",
        "        -N                 use negative result by default\n");
 }
 
@@ -75,6 +75,7 @@ int main(int argc, char **argv) {
           j_gc(garbage, 2);
           return negative;
         }
+        prev = JFALSE;
         prompt(msg, negative);
         break;
 

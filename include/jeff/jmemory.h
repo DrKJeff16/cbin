@@ -2,6 +2,7 @@
 #define JMEMORY_H 1
 
 #include <stddef.h>
+#include <stdlib.h>
 
 #if defined(__cplusplus)
 extern "C" {

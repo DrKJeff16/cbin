@@ -102,8 +102,11 @@ void str_append_nul(char *str) {
     j_verr("(str_append_nul): %s\n", "Unable to copy `new_str` back to `str`");
   }
 
-  free(new_str);
-  free(str_og);
+  void **garbage = CALLOC(void *, 2);
+  garbage[0] = (void *)new_str;
+  garbage[1] = str_og;
+
+  j_gc(garbage, 2);
 }
 
 jbool is_lower(char *const str) {
@@ -146,7 +149,9 @@ void lowerize(char *str) {
       str[i] += 32;
     }
 
-    free(c);
+    void **garbage = MALLOC(void *);
+    *garbage = (void *)c;
+    j_gc(garbage, 1);
   }
 }
 
@@ -162,7 +167,9 @@ void upperize(char *str) {
       str[i] -= 32;
     }
 
-    free(c);
+    void **garbage = MALLOC(void *);
+    *garbage = (void *)c;
+    j_gc(garbage, 1);
   }
 }
 
@@ -279,10 +286,13 @@ jbool check_jarg(const char *arg, char **argv, const j_uint argc) {
 
   for (j_ullong i = 1; i <= argc; i++) {
     char *s = CALLOC(char, strlen(argv[i]) + 1);
+    void **garbage = MALLOC(void *);
+    *garbage = (void *)s;
+
     strcpy(s, argv[i]);
 
     res = (!strcmp(arg, s)) ? JTRUE : JFALSE;
-    free(s);
+    j_gc(garbage, 1);
 
     if (res) {
       break;
@@ -310,6 +320,9 @@ void j_lstrip(const char c, char *str) {
   }
 
   char *new_str = CALLOC(char, new_len + 1);
+  void **garbage = CALLOC(void *, 2);
+  garbage[0] = new_str;
+  garbage[1] = str;
 
   for (i = 0; i <= new_len; i++) {
     new_str[i] = str[len - new_len + i];
@@ -320,17 +333,16 @@ void j_lstrip(const char c, char *str) {
   str = REALLOC(str, char, new_len + 1);
 
   if (null_ptr(str)) {
-    free(new_str);
+    j_gc(garbage, 1);
     die(2, "(j_lstrip): FAILED TO REALLOCATE str!");
   }
 
   if (null_ptr(stpcpy(str, new_str))) {
-    free(new_str);
-    free(str);
+    j_gc(garbage, 2);
     die(3, "(j_lstrip): FAILED TO COPY new_str INTO str!");
   }
 
-  free(new_str);
+  j_gc(garbage, 1);
 }
 
 void j_rstrip(const char c, char *str) {
