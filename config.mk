@@ -85,8 +85,6 @@ JEFF_CFLAGS = $(CFLAGS) \
 JEFF_LDFLAGS = -lc
 
 JEFF_ACTIONS = cointoss \
-			   jeff_lua_1 \
-			   jparse \
 			   yn
 
 JEFF_LUA_H = $(JEFF_INCDIR)/jlua.h

@@ -55,18 +55,12 @@ $(LIBDIR)/libjlua.so: $(OBJDIR)/jlua.o
 $(OBJDIR)/cointoss.o: $(SRCDIR)/cointoss.c $(INCDIR)/cointoss.h
 	$(CC) -c $< $(CFLAGS) -o $@
 
-$(OBJDIR)/jeff_lua_1.o: $(SRCDIR)/jeff_lua_1.c $(LUA_H)
-	$(CC) -c $< $(LUA_CFLAGS) -o $@
-
 $(OBJDIR)/yn.o: $(SRCDIR)/yn.c $(INCDIR)/yn.h
 	$(CC) -c $< $(CFLAGS) -o $@
 
 
 $(BINDIR)/cointoss: $(OBJDIR)/cointoss.o
 	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
-
-$(BINDIR)/jeff_lua_1: $(OBJDIR)/jeff_lua_1.o
-	$(CC) $< $(LUA_CFLAGS) -o $@ $(LUA_LDFLAGS)
 
 $(BINDIR)/yn: $(OBJDIR)/yn.o
 	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
@@ -75,8 +69,6 @@ libs: $(LIBDIR) $(OBJDIR) $(BINDIR) $(JEFF_LIBS)
 
 
 cointoss: $(BINDIR)/cointoss
-
-jeff_lua_1: $(BINDIR)/jeff_lua_1
 
 yn: $(BINDIR)/yn
 
