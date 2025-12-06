@@ -33,9 +33,16 @@ void prompt(char *msg, const jbool negative) {
 
 int main(int argc, char **argv) {
   argc--;
-  signal(SIGINT, sig_handler);
-  signal(SIGTERM, sig_handler);
-  signal(SIGABRT, sig_handler);
+
+  int *sigs = CALLOC(int, 6);
+  sigs[0] = SIGINT;
+  sigs[1] = SIGTERM;
+  sigs[2] = SIGABRT;
+  sigs[3] = SIGALRM;
+  sigs[4] = SIGHUP;
+  sigs[5] = SIGKILL;
+
+  sig_bootstrap(sigs, 6, sig_handler);
 
   if (check_jarg("-h", argv, argc)) {
     usage(0);
@@ -59,18 +66,18 @@ int main(int argc, char **argv) {
   *in = getchar();
   do {
     switch (*in) {
-      case 78:   /// 'N'
-      case 110:  /// 'n'
+      case 'N':
+      case 'n':
         j_gc(garbage, 2);
         return 1;
 
-      case 89:   /// 'Y'
-      case 121:  /// 'y'
+      case 'Y':
+      case 'y':
         j_gc(garbage, 2);
         return 0;
 
-      case 10:  /// '\n'
-      case 13:  /// '\r'
+      case '\n':
+      case '\r':
         if (!prev) {
           j_gc(garbage, 2);
           return negative;
