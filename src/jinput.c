@@ -1,4 +1,4 @@
-#include <errno.h>
+#include <asm-generic/errno.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>

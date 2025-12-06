@@ -1,4 +1,4 @@
-#include <errno.h>
+#include <asm-generic/errno.h>
 #include <unistd.h>
 #include <jeff/jeff.h>
 
