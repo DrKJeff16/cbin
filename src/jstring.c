@@ -27,11 +27,8 @@ char *str_rep(const char *const s, const size_t n) {
 }
 
 jbool in_str(char *const str, const char *const c) {
-  if (null_ptr(c)) {
-    die(3, "NULL char array!\n");
-  }
-  if (null_ptr(str)) {
-    die(3, "NULL string!\n");
+  if (null_ptr(c) || null_ptr(str)) {
+    die(3, (null_ptr(c)) ? "NULL char array!\n" : ((null_ptr(str) ? "NULL string!\n" : NULL)));
   }
 
   char *s = CALLOC(char, strlen(str) + 1);
