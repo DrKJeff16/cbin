@@ -5,6 +5,11 @@
 #include <jeff/jeff.h>
 #include <yn.h>
 
+static void usage(int code) {
+  vdie(code, "%s\n%s\n%s\n", "yn <X> [-N] [-h]\n", "        -h                 print usage",
+       "        -N                 use negative result by default\n");
+}
+
 char *get_no_args(char **const argv, const int argc) {
   char *c = CALLOC(char, 9);
   const char *fallback = "Confirm?";
@@ -32,7 +37,12 @@ int main(int argc, char **argv) {
   signal(SIGTERM, sig_handler);
   signal(SIGABRT, sig_handler);
 
+  if (check_jarg("-h", argv, argc)) {
+    usage(0);
+  }
+
   jbool negative = check_jarg("-N", argv, argc);
+
   char *c = get_no_args(argv, argc);
   char *msg = CALLOC(char, strlen(c) + 1);
   stpcpy(msg, c);
@@ -41,9 +51,10 @@ int main(int argc, char **argv) {
   jbool prev = JFALSE;
   char *in = MALLOC(char);
 
-  void **garbage = CALLOC(void *, 2);
+  void **garbage = CALLOC(void *, 3);
   garbage[0] = (void *)msg;
   garbage[1] = (void *)in;
+  garbage[2] = (void *)c;
 
   *in = getchar();
   do {
