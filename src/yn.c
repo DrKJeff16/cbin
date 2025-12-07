@@ -1,8 +1,8 @@
+#include <jeff/jeff.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <signal.h>
-#include <jeff/jeff.h>
 #include <yn.h>
 
 static void usage(int code) {
@@ -59,9 +59,9 @@ int main(int argc, char **argv) {
   char *in = MALLOC(char);
 
   void **garbage = CALLOC(void *, 3);
-  garbage[0] = (void *)msg;
-  garbage[1] = (void *)in;
-  garbage[2] = (void *)c;
+  garbage[0] = VOID_PTR(msg);
+  garbage[1] = VOID_PTR(in);
+  garbage[2] = VOID_PTR(c);
 
   *in = getchar();
   do {

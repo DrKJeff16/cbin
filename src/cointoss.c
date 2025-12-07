@@ -1,11 +1,11 @@
-#include <fcntl.h>
-#include <unistd.h>
 #include <asm-generic/errno.h>
+#include <cointoss.h>
+#include <fcntl.h>
+#include <jeff/jeff.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <jeff/jeff.h>
-#include <cointoss.h>
+#include <unistd.h>
 
 static void usage(int code) {
   char *txt = "cointoss <X> <Y> [-h]\n\n        -h                 print usage\n";
@@ -22,10 +22,10 @@ static void usage(int code) {
  */
 static void gc(char **coin, coin_t *c) {
   void **garbage = CALLOC(void *, 4);
-  garbage[0] = (void *)c;
-  garbage[1] = (void *)coin[JTRUE];
-  garbage[2] = (void *)coin[JFALSE];
-  garbage[3] = (void *)coin;
+  garbage[0] = VOID_PTR(c);
+  garbage[1] = VOID_PTR(coin[JTRUE]);
+  garbage[2] = VOID_PTR(coin[JFALSE]);
+  garbage[3] = VOID_PTR(coin);
 
   j_gc(garbage, 4);
 }

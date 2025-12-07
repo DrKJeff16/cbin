@@ -24,6 +24,10 @@ extern "C" {
 #define REALLOC(ptr, type, n) (type *)realloc((void *)ptr, sizeof(type) * (n))
 #endif /* !REALLOC */
 
+#if !defined(VOID_PTR)
+#define VOID_PTR(ptr) (void *)ptr
+#endif /* !VOID_PTR */
+
 void j_gc(void **garbage, const size_t n);
 
 #if defined(__cplusplus)

@@ -1,8 +1,8 @@
+#include <jeff/jeff.h>
+#include <jeff/jstring.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <jeff/jeff.h>
-#include <jeff/jstring.h>
 
 char *str_rep(const char *const s, const size_t n) {
   if (null_ptr(s)) {
@@ -100,8 +100,8 @@ void str_append_nul(char *str) {
   }
 
   void **garbage = CALLOC(void *, 2);
-  garbage[0] = (void *)new_str;
-  garbage[1] = str_og;
+  garbage[0] = VOID_PTR(new_str);
+  garbage[1] = VOID_PTR(str_og);
 
   j_gc(garbage, 2);
 }
@@ -147,7 +147,7 @@ void lowerize(char *str) {
     }
 
     void **garbage = MALLOC(void *);
-    *garbage = (void *)c;
+    *garbage = VOID_PTR(c);
     j_gc(garbage, 1);
   }
 }
@@ -165,7 +165,7 @@ void upperize(char *str) {
     }
 
     void **garbage = MALLOC(void *);
-    *garbage = (void *)c;
+    *garbage = VOID_PTR(c);
     j_gc(garbage, 1);
   }
 }
@@ -284,7 +284,7 @@ jbool check_jarg(const char *arg, char **argv, const j_uint argc) {
   for (j_ullong i = 1; i <= argc; i++) {
     char *s = CALLOC(char, strlen(argv[i]) + 1);
     void **garbage = MALLOC(void *);
-    *garbage = (void *)s;
+    *garbage = VOID_PTR(s);
 
     strcpy(s, argv[i]);
 
@@ -318,8 +318,8 @@ void j_lstrip(const char c, char *str) {
 
   char *new_str = CALLOC(char, new_len + 1);
   void **garbage = CALLOC(void *, 2);
-  garbage[0] = new_str;
-  garbage[1] = str;
+  garbage[0] = VOID_PTR(new_str);
+  garbage[1] = VOID_PTR(str);
 
   for (i = 0; i <= new_len; i++) {
     new_str[i] = str[len - new_len + i];

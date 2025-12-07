@@ -1,13 +1,13 @@
 #include <asm-generic/errno.h>
+#include <jeff/jeff.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
-#include <jeff/jeff.h>
 
 void j_err(char *const fmt, char *const msg) {
   char *format = CALLOC(char, 4);
   void **garbage = MALLOC(void *);
-  *garbage = format;
+  *garbage = VOID_PTR(format);
 
   stpcpy(format, "%s\n");
 
@@ -38,7 +38,7 @@ void j_verr(char *const fmt, ...) {
 void j_errno_err(const int code, char *const fmt, char *const msg) {
   char *format = CALLOC(char, 4);
   void **garbage = MALLOC(void *);
-  *garbage = format;
+  *garbage = VOID_PTR(format);
 
   int e_code = (code >= EPERM && code <= EHWPOISON) ? code : ENOMSG;
 
