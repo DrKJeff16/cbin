@@ -4,6 +4,21 @@
 #include <stdlib.h>
 #include <string.h>
 
+jbool str_startswith(char *const str, char *const start) {
+  if (null_ptr(str) || null_ptr(start) || strlen(str) >= strlen(start)) {
+    return JFALSE;
+  }
+
+  size_t start_len = strlen(start);
+  for (size_t i = 0; i <= start_len; i++) {
+    if (str[i] != start[i]) {
+      return JFALSE;
+    }
+  }
+
+  return JTRUE;
+}
+
 char *str_rep(const char *const s, const size_t n) {
   if (null_ptr(s)) {
     return NULL;

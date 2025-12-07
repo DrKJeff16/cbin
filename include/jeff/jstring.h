@@ -7,6 +7,8 @@ extern "C" {
 
 #include "jtypes.h"
 
+jbool str_startswith(char *const str, char *const start);
+
 void reverse_str(char *str);
 char *str_reversed(char *const str);
 void str_append_nul(char *str);
