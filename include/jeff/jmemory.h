@@ -1,12 +1,12 @@
 #if !defined(JMEMORY_H)
 #define JMEMORY_H 1
 
-#include <stddef.h>
-#include <stdlib.h>
-
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
+
+#include <stddef.h>
+#include <stdlib.h>
 
 #if !defined(MALLOC)
 #define MALLOC(type) (type *)malloc(sizeof(type))

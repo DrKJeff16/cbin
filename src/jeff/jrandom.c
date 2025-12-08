@@ -1,11 +1,26 @@
 #include <asm-generic/errno.h>
-#include <unistd.h>
 #include <jeff/jeff.h>
+#include <jeff/jrandom.h>
+#include <time.h>
+#include <unistd.h>
 
-j_ullong fd_urand(const int fd, const j_ullong min, const j_ullong max) {
+void j_seed(const jbool *const force) {
+  if (seeded && (null_ptr(force) || !(*force))) {
+    return;
+  }
+
+  srand(time(NULL));
+  seeded = JTRUE;
+}
+
+j_ullong fd_urand(const int fd, j_ullong min, j_ullong max) {
   if (fd < 0) {
     j_errno_verr(EBADF, "(fd_urand): %s (fd: %d)\n", "File descriptor inaccessible", fd);
     return 0;
+  }
+
+  if (min > max) {
+    J_SWAP(min, max);
   }
 
   j_ullong result = 0;

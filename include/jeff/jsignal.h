@@ -1,11 +1,11 @@
 #if !defined(JSIGNAL_H)
 #define JSIGNAL_H 1
 
-#include <stddef.h>
-
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
+
+#include <stddef.h>
 
 void sig_handler(const int sig);
 void sig_bootstrap(int *const sigs, const size_t n, void (*fun)(const int));

@@ -7,12 +7,14 @@ extern "C" {
 
 #include <stddef.h>
 
-typedef unsigned short int j_ushint;
-typedef unsigned short j_ushort;
-typedef unsigned char j_uchar;
-typedef unsigned int j_uint;
-typedef unsigned long j_ulong;
-typedef unsigned long long j_ullong;
+#define j_ushint unsigned short int
+#define j_ushort unsigned short
+#define j_uchar unsigned char
+#define j_uint unsigned int
+#define j_ulong unsigned long
+#define j_ullong unsigned long long
+#define j_shint short int
+#define j_llong long long
 
 typedef struct _char_ptrs {
   const char *s1;

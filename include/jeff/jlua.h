@@ -6,6 +6,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <lua.h>
+
 #include "jtypes.h"
 
 lua_State *init_lua_state(void);
