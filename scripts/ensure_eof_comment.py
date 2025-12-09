@@ -85,7 +85,8 @@ def ends_with(file: str, targets: Tuple[str]) -> bool:
 def bootstrap_paths() -> Tuple[str]:
     """Bootstraps all the matching paths in current dir and below."""
     result = list()
-    targets = (".c", ".h", ".hpp", ".h++", ".hh", ".H", ".cc", ".cpp", ".c++", ".C")
+    targets = (".c", ".h", ".hpp", ".h++", ".hh",
+               ".H", ".cc", ".cpp", ".c++", ".C")
     for target in ("./src", "./include"):
         for root, dirs, files in walk(target):
             for file in files:
@@ -124,10 +125,15 @@ def eof_comment_search(
 ) -> Dict[str, List[Union[TextIOWrapper, bool]]]:
     """Searches through opened files."""
     result = dict()
+    exclude = (
+        COMMENT[1:],
+        "".join(COMMENT.split(" ")),
+        "//" + "".join(COMMENT.split(" "))
+    )
     for path, file in files.items():
         last_line = get_last_line(file)
         if last_line not in (COMMENT,):
-            if last_line in ("-" + COMMENT, COMMENT.split(" "), "-" + "".join(COMMENT.split(" "))):
+            if last_line in exclude:
                 pair = [open(path, "r"), True]
             else:
                 pair = [open(path, "a"), False]
