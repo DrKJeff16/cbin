@@ -51,6 +51,3 @@ compile_commands.json
 *.patch
 
 *.lock
-
-# Custom script files
-/scripts/
