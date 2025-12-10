@@ -133,12 +133,8 @@ def eof_comment_search(
     for path, file in files.items():
         last_line = get_last_line(file)
         if last_line not in (COMMENT,):
-            if last_line in exclude:
-                pair = [open(path, "r"), True]
-            else:
-                pair = [open(path, "a"), False]
-
-            result[path] = pair
+            result[path] = [open(path, "r"), True] if last_line in exclude else [
+                open(path, "a"), False]
 
     return result
 

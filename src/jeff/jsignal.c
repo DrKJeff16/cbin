@@ -1,9 +1,9 @@
-#include <signal.h>
-#include <stddef.h>
 #include <jeff/jeff.h>
 #include <jeff/jsignal.h>
+#include <signal.h>
+#include <stddef.h>
 
-void sig_bootstrap(int *const sigs, const size_t n, void (*fun)(const int)) {
+void sig_bootstrap(int *sigs, const size_t n, void (*fun)(const int)) {
   if (null_ptr(sigs) || !n) {
     return;
   }
