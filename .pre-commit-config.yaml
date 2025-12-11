@@ -13,3 +13,11 @@ repos:
     hooks:
       - id: clang-format
         verbose: true
+  - repo: local
+    hooks:
+      - id: check_eof
+        name: Run EOF Comments Check
+        language: system
+        entry: make ensure_eof
+        types: [lua]
+        verbose: true

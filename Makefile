@@ -135,11 +135,15 @@ clean:
 distclean: clean
 	rm -rf $(BINDIR)/* $(LIBDIR)/* compile_commands.json
 
+ensure-eof:
+	@python3 ./scripts/ensure_eof_comment.py -e c,cpp src include
+
 
 .PHONY: all \
 	clean \
 	cointoss \
 	distclean \
+	ensure-eof \
 	install_bin \
 	install_bin_stripped \
 	install_headers \
