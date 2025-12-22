@@ -10,12 +10,12 @@ static void usage(int code) {
        "        -N                 use negative result by default\n");
 }
 
-char *get_no_args(char **const argv, const int argc) {
+char *get_no_args(char **const argv, const size_t argc) {
   char *c = CALLOC(char, 9);
   const char *fallback = "Confirm?";
   stpcpy(c, fallback);
 
-  for (size_t i = 1; i <= (size_t)argc; i++) {
+  for (size_t i = 1; i <= argc; i++) {
     if (*argv[i] != '-') {
       c = REALLOC(c, char, strlen(argv[i]) + 1);
       stpcpy(c, argv[i]);
@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
 
   jbool negative = check_jarg("-N", argv, argc);
 
-  char *c = get_no_args(argv, argc);
+  char *c = get_no_args(argv, (size_t)argc);
   char *msg = CALLOC(char, strlen(c) + 1);
   stpcpy(msg, c);
 

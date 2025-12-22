@@ -8,13 +8,8 @@
 #include <unistd.h>
 
 static void usage(int code) {
-  char *txt = "cointoss <X> <Y> [-h]\n\n        -h                 print usage\n";
-  if (!code) {
-    printf("%s\n", txt);
-    return;
-  }
-
-  j_verr("%s\n", txt);
+  char *txt = "cointoss <X> <Y> [-h]\n\n        -h                 print usage";
+  vdie(code, "%s\n", txt);
 }
 
 /* @brief Garbage collector
@@ -100,11 +95,9 @@ int main(int argc, char **argv) {
 
   if (check_jarg("-h", argv, argc)) {
     usage(JFALSE);
-    die(JFALSE, NULL);
   }
-  if (argc != 2) {
+  if (argc < 2) {
     usage(1);
-    die(1, NULL);
   }
 
   int fd = open("/dev/urandom", O_RDONLY);

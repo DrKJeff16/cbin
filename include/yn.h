@@ -7,7 +7,7 @@ extern "C" {
 
 #include <jeff/jtypes.h>
 
-char *get_no_args(char **const argv, const int argc);
+char *get_no_args(char **const argv, const size_t argc);
 void prompt(char *msg, const jbool negative);
 
 #if defined(__cplusplus)
