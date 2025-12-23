@@ -95,4 +95,5 @@ int main(int argc, char **argv) {
   j_gc(garbage, 2);
   return 127;
 }
-/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:
+
+/* vim: set ts=2 sts=2 sw=2 et ai si sta: */

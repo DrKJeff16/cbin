@@ -79,4 +79,4 @@ void j_exec_verr(void (*fun)(void), char *const fmt, ...) {
   fun();
 }
 
-/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:
+/* vim: set ts=2 sts=2 sw=2 et ai si sta: */

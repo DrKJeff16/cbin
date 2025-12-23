@@ -57,6 +57,8 @@ PKG_CONFIG_BIN := pkgconf
 
 JEFF_INCDIR = $(INCDIR)/jeff
 JEFF_H = $(JEFF_INCDIR)/jeff.h \
+JEFF_H = $(JEFF_INCDIR)/jasync.h \
+JEFF_H = $(JEFF_INCDIR)/jasync-sem.h \
 		 $(JEFF_INCDIR)/jinput.h \
 		 $(JEFF_INCDIR)/jlog.h \
 		 $(JEFF_INCDIR)/jmemory.h \
@@ -67,6 +69,7 @@ JEFF_H = $(JEFF_INCDIR)/jeff.h \
 
 JEFF_OBJECTS = $(OBJDIR)/jstring.o \
 			   $(OBJDIR)/jmemory.o \
+			   $(OBJDIR)/jasync.o \
 			   $(OBJDIR)/jdie.o \
 			   $(OBJDIR)/jerr.o \
 			   $(OBJDIR)/jlog.o \

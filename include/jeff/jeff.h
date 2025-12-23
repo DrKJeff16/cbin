@@ -5,9 +5,10 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#include <jeff/jasync-sem.h>
+#include <jeff/jasync.h>
 #include <jeff/jinput.h>
 #include <jeff/jlog.h>
-#include <jeff/jlua.h>
 #include <jeff/jmemory.h>
 #include <jeff/jrandom.h>
 #include <jeff/jsignal.h>
@@ -116,4 +117,4 @@ static void usage(int code);
 
 #endif /* !JEFF_H */
 
-/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:
+/* vim: set ts=2 sts=2 sw=2 et ai si sta: */

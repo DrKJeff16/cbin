@@ -17,28 +17,31 @@ $(OBJDIR):
 	@mkdir -p $@
 
 
-$(OBJDIR)/jdie.o: $(SRCDIR)/jeff/jdie.c $(JEFF_H)
+$(OBJDIR)/jdie.o: $(SRCDIR)/jeff/jdie.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jerr.o: $(SRCDIR)/jeff/jerr.c $(JEFF_H)
+$(OBJDIR)/jerr.o: $(SRCDIR)/jeff/jerr.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jmemory.o: $(SRCDIR)/jeff/jmemory.c $(JEFF_H)
+$(OBJDIR)/jasync.o: $(SRCDIR)/jeff/jasync.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jrandom.o: $(SRCDIR)/jeff/jrandom.c $(JEFF_H)
+$(OBJDIR)/jmemory.o: $(SRCDIR)/jeff/jmemory.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jstring.o: $(SRCDIR)/jeff/jstring.c $(JEFF_H)
+$(OBJDIR)/jrandom.o: $(SRCDIR)/jeff/jrandom.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jsignal.o: $(SRCDIR)/jeff/jsignal.c $(JEFF_H)
+$(OBJDIR)/jstring.o: $(SRCDIR)/jeff/jstring.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jinput.o: $(SRCDIR)/jeff/jinput.c $(JEFF_H)
+$(OBJDIR)/jsignal.o: $(SRCDIR)/jeff/jsignal.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jlog.o: $(SRCDIR)/jeff/jlog.c $(JEFF_H)
+$(OBJDIR)/jinput.o: $(SRCDIR)/jeff/jinput.c
+	$(CC) -c $< $(JEFF_CFLAGS) -o $@
+
+$(OBJDIR)/jlog.o: $(SRCDIR)/jeff/jlog.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
 

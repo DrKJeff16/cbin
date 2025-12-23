@@ -16,4 +16,4 @@ void sig_bootstrap(int *sigs, const size_t n, void (*fun)(const int));
 
 #endif /* !JSIGNAL_H */
 
-/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:
+/* vim: set ts=2 sts=2 sw=2 et ai si sta: */

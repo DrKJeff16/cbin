@@ -1,8 +1,8 @@
 #include <asm-generic/errno.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <jeff/jeff.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 char *buffer_get(char *const msg, size_t *const buf_len) {
   size_t len = 0;
@@ -51,4 +51,4 @@ char *buffer_get(char *const msg, size_t *const buf_len) {
   return res;
 }
 
-/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:
+/* vim: set ts=2 sts=2 sw=2 et ai si sta: */

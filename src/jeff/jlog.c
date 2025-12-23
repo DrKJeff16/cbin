@@ -1,10 +1,10 @@
 #include <asm-generic/errno.h>
 #include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdarg.h>
-#include <string.h>
 #include <jeff/jeff.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
 
 int fdlog(int fd, char *const msg) {
   if (fd < 0) {
@@ -80,4 +80,4 @@ int log_to_file(char *const path, char *const msg, const jbool need_fd) {
   return 0;
 }
 
-/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:
+/* vim: set ts=2 sts=2 sw=2 et ai si sta: */

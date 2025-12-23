@@ -1,9 +1,9 @@
 #include <asm-generic/errno.h>
-#include <string.h>
+#include <jeff/jeff.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <jeff/jeff.h>
+#include <string.h>
 
 /// Kill program ekecution with optional output message
 void die(const int status, char *const msg) {
@@ -62,4 +62,4 @@ void j_errno_vdie(const int status, const int code, char *const fmt, ...) {
   exit(status);
 }
 
-/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:
+/* vim: set ts=2 sts=2 sw=2 et ai si sta: */

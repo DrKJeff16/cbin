@@ -33,4 +33,4 @@ j_ullong fd_urand(const int fd, j_ullong min, j_ullong max) {
   return result % (max - min + 1) + min;
 }
 
-/// vim:ts=2:sts=2:sw=2:et:ai:si:sta:
+/* vim: set ts=2 sts=2 sw=2 et ai si sta: */
