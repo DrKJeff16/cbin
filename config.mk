@@ -26,7 +26,7 @@ CFLAGS = $(CPPFLAGS) \
 		 -march=native \
 		 -pipe \
 		 -std=gnu17 \
-		 -Og \
+		 -O2 \
 		 -g \
 		 -Wall \
 		 -Wextra \
@@ -34,12 +34,11 @@ CFLAGS = $(CPPFLAGS) \
 		 -pedantic
 
 CXXFLAGS = $(CPPFLAGS) \
-		   -I$(GLOBAL_PREFIX)/include/docopt \
 		   -D_GLIBCXX_ASSERTIONS \
 		   -std=c++17 \
 		   -march=native \
 		   -pipe \
-		   -Og \
+		   -O2 \
 		   -g \
 		   -Wall \
 		   -Wextra \
