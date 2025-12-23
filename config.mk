@@ -59,7 +59,6 @@ JEFF_INCDIR = $(INCDIR)/jeff
 JEFF_H = $(JEFF_INCDIR)/jeff.h \
 		 $(JEFF_INCDIR)/jinput.h \
 		 $(JEFF_INCDIR)/jlog.h \
-		 $(JEFF_INCDIR)/jlua.h \
 		 $(JEFF_INCDIR)/jmemory.h \
 		 $(JEFF_INCDIR)/jrandom.h \
 		 $(JEFF_INCDIR)/jsignal.h \
@@ -75,8 +74,7 @@ JEFF_OBJECTS = $(OBJDIR)/jstring.o \
 			   $(OBJDIR)/jsignal.o \
 			   $(OBJDIR)/jinput.o \
 
-JEFF_LIBS = $(LIBDIR)/libjeff.so \
-			$(LIBDIR)/libjlua.so
+JEFF_LIBS = $(LIBDIR)/libjeff.so
 
 JEFF_CFLAGS = $(CFLAGS) \
 			  -fPIC
@@ -85,30 +83,5 @@ JEFF_LDFLAGS = -lc
 
 JEFF_ACTIONS = cointoss \
 			   yn
-
-JEFF_LUA_H = $(JEFF_INCDIR)/jlua.h
-JEFF_LUA_CFLAGS = $(JEFF_CFLAGS) \
-				  -I$(GLOBAL_PREFIX)/include/luajit-2.1
-
-JEFF_LUA_LDFLAGS = $(JEFF_LDFLAGS) \
-				   -L$(GLOBAL_PREFIX)/lib/jeff \
-				   -Llib \
-				   -L. \
-				   -ljeff \
-				   -llua \
-				   -lluajit-5.1
-
-LUA_H = $(JEFF_INCDIR)/jlua.h
-
-LUA_CFLAGS = -I$(GLOBAL_PREFIX)/include/luajit-2.1 \
-			 -I$(GLOBAL_PREFIX)/include/jeff
-
-LUA_LDFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
-			  -Llib \
-			  -L. \
-			  -ljeff \
-			  -ljlua \
-			  -llua \
-			  -lluajit-5.1
 
 ACTIONS = $(JEFF_ACTIONS)

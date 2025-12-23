@@ -41,15 +41,9 @@ $(OBJDIR)/jinput.o: $(SRCDIR)/jeff/jinput.c $(JEFF_H)
 $(OBJDIR)/jlog.o: $(SRCDIR)/jeff/jlog.c $(JEFF_H)
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jlua.o: $(SRCDIR)/jeff/jlua.c $(JEFF_H)
-	$(CC) -c $< $(JEFF_LUA_CFLAGS) -o $@
-
 
 $(LIBDIR)/libjeff.so: $(JEFF_OBJECTS)
 	$(CC) $(JEFF_OBJECTS) $(JEFF_CFLAGS) -shared -o $@ $(JEFF_LDFLAGS)
-
-$(LIBDIR)/libjlua.so: $(OBJDIR)/jlua.o
-	$(CC) $< $(JEFF_LUA_CFLAGS) -shared -o $@ $(JEFF_LUA_LDFLAGS)
 
 
 $(OBJDIR)/cointoss.o: $(SRCDIR)/cointoss.c $(INCDIR)/cointoss.h
@@ -101,7 +95,6 @@ install_headers:
 	install -m 644 $(JEFF_INCDIR)/jeff.h $(GLOBAL_PREFIX)/include/jeff/jeff.h
 	install -m 644 $(JEFF_INCDIR)/jinput.h $(GLOBAL_PREFIX)/include/jeff/jinput.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h $(GLOBAL_PREFIX)/include/jeff/jlog.h
-	install -m 644 $(JEFF_INCDIR)/jlua.h $(GLOBAL_PREFIX)/include/jeff/jlua.h
 	install -m 644 $(JEFF_INCDIR)/jmemory.h $(GLOBAL_PREFIX)/include/jeff/jmemory.h
 	install -m 644 $(JEFF_INCDIR)/jrandom.h $(GLOBAL_PREFIX)/include/jeff/jrandom.h
 	install -m 644 $(JEFF_INCDIR)/jsignal.h $(GLOBAL_PREFIX)/include/jeff/jsignal.h
@@ -113,19 +106,17 @@ install_local_libs:
 	@rm -rf $(LOCAL_PREFIX)/lib/jeff
 	@mkdir -p $(LOCAL_PREFIX)/lib/jeff
 	install -m 755 $(LIBDIR)/libjeff.so $(LOCAL_PREFIX)/lib/jeff/libjeff.so
-	install -m 755 $(LIBDIR)/libjlua.so $(LOCAL_PREFIX)/lib/jeff/libjlua.so
 
 install_libs:
 	@rm -rf $(GLOBAL_PREFIX)/lib/jeff
 	@mkdir -p $(GLOBAL_PREFIX)/lib/jeff
 	install -m 755 $(LIBDIR)/libjeff.so $(GLOBAL_PREFIX)/lib/jeff/libjeff.so
-	install -m 755 $(LIBDIR)/libjlua.so $(GLOBAL_PREFIX)/lib/jeff/libjlua.so
 
 install_local_libs_stripped: install_local_libs
-	strip $(LOCAL_PREFIX)/lib/jeff/libj{eff,lua}.so
+	strip $(LOCAL_PREFIX)/lib/jeff/libj{eff}.so
 
 install_libs_stripped: install_libs
-	strip $(GLOBAL_PREFIX)/lib/jeff/libj{eff,lua}.so
+	strip $(GLOBAL_PREFIX)/lib/jeff/libj{eff}.so
 
 clean:
 	@rm -rf $(OBJDIR)/* *.log
