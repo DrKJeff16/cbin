@@ -31,7 +31,9 @@ CFLAGS = $(CPPFLAGS) \
 		 -Wall \
 		 -Wextra \
 		 -Wno-unused \
-		 -pedantic
+		 -Wno-implicit-fallthrough \
+		 -pedantic \
+		 -pthread
 
 CXXFLAGS = $(CPPFLAGS) \
 		   -D_GLIBCXX_ASSERTIONS \
@@ -43,7 +45,9 @@ CXXFLAGS = $(CPPFLAGS) \
 		   -Wall \
 		   -Wextra \
 		   -Wno-unused \
-		   -pedantic
+		   -Wno-implicit-fallthrough \
+		   -pedantic \
+		   -pthread
 
 LDFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
 		  -Llib \
@@ -57,8 +61,8 @@ PKG_CONFIG_BIN := pkgconf
 
 JEFF_INCDIR = $(INCDIR)/jeff
 JEFF_H = $(JEFF_INCDIR)/jeff.h \
-JEFF_H = $(JEFF_INCDIR)/jasync.h \
-JEFF_H = $(JEFF_INCDIR)/jasync-sem.h \
+		 $(JEFF_INCDIR)/jasync.h \
+		 $(JEFF_INCDIR)/jasync-sem.h \
 		 $(JEFF_INCDIR)/jinput.h \
 		 $(JEFF_INCDIR)/jlog.h \
 		 $(JEFF_INCDIR)/jmemory.h \
