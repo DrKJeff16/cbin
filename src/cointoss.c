@@ -8,7 +8,7 @@
 #include <unistd.h>
 
 static void usage(int code) {
-  char *txt = "cointoss <X> <Y> [-h]\n\n        -h                 print usage";
+  char *txt = "cointoss [<X> <Y>] [-h]\n\n        -h                 print usage";
   vdie(code, "%s\n", txt);
 }
 
@@ -35,17 +35,27 @@ coin_t *init_choices(void) {
 }
 
 char **init_decisions(const int fd, coin_t *c, char **argv) {
+  jbool no_argv = JFALSE;
+  char **defaults = CALLOC(char *, 2);
+  char **p = defaults;
+  if (null_ptr(argv)) {
+    no_argv = JTRUE;
+    *p = "HEADS";
+    p++;
+    *p = "TAILS";
+  }
   char **decisions = CALLOC(char *, 2);
   for (size_t i = 0; i <= JTRUE; i++) {
-    decisions[i] = CALLOC(char, strlen(argv[i + 1]) + 1);
-    char *chr = stpcpy(decisions[i], argv[i + 1]);
+    decisions[i] = CALLOC(char, strlen((no_argv) ? defaults[i] : argv[i + 1]) + 1);
+    char *chr = stpcpy(decisions[i], (no_argv) ? defaults[i] : argv[i + 1]);
     if (null_ptr(chr)) {
       gc(decisions, c);
       close(fd);
-
       j_errno_vdie(2, EBADE, "(cointoss): %s\n", "Unable to copy string to new array!");
     }
   }
+
+  free(defaults);
 
   return decisions;
 }
@@ -57,10 +67,10 @@ void decide(const jbool x, coin_t *c) {
 
   switch (x) {
     case JFALSE:
-      c->TAILS++;
+      c->HEADS++;
       break;
     case JTRUE:
-      c->HEADS++;
+      c->TAILS++;
       break;
   }
 }
@@ -96,7 +106,7 @@ int main(int argc, char **argv) {
   if (check_jarg("-h", argv, argc)) {
     usage(JFALSE);
   }
-  if (argc < 2) {
+  if (argc == 1) {
     usage(1);
   }
 
@@ -106,7 +116,7 @@ int main(int argc, char **argv) {
   }
 
   coin_t *c = init_choices();
-  char **coin = init_decisions(fd, c, argv);
+  char **coin = init_decisions(fd, c, (!argc) ? NULL : argv);
 
   for (j_ullong i = 0; i < 1000000 && fd >= 0; i++) {
     decide(fd_toss(fd), c);
