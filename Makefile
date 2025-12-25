@@ -44,6 +44,9 @@ $(OBJDIR)/jinput.o: $(SRCDIR)/jeff/jinput.c
 $(OBJDIR)/jlog.o: $(SRCDIR)/jeff/jlog.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
+$(OBJDIR)/jluajit.o: $(SRCDIR)/jeff/jluajit.c
+	$(CC) -c $< $(JEFF_CFLAGS) -o $@
+
 
 $(LIBDIR)/libjeff.so: $(JEFF_OBJECTS)
 	$(CC) $(JEFF_OBJECTS) $(JEFF_CFLAGS) -shared -o $@ $(JEFF_LDFLAGS)
@@ -98,6 +101,7 @@ install_headers:
 	install -m 644 $(JEFF_INCDIR)/jeff.h $(GLOBAL_PREFIX)/include/jeff/jeff.h
 	install -m 644 $(JEFF_INCDIR)/jinput.h $(GLOBAL_PREFIX)/include/jeff/jinput.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h $(GLOBAL_PREFIX)/include/jeff/jlog.h
+	install -m 644 $(JEFF_INCDIR)/jluajit.h $(GLOBAL_PREFIX)/include/jeff/jluajit.h
 	install -m 644 $(JEFF_INCDIR)/jmemory.h $(GLOBAL_PREFIX)/include/jeff/jmemory.h
 	install -m 644 $(JEFF_INCDIR)/jrandom.h $(GLOBAL_PREFIX)/include/jeff/jrandom.h
 	install -m 644 $(JEFF_INCDIR)/jsignal.h $(GLOBAL_PREFIX)/include/jeff/jsignal.h
@@ -145,3 +149,5 @@ distclean: clean
 	strip_libs \
 	yn \
 	$(ACTIONS)
+
+# vim: set ts=4 sts=4 sw=0 noet ai si sta:

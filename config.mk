@@ -80,15 +80,22 @@ JEFF_OBJECTS = $(OBJDIR)/jstring.o \
 			   $(OBJDIR)/jrandom.o \
 			   $(OBJDIR)/jsignal.o \
 			   $(OBJDIR)/jinput.o \
+			   $(OBJDIR)/jluajit.o
 
 JEFF_LIBS = $(LIBDIR)/libjeff.so
 
 JEFF_CFLAGS = $(CFLAGS) \
+			  -I/usr/include/luajit-2.1 \
 			  -fPIC
 
-JEFF_LDFLAGS = -lc
+JEFF_LDFLAGS = -lc \
+			   -llua \
+			   -lluajit-5.1 \
+			   -lm
 
 JEFF_ACTIONS = cointoss \
 			   yn
 
 ACTIONS = $(JEFF_ACTIONS)
+
+# vim: set ts=4 sts=4 sw=0 noet ai si sta:

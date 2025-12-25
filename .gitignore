@@ -51,3 +51,10 @@ compile_commands.json
 *.patch
 
 *.lock
+
+# Pipenv stuff
+Pipfile
+Pipfile.lock
+requirements.txt
+.ropeproject
+.mypy_cache
