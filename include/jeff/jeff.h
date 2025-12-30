@@ -7,6 +7,7 @@ extern "C" {
 
 #include <jeff/jasync-sem.h>
 #include <jeff/jasync.h>
+#include <jeff/jhash.h>
 #include <jeff/jinput.h>
 #include <jeff/jlog.h>
 #include <jeff/jmemory.h>

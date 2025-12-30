@@ -64,8 +64,9 @@ PKG_CONFIG_BIN := pkgconf
 
 JEFF_INCDIR = $(INCDIR)/jeff
 JEFF_H = $(JEFF_INCDIR)/jeff.h \
-		 $(JEFF_INCDIR)/jasync.h \
 		 $(JEFF_INCDIR)/jasync-sem.h \
+		 $(JEFF_INCDIR)/jasync.h \
+		 $(JEFF_INCDIR)/jhash.h \
 		 $(JEFF_INCDIR)/jinput.h \
 		 $(JEFF_INCDIR)/jlog.h \
 		 $(JEFF_INCDIR)/jmemory.h \
@@ -74,16 +75,18 @@ JEFF_H = $(JEFF_INCDIR)/jeff.h \
 		 $(JEFF_INCDIR)/jstring.h \
 		 $(JEFF_INCDIR)/jtypes.h
 
-JEFF_OBJECTS = $(OBJDIR)/jstring.o \
-			   $(OBJDIR)/jmemory.o \
+JEFF_OBJECTS = \
 			   $(OBJDIR)/jasync.o \
 			   $(OBJDIR)/jdie.o \
 			   $(OBJDIR)/jerr.o \
+			   $(OBJDIR)/jhash.o \
+			   $(OBJDIR)/jinput.o \
 			   $(OBJDIR)/jlog.o \
+			   $(OBJDIR)/jluajit.o \
+			   $(OBJDIR)/jmemory.o \
 			   $(OBJDIR)/jrandom.o \
 			   $(OBJDIR)/jsignal.o \
-			   $(OBJDIR)/jinput.o \
-			   $(OBJDIR)/jluajit.o
+			   $(OBJDIR)/jstring.o
 
 JEFF_LIBS = $(LIBDIR)/libjeff.so
 
