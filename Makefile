@@ -120,10 +120,10 @@ install_libs:
 	install -m 755 $(LIBDIR)/libjeff.so $(GLOBAL_PREFIX)/lib/jeff/libjeff.so
 
 install_local_libs_stripped: install_local_libs
-	strip $(LOCAL_PREFIX)/lib/jeff/libj{eff}.so
+	strip $(LOCAL_PREFIX)/lib/jeff/libjeff.so
 
 install_libs_stripped: install_libs
-	strip $(GLOBAL_PREFIX)/lib/jeff/libj{eff}.so
+	strip $(GLOBAL_PREFIX)/lib/jeff/libjeff.so
 
 clean:
 	@rm -rf $(OBJDIR)/* *.log

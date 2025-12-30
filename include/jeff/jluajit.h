@@ -13,6 +13,8 @@ extern "C" {
 #include <lualib.h>
 
 lua_State *new_lua_state(void);
+void jlua_die(const int code, lua_State *L, char *const fmt, ...);
+void jlua_push(lua_State *L, const jlua_type type, void *item, ...);
 
 #if defined(__cplusplus)
 }

@@ -20,7 +20,8 @@ ALL_DIRS = $(BINDIR) \
 CPPFLAGS = -Iinclude \
 		   -I. \
 		   -I$(GLOBAL_PREFIX)/include/jeff \
-		   -D_GNU_SOURCE
+		   -D_GNU_SOURCE \
+		   -D_FORTIFY_SOURCE=2
 
 CFLAGS = $(CPPFLAGS) \
 		 -march=native \
@@ -30,10 +31,12 @@ CFLAGS = $(CPPFLAGS) \
 		 -g \
 		 -Wall \
 		 -Wextra \
+		 -Wformat-security \
 		 -Wno-unused \
 		 -Wno-implicit-fallthrough \
 		 -pedantic \
-		 -pthread
+		 -pthread \
+		 -fstack-protector
 
 CXXFLAGS = $(CPPFLAGS) \
 		   -D_GLIBCXX_ASSERTIONS \

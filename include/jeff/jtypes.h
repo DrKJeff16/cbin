@@ -64,29 +64,9 @@ typedef enum __jlua_type {
   JLUA_NIL = 0,
   JLUA_BOOL,
   JLUA_NUM,
-  JLUA_STR,
   JLUA_LSTR,
+  JLUA_STR,
 } jlua_type;
-
-typedef enum __jlua_operator {
-  NOOP = 0,
-  PUSH,
-  CHECK_STACK,
-} jlua_operator;
-
-typedef struct _jlua_op {
-  struct _jlua_op *_prev;
-  j_ullong index;
-  jlua_operator _operator;
-  jlua_type _type;
-  void *data;
-  struct _jlua_op *_next;
-} jlua_op_buf;
-
-typedef enum __j_fdflags {
-  OVERWRITE = 0,
-  APPEND = 1,
-} j_fdflag;
 
 typedef struct _gl_rgba {
   double red;
