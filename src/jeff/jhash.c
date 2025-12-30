@@ -3,90 +3,82 @@
 #include <jeff/jmemory.h>
 #include <string.h>
 
-// like constructor
 void init_jhash(jhash_t *node, char *key, char *value) {
   node->key = key;
   node->value = value;
   node->next = NULL;
 }
 
-// like constructor
 void init_jhash_map(jhash_map *mp) {
-  // Default capacity in this case
-  mp->capacity = 100;
+  mp->capacity = 100; /*!< Default capacity in this case */
   mp->len = 0;
-
-  // array of size = 1
   mp->arr = CALLOC(jhash_t *, mp->capacity);
-  return;
 }
 
 j_llong jhash(jhash_map *mp, char *key) {
-  j_llong bucketIndex;
   j_llong sum = 0, factor = 31;
   for (size_t i = 0; i < strlen(key); i++) {
-    // sum = sum + (ascii value of
-    // char * (primeNumber ^ x))...
-    // where x = 1, 2, 3....n
+    /// sum = sum + (ascii value of
+    /// char * (primeNumber ^ x))...
+    /// where x = 1, 2, 3....n
     sum = ((sum % mp->capacity) + (((j_llong)key[i]) * factor) % mp->capacity) % mp->capacity;
 
-    // factor = factor * prime
-    // number....(prime
-    // number) ^ x
-    factor = ((factor % __INT16_MAX__) * (31 % __INT16_MAX__)) % __INT16_MAX__;
+    /// factor = factor * prime
+    /// number....(prime
+    /// number) ^ x
+    factor = ((factor % __INT64_MAX__) * (31 % __INT64_MAX__)) % __INT64_MAX__;
   }
 
-  bucketIndex = sum;
-  return bucketIndex;
+  return sum;
 }
 
 void insert(jhash_map *mp, char *key, char *value) {
-  j_llong bucketIndex = jhash(mp, key);
-  jhash_t *newNode = MALLOC(jhash_t);
+  j_llong bucket_index = jhash(mp, key);
+  jhash_t *new_node = MALLOC(jhash_t);
 
-  init_jhash(newNode, key, value);
+  init_jhash(new_node, key, value);
 
-  if (!null_ptr(mp->arr[bucketIndex])) {
-    newNode->next = mp->arr[bucketIndex];
+  if (!null_ptr(mp->arr[bucket_index])) {
+    new_node->next = mp->arr[bucket_index];
   }
 
-  mp->arr[bucketIndex] = newNode;
+  mp->arr[bucket_index] = new_node;
 }
 
 void delete(jhash_map *mp, char *key) {
-  j_llong bucketIndex = jhash(mp, key);
+  j_llong bucket_index = jhash(mp, key);
 
-  jhash_t *prevNode = NULL;
-  jhash_t *currNode = mp->arr[bucketIndex];
+  jhash_t *prev_node = NULL;
+  jhash_t *curr_node = mp->arr[bucket_index];
 
-  while (!null_ptr(currNode)) {
-    if (strcmp(key, currNode->key) == 0) {
-      if (currNode == mp->arr[bucketIndex]) {
-        mp->arr[bucketIndex] = currNode->next;
+  while (!null_ptr(curr_node)) {
+    if (strcmp(key, curr_node->key) == 0) {
+      if (curr_node == mp->arr[bucket_index]) {
+        mp->arr[bucket_index] = curr_node->next;
       } else {
-        prevNode->next = currNode->next;
+        prev_node->next = curr_node->next;
       }
-      free(currNode);
+      free(curr_node);
       break;
     }
-    prevNode = currNode;
-    currNode = currNode->next;
+    prev_node = curr_node;
+    curr_node = curr_node->next;
   }
 }
 
 char *search(jhash_map *mp, char *key) {
-  j_llong bucketIndex = jhash(mp, key);
+  j_llong bucket_index = jhash(mp, key);
 
-  jhash_t *bucketHead = mp->arr[bucketIndex];
-  while (!null_ptr(bucketHead)) {
+  jhash_t *bucket_head = mp->arr[bucket_index];
+  while (!null_ptr(bucket_head)) {
     // Key is found in the hashMap
-    if (bucketHead->key == key) {
-      return bucketHead->value;
+    if (bucket_head->key == key) {
+      return bucket_head->value;
     }
-    bucketHead = bucketHead->next;
+    bucket_head = bucket_head->next;
   }
 
-  char *errorMssg = CALLOC(char, 25);
-  errorMssg = "Oops! No data found.\n";
-  return errorMssg;
+  char *error_msg = CALLOC(char, 25);
+  error_msg = "Oops! No data found.\n";
+  return error_msg;
 }

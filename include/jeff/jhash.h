@@ -29,6 +29,14 @@ typedef struct hash_map {
 void init_jhash(jhash_t *node, char *key, char *value);
 void init_jhash_map(jhash_map *mp);
 
+/**
+ * Custom hash function.
+ *
+ * This retrieves the hashed value of the key in a hash table.
+ *
+ * @param mp The hash table to be analyze
+ * @param key The key to be hashed.
+ */
 j_llong jhash(jhash_map *mp, char *key);
 void jhash_insert(jhash_map *mp, char *key, char *value);
 void jhash_delete(jhash_map *mp, char *key);
