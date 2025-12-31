@@ -45,7 +45,7 @@ void jlua_die(const int code, lua_State *L, char *const fmt, ...) {
   if (!null_ptr(fmt)) {
     va_list argp;
     va_start(argp, fmt);
-    vfprintf((!code) ? stderr : stdout, fmt, argp);
+    vfprintf(J_OUTPUT(code), fmt, argp);
     va_end(argp);
   }
 

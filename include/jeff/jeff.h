@@ -28,7 +28,7 @@ extern "C" {
 
 #define jxor(x, y) (x ^ y)
 
-#define output(status) status ? stderr : stdout
+#define J_OUTPUT(status) status ? stderr : stdout
 
 /* ---------------------------------- jerr ------------------------------------*/
 

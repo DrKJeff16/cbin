@@ -68,18 +68,18 @@ int main(int argc, char **argv) {
     switch (*in) {
       case 'N':
       case 'n':
-        j_gc(garbage, 2);
+        j_gc(garbage, 3);
         return 1;
 
       case 'Y':
       case 'y':
-        j_gc(garbage, 2);
+        j_gc(garbage, 3);
         return 0;
 
       case '\n':
       case '\r':
         if (!prev) {
-          j_gc(garbage, 2);
+          j_gc(garbage, 3);
           return negative;
         }
         prev = JFALSE;
@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
     }
   } while ((*in = getchar()));
 
-  j_gc(garbage, 2);
+  j_gc(garbage, 3);
   return 127;
 }
 

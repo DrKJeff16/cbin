@@ -110,7 +110,6 @@ void str_append_nul(char *str) {
   chr = stpcpy(str, new_str);
   if (null_ptr(chr)) {
     stpcpy(str, str_og);
-
     j_verr("(str_append_nul): %s\n", "Unable to copy `new_str` back to `str`");
   }
 
@@ -345,7 +344,7 @@ void j_lstrip(const char c, char *str) {
   str = REALLOC(str, char, new_len + 1);
 
   if (null_ptr(str)) {
-    j_gc(garbage, 1);
+    j_gc(garbage, 2);
     die(2, "(j_lstrip): FAILED TO REALLOCATE str!");
   }
 
@@ -354,7 +353,7 @@ void j_lstrip(const char c, char *str) {
     die(3, "(j_lstrip): FAILED TO COPY new_str INTO str!");
   }
 
-  j_gc(garbage, 1);
+  j_gc(garbage, 2);
 }
 
 void j_rstrip(const char c, char *str) {
