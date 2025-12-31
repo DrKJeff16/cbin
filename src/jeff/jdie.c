@@ -25,6 +25,25 @@ void vdie(const int status, char *const fmt, ...) {
   exit(status);
 }
 
+void cond_die(const int status, const jbool cond, char *const msg) {
+  if (!cond) {
+    return;
+  }
+
+  die(status, msg);
+}
+
+void cond_vdie(const int status, const jbool cond, char *const fmt, ...) {
+  if (!cond) {
+    return;
+  }
+
+  va_list argp;
+  va_start(argp, fmt);
+  vdie(status, fmt, argp);
+  va_end(argp);
+}
+
 void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...) {
   if (!null_ptr(fmt)) {
     va_list argp;

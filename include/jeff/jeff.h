@@ -94,6 +94,9 @@ void die(const int status, char *const msg);
 /* ----------------------------------------------------------------------------*/
 void vdie(const int status, char *const fmt, ...);
 
+void cond_die(const int status, const jbool cond, char *const msg);
+void cond_vdie(const int status, const jbool cond, char *const fmt, ...);
+
 void j_errno_die(const int status, const int code, char *const msg);
 void j_errno_vdie(const int status, const int errno_val, char *const fmt, ...);
 
