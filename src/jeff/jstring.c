@@ -289,7 +289,7 @@ char **filter_argv(const size_t argc, char **const argv) {
 }
 
 jbool check_jarg(const char *arg, char **argv, const j_uint argc) {
-  if (null_ptr(arg)) {
+  if (null_ptr(arg) || null_ptr(argv) || !argc) {
     return JFALSE;
   }
 

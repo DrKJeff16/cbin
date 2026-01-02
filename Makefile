@@ -1,5 +1,30 @@
 include config.mk
 
+SUBDIRS = $(OBJDIR) $(JEFF_INCDIR) $(INCDIR) $(LIBDIR) $(BINDIR)
+
+.SUFFIXES: .c .o .cpp .c++ .cc. .C .h .hpp .hh .h++ .H .o .so
+
+.PHONY: all \
+	clean \
+	cointoss \
+	countdown \
+	distclean \
+	install_bin \
+	install_bin_stripped \
+	install_headers \
+	install_libs \
+	install_libs_stripped \
+	install_local_bin \
+	install_local_bin_stripped \
+	install_local_libs \
+	install_local_libs_stripped \
+	libs \
+	strip_bin \
+	strip_libs \
+	yn \
+	$(SUBDIRS) \
+	$(ACTIONS)
+
 SHELL = /bin/bash
 
 all: $(ACTIONS)
@@ -15,7 +40,6 @@ $(BINDIR):
 
 $(OBJDIR):
 	@mkdir -p $@
-
 
 $(OBJDIR)/jdie.o: $(SRCDIR)/jeff/jdie.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
@@ -50,19 +74,22 @@ $(OBJDIR)/jlog.o: $(SRCDIR)/jeff/jlog.c
 $(OBJDIR)/jluajit.o: $(SRCDIR)/jeff/jluajit.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-
 $(LIBDIR)/libjeff.so: $(JEFF_OBJECTS)
 	$(CC) $(JEFF_OBJECTS) $(JEFF_CFLAGS) -shared -o $@ $(JEFF_LDFLAGS)
 
-
 $(OBJDIR)/cointoss.o: $(SRCDIR)/cointoss.c $(INCDIR)/cointoss.h
+	$(CC) -c $< $(CFLAGS) -o $@
+
+$(OBJDIR)/countdown.o: $(SRCDIR)/countdown.c
 	$(CC) -c $< $(CFLAGS) -o $@
 
 $(OBJDIR)/yn.o: $(SRCDIR)/yn.c $(INCDIR)/yn.h
 	$(CC) -c $< $(CFLAGS) -o $@
 
-
 $(BINDIR)/cointoss: $(OBJDIR)/cointoss.o
+	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
+
+$(BINDIR)/countdown: $(OBJDIR)/countdown.o
 	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
 
 $(BINDIR)/yn: $(OBJDIR)/yn.o
@@ -70,11 +97,11 @@ $(BINDIR)/yn: $(OBJDIR)/yn.o
 
 libs: $(LIBDIR) $(OBJDIR) $(BINDIR) $(JEFF_LIBS)
 
-
 cointoss: $(BINDIR)/cointoss
 
-yn: $(BINDIR)/yn
+countdown: $(BINDIR)/countdown
 
+yn: $(BINDIR)/yn
 
 strip_bin:
 	@strip $(BINDIR)/*
@@ -82,21 +109,22 @@ strip_bin:
 strip_libs:
 	@strip $(LIBDIR)/*.so
 
-install_bin:
+install_bin: cointoss yn countdown
 	@mkdir -p $(GLOBAL_PREFIX)/bin
 	install -m 755 $(BINDIR)/cointoss $(GLOBAL_PREFIX)/bin/cointoss
 	install -m 755 $(BINDIR)/yn $(GLOBAL_PREFIX)/bin/yn
 
 install_bin_stripped: install_bin
-	@strip $(GLOBAL_PREFIX)/bin/{cointoss,yn}
+	@strip $(GLOBAL_PREFIX)/bin/{cointoss,countdown,yn}
 
-install_local_bin: cointoss yn
+install_local_bin: cointoss yn countdown
 	@mkdir -p $(HOME)/.bin/cbin
 	install -m 755 $(BINDIR)/cointoss $(HOME)/.bin/cbin/cointoss
+	install -m 755 $(BINDIR)/countdown $(HOME)/.bin/cbin/countdown
 	install -m 755 $(BINDIR)/yn $(HOME)/.bin/cbin/yn
 
 install_local_bin_stripped: install_local_bin
-	strip $(HOME)/.bin/cbin/{cointoss,yn}
+	strip $(HOME)/.bin/cbin/{cointoss,countdown,yn}
 
 install_headers:
 	@rm -rf $(GLOBAL_PREFIX)/include/jeff
@@ -133,24 +161,5 @@ clean:
 
 distclean: clean
 	@rm -rf $(BINDIR)/* $(LIBDIR)/* compile_commands.json
-
-.PHONY: all \
-	clean \
-	cointoss \
-	distclean \
-	install_bin \
-	install_bin_stripped \
-	install_headers \
-	install_libs \
-	install_libs_stripped \
-	install_local_bin \
-	install_local_bin_stripped \
-	install_local_libs \
-	install_local_libs_stripped \
-	libs \
-	strip_bin \
-	strip_libs \
-	yn \
-	$(ACTIONS)
 
 # vim: set ts=4 sts=4 sw=0 noet ai si sta:
