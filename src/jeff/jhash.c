@@ -82,3 +82,5 @@ char *search(jhash_map *mp, char *key) {
   error_msg = "Oops! No data found.\n";
   return error_msg;
 }
+
+/* vim: set ts=2 sts=2 sw=2 et ai si sta: */
