@@ -112,6 +112,7 @@ strip_libs:
 install_bin: cointoss yn countdown
 	@mkdir -p $(GLOBAL_PREFIX)/bin
 	install -m 755 $(BINDIR)/cointoss $(GLOBAL_PREFIX)/bin/cointoss
+	install -m 755 $(BINDIR)/countdown $(GLOBAL_PREFIX)/bin/countdown
 	install -m 755 $(BINDIR)/yn $(GLOBAL_PREFIX)/bin/yn
 
 install_bin_stripped: install_bin

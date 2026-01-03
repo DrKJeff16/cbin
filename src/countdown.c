@@ -1,6 +1,5 @@
 #include <argp.h>
 #include <jeff/jeff.h>
-#include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -35,21 +34,21 @@ static struct argp_option options[] = {
 };
 
 /* Used by main to communicate with parse_opt. */
-struct arguments {
-  int verbose;
+typedef struct arguments {
+  jbool verbose;
   int duration;
   int num;
-};
+} args_t;
 
 /* Parse a single option. */
 static error_t parse_opt(int key, char *arg, struct argp_state *state) {
   /* Get the input argument from argp_parse, which we
      know is a pointer to our arguments structure. */
-  struct arguments *arguments = state->input;
+  args_t *arguments = state->input;
 
   switch (key) {
     case 'v':
-      arguments->verbose = 1;
+      arguments->verbose = JTRUE;
       break;
 
     case 'n':
@@ -61,8 +60,6 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state) {
       break;
 
     case ARGP_KEY_ARG:
-      break;
-
     case ARGP_KEY_END:
       break;
 
@@ -76,20 +73,10 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state) {
 static struct argp argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 int main(int argc, char **argv) {
-  int *sigs = CALLOC(int, 6);
-  sigs[0] = SIGINT;
-  sigs[1] = SIGTERM;
-  sigs[2] = SIGABRT;
-  sigs[3] = SIGALRM;
-  sigs[4] = SIGHUP;
-  sigs[5] = SIGKILL;
-
-  sig_bootstrap(sigs, 6, sig_handler);
-
-  struct arguments arguments;
+  args_t arguments;
   arguments.duration = 1;
   arguments.num = 5;
-  arguments.verbose = 0;
+  arguments.verbose = JFALSE;
 
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
