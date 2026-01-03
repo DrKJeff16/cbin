@@ -1,30 +1,56 @@
+#include <argp.h>
 #include <jeff/jeff.h>
-#include <signal.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <yn.h>
 
-static void usage(int code) {
-  vdie(code, "%s\n%s\n%s\n", "yn [-N] [-h] <X>\n", "        -h                 print usage",
-       "        -N                 use negative result by default\n");
-}
+const char *argp_program_version = "yn 1.0";
+const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
+static char doc[] = "An easy \"Yes/No\" prompt.";
+static char args_doc[] = "[-h] [-N] [<X>]";
 
-char *get_no_args(char **const argv, const size_t argc) {
-  char *c = CALLOC(char, 9);
-  const char *fallback = "Confirm?";
-  stpcpy(c, fallback);
+static struct argp_option options[] = {
+  {
+    .name = "invert",
+    .key = 'N',
+    .arg = 0,
+    .flags = 0,
+    .doc = "Invert the default result from pressing `\\n` only",
+  },
+  { 0 },
+};
 
-  for (size_t i = 1; i <= argc; i++) {
-    if (*argv[i] != '-') {
-      c = REALLOC(c, char, strlen(argv[i]) + 1);
-      stpcpy(c, argv[i]);
+/* Used by main to communicate with parse_opt. */
+struct arguments {
+  jbool invert;
+  char *args[1];
+};
+
+/* Parse a single option. */
+static error_t parse_opt(int key, char *arg, struct argp_state *state) {
+  /* Get the input argument from argp_parse, which we
+     know is a pointer to our arguments structure. */
+  struct arguments *arguments = state->input;
+
+  switch (key) {
+    case 'N':
+      arguments->invert = JTRUE;
       break;
-    }
-  }
 
-  return c;
+    case ARGP_KEY_ARG:
+      arguments->args[state->arg_num] = arg;
+      break;
+
+    case ARGP_KEY_END:
+      break;
+
+    default:
+      return ARGP_ERR_UNKNOWN;
+  }
+  return 0;
 }
+
+static struct argp argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 void prompt(char *msg, const jbool negative) {
   j_rstrip(' ', msg);
@@ -32,36 +58,23 @@ void prompt(char *msg, const jbool negative) {
 }
 
 int main(int argc, char **argv) {
-  argc--;
+  struct arguments arguments;
+  arguments.invert = JFALSE;
+  arguments.args[0] = NULL;
 
-  int *sigs = CALLOC(int, 6);
-  sigs[0] = SIGINT;
-  sigs[1] = SIGTERM;
-  sigs[2] = SIGABRT;
-  sigs[3] = SIGALRM;
-  sigs[4] = SIGHUP;
-  sigs[5] = SIGKILL;
+  argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
-  sig_bootstrap(sigs, 6, sig_handler);
-
-  if (check_jarg("-h", argv, argc)) {
-    usage(0);
-  }
-
-  jbool negative = check_jarg("-N", argv, argc);
-
-  char *c = get_no_args(argv, (size_t)argc);
+  char *c = (null_ptr(arguments.args[0])) ? "Confirm?" : arguments.args[0];
   char *msg = CALLOC(char, strlen(c) + 1);
   stpcpy(msg, c);
 
-  prompt(msg, negative);
+  prompt(msg, arguments.invert);
   jbool prev = JFALSE;
   char *in = MALLOC(char);
 
-  void **garbage = CALLOC(void *, 3);
+  void **garbage = CALLOC(void *, 2);
   garbage[0] = VOID_PTR(msg);
   garbage[1] = VOID_PTR(in);
-  garbage[2] = VOID_PTR(c);
 
   *in = getchar();
   do {
@@ -80,10 +93,10 @@ int main(int argc, char **argv) {
       case '\r':
         if (!prev) {
           j_gc(garbage, 3);
-          return negative;
+          return arguments.invert;
         }
         prev = JFALSE;
-        prompt(msg, negative);
+        prompt(msg, arguments.invert);
         break;
 
       default:
