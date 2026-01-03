@@ -30,7 +30,7 @@ jobs:
           pipenv install --dev vim-eof-comment
       - name: Run vim-eof-comment
         run: |
-          pipenv run vim-eof-comment -e c,h,cc,cpp,c++,hh,hpp,h++,C,H,md,Makefile -nv .
+          pipenv run vim-eof-comment -e c,h,cc,cpp,hh,hpp,md,Makefile,mk -nv .
       - name: Auto Commit Changes
         uses: stefanzweifel/git-auto-commit-action@v7.1.0
         with:
