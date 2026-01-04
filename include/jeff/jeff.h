@@ -5,6 +5,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#include <bits/types/FILE.h>
 #include <jeff/jasync-sem.h>
 #include <jeff/jasync.h>
 #include <jeff/jhash.h>
@@ -16,6 +17,7 @@ extern "C" {
 #include <jeff/jstring.h>
 #include <jeff/jswap.h>
 #include <jeff/jtypes.h>
+#include <stdlib.h>
 
 #define JCAST(type, data) (type)(data)
 #define null_ptr(ptr) (!ptr || ptr == NULL)
@@ -114,6 +116,7 @@ void j_errno_vdie(const int status, const int errno_val, char *const fmt, ...);
 void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...);
 
 static void usage(int code);
+static void verbose_print(const jbool verbose, const char *txt, FILE *restrict stream);
 
 #if defined(__cplusplus)
 }

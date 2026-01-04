@@ -1,6 +1,8 @@
 #include <argp.h>
 #include <jeff/jeff.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 const char *argp_program_version = "countdown 0.1";
@@ -33,11 +35,22 @@ static struct argp_option options[] = {
   { 0 },
 };
 
+static void verbose_print(const jbool verbose, const char *txt, FILE *restrict stream) {
+  if (!verbose) {
+    return;
+  }
+  if (null_ptr(stream)) {
+    stream = stdout;
+  }
+
+  fprintf(stream, "%s\n", txt);
+}
+
 /* Used by main to communicate with parse_opt. */
 typedef struct arguments {
   jbool verbose;
-  int duration;
-  int num;
+  j_uint duration;
+  j_uint num;
 } args_t;
 
 /* Parse a single option. */
@@ -52,11 +65,11 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state) {
       break;
 
     case 'n':
-      arguments->num = atoi(arg);
+      arguments->num = (j_uint)atoi(arg);
       break;
 
     case 'd':
-      arguments->duration = atoi(arg);
+      arguments->duration = (j_uint)atoi(arg);
       break;
 
     case ARGP_KEY_ARG:
@@ -79,6 +92,14 @@ int main(int argc, char **argv) {
   arguments.verbose = JFALSE;
 
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
+
+  char *s = CALLOC(char, 512);
+  sprintf(s, "Duration: %ds\nStarts at: %d\n", arguments.duration, arguments.num);
+
+  s = REALLOC(s, char, strlen(s) + 1);
+
+  verbose_print(arguments.verbose, s, NULL);
+  free(s);
 
   while (arguments.num > 0) {
     printf("%d\n", arguments.num);
