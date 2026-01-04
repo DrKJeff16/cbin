@@ -19,6 +19,8 @@ char **init_decisions(const int fd, coin_t *c, char **argv);
 void decide(const jbool x, coin_t *c);
 void verdict(const int fd, coin_t *const c, char **const coin);
 
+static void gc(char **coin, coin_t *c);
+
 #if defined(__cplusplus)
 }
 #endif /* __cplusplus */

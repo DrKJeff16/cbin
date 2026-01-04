@@ -7,7 +7,7 @@
 const char *argp_program_version = "yn 1.0";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "An easy \"Yes/No\" prompt.";
-static char args_doc[] = "[-h] [-N] [<X>]";
+static char args_doc[] = "[-N] [<X>]";
 
 static struct argp_option options[] = {
   {
