@@ -38,7 +38,7 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       break;
 
     case ARGP_KEY_ARG:
-      arguments->args[state->arg_num] = arg;
+      arguments->args[0] = arg;
       break;
 
     case ARGP_KEY_END:
@@ -53,59 +53,45 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 void prompt(char *msg, const jbool negative) {
-  j_rstrip(' ', msg);
   printf("%s [%s]: ", msg, (!negative) ? "Y/n" : "y/N");
 }
 
 int main(int argc, char **argv) {
   args_t arguments;
   arguments.invert = JFALSE;
-  arguments.args[0] = NULL;
+  arguments.args[0] = "Confirm?";
 
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
-  char *c = (null_ptr(arguments.args[0])) ? "Confirm?" : arguments.args[0];
-  char *msg = CALLOC(char, strlen(c) + 1);
-  stpcpy(msg, c);
-
-  prompt(msg, arguments.invert);
+  prompt(arguments.args[0], arguments.invert);
   jbool prev = JFALSE;
-  char *in = MALLOC(char);
-
-  void **garbage = CALLOC(void *, 2);
-  garbage[0] = VOID_PTR(msg);
-  garbage[1] = VOID_PTR(in);
-
-  *in = getchar();
+  char in;
+  in = getchar();
   do {
-    switch (*in) {
+    switch (in) {
       case 'N':
       case 'n':
-        j_gc(garbage, 3);
         return 1;
 
       case 'Y':
       case 'y':
-        j_gc(garbage, 3);
         return 0;
 
       case '\n':
       case '\r':
         if (!prev) {
-          j_gc(garbage, 3);
           return arguments.invert;
         }
+        prompt(arguments.args[0], arguments.invert);
         prev = JFALSE;
-        prompt(msg, arguments.invert);
         break;
 
       default:
         prev = JTRUE;
         break;
     }
-  } while ((*in = getchar()));
+  } while ((in = getchar()));
 
-  j_gc(garbage, 3);
   return 127;
 }
 
