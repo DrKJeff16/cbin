@@ -13,3 +13,5 @@ static void files_gc(char **files, const unsigned long long n);
 #endif /* __cplusplus */
 
 #endif /* !NWL_TRIM_H */
+
+/* vim: set ts=2 sts=2 sw=2 et ai si sta: */
