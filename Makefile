@@ -19,6 +19,7 @@ SUBDIRS = $(OBJDIR) $(JEFF_INCDIR) $(INCDIR) $(LIBDIR) $(BINDIR)
 	install_local_libs \
 	install_local_libs_stripped \
 	libs \
+	nwl_trim \
 	strip_bin \
 	strip_libs \
 	yn \
@@ -83,6 +84,9 @@ $(OBJDIR)/cointoss.o: $(SRCDIR)/cointoss.c $(INCDIR)/cointoss.h
 $(OBJDIR)/countdown.o: $(SRCDIR)/countdown.c
 	$(CC) -c $< $(CFLAGS) -o $@
 
+$(OBJDIR)/nwl_trim.o: $(SRCDIR)/nwl_trim.c $(INCDIR)/nwl_trim.h
+	$(CC) -c $< $(CFLAGS) -o $@
+
 $(OBJDIR)/yn.o: $(SRCDIR)/yn.c $(INCDIR)/yn.h
 	$(CC) -c $< $(CFLAGS) -o $@
 
@@ -90,6 +94,9 @@ $(BINDIR)/cointoss: $(OBJDIR)/cointoss.o
 	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
 
 $(BINDIR)/countdown: $(OBJDIR)/countdown.o
+	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
+
+$(BINDIR)/nwl_trim: $(OBJDIR)/nwl_trim.o
 	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
 
 $(BINDIR)/yn: $(OBJDIR)/yn.o
@@ -101,6 +108,8 @@ cointoss: $(BINDIR)/cointoss
 
 countdown: $(BINDIR)/countdown
 
+nwl_trim: $(BINDIR)/nwl_trim
+
 yn: $(BINDIR)/yn
 
 strip_bin:
@@ -109,23 +118,25 @@ strip_bin:
 strip_libs:
 	@strip $(LIBDIR)/*.so
 
-install_bin: cointoss yn countdown
+install_bin: cointoss yn countdown nwl_trim
 	@mkdir -p $(GLOBAL_PREFIX)/bin
 	install -m 755 $(BINDIR)/cointoss $(GLOBAL_PREFIX)/bin/cointoss
 	install -m 755 $(BINDIR)/countdown $(GLOBAL_PREFIX)/bin/countdown
+	install -m 755 $(BINDIR)/nwl_trim $(GLOBAL_PREFIX)/bin/nwl_trim
 	install -m 755 $(BINDIR)/yn $(GLOBAL_PREFIX)/bin/yn
 
 install_bin_stripped: install_bin
-	@strip $(GLOBAL_PREFIX)/bin/{cointoss,countdown,yn}
+	@strip $(GLOBAL_PREFIX)/bin/{cointoss,countdown,nwl_trim,yn}
 
 install_local_bin: cointoss yn countdown
 	@mkdir -p $(HOME)/.bin/cbin
 	install -m 755 $(BINDIR)/cointoss $(HOME)/.bin/cbin/cointoss
 	install -m 755 $(BINDIR)/countdown $(HOME)/.bin/cbin/countdown
+	install -m 755 $(BINDIR)/nwl_trim $(HOME)/.bin/cbin/nwl_trim
 	install -m 755 $(BINDIR)/yn $(HOME)/.bin/cbin/yn
 
 install_local_bin_stripped: install_local_bin
-	@strip $(HOME)/.bin/cbin/{cointoss,countdown,yn}
+	@strip $(HOME)/.bin/cbin/{cointoss,countdown,nwl_trim,yn}
 
 install_headers:
 	@rm -rf $(GLOBAL_PREFIX)/include/jeff

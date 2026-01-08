@@ -115,8 +115,9 @@ void j_errno_vdie(const int status, const int errno_val, char *const fmt, ...);
 /* ----------------------------------------------------------------------------*/
 void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...);
 
-static void usage(int code);
+static void usage(const int code);
 static void verbose_print(const jbool verbose, const char *txt, FILE *restrict stream);
+static void vverbose_print(const jbool verbose, FILE *restrict stream, const char *fmt, ...);
 
 #if defined(__cplusplus)
 }

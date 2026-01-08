@@ -9,7 +9,7 @@ const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "An easy \"Yes/No\" prompt.";
 static char args_doc[] = "[-N] [<X>]";
 
-static struct argp_option options[] = {
+static argp_option_t options[] = {
   {
     .name = "invert",
     .key = 'N',
@@ -21,16 +21,16 @@ static struct argp_option options[] = {
 };
 
 /* Used by main to communicate with parse_opt. */
-struct arguments {
+typedef struct arguments {
   jbool invert;
   char *args[1];
-};
+} args_t;
 
 /* Parse a single option. */
-static error_t parse_opt(int key, char *arg, struct argp_state *state) {
+static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   /* Get the input argument from argp_parse, which we
      know is a pointer to our arguments structure. */
-  struct arguments *arguments = state->input;
+  args_t *arguments = state->input;
 
   switch (key) {
     case 'N':
@@ -50,7 +50,7 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state) {
   return 0;
 }
 
-static struct argp argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
+static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 void prompt(char *msg, const jbool negative) {
   j_rstrip(' ', msg);
@@ -58,7 +58,7 @@ void prompt(char *msg, const jbool negative) {
 }
 
 int main(int argc, char **argv) {
-  struct arguments arguments;
+  args_t arguments;
   arguments.invert = JFALSE;
   arguments.args[0] = NULL;
 

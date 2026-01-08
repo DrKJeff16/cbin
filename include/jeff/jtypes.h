@@ -5,6 +5,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#include <argp.h>
 #include <stddef.h>
 
 #define j_ushint unsigned short int
@@ -15,6 +16,10 @@ extern "C" {
 #define j_ullong unsigned long long
 #define j_shint short int
 #define j_llong long long
+
+typedef struct argp argp_t;
+typedef struct argp_state argp_state_t;
+typedef struct argp_option argp_option_t;
 
 typedef struct _char_ptrs {
   const char *s1;

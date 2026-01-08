@@ -101,6 +101,7 @@ JEFF_LDFLAGS = -lc \
 
 JEFF_ACTIONS = cointoss \
 			   countdown \
+			   nwl_trim \
 			   yn
 
 ACTIONS = $(JEFF_ACTIONS)

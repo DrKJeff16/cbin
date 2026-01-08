@@ -7,9 +7,8 @@
 #include <string.h>
 #include <unistd.h>
 
-static void usage(int code) {
-  char *txt = "cointoss [<X> <Y>] [-h]\n\n        -h                 print usage";
-  vdie(code, "%s\n", txt);
+static void usage(const int code) {
+  vdie(code, "%s\n", "cointoss [<X> <Y>] [-h]\n\n        -h                 print usage");
 }
 
 /* @brief Garbage collector
