@@ -1,4 +1,5 @@
 #include <argp.h>
+#include <countdown.h>
 #include <jeff/jeff.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,7 +10,6 @@ const char *argp_program_version = "countdown 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Customizable countdown program.";
 static char args_doc[] = "[-v] [-n INT] [-d INT]";
-
 static argp_option_t options[] = {
   {
     .name = "verbose",
@@ -32,7 +32,6 @@ static argp_option_t options[] = {
     .flags = 0,
     .doc = "The duration per countdown",
   },
-  { 0 },
 };
 
 static void verbose_print(const jbool verbose, const char *txt, FILE *restrict stream) {
@@ -45,13 +44,6 @@ static void verbose_print(const jbool verbose, const char *txt, FILE *restrict s
 
   fprintf(stream, "%s\n", txt);
 }
-
-/* Used by main to communicate with parse_opt. */
-typedef struct arguments {
-  jbool verbose;
-  j_uint duration;
-  j_uint num;
-} args_t;
 
 /* Parse a single option. */
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
@@ -82,32 +74,49 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   return 0;
 }
 
+j_uint *gen_range(const j_uint num) {
+  j_uint *res = CALLOC(j_uint, num);
+  for (j_uint i = 0; i < num; i++) {
+    res[i] = num - i;
+  }
+
+  return res;
+}
+
+void count_down(const j_uint *const range, const j_uint num, const j_uint duration) {
+  for (j_uint i = 0; i < num; i++) {
+    printf("%d\n", range[i]);
+    sleep(duration);
+  }
+}
+
+static args_t init_args(void) {
+  args_t arguments = {
+    .duration = 1,
+    .num = 5,
+    .verbose = JFALSE,
+  };
+
+  return arguments;
+}
+
 /* Our argp parser. */
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 int main(int argc, char **argv) {
-  args_t arguments;
-  arguments.duration = 1;
-  arguments.num = 5;
-  arguments.verbose = JFALSE;
-
+  args_t arguments = init_args();
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
-  char *s = CALLOC(char, 512);
+  char *s = CALLOC(char, 1024);
   sprintf(s, "Duration: %ds\nStarts at: %d\n", arguments.duration, arguments.num);
-
   s = REALLOC(s, char, strlen(s) + 1);
 
   verbose_print(arguments.verbose, s, NULL);
   free(s);
 
-  while (arguments.num > 0) {
-    printf("%d\n", arguments.num);
-    sleep(arguments.duration);
-
-    arguments.num--;
-  }
-
+  j_uint *range = gen_range(arguments.num);
+  count_down(range, arguments.num, arguments.duration);
+  free(range);
   return 0;
 }
 

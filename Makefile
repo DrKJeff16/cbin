@@ -48,9 +48,6 @@ $(OBJDIR)/jdie.o: $(SRCDIR)/jeff/jdie.c
 $(OBJDIR)/jerr.o: $(SRCDIR)/jeff/jerr.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jasync.o: $(SRCDIR)/jeff/jasync.c
-	$(CC) -c $< $(JEFF_CFLAGS) -o $@
-
 $(OBJDIR)/jmemory.o: $(SRCDIR)/jeff/jmemory.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 

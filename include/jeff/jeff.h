@@ -6,7 +6,6 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <bits/types/FILE.h>
-#include <jeff/jasync-sem.h>
 #include <jeff/jasync.h>
 #include <jeff/jhash.h>
 #include <jeff/jinput.h>
