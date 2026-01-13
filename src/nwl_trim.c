@@ -108,8 +108,9 @@ int main(int argc, char **argv) {
   for (j_ullong i = 0; i < arguments.n_files; i++) {
     FILE *file = fopen(arguments.files[i], "r");
     if (null_ptr(file)) {
+      j_err("Empty file pointer for `%s`!\n", arguments.files[i]);
       files_gc(arguments.files, arguments.n_files);
-      vdie(1, "Empty file pointer for `%s`!\n", arguments.files[i]);
+      die(1, NULL);
     }
 
     char *line = NULL;
