@@ -8,7 +8,6 @@ const char *argp_program_version = "yn 1.0";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "An easy \"Yes/No\" prompt.";
 static char args_doc[] = "[-N] [<X>]";
-
 static argp_option_t options[] = {
   {
     .name = "invert",
@@ -38,7 +37,9 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       break;
 
     case ARGP_KEY_ARG:
-      arguments->args[0] = arg;
+      if (null_ptr(arguments->args[0])) {
+        arguments->args[0] = arg;
+      }
       break;
 
     case ARGP_KEY_END:
@@ -52,16 +53,19 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
-void prompt(char *msg, const jbool negative) {
+static void prompt(const char *restrict msg, const jbool negative) {
   printf("%s [%s]: ", msg, (!negative) ? "Y/n" : "y/N");
 }
 
 int main(int argc, char **argv) {
   args_t arguments;
   arguments.invert = JFALSE;
-  arguments.args[0] = "Confirm?";
+  arguments.args[0] = NULL;
 
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
+  if (null_ptr(arguments.args[0])) {
+    arguments.args[0] = "Confirm?";
+  }
 
   prompt(arguments.args[0], arguments.invert);
   jbool prev = JFALSE;

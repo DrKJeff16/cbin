@@ -1,5 +1,5 @@
-#if !defined(YES_NO_H)
-#define YES_NO_H 1
+#if !defined(JFILE_H)
+#define JFILE_H 1
 
 #if defined(__cplusplus)
 extern "C" {
@@ -7,13 +7,12 @@ extern "C" {
 
 #include <jeff/jtypes.h>
 
-char *get_no_args(char **const argv, const size_t argc);
-static void prompt(const char *restrict msg, const jbool negative);
+jbool is_file(const char *restrict path);
 
 #if defined(__cplusplus)
 }
 #endif /* __cplusplus */
 
-#endif /* !YES_NO_H */
+#endif /* !JFILE_H */
 
 /* vim: set ts=2 sts=2 sw=2 et ai si sta: */

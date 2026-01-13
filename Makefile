@@ -54,6 +54,9 @@ $(OBJDIR)/jmemory.o: $(SRCDIR)/jeff/jmemory.c
 $(OBJDIR)/jrandom.o: $(SRCDIR)/jeff/jrandom.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
+$(OBJDIR)/jfile.o: $(SRCDIR)/jeff/jfile.c
+	$(CC) -c $< $(JEFF_CFLAGS) -o $@
+
 $(OBJDIR)/jhash.o: $(SRCDIR)/jeff/jhash.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 

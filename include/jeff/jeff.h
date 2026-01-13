@@ -7,6 +7,7 @@ extern "C" {
 
 #include <bits/types/FILE.h>
 #include <jeff/jasync.h>
+#include <jeff/jfile.h>
 #include <jeff/jhash.h>
 #include <jeff/jinput.h>
 #include <jeff/jlog.h>

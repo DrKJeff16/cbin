@@ -5,8 +5,17 @@
 extern "C" {
 #endif /* __cplusplus */
 
-int is_file(const char *path);
-static void files_gc(char **files, const unsigned long long n);
+#include <jeff/jtypes.h>
+
+typedef struct arguments {
+  jbool verbose;
+  j_ullong keep_lines;
+  j_ullong n_files;
+  char **files;
+} args_t;
+
+jbool is_file(const char *restrict path);
+static void files_gc(char **files, const j_ullong n);
 
 #if defined(__cplusplus)
 }

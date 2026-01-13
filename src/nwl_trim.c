@@ -5,14 +5,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/stat.h>
-#include <unistd.h>
 
 const char *argp_program_version = "nwl_trim 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Simple newline trimming plugin.";
 static char args_doc[] = "[-v] [-k NUM]";
-
 static argp_option_t options[] = {
   {
     .name = "verbose",
@@ -31,14 +28,6 @@ static argp_option_t options[] = {
   { 0 },
 };
 
-/* Used by main to communicate with parse_opt. */
-typedef struct arguments {
-  jbool verbose;
-  j_ullong keep_lines;
-  j_ullong n_files;
-  char **files;
-} args_t;
-
 static void vverbose_print(const jbool verbose, FILE *restrict stream, const char *fmt, ...) {
   if (!verbose) {
     return;
@@ -51,12 +40,6 @@ static void vverbose_print(const jbool verbose, FILE *restrict stream, const cha
   va_start(argp, fmt);
   fprintf(stream, fmt, argp);
   va_end(argp);
-}
-
-int is_file(const char *path) {
-  struct stat path_stat;
-  stat(path, &path_stat);
-  return S_ISREG(path_stat.st_mode);
 }
 
 static void files_gc(char **files, const j_ullong n) {
