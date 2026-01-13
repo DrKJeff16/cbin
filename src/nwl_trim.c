@@ -1,4 +1,5 @@
 #include <argp.h>
+#include <bits/types/error_t.h>
 #include <jeff/jeff.h>
 #include <nwl_trim.h>
 #include <stdarg.h>

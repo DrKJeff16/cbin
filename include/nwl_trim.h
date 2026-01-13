@@ -14,7 +14,6 @@ typedef struct arguments {
   char **files;
 } args_t;
 
-jbool is_file(const char *restrict path);
 static void files_gc(char **files, const j_ullong n);
 
 #if defined(__cplusplus)
