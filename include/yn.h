@@ -7,6 +7,12 @@ extern "C" {
 
 #include <jeff/jtypes.h>
 
+typedef struct arguments {
+  jbool invert;
+  size_t n_args;
+  char *args[1];
+} args_t;
+
 char *get_no_args(char **const argv, const size_t argc);
 static void prompt(const char *restrict msg, const jbool negative);
 

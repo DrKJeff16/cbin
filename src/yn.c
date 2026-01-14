@@ -19,12 +19,6 @@ static argp_option_t options[] = {
   { 0 },
 };
 
-/* Used by main to communicate with parse_opt. */
-typedef struct arguments {
-  jbool invert;
-  char *args[1];
-} args_t;
-
 /* Parse a single option. */
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   /* Get the input argument from argp_parse, which we
@@ -37,8 +31,9 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       break;
 
     case ARGP_KEY_ARG:
-      if (null_ptr(arguments->args[0])) {
+      if (!arguments->n_args) {
         arguments->args[0] = arg;
+        arguments->n_args++;
       }
       break;
 
@@ -60,12 +55,10 @@ static void prompt(const char *restrict msg, const jbool negative) {
 int main(int argc, char **argv) {
   args_t arguments;
   arguments.invert = JFALSE;
-  arguments.args[0] = NULL;
+  arguments.n_args = 0;
+  arguments.args[0] = "Confirm?";
 
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
-  if (null_ptr(arguments.args[0])) {
-    arguments.args[0] = "Confirm?";
-  }
 
   prompt(arguments.args[0], arguments.invert);
   jbool prev = JFALSE;
