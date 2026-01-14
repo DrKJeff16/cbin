@@ -1,3 +1,4 @@
+#include <argp.h>
 #include <asm-generic/errno.h>
 #include <cointoss.h>
 #include <fcntl.h>
@@ -7,22 +8,82 @@
 #include <string.h>
 #include <unistd.h>
 
-static void usage(const int code) {
-  vdie(code, "%s\n", "cointoss [<X> <Y>] [-h]\n\n        -h                 print usage");
+const char *argp_program_version = "cointoss 0.2";
+const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
+static char doc[] = "Cointoss program.";
+static char args_doc[] = "[-u] [-r NUM] [-c COUNT] [<X> <Y>]";
+static argp_option_t options[] = {
+  {
+    .name = "total",
+    .key = 't',
+    .arg = 0,
+    .flags = 0,
+    .doc = "Whether to show the total stats",
+  },
+  {
+    .name = "count",
+    .key = 'c',
+    .arg = "COUNT",
+    .flags = 0,
+    .doc = "How many iterations should be repeated",
+  },
+  {
+    .name = "repeat",
+    .key = 'r',
+    .arg = "REPEAT",
+    .flags = 0,
+    .doc = "The repeating cycles amount",
+  },
+  {
+    .name = "no-urandom",
+    .key = 'u',
+    .arg = 0,
+    .flags = 0,
+    .doc = "Use /dev/random instead of /dev/urandom",
+  },
+  { 0 },
+};
+
+/* Parse a single option. */
+static error_t parse_opt(int key, char *arg, argp_state_t *state) {
+  /* Get the input argument from argp_parse, which we
+     know is a pointer to our arguments structure. */
+  args_t *arguments = state->input;
+
+  switch (key) {
+    case 'u':
+      arguments->urandom = JFALSE;
+      break;
+
+    case 'c':
+      arguments->count = (size_t)atoi(arg);
+      break;
+
+    case 't':
+      arguments->total = JTRUE;
+      break;
+
+    case 'r':
+      arguments->rep = (j_ullong)atoi(arg);
+      break;
+
+    case ARGP_KEY_ARG:
+      if (arguments->n_args < 2) {
+        arguments->args[arguments->n_args] = arg;
+        arguments->n_args++;
+      }
+      break;
+
+    case ARGP_KEY_END:
+      break;
+
+    default:
+      return ARGP_ERR_UNKNOWN;
+  }
+  return 0;
 }
 
-/* @brief Garbage collector
- *
- */
-static void gc(char **coin, coin_t *c) {
-  void **garbage = CALLOC(void *, 4);
-  garbage[0] = VOID_PTR(c);
-  garbage[1] = VOID_PTR(coin[JTRUE]);
-  garbage[2] = VOID_PTR(coin[JFALSE]);
-  garbage[3] = VOID_PTR(coin);
-
-  j_gc(garbage, 4);
-}
+static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 coin_t *init_choices(void) {
   coin_t *c = MALLOC(coin_t);
@@ -33,30 +94,22 @@ coin_t *init_choices(void) {
   return c;
 }
 
-char **init_decisions(const int fd, coin_t *c, char **argv) {
-  jbool no_argv = JFALSE;
-  char **defaults = CALLOC(char *, 2);
-  char **p = defaults;
-  if (null_ptr(argv)) {
-    no_argv = JTRUE;
-    *p = "HEADS";
-    p++;
-    *p = "TAILS";
-  }
-  char **decisions = CALLOC(char *, 2);
-  for (size_t i = 0; i <= JTRUE; i++) {
-    decisions[i] = CALLOC(char, strlen((no_argv) ? defaults[i] : argv[i + 1]) + 1);
-    char *chr = stpcpy(decisions[i], (no_argv) ? defaults[i] : argv[i + 1]);
-    if (null_ptr(chr)) {
-      gc(decisions, c);
-      close(fd);
-      j_errno_vdie(2, EBADE, "(cointoss): %s\n", "Unable to copy string to new array!");
+void show_total(char *choices[2], char **total, size_t n) {
+  coin_t c = { .HEADS = 0, .TAILS = 0 };
+
+  for (size_t i = 0; i < n; i++) {
+    if (!strcmp(choices[0], total[i])) {
+      c.HEADS++;
+      continue;
+    }
+    if (!strcmp(choices[1], total[i])) {
+      c.TAILS++;
+      continue;
     }
   }
 
-  free(defaults);
-
-  return decisions;
+  printf("\n`%s` ==> %llu\n`%s` ==> %llu\n\n", choices[0], c.HEADS, choices[1], c.TAILS);
+  free(total);
 }
 
 void decide(const jbool x, coin_t *c) {
@@ -82,51 +135,61 @@ jbool fd_toss(const int fd) {
   return fd_urand(fd, JFALSE, JTRUE) ? JTRUE : JFALSE;
 }
 
-void verdict(const int fd, coin_t *const c, char **const coin) {
-  if (fd < 0) {
-    gc(coin, c);
-    j_errno_vdie(JTRUE, EBADFD, "(verdict): %s (fd: %d)\n", "File descriptor unavailable!", fd);
-  }
-  if (null_ptr(coin)) {
-    gc(coin, c);
-    j_errno_vdie(JTRUE, EFAULT, "(verdict): %s\n", "No coin to print!");
-  }
+void verdict(const int fd, coin_t *c, char *coin[2], char **total, const size_t n) {
   if (null_ptr(c)) {
-    gc(coin, c);
+    free(total);
+    free(c);
     j_errno_vdie(JTRUE, EFAULT, "(verdict): %s\n", "No available choices!");
   }
 
-  printf("%s\n", coin[(c->HEADS > c->TAILS) ? JTRUE : ((c->TAILS > c->HEADS) ? JFALSE : fd_toss(fd))]);
+  total[n] = coin[(c->HEADS > c->TAILS) ? JTRUE : ((c->TAILS > c->HEADS) ? JFALSE : fd_toss(fd))];
+  printf("%s\n", total[n]);
+
+  free(c);
 }
 
 int main(int argc, char **argv) {
-  argc--;
+  args_t arguments;
+  arguments.n_args = 0;
+  arguments.urandom = JTRUE;
+  arguments.total = JFALSE;
+  arguments.count = 1;
+  arguments.rep = 1000000;
+  arguments.args[0] = "HEADS";
+  arguments.args[1] = "TAILS";
 
-  if (check_jarg("-h", argv, argc)) {
-    usage(JFALSE);
+  argp_parse(&argp, argc, argv, 0, 0, &arguments);
+
+  if (arguments.n_args != 0 && arguments.n_args != 2) {
+    die(1, "Missing positional argument!");
   }
-  if (argc == 1) {
-    usage(1);
+  if (!arguments.count) {
+    die(1, "-c can't be 0!");
   }
 
-  int fd = open("/dev/urandom", O_RDONLY);
+  char *file = arguments.urandom ? "/dev/urandom" : "/dev/random";
+  int fd = open(file, O_RDONLY);
   if (fd < 0) {
-    j_errno_vdie(127, ENOENT, "(cointoss): `/dev/urandom` is unavailable (fd: %d)!\n", fd);
+    j_errno_vdie(127, ENOENT, "(cointoss): `%s` is unavailable (fd: %d)!\n", file, fd);
   }
 
-  coin_t *c = init_choices();
-  char **coin = init_decisions(fd, c, (!argc) ? NULL : argv);
+  char **total = CALLOC(char *, arguments.count);
+  size_t n = 0;
+  for (; n < arguments.count; n++) {
+    coin_t *c = init_choices();
+    for (j_ullong j = 0; j < arguments.rep && fd >= 0; j++) {
+      decide(fd_toss(fd), c);
+    }
 
-  for (j_ullong i = 0; i < 1000000 && fd >= 0; i++) {
-    decide(fd_toss(fd), c);
+    verdict(fd, c, arguments.args, total, n);
+  }
+  if (close(fd) != 0) {
+    free(total);
+    die(JTRUE, "File descriptor could not be closed correctly!");
   }
 
-  verdict(fd, c, coin);
-  gc(coin, c);
-
-  int closed = close(fd);
-  if (closed != 0) {
-    vdie(JTRUE, "Code %d: File descriptor could not be closed correctly!\n", closed);
+  if (arguments.total) {
+    show_total(arguments.args, total, n);
   }
 
   die(JFALSE, NULL);

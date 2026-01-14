@@ -70,8 +70,7 @@ int main(int argc, char **argv) {
   prompt(arguments.args[0], arguments.invert);
   jbool prev = JFALSE;
   char in;
-  in = getchar();
-  do {
+  while ((in = getchar())) {
     switch (in) {
       case 'N':
       case 'n':
@@ -94,7 +93,7 @@ int main(int argc, char **argv) {
         prev = JTRUE;
         break;
     }
-  } while ((in = getchar()));
+  }
 
   return 127;
 }

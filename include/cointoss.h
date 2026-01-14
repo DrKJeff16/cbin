@@ -7,6 +7,15 @@ extern "C" {
 
 #include <jeff/jtypes.h>
 
+typedef struct arguments {
+  jbool urandom;
+  jbool total;
+  j_ullong rep;
+  size_t n_args;
+  size_t count;
+  char *args[2];
+} args_t;
+
 typedef struct _choices {
   j_ullong TAILS;
   j_ullong HEADS;
@@ -14,10 +23,10 @@ typedef struct _choices {
 
 jbool fd_toss(const int fd);
 coin_t *init_choices(void);
-char **init_decisions(const int fd, coin_t *c, char **argv);
 
 void decide(const jbool x, coin_t *c);
-void verdict(const int fd, coin_t *const c, char **const coin);
+void verdict(const int fd, coin_t *c, char *coin[2], char **total, const size_t n);
+void show_total(char *choices[2], char **total, size_t n);
 
 static void gc(char **coin, coin_t *c);
 
