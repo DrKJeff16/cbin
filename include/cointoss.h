@@ -14,7 +14,7 @@ typedef struct arguments {
   size_t n_args;
   size_t count;
   char *args[2];
-} args_t;
+} arg_data;
 
 typedef struct _choices {
   j_ullong TAILS;
@@ -29,6 +29,7 @@ void verdict(const int fd, coin_t *c, char *coin[2], char **total, const size_t 
 void show_total(char *choices[2], char **total, size_t n);
 
 static void gc(char **coin, coin_t *c);
+static arg_data init_args(void);
 
 #if defined(__cplusplus)
 }

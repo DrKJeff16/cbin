@@ -1,7 +1,12 @@
 #include <jeff/jfile.h>
+#include <jeff/jmemory.h>
 #include <sys/stat.h>
 
 jbool is_file(const char *restrict path) {
+  if (null_ptr(path)) {
+    return JFALSE;
+  }
+
   struct stat path_stat;
   stat(path, &path_stat);
   return S_ISREG(path_stat.st_mode);

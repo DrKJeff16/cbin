@@ -1,4 +1,6 @@
-#include <jeff/jeff.h>
+#include <jeff/jdie.h>
+#include <jeff/jerr.h>
+#include <jeff/jmemory.h>
 #include <jeff/jsignal.h>
 #include <signal.h>
 #include <stddef.h>

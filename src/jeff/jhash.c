@@ -1,6 +1,7 @@
-#include <jeff/jeff.h>
 #include <jeff/jhash.h>
 #include <jeff/jmemory.h>
+#include <stddef.h>
+#include <stdlib.h>
 #include <string.h>
 
 void init_jhash(jhash_t *node, char *key, char *value) {
@@ -18,14 +19,7 @@ void init_jhash_map(jhash_map *mp) {
 j_llong jhash(jhash_map *mp, char *key) {
   j_llong sum = 0, factor = 31;
   for (size_t i = 0; i < strlen(key); i++) {
-    /// sum = sum + (ascii value of
-    /// char * (primeNumber ^ x))...
-    /// where x = 1, 2, 3....n
     sum = ((sum % mp->capacity) + (((j_llong)key[i]) * factor) % mp->capacity) % mp->capacity;
-
-    /// factor = factor * prime
-    /// number....(prime
-    /// number) ^ x
     factor = ((factor % __INT64_MAX__) * (31 % __INT64_MAX__)) % __INT64_MAX__;
   }
 

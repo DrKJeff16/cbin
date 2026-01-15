@@ -1,7 +1,8 @@
-#include <asm-generic/errno.h>
-#include <jeff/jeff.h>
+#include <jeff/jdie.h>
+#include <jeff/jinput.h>
+#include <jeff/jmemory.h>
+#include <jeff/jstring.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 char *buffer_get(char *const msg, size_t *const buf_len) {

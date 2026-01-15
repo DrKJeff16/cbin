@@ -1,7 +1,8 @@
-#include <jeff/jeff.h>
+#include <jeff/jdie.h>
+#include <jeff/jerr.h>
+#include <jeff/jmemory.h>
 #include <jeff/jstring.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <stddef.h>
 #include <string.h>
 
 jbool str_startswith(char *const str, char *const start) {

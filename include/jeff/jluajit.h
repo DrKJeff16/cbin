@@ -5,11 +5,10 @@
 extern "C" {
 #endif
 
-#include <jeff/jmemory.h>
 #include <jeff/jtypes.h>
 #include <lauxlib.h>
 #include <lua.h>
-#include <luajit.h>
+#include <luajit-2.1/luajit.h>
 #include <lualib.h>
 
 lua_State *new_lua_state(void);

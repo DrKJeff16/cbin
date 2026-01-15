@@ -12,9 +12,10 @@ typedef struct arguments {
   j_ullong keep_lines;
   j_ullong n_files;
   char **files;
-} args_t;
+} arg_data;
 
 static void files_gc(char **files, const j_ullong n);
+static arg_data init_args(void);
 
 #if defined(__cplusplus)
 }

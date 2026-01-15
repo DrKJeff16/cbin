@@ -1,7 +1,5 @@
 #include <argp.h>
-#include <jeff/jeff.h>
 #include <stdio.h>
-#include <string.h>
 #include <yn.h>
 
 const char *argp_program_version = "yn 1.0";
@@ -23,7 +21,7 @@ static argp_option_t options[] = {
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   /* Get the input argument from argp_parse, which we
      know is a pointer to our arguments structure. */
-  args_t *arguments = state->input;
+  arg_data *arguments = state->input;
 
   switch (key) {
     case 'N':
@@ -52,11 +50,17 @@ static void prompt(const char *restrict msg, const jbool negative) {
   printf("%s [%s]: ", msg, (!negative) ? "Y/n" : "y/N");
 }
 
-int main(int argc, char **argv) {
-  args_t arguments;
+static arg_data init_args(void) {
+  arg_data arguments;
   arguments.invert = JFALSE;
   arguments.n_args = 0;
   arguments.args[0] = "Confirm?";
+
+  return arguments;
+}
+
+int main(int argc, char **argv) {
+  arg_data arguments = init_args();
 
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 

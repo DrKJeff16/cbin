@@ -67,6 +67,9 @@ PKG_CONFIG_BIN := pkgconf
 JEFF_INCDIR = $(INCDIR)/jeff
 JEFF_H = $(JEFF_INCDIR)/jeff.h \
 		 $(JEFF_INCDIR)/jasync.h \
+		 $(JEFF_INCDIR)/jdie.h \
+		 $(JEFF_INCDIR)/jerr.h \
+		 $(JEFF_INCDIR)/jswap.h \
 		 $(JEFF_INCDIR)/jhash.h \
 		 $(JEFF_INCDIR)/jfile.h \
 		 $(JEFF_INCDIR)/jinput.h \

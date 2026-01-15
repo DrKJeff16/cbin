@@ -55,7 +55,7 @@ static void files_gc(char **files, const j_ullong n) {
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   /* Get the input argument from argp_parse, which we
      know is a pointer to our arguments structure. */
-  args_t *arguments = state->input;
+  arg_data *arguments = state->input;
 
   switch (key) {
     case 'v':
@@ -88,15 +88,20 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   return 0;
 }
 
-/* Our argp parser. */
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
-int main(int argc, char **argv) {
-  args_t arguments;
+static arg_data init_args(void) {
+  arg_data arguments;
   arguments.verbose = JFALSE;
   arguments.n_files = 0;
   arguments.keep_lines = 0;
   arguments.files = MALLOC(char *);
+
+  return arguments;
+}
+
+int main(int argc, char **argv) {
+  arg_data arguments = init_args();
 
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 

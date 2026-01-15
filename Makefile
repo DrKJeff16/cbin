@@ -141,7 +141,9 @@ install_local_bin_stripped: install_local_bin
 install_headers:
 	@rm -rf $(GLOBAL_PREFIX)/include/jeff
 	@mkdir -p $(GLOBAL_PREFIX)/include/jeff
+	install -m 644 $(JEFF_INCDIR)/jdie.h $(GLOBAL_PREFIX)/include/jeff/jdie.h
 	install -m 644 $(JEFF_INCDIR)/jeff.h $(GLOBAL_PREFIX)/include/jeff/jeff.h
+	install -m 644 $(JEFF_INCDIR)/jerr.h $(GLOBAL_PREFIX)/include/jeff/jerr.h
 	install -m 644 $(JEFF_INCDIR)/jinput.h $(GLOBAL_PREFIX)/include/jeff/jinput.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h $(GLOBAL_PREFIX)/include/jeff/jlog.h
 	install -m 644 $(JEFF_INCDIR)/jluajit.h $(GLOBAL_PREFIX)/include/jeff/jluajit.h

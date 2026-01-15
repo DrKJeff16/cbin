@@ -2,7 +2,9 @@
 #include <asm-generic/errno.h>
 #include <cointoss.h>
 #include <fcntl.h>
-#include <jeff/jeff.h>
+#include <jeff/jdie.h>
+#include <jeff/jmemory.h>
+#include <jeff/jrandom.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,7 +50,7 @@ static argp_option_t options[] = {
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   /* Get the input argument from argp_parse, which we
      know is a pointer to our arguments structure. */
-  args_t *arguments = state->input;
+  arg_data *arguments = state->input;
 
   switch (key) {
     case 'u':
@@ -148,8 +150,8 @@ void verdict(const int fd, coin_t *c, char *coin[2], char **total, const size_t 
   free(c);
 }
 
-int main(int argc, char **argv) {
-  args_t arguments;
+static arg_data init_args(void) {
+  arg_data arguments;
   arguments.n_args = 0;
   arguments.urandom = JTRUE;
   arguments.total = JFALSE;
@@ -157,6 +159,12 @@ int main(int argc, char **argv) {
   arguments.rep = 1000000;
   arguments.args[0] = "HEADS";
   arguments.args[1] = "TAILS";
+
+  return arguments;
+}
+
+int main(int argc, char **argv) {
+  arg_data arguments = init_args();
 
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 

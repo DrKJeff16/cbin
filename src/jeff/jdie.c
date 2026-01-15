@@ -1,11 +1,15 @@
 #include <asm-generic/errno.h>
+#include <jeff/jdie.h>
 #include <jeff/jeff.h>
+#include <jeff/jmemory.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-/// Kill program ekecution with optional output message
+/**
+ * @brief Kill program ekecution with optional output message
+ */
 void die(const int status, char *const msg) {
   if (!null_ptr(msg)) {
     fprintf(J_OUTPUT(status), "%s\n", msg);

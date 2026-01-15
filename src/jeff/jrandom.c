@@ -1,6 +1,8 @@
-#include <asm-generic/errno.h>
-#include <jeff/jeff.h>
+#include <jeff/jerr.h>
+#include <jeff/jmemory.h>
 #include <jeff/jrandom.h>
+#include <jeff/jswap.h>
+#include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
 

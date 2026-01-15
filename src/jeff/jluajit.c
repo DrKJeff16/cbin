@@ -1,6 +1,10 @@
+#include <jeff/jdie.h>
 #include <jeff/jeff.h>
 #include <jeff/jluajit.h>
+#include <jeff/jmemory.h>
+#include <lauxlib.h>
 #include <lua.h>
+#include <lualib.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>

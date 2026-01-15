@@ -11,10 +11,11 @@ typedef struct arguments {
   jbool invert;
   size_t n_args;
   char *args[1];
-} args_t;
+} arg_data;
 
 char *get_no_args(char **const argv, const size_t argc);
 static void prompt(const char *restrict msg, const jbool negative);
+static arg_data init_args(void);
 
 #if defined(__cplusplus)
 }

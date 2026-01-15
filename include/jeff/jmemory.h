@@ -8,6 +8,8 @@ extern "C" {
 #include <stddef.h>
 #include <stdlib.h>
 
+#define null_ptr(ptr) (!ptr || ptr == NULL)
+
 #if !defined(MALLOC)
 #define MALLOC(type) (type *)malloc(sizeof(type))
 #endif /* !MALLOC */

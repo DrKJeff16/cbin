@@ -49,7 +49,7 @@ static void verbose_print(const jbool verbose, const char *txt, FILE *restrict s
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   /* Get the input argument from argp_parse, which we
      know is a pointer to our arguments structure. */
-  args_t *arguments = state->input;
+  arg_data *arguments = state->input;
 
   switch (key) {
     case 'v':
@@ -90,8 +90,8 @@ void count_down(const j_uint *const range, const j_uint num, const j_uint durati
   }
 }
 
-static args_t init_args(void) {
-  args_t arguments = {
+static arg_data init_args(void) {
+  arg_data arguments = {
     .duration = 1,
     .num = 5,
     .verbose = JFALSE,
@@ -104,7 +104,7 @@ static args_t init_args(void) {
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 int main(int argc, char **argv) {
-  args_t arguments = init_args();
+  arg_data arguments = init_args();
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
   char *s = CALLOC(char, 1024);

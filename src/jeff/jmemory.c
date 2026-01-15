@@ -1,5 +1,5 @@
-#include <jeff/jeff.h>
 #include <jeff/jmemory.h>
+#include <stddef.h>
 #include <stdlib.h>
 
 void j_gc(void **garbage, const size_t n) {

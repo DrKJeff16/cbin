@@ -1,6 +1,8 @@
 #include <asm-generic/errno.h>
 #include <fcntl.h>
-#include <jeff/jeff.h>
+#include <jeff/jerr.h>
+#include <jeff/jlog.h>
+#include <jeff/jmemory.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>

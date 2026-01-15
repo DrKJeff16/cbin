@@ -11,10 +11,12 @@ typedef struct arguments {
   jbool verbose;
   j_uint duration;
   j_uint num;
-} args_t;
+} arg_data;
 
 j_uint *gen_range(const j_uint num);
 void count_down(const j_uint *const range, const j_uint num, const j_uint duration);
+
+static arg_data init_args(void);
 
 #if defined(__cplusplus)
 }
