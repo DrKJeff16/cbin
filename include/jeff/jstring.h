@@ -5,7 +5,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include "jtypes.h"
+#include <jeff/jtypes.h>
 
 jbool str_startswith(char *const str, char *const start);
 
