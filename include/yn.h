@@ -10,6 +10,7 @@ extern "C" {
 typedef struct arguments {
   jbool invert;
   size_t n_args;
+  int code;
   char *args[1];
 } arg_data;
 

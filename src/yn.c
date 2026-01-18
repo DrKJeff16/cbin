@@ -1,12 +1,20 @@
 #include <argp.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <yn.h>
 
 const char *argp_program_version = "yn 1.0";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "An easy \"Yes/No\" prompt.";
-static char args_doc[] = "[-N] [<X>]";
+static char args_doc[] = "[-N] [-c INT] [<X>]";
 static argp_option_t options[] = {
+  {
+    .name = "exit-code",
+    .key = 'c',
+    .arg = "CODE",
+    .flags = 0,
+    .doc = "The desired failure exit code",
+  },
   {
     .name = "invert",
     .key = 'N',
@@ -23,7 +31,13 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
      know is a pointer to our arguments structure. */
   arg_data *arguments = state->input;
 
+  int num;
   switch (key) {
+    case 'c':
+      num = atoi(arg);
+      arguments->code = (num != JFALSE) ? num : JTRUE;
+      break;
+
     case 'N':
       arguments->invert = JTRUE;
       break;
@@ -55,6 +69,7 @@ static arg_data init_args(void) {
   arguments.invert = JFALSE;
   arguments.n_args = 0;
   arguments.args[0] = "Confirm?";
+  arguments.code = 1;
 
   return arguments;
 }
@@ -71,7 +86,7 @@ int main(int argc, char **argv) {
     switch (in) {
       case 'N':
       case 'n':
-        return 1;
+        return arguments.code;
 
       case 'Y':
       case 'y':
@@ -80,7 +95,7 @@ int main(int argc, char **argv) {
       case '\n':
       case '\r':
         if (!prev) {
-          return arguments.invert;
+          return (arguments.invert) ? arguments.code : 0;
         }
         prompt(arguments.args[0], arguments.invert);
         prev = JFALSE;
@@ -92,7 +107,7 @@ int main(int argc, char **argv) {
     }
   }
 
-  return 127;
+  return arguments.code;
 }
 
 /* vim: set ts=2 sts=2 sw=2 et ai si sta: */

@@ -11,6 +11,8 @@ typedef struct arguments {
   jbool verbose;
   j_uint duration;
   j_uint num;
+  size_t n_args;
+  char **msg;
 } arg_data;
 
 j_uint *gen_range(const j_uint num);

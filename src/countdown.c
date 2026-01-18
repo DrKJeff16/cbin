@@ -9,7 +9,7 @@
 const char *argp_program_version = "countdown 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Customizable countdown program.";
-static char args_doc[] = "[-v] [-n INT] [-d INT]";
+static char args_doc[] = "[-v] [-n INT] [-d INT] [<MSG>]";
 static argp_option_t options[] = {
   {
     .name = "verbose",
@@ -32,6 +32,7 @@ static argp_option_t options[] = {
     .flags = 0,
     .doc = "The duration per countdown",
   },
+  { 0 },
 };
 
 static void verbose_print(const jbool verbose, const char *txt, FILE *restrict stream) {
@@ -45,12 +46,9 @@ static void verbose_print(const jbool verbose, const char *txt, FILE *restrict s
   fprintf(stream, "%s\n", txt);
 }
 
-/* Parse a single option. */
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
-  /* Get the input argument from argp_parse, which we
-     know is a pointer to our arguments structure. */
   arg_data *arguments = state->input;
-
+  j_uint num;
   switch (key) {
     case 'v':
       arguments->verbose = JTRUE;
@@ -61,10 +59,21 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       break;
 
     case 'd':
-      arguments->duration = (j_uint)atoi(arg);
+      num = (j_uint)atoi(arg);
+      arguments->duration = (num > 0) ? num : 1;
       break;
 
     case ARGP_KEY_ARG:
+      arguments->n_args++;
+      if (null_ptr(arguments->msg)) {
+        arguments->msg = MALLOC(char *);
+        arguments->msg[0] = arg;
+        break;
+      }
+      arguments->msg = REALLOC(arguments->msg, char *, arguments->n_args);
+      arguments->msg[arguments->n_args - 1] = arg;
+      break;
+
     case ARGP_KEY_END:
       break;
 
@@ -95,6 +104,8 @@ static arg_data init_args(void) {
     .duration = 1,
     .num = 5,
     .verbose = JFALSE,
+    .n_args = 0,
+    .msg = NULL,
   };
 
   return arguments;
@@ -108,7 +119,7 @@ int main(int argc, char **argv) {
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
   char *s = CALLOC(char, 1024);
-  sprintf(s, "Duration: %ds\nStarts at: %d\n", arguments.duration, arguments.num);
+  snprintf(s, 1024, "Duration: %ds\nStarts at: %d\n", arguments.duration, arguments.num);
   s = REALLOC(s, char, strlen(s) + 1);
 
   verbose_print(arguments.verbose, s, NULL);
@@ -117,6 +128,13 @@ int main(int argc, char **argv) {
   j_uint *range = gen_range(arguments.num);
   count_down(range, arguments.num, arguments.duration);
   free(range);
+
+  if (!null_ptr(arguments.msg)) {
+    for (size_t i = 0; i < arguments.n_args; i++) {
+      printf("%s%c", arguments.msg[i], (i == arguments.n_args - 1) ? '\0' : ' ');
+    }
+    free(arguments.msg);
+  }
   return 0;
 }
 
