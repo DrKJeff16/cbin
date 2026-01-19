@@ -15,8 +15,9 @@ typedef struct arguments {
 } arg_data;
 
 char *get_no_args(char **const argv, const size_t argc);
+void yes_no(arg_data *arguments);
 static void prompt(const char *restrict msg, const jbool negative);
-static arg_data init_args(void);
+static arg_data *init_args(void);
 
 #if defined(__cplusplus)
 }

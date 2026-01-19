@@ -1,4 +1,6 @@
 #include <argp.h>
+#include <jeff/jdie.h>
+#include <jeff/jmemory.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <yn.h>
@@ -64,40 +66,42 @@ static void prompt(const char *restrict msg, const jbool negative) {
   printf("%s [%s]: ", msg, (!negative) ? "Y/n" : "y/N");
 }
 
-static arg_data init_args(void) {
-  arg_data arguments;
-  arguments.invert = JFALSE;
-  arguments.n_args = 0;
-  arguments.args[0] = "Confirm?";
-  arguments.code = 1;
+static arg_data *init_args(void) {
+  arg_data *arguments = MALLOC(arg_data);
+  arguments->invert = JFALSE;
+  arguments->n_args = 0;
+  arguments->args[0] = "Confirm?";
+  arguments->code = 1;
 
   return arguments;
 }
 
-int main(int argc, char **argv) {
-  arg_data arguments = init_args();
-
-  argp_parse(&argp, argc, argv, 0, 0, &arguments);
-
-  prompt(arguments.args[0], arguments.invert);
+void yes_no(arg_data *arguments) {
+  prompt(arguments->args[0], arguments->invert);
   jbool prev = JFALSE;
   char in;
+  int code;
   while ((in = getchar())) {
     switch (in) {
       case 'N':
       case 'n':
-        return arguments.code;
+        code = arguments->code;
+        free(arguments);
+        die(code, NULL);
 
       case 'Y':
       case 'y':
-        return 0;
+        free(arguments);
+        die(0, NULL);
 
       case '\n':
       case '\r':
         if (!prev) {
-          return (arguments.invert) ? arguments.code : 0;
+          code = (arguments->invert) ? arguments->code : 0;
+          free(arguments);
+          die(code, NULL);
         }
-        prompt(arguments.args[0], arguments.invert);
+        prompt(arguments->args[0], arguments->invert);
         prev = JFALSE;
         break;
 
@@ -106,8 +110,18 @@ int main(int argc, char **argv) {
         break;
     }
   }
+}
 
-  return arguments.code;
+int main(int argc, char **argv) {
+  arg_data *arguments = init_args();
+
+  argp_parse(&argp, argc, argv, 0, 0, arguments);
+
+  yes_no(arguments);
+
+  int code = arguments->code;
+  free(arguments);
+  return code;
 }
 
 /* vim: set ts=2 sts=2 sw=2 et ai si sta: */
