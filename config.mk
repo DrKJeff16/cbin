@@ -107,6 +107,7 @@ JEFF_LDFLAGS = -lc \
 
 JEFF_ACTIONS = cointoss \
 			   countdown \
+			   misc \
 			   nwl_trim \
 			   yn
 

@@ -81,7 +81,10 @@ $(LIBDIR)/libjeff.so: $(JEFF_OBJECTS)
 $(OBJDIR)/cointoss.o: $(SRCDIR)/cointoss.c $(INCDIR)/cointoss.h
 	$(CC) -c $< $(CFLAGS) -o $@
 
-$(OBJDIR)/countdown.o: $(SRCDIR)/countdown.c
+$(OBJDIR)/countdown.o: $(SRCDIR)/countdown.c $(INCDIR)/countdown.h
+	$(CC) -c $< $(CFLAGS) -o $@
+
+$(OBJDIR)/misc.o: $(SRCDIR)/misc.c
 	$(CC) -c $< $(CFLAGS) -o $@
 
 $(OBJDIR)/nwl_trim.o: $(SRCDIR)/nwl_trim.c $(INCDIR)/nwl_trim.h
@@ -96,6 +99,9 @@ $(BINDIR)/cointoss: $(OBJDIR)/cointoss.o
 $(BINDIR)/countdown: $(OBJDIR)/countdown.o
 	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
 
+$(BINDIR)/misc: $(OBJDIR)/misc.o
+	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
+
 $(BINDIR)/nwl_trim: $(OBJDIR)/nwl_trim.o
 	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
 
@@ -107,6 +113,8 @@ libs: $(LIBDIR) $(OBJDIR) $(BINDIR) $(JEFF_LIBS)
 cointoss: $(BINDIR)/cointoss
 
 countdown: $(BINDIR)/countdown
+
+misc: $(BINDIR)/misc
 
 nwl_trim: $(BINDIR)/nwl_trim
 
