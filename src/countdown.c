@@ -19,6 +19,13 @@ static argp_option_t options[] = {
     .doc = "Produce verbose output",
   },
   {
+    .name = "silent",
+    .key = 's',
+    .arg = 0,
+    .flags = 0,
+    .doc = "Don't show the number countdown",
+  },
+  {
     .name = 0,
     .key = 'n',
     .arg = "NUM",
@@ -52,6 +59,10 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   switch (key) {
     case 'v':
       arguments->verbose = JTRUE;
+      break;
+
+    case 's':
+      arguments->no_silent = JFALSE;
       break;
 
     case 'n':
@@ -92,9 +103,11 @@ j_uint *gen_range(const j_uint num) {
   return res;
 }
 
-void count_down(const j_uint *const range, const j_uint num, const j_uint duration) {
+void count_down(const j_uint *const range, const j_uint num, const j_uint duration, const jbool no_silent) {
   for (j_uint i = 0; i < num; i++) {
-    printf("%d\n", range[i]);
+    if (!no_silent) {
+      printf("%d\n", range[i]);
+    }
     sleep(duration);
   }
 }
@@ -104,6 +117,7 @@ static arg_data init_args(void) {
     .duration = 1,
     .num = 5,
     .verbose = JFALSE,
+    .no_silent = JTRUE,
     .n_args = 0,
     .msg = NULL,
   };
@@ -126,7 +140,7 @@ int main(int argc, char **argv) {
   free(s);
 
   j_uint *range = gen_range(arguments.num);
-  count_down(range, arguments.num, arguments.duration);
+  count_down(range, arguments.num, arguments.duration, arguments.no_silent);
   free(range);
 
   if (!null_ptr(arguments.msg)) {
