@@ -77,6 +77,11 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       break;
 
     case ARGP_KEY_END:
+      if (arguments->n_args == 1) {
+        argp_failure(state, 1, 0, "%s %s\n", "Can't accept a single positional parameter.",
+                     "See --help for more information.");
+        die(1, NULL);
+      }
       break;
 
     default:
@@ -151,14 +156,15 @@ void verdict(const int fd, coin_t *c, char *coin[2], char **total, const size_t 
 }
 
 static arg_data init_args(void) {
-  arg_data arguments;
-  arguments.n_args = 0;
-  arguments.urandom = JTRUE;
-  arguments.total = JFALSE;
-  arguments.count = 1;
-  arguments.rep = 1000000;
-  arguments.args[0] = "HEADS";
-  arguments.args[1] = "TAILS";
+  arg_data arguments = {
+    .n_args = 0,
+    .urandom = JTRUE,
+    .total = JFALSE,
+    .count = 1,
+    .rep = 1000000,
+    .args[0] = "HEADS",
+    .args[1] = "TAILS",
+  };
 
   return arguments;
 }
@@ -168,11 +174,8 @@ int main(int argc, char **argv) {
 
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
-  if (arguments.n_args != 0 && arguments.n_args != 2) {
-    die(1, "Missing positional argument!");
-  }
-  if (!arguments.count) {
-    die(1, "-c can't be 0!");
+  if (arguments.count == 0) {
+    die(JTRUE, "-c can't be 0!");
   }
 
   char *file = arguments.urandom ? "/dev/urandom" : "/dev/random";

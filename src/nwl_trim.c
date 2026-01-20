@@ -91,11 +91,12 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 static arg_data init_args(void) {
-  arg_data arguments;
-  arguments.verbose = JFALSE;
-  arguments.n_files = 0;
-  arguments.keep_lines = 0;
-  arguments.files = MALLOC(char *);
+  arg_data arguments = {
+    .verbose = JFALSE,
+    .n_files = 0,
+    .keep_lines = 0,
+    .files = MALLOC(char *),
+  };
 
   return arguments;
 }
