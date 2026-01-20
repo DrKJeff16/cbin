@@ -10,14 +10,15 @@ jbool str_startswith(char *const str, char *const start) {
     return JFALSE;
   }
 
-  size_t start_len = strlen(start);
-  for (size_t i = 0; i <= start_len; i++) {
+  jbool status = JTRUE;
+  for (size_t i = 0; i <= strlen(start); i++) {
     if (str[i] != start[i]) {
-      return JFALSE;
+      status = JFALSE;
+      break;
     }
   }
 
-  return JTRUE;
+  return status;
 }
 
 char *str_rep(const char *const s, const size_t n) {
@@ -47,12 +48,9 @@ jbool in_str(char *const str, const char *const c) {
     die(3, (null_ptr(c)) ? "NULL char array!\n" : ((null_ptr(str) ? "NULL string!\n" : NULL)));
   }
 
-  char *s = CALLOC(char, strlen(str) + 1);
-  stpcpy(s, str);
-
-  for (size_t i = 0; i <= strlen(s); i++) {
+  for (size_t i = 0; i <= strlen(str); i++) {
     for (size_t j = 0; j < strlen(c); j++) {
-      if (s[i] == c[j]) {
+      if (str[i] == c[j]) {
         return JTRUE;
       }
     }
@@ -114,11 +112,8 @@ void str_append_nul(char *str) {
     j_verr("(str_append_nul): %s\n", "Unable to copy `new_str` back to `str`");
   }
 
-  void **garbage = CALLOC(void *, 2);
-  garbage[0] = VOID_PTR(new_str);
-  garbage[1] = VOID_PTR(str_og);
-
-  j_gc(garbage, 2);
+  free(new_str);
+  free(str_og);
 }
 
 jbool is_lower(char *const str) {
@@ -126,13 +121,15 @@ jbool is_lower(char *const str) {
     return JFALSE;
   }
 
+  jbool status = JTRUE;
   for (j_ulong i = 0; i <= strlen(str); i++) {
     if (str[i] >= 'A' && str[i] <= 'Z') {
-      return JFALSE;
+      status = JFALSE;
+      break;
     }
   }
 
-  return JTRUE;
+  return status;
 }
 
 jbool is_upper(char *const str) {
@@ -140,13 +137,15 @@ jbool is_upper(char *const str) {
     return JFALSE;
   }
 
+  jbool status = JTRUE;
   for (size_t i = 0; i <= strlen(str); i++) {
     if (str[i] >= 'a' && str[i] <= 'z') {
-      return JFALSE;
+      status = JFALSE;
+      break;
     }
   }
 
-  return JTRUE;
+  return status;
 }
 
 void lowerize(char *str) {
@@ -154,16 +153,14 @@ void lowerize(char *str) {
     return;
   }
 
-  for (j_ulong i = 0; i <= strlen(str); i++) {
+  for (size_t i = 0; i <= strlen(str); i++) {
     char *c = MALLOC(char);
     *c = str[i];
     if (is_upper(c)) {
       str[i] += 32;
     }
 
-    void **garbage = MALLOC(void *);
-    *garbage = VOID_PTR(c);
-    j_gc(garbage, 1);
+    free(c);
   }
 }
 
@@ -172,16 +169,14 @@ void upperize(char *str) {
     return;
   }
 
-  for (j_ulong i = 0; i <= strlen(str); i++) {
+  for (size_t i = 0; i <= strlen(str); i++) {
     char *c = MALLOC(char);
     *c = str[i];
     if (is_lower(c)) {
       str[i] -= 32;
     }
 
-    void **garbage = MALLOC(void *);
-    *garbage = VOID_PTR(c);
-    j_gc(garbage, 1);
+    free(c);
   }
 }
 
@@ -221,11 +216,11 @@ jbool compare_strv(char **const argv, const size_t len) {
 
   for (size_t i = 1; i < len; i++) {
     if (!strcmp(argv[0], argv[i])) {
-      return JFALSE;
+      return JTRUE;
     }
   }
 
-  return JTRUE;
+  return JFALSE;
 }
 
 void reverse_str(char *s) {
@@ -234,7 +229,6 @@ void reverse_str(char *s) {
   }
 
   size_t l = 0, r = strlen(s) - 1;
-
   while (l < r) {
     char t = s[l];
     s[l] = s[r];
@@ -251,7 +245,6 @@ char *str_reversed(char *const str) {
   }
 
   char *new_str = CALLOC(char, strlen(str) + 1);
-
   if (null_ptr(stpcpy(new_str, str))) {
     return NULL;
   }
@@ -262,25 +255,17 @@ char *str_reversed(char *const str) {
 }
 
 char **filter_argv(const size_t argc, char **const argv) {
-  size_t len = argc;
-
-  if (len <= 1) {
+  if (argc <= 1) {
     return NULL;
   }
 
+  size_t len = argc;
   char **result = CALLOC(char *, len - 1);
-  char *chr = NULL;
-
   for (size_t i = 1; i < len; i++) {
     if (!null_ptr(argv[i])) {
       const size_t i_len = strlen(argv[i]) + 1;
       result[i - 1] = CALLOC(char, i_len);
-
-      chr = stpcpy(result[i - 1], argv[i]);
-
-      if (null_ptr(chr)) {
-        str_append_nul(result[i - 1]);
-      }
+      stpcpy(result[i - 1], argv[i]);
     } else {
       result[i - 1] = NULL;
     }
@@ -295,16 +280,12 @@ jbool check_jarg(const char *arg, char **argv, const j_uint argc) {
   }
 
   jbool res = JFALSE;
-
   for (j_ullong i = 1; i <= argc; i++) {
     char *s = CALLOC(char, strlen(argv[i]) + 1);
-    void **garbage = MALLOC(void *);
-    *garbage = VOID_PTR(s);
-
     strcpy(s, argv[i]);
 
     res = (!strcmp(arg, s)) ? JTRUE : JFALSE;
-    j_gc(garbage, 1);
+    free(s);
 
     if (res) {
       break;
@@ -321,8 +302,7 @@ void j_lstrip(const char c, char *str) {
 
   size_t len = strlen(str), i = 0;
   size_t new_len = len;
-
-  if (c == '\0' || !len || null_ptr(strchr(str, c))) {
+  if (c == 0 || !len || null_ptr(strchr(str, c))) {
     return;
   }
 
@@ -332,10 +312,6 @@ void j_lstrip(const char c, char *str) {
   }
 
   char *new_str = CALLOC(char, new_len + 1);
-  void **garbage = CALLOC(void *, 2);
-  garbage[0] = VOID_PTR(new_str);
-  garbage[1] = VOID_PTR(str);
-
   for (i = 0; i <= new_len; i++) {
     new_str[i] = str[len - new_len + i];
   }
@@ -345,16 +321,19 @@ void j_lstrip(const char c, char *str) {
   str = REALLOC(str, char, new_len + 1);
 
   if (null_ptr(str)) {
-    j_gc(garbage, 2);
+    free(new_str);
+    free(str);
     die(2, "(j_lstrip): FAILED TO REALLOCATE str!");
   }
 
   if (null_ptr(stpcpy(str, new_str))) {
-    j_gc(garbage, 2);
+    free(new_str);
+    free(str);
     die(3, "(j_lstrip): FAILED TO COPY new_str INTO str!");
   }
 
-  j_gc(garbage, 2);
+  free(new_str);
+  free(str);
 }
 
 void j_rstrip(const char c, char *str) {

@@ -7,9 +7,6 @@
 
 void j_err(char *const fmt, char *const msg) {
   char *format = CALLOC(char, 4);
-  void **garbage = MALLOC(void *);
-  *garbage = VOID_PTR(format);
-
   stpcpy(format, "%s\n");
 
   if (!null_ptr(fmt)) {
@@ -22,7 +19,7 @@ void j_err(char *const fmt, char *const msg) {
     fprintf(stderr, "%s\n", format);
   }
 
-  j_gc(garbage, 1);
+  free(format);
 }
 
 void j_verr(char *const fmt, ...) {
@@ -38,9 +35,6 @@ void j_verr(char *const fmt, ...) {
 
 void j_errno_err(const int code, char *const fmt, char *const msg) {
   char *format = CALLOC(char, 4);
-  void **garbage = MALLOC(void *);
-  *garbage = VOID_PTR(format);
-
   int e_code = (code >= EPERM && code <= EHWPOISON) ? code : ENOMSG;
 
   stpcpy(format, "%s\n");
@@ -53,7 +47,7 @@ void j_errno_err(const int code, char *const fmt, char *const msg) {
     j_err(format, msg);
   }
 
-  j_gc(garbage, 1);
+  free(format);
 }
 
 void j_errno_verr(const int code, char *const fmt, ...) {
