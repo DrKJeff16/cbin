@@ -106,21 +106,21 @@ j_uint *gen_range(const j_uint num) {
 void count_down(const j_uint *const range, const j_uint num, const j_uint duration, const jbool no_silent) {
   for (j_uint i = 0; i < num; i++) {
     if (!no_silent) {
-      printf("%d\n", range[i]);
+      printf("\r%d", range[i]);
+      fflush(stdout);
     }
     sleep(duration);
   }
 }
 
-static arg_data init_args(void) {
-  arg_data arguments = {
-    .duration = 1,
-    .num = 5,
-    .verbose = JFALSE,
-    .no_silent = JTRUE,
-    .n_args = 0,
-    .msg = NULL,
-  };
+static arg_data *init_args(void) {
+  arg_data *arguments = MALLOC(arg_data);
+  arguments->duration = 1;
+  arguments->num = 5;
+  arguments->verbose = JFALSE;
+  arguments->no_silent = JTRUE;
+  arguments->n_args = 0;
+  arguments->msg = NULL;
 
   return arguments;
 }
@@ -129,26 +129,32 @@ static arg_data init_args(void) {
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 int main(int argc, char **argv) {
-  arg_data arguments = init_args();
-  argp_parse(&argp, argc, argv, 0, 0, &arguments);
+  arg_data *arguments = init_args();
+  argp_parse(&argp, argc, argv, 0, 0, arguments);
 
   char *s = CALLOC(char, 1024);
-  snprintf(s, 1024, "Duration: %ds\nStarts at: %d\n", arguments.duration, arguments.num);
+  snprintf(s, 1024, "Duration: %ds\nStarts at: %d\n", arguments->duration, arguments->num);
   s = REALLOC(s, char, strlen(s) + 1);
 
-  verbose_print(arguments.verbose, s, NULL);
+  verbose_print(arguments->verbose, s, NULL);
   free(s);
 
-  j_uint *range = gen_range(arguments.num);
-  count_down(range, arguments.num, arguments.duration, arguments.no_silent);
+  j_uint *range = gen_range(arguments->num);
+  count_down(range, arguments->num, arguments->duration, arguments->no_silent);
   free(range);
 
-  if (!null_ptr(arguments.msg)) {
-    for (size_t i = 0; i < arguments.n_args; i++) {
-      printf("%s%c", arguments.msg[i], (i == arguments.n_args - 1) ? '\0' : ' ');
-    }
-    free(arguments.msg);
+  if (arguments->no_silent) {
+    fflush(stdout);
   }
+
+  if (!null_ptr(arguments->msg)) {
+    for (size_t i = 0; i < arguments->n_args; i++) {
+      printf("\r%s%c", arguments->msg[i], (i == arguments->n_args - 1) ? 0 : ' ');
+    }
+    free(arguments->msg);
+  }
+
+  free(arguments);
   return 0;
 }
 

@@ -19,7 +19,7 @@ typedef struct arguments {
 j_uint *gen_range(const j_uint num);
 void count_down(const j_uint *const range, const j_uint num, const j_uint duration, const jbool no_silent);
 
-static arg_data init_args(void);
+static arg_data *init_args(void);
 
 #if defined(__cplusplus)
 }

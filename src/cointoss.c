@@ -16,6 +16,13 @@ static char doc[] = "Cointoss program.";
 static char args_doc[] = "[-u] [-r NUM] [-c COUNT] [<X> <Y>]";
 static argp_option_t options[] = {
   {
+    .name = "verbose",
+    .key = 'v',
+    .arg = 0,
+    .flags = 0,
+    .doc = "Verbose mode",
+  },
+  {
     .name = "total",
     .key = 't',
     .arg = 0,
@@ -67,6 +74,10 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
     case 'r':
       arguments->rep = (j_ullong)atoi(arg);
+      break;
+
+    case 'v':
+      arguments->verbose = JTRUE;
       break;
 
     case ARGP_KEY_ARG:
@@ -160,6 +171,7 @@ static arg_data init_args(void) {
     .n_args = 0,
     .urandom = JTRUE,
     .total = JFALSE,
+    .verbose = JFALSE,
     .count = 1,
     .rep = 1000000,
     .args[0] = "HEADS",
@@ -189,6 +201,10 @@ int main(int argc, char **argv) {
   for (; n < arguments.count; n++) {
     coin_t *c = init_choices();
     for (j_ullong j = 0; j < arguments.rep && fd >= 0; j++) {
+      if (arguments.verbose) {
+        printf("\r%llu%c", j + 1, (j == arguments.rep - 1) ? '\n' : 0);
+        fflush(stdout);
+      }
       decide(fd_toss(fd), c);
     }
 

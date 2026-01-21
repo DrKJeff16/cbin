@@ -10,6 +10,7 @@ extern "C" {
 typedef struct arguments {
   jbool urandom;
   jbool total;
+  jbool verbose;
   j_ullong rep;
   size_t n_args;
   size_t count;
