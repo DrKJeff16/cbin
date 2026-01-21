@@ -2,7 +2,7 @@ include config.mk
 
 SUBDIRS = $(OBJDIR) $(JEFF_INCDIR) $(INCDIR) $(LIBDIR) $(BINDIR)
 
-.SUFFIXES: .c .o .cpp .c++ .cc. .C .h .hpp .hh .h++ .H .o .so
+.SUFFIXES: .c .o .cpp .c++ .cc. .C .h .hpp .hh .h++ .H .o .so .a
 
 .PHONY: all \
 	clean \
@@ -75,6 +75,39 @@ $(OBJDIR)/jlog.o: $(SRCDIR)/jeff/jlog.c
 $(OBJDIR)/jluajit.o: $(SRCDIR)/jeff/jluajit.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
+$(LIBDIR)/libjdie.a: $(OBJDIR)/jdie.o
+	@$(AR) rcs $@ $<
+
+$(LIBDIR)/libjerr.a: $(OBJDIR)/jerr.o
+	@$(AR) rcs $@ $<
+
+$(LIBDIR)/libjmemory.a: $(OBJDIR)/jmemory.o
+	@$(AR) rcs $@ $<
+
+$(LIBDIR)/libjrandom.a: $(OBJDIR)/jrandom.o
+	@$(AR) rcs $@ $<
+
+$(LIBDIR)/libjfile.a: $(OBJDIR)/jfile.o
+	@$(AR) rcs $@ $<
+
+$(LIBDIR)/libjhash.a: $(OBJDIR)/jhash.o
+	@$(AR) rcs $@ $<
+
+$(LIBDIR)/libjstring.a: $(OBJDIR)/jstring.o
+	@$(AR) rcs $@ $<
+
+$(LIBDIR)/libjsignal.a: $(OBJDIR)/jsignal.o
+	@$(AR) rcs $@ $<
+
+$(LIBDIR)/libjinput.a: $(OBJDIR)/jinput.o
+	@$(AR) rcs $@ $<
+
+$(LIBDIR)/libjlog.a: $(OBJDIR)/jlog.o
+	@$(AR) rcs $@ $<
+
+$(LIBDIR)/libjluajit.a: $(OBJDIR)/jluajit.o
+	@$(AR) rcs $@ $<
+
 $(LIBDIR)/libjeff.so: $(JEFF_OBJECTS)
 	$(CC) $(JEFF_OBJECTS) $(JEFF_CFLAGS) -shared -o $@ $(JEFF_LDFLAGS)
 
@@ -108,7 +141,7 @@ $(BINDIR)/nwl_trim: $(OBJDIR)/nwl_trim.o
 $(BINDIR)/yn: $(OBJDIR)/yn.o
 	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
 
-libs: $(LIBDIR) $(OBJDIR) $(BINDIR) $(JEFF_LIBS)
+libs: $(LIBDIR) $(OBJDIR) $(BINDIR) $(JEFF_LIBS) $(JEFF_STATIC_LIBS)
 
 cointoss: $(BINDIR)/cointoss
 
@@ -165,11 +198,33 @@ install_headers:
 install_local_libs:
 	@rm -rf $(LOCAL_PREFIX)/lib/jeff
 	@mkdir -p $(LOCAL_PREFIX)/lib/jeff
+	install -m 644 $(LIBDIR)/libjdie.a $(LOCAL_PREFIX)/lib/jeff/libjdie.a
+	install -m 644 $(LIBDIR)/libjerr.a $(LOCAL_PREFIX)/lib/jeff/libjerr.a
+	install -m 644 $(LIBDIR)/libjhash.a $(LOCAL_PREFIX)/lib/jeff/libjhash.a
+	install -m 644 $(LIBDIR)/libjinput.a $(LOCAL_PREFIX)/lib/jeff/libjinput.a
+	install -m 644 $(LIBDIR)/libjfile.a $(LOCAL_PREFIX)/lib/jeff/libjfile.a
+	install -m 644 $(LIBDIR)/libjlog.a $(LOCAL_PREFIX)/lib/jeff/libjlog.a
+	install -m 644 $(LIBDIR)/libjluajit.a $(LOCAL_PREFIX)/lib/jeff/libjluajit.a
+	install -m 644 $(LIBDIR)/libjmemory.a $(LOCAL_PREFIX)/lib/jeff/libjmemory.a
+	install -m 644 $(LIBDIR)/libjrandom.a $(LOCAL_PREFIX)/lib/jeff/libjrandom.a
+	install -m 644 $(LIBDIR)/libjsignal.a $(LOCAL_PREFIX)/lib/jeff/libjsignal.a
+	install -m 644 $(LIBDIR)/libjstring.a $(LOCAL_PREFIX)/lib/jeff/libjstring.a
 	install -m 755 $(LIBDIR)/libjeff.so $(LOCAL_PREFIX)/lib/jeff/libjeff.so
 
 install_libs:
 	@rm -rf $(GLOBAL_PREFIX)/lib/jeff
 	@mkdir -p $(GLOBAL_PREFIX)/lib/jeff
+	install -m 644 $(LIBDIR)/libjdie.a $(GLOBAL_PREFIX)/lib/jeff/libjdie.a
+	install -m 644 $(LIBDIR)/libjerr.a $(GLOBAL_PREFIX)/lib/jeff/libjerr.a
+	install -m 644 $(LIBDIR)/libjhash.a $(GLOBAL_PREFIX)/lib/jeff/libjhash.a
+	install -m 644 $(LIBDIR)/libjinput.a $(GLOBAL_PREFIX)/lib/jeff/libjinput.a
+	install -m 644 $(LIBDIR)/libjfile.a $(GLOBAL_PREFIX)/lib/jeff/libjfile.a
+	install -m 644 $(LIBDIR)/libjlog.a $(GLOBAL_PREFIX)/lib/jeff/libjlog.a
+	install -m 644 $(LIBDIR)/libjluajit.a $(GLOBAL_PREFIX)/lib/jeff/libjluajit.a
+	install -m 644 $(LIBDIR)/libjmemory.a $(GLOBAL_PREFIX)/lib/jeff/libjmemory.a
+	install -m 644 $(LIBDIR)/libjrandom.a $(GLOBAL_PREFIX)/lib/jeff/libjrandom.a
+	install -m 644 $(LIBDIR)/libjsignal.a $(GLOBAL_PREFIX)/lib/jeff/libjsignal.a
+	install -m 644 $(LIBDIR)/libjstring.a $(GLOBAL_PREFIX)/lib/jeff/libjstring.a
 	install -m 755 $(LIBDIR)/libjeff.so $(GLOBAL_PREFIX)/lib/jeff/libjeff.so
 
 install_local_libs_stripped: install_local_libs

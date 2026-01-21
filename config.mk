@@ -1,5 +1,6 @@
 CC := gcc
 CXX := g++
+AR := gcc-ar
 
 GLOBAL_PREFIX := /usr
 LOCAL_PREFIX := $(HOME)/.local
@@ -94,6 +95,19 @@ JEFF_OBJECTS = \
 			   $(OBJDIR)/jstring.o
 
 JEFF_LIBS = $(LIBDIR)/libjeff.so
+
+JEFF_STATIC_LIBS = \
+				   $(LIBDIR)/libjdie.a \
+				   $(LIBDIR)/libjerr.a \
+				   $(LIBDIR)/libjhash.a \
+				   $(LIBDIR)/libjinput.a \
+				   $(LIBDIR)/libjfile.a \
+				   $(LIBDIR)/libjlog.a \
+				   $(LIBDIR)/libjluajit.a \
+				   $(LIBDIR)/libjmemory.a \
+				   $(LIBDIR)/libjrandom.a \
+				   $(LIBDIR)/libjsignal.a \
+				   $(LIBDIR)/libjstring.a
 
 JEFF_CFLAGS = $(CFLAGS) \
 			  -I/usr/include/luajit-2.1 \
