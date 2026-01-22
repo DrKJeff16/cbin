@@ -88,7 +88,6 @@ JEFF_OBJECTS = \
 			   $(OBJDIR)/jinput.o \
 			   $(OBJDIR)/jfile.o \
 			   $(OBJDIR)/jlog.o \
-			   $(OBJDIR)/jluajit.o \
 			   $(OBJDIR)/jmemory.o \
 			   $(OBJDIR)/jrandom.o \
 			   $(OBJDIR)/jsignal.o \
@@ -103,22 +102,13 @@ JEFF_STATIC_LIBS = \
 				   $(LIBDIR)/libjinput.a \
 				   $(LIBDIR)/libjfile.a \
 				   $(LIBDIR)/libjlog.a \
-				   $(LIBDIR)/libjluajit.a \
 				   $(LIBDIR)/libjmemory.a \
 				   $(LIBDIR)/libjrandom.a \
 				   $(LIBDIR)/libjsignal.a \
 				   $(LIBDIR)/libjstring.a
 
-JEFF_CFLAGS = $(CFLAGS) \
-			  -I/usr/include/luajit-2.1 \
-			  -fPIC
-
-JEFF_LDFLAGS = -lc \
-			   -llua \
-			   -lluajit-5.1 \
-			   -lm \
-			   -luv
-
+JEFF_CFLAGS = $(CFLAGS) -fPIC
+JEFF_LDFLAGS = -lc -lm -lpthread -luv
 JEFF_ACTIONS = cointoss \
 			   countdown \
 			   misc \

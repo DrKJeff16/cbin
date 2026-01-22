@@ -72,9 +72,6 @@ $(OBJDIR)/jinput.o: $(SRCDIR)/jeff/jinput.c
 $(OBJDIR)/jlog.o: $(SRCDIR)/jeff/jlog.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jluajit.o: $(SRCDIR)/jeff/jluajit.c
-	$(CC) -c $< $(JEFF_CFLAGS) -o $@
-
 $(LIBDIR)/libjdie.a: $(OBJDIR)/jdie.o
 	@$(AR) rcs $@ $<
 
@@ -103,9 +100,6 @@ $(LIBDIR)/libjinput.a: $(OBJDIR)/jinput.o
 	@$(AR) rcs $@ $<
 
 $(LIBDIR)/libjlog.a: $(OBJDIR)/jlog.o
-	@$(AR) rcs $@ $<
-
-$(LIBDIR)/libjluajit.a: $(OBJDIR)/jluajit.o
 	@$(AR) rcs $@ $<
 
 $(LIBDIR)/libjeff.so: $(JEFF_OBJECTS)
@@ -187,7 +181,6 @@ install_headers:
 	install -m 644 $(JEFF_INCDIR)/jerr.h $(GLOBAL_PREFIX)/include/jeff/jerr.h
 	install -m 644 $(JEFF_INCDIR)/jinput.h $(GLOBAL_PREFIX)/include/jeff/jinput.h
 	install -m 644 $(JEFF_INCDIR)/jlog.h $(GLOBAL_PREFIX)/include/jeff/jlog.h
-	install -m 644 $(JEFF_INCDIR)/jluajit.h $(GLOBAL_PREFIX)/include/jeff/jluajit.h
 	install -m 644 $(JEFF_INCDIR)/jmemory.h $(GLOBAL_PREFIX)/include/jeff/jmemory.h
 	install -m 644 $(JEFF_INCDIR)/jrandom.h $(GLOBAL_PREFIX)/include/jeff/jrandom.h
 	install -m 644 $(JEFF_INCDIR)/jsignal.h $(GLOBAL_PREFIX)/include/jeff/jsignal.h
@@ -204,7 +197,6 @@ install_local_libs:
 	install -m 644 $(LIBDIR)/libjinput.a $(LOCAL_PREFIX)/lib/jeff/libjinput.a
 	install -m 644 $(LIBDIR)/libjfile.a $(LOCAL_PREFIX)/lib/jeff/libjfile.a
 	install -m 644 $(LIBDIR)/libjlog.a $(LOCAL_PREFIX)/lib/jeff/libjlog.a
-	install -m 644 $(LIBDIR)/libjluajit.a $(LOCAL_PREFIX)/lib/jeff/libjluajit.a
 	install -m 644 $(LIBDIR)/libjmemory.a $(LOCAL_PREFIX)/lib/jeff/libjmemory.a
 	install -m 644 $(LIBDIR)/libjrandom.a $(LOCAL_PREFIX)/lib/jeff/libjrandom.a
 	install -m 644 $(LIBDIR)/libjsignal.a $(LOCAL_PREFIX)/lib/jeff/libjsignal.a
@@ -220,7 +212,6 @@ install_libs:
 	install -m 644 $(LIBDIR)/libjinput.a $(GLOBAL_PREFIX)/lib/jeff/libjinput.a
 	install -m 644 $(LIBDIR)/libjfile.a $(GLOBAL_PREFIX)/lib/jeff/libjfile.a
 	install -m 644 $(LIBDIR)/libjlog.a $(GLOBAL_PREFIX)/lib/jeff/libjlog.a
-	install -m 644 $(LIBDIR)/libjluajit.a $(GLOBAL_PREFIX)/lib/jeff/libjluajit.a
 	install -m 644 $(LIBDIR)/libjmemory.a $(GLOBAL_PREFIX)/lib/jeff/libjmemory.a
 	install -m 644 $(LIBDIR)/libjrandom.a $(GLOBAL_PREFIX)/lib/jeff/libjrandom.a
 	install -m 644 $(LIBDIR)/libjsignal.a $(GLOBAL_PREFIX)/lib/jeff/libjsignal.a
