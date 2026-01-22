@@ -55,7 +55,7 @@ static void verbose_print(const jbool verbose, const char *txt, FILE *restrict s
 
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   arg_data *arguments = state->input;
-  j_uint num;
+  int num_in;
   switch (key) {
     case 'v':
       arguments->verbose = JTRUE;
@@ -66,12 +66,19 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       break;
 
     case 'n':
-      arguments->num = (j_uint)atoi(arg);
+      num_in = atoi(arg);
+      if (num_in <= 0) {
+        num_in = 5;
+      }
+      arguments->num = (j_uint)num_in;
       break;
 
     case 'd':
-      num = (j_uint)atoi(arg);
-      arguments->duration = (num > 0) ? num : 1;
+      num_in = atoi(arg);
+      if (num_in <= 0) {
+        num_in = 1;
+      }
+      arguments->duration = (j_uint)num_in;
       break;
 
     case ARGP_KEY_ARG:

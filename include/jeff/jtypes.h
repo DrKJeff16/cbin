@@ -6,16 +6,15 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <argp.h>
-#include <stddef.h>
 
-#define j_ushint unsigned short int
-#define j_ushort unsigned short
-#define j_uchar unsigned char
-#define j_uint unsigned int
-#define j_ulong unsigned long
-#define j_ullong unsigned long long
-#define j_shint short int
-#define j_llong long long
+typedef unsigned short int j_ushint;
+typedef unsigned short j_ushort;
+typedef unsigned char j_uchar;
+typedef unsigned int j_uint;
+typedef unsigned long j_ulong;
+typedef unsigned long long j_ullong;
+typedef short int j_shint;
+typedef long long j_llong;
 
 typedef struct argp argp_t;
 typedef struct argp_state argp_state_t;
@@ -27,43 +26,14 @@ typedef struct _char_ptrs {
 } char_ptrs;
 
 typedef enum _jbool {
-#if defined(true) && defined(false)
-  JFALSE = false,
-  JTRUE = true,
-#else
   JFALSE = 0,
   JTRUE = 1,
-#endif
 } jbool;
 
 typedef struct _jstate_rel {
   char input;
   j_uint idx;
 } jstate_rel;
-
-typedef struct _jstate {
-  jstate_rel *transitions;
-  jbool FINAL;
-  j_uint idx;
-} jstate;
-
-typedef struct _jautomaton {
-  char *alphabet;
-  j_uint n_states;
-  jstate *states;
-  jstate *init_state;
-  jstate *final_states;
-} jautomaton;
-
-typedef struct _p_flags {
-  jbool VERBOSE;
-  jbool LIBS;
-} p_flags;
-
-typedef struct _k_flags {
-  const char VERBOSE[3];
-  const char LIBS[3];
-} k_flags;
 
 typedef enum __jlua_type {
   JLUA_NIL = 0,
@@ -72,32 +42,6 @@ typedef enum __jlua_type {
   JLUA_LSTR,
   JLUA_STR,
 } jlua_type;
-
-typedef struct _gl_rgba {
-  double red;
-  double green;
-  double blue;
-  double alpha;
-} rgba_t;
-
-typedef struct _gl_rgb {
-  double red;
-  double green;
-  double blue;
-} rgb_t;
-
-typedef struct _gl_init {
-  rgba_t *rgba;
-  rgb_t *rgb;
-} gl_init_t;
-
-typedef enum _point_flag {
-  NO_OP = 0,
-  TOP,
-  RIGHT,
-  BOTTOM,
-  LEFT,
-} direction_flag;
 
 #if defined(__cplusplus)
 }
