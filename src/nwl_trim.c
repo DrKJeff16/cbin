@@ -125,12 +125,7 @@ int main(int argc, char **argv) {
     j_ullong l = 0;
     char **lines = NULL;
     while ((read_n = getline(&line, &len, file) != -1)) {
-      if (null_ptr(lines)) {
-        lines = MALLOC(char *);
-      } else {
-        lines = REALLOC(lines, char *, l + 1);
-      }
-
+      lines = (null_ptr(lines)) ? MALLOC(char *) : REALLOC(lines, char *, l + 1);
       lines[l] = CALLOC(char, strlen(line) + 1);
       stpcpy(lines[l], line);
 
