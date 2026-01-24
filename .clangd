@@ -1,7 +1,26 @@
 If:
   PathMatch: .*\.c
 CompileFlags:
-  Add: [-D_GNU_SOURCE, -I., -I../../include, -I../include, -I/usr/include/jeff, -I/usr/include/luajit-2.1, -I/usr/local/include, -Iinclude, -Wall, -Wextra, -Wno-unused, -Wno-implicit-fallthrough, -pthread, -std=gnu17, -xc]
+  Add:
+    [
+      -D_FORTIFY_SOURCE=2,
+      -D_GNU_SOURCE,
+      -I.,
+      -I../../include,
+      -I../include,
+      -I/usr/include/jeff,
+      -I/usr/local/include,
+      -Iinclude,
+      -Wall,
+      -Wextra,
+      -Wno-implicit-fallthrough,
+      -Wno-unused,
+      -faddress=sanitize,
+      -pipe,
+      -pthread,
+      -std=gnu17,
+      -xc,
+    ]
   CompilationDatabase: .
   Compiler: gcc
 Index:
@@ -15,14 +34,33 @@ InlayHints:
   Enabled: true
   ParameterNames: true
   DeducedTypes: true
-  TypeNameLimit: 18
+  TypeNameLimit: 24
 Hover:
   ShowAKA: true
 ---
 If:
   PathMatch: .*\.h
 CompileFlags:
-  Add: [-D_GNU_SOURCE, -I., -I../../include, -I../include, -I/usr/include/jeff, -I/usr/include/luajit-2.1, -I/usr/local/include, -Iinclude, -Wall, -Wextra, -Wno-unused, -Wno-implicit-fallthrough, -pthread, -std=gnu17, -xc-header]
+  Add:
+    [
+      -D_FORTIFY_SOURCE=2,
+      -D_GNU_SOURCE,
+      -I.,
+      -I../../include,
+      -I../include,
+      -I/usr/include/jeff,
+      -I/usr/local/include,
+      -Iinclude,
+      -Wall,
+      -Wextra,
+      -Wno-implicit-fallthrough,
+      -Wno-unused,
+      -faddress=sanitize,
+      -pipe,
+      -pthread,
+      -std=gnu17,
+      -xc-header,
+    ]
   CompilationDatabase: .
   Compiler: gcc
 Index:
@@ -36,14 +74,34 @@ InlayHints:
   Enabled: true
   ParameterNames: true
   DeducedTypes: true
-  TypeNameLimit: 18
+  TypeNameLimit: 24
 Hover:
   ShowAKA: true
 ---
 If:
   PathMatch: [.*\.cc, .*\.cpp, .*\.c\+\+, .*\.C, .*\.cxx]
 CompileFlags:
-  Add: [-D_GNU_SOURCE, -D_GLIBCXX_ASSERTIONS, -I., -I../../include, -I../include, -I/usr/include/jeff, -I/usr/include/luajit-2.1, -I/usr/local/include, -Iinclude, -Wall, -Wextra, -Wno-unused, -Wno-implicit-fallthrough, -pthread, -std=gnu++17, -xc++]
+  Add:
+    [
+      -D_FORTIFY_SOURCE=2,
+      -D_GLIBCXX_ASSERTIONS,
+      -D_GNU_SOURCE,
+      -I.,
+      -I../../include,
+      -I../include,
+      -I/usr/include/jeff,
+      -I/usr/local/include,
+      -Iinclude,
+      -Wall,
+      -Wextra,
+      -Wno-implicit-fallthrough,
+      -Wno-unused,
+      -faddress=sanitize,
+      -pipe,
+      -pthread,
+      -std=gnu++17,
+      -xc++,
+    ]
   CompilationDatabase: .
   Compiler: g++
 Index:
@@ -64,7 +122,27 @@ Hover:
 If:
   PathMatch: [.*\.hh, .*\.hpp, .*\.h\+\+, .*\.H, .*\.hxx]
 CompileFlags:
-  Add: [-D_GNU_SOURCE, -D_GLIBCXX_ASSERTIONS, -I., -I../../include, -I../include, -I/usr/include/jeff, -I/usr/include/luajit-2.1, -I/usr/local/include, -Iinclude, -Wall, -Wextra, -Wno-unused, -Wno-implicit-fallthrough, -pthread, -std=gnu++17, -xc++-header]
+  Add:
+    [
+      -D_FORTIFY_SOURCE=2,
+      -D_GLIBCXX_ASSERTIONS,
+      -D_GNU_SOURCE,
+      -I.,
+      -I../../include,
+      -I../include,
+      -I/usr/include/jeff,
+      -I/usr/local/include,
+      -Iinclude,
+      -Wall,
+      -Wextra,
+      -Wno-implicit-fallthrough,
+      -Wno-unused,
+      -faddress=sanitize,
+      -pipe,
+      -pthread,
+      -std=gnu++17,
+      -xc++-header,
+    ]
   CompilationDatabase: .
   Compiler: g++
 Index:

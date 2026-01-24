@@ -25,33 +25,46 @@ CPPFLAGS = -Iinclude \
 		   -D_FORTIFY_SOURCE=2
 
 CFLAGS = $(CPPFLAGS) \
-		 -march=native \
-		 -pipe \
-		 -std=gnu17 \
 		 -O2 \
-		 -g \
 		 -Wall \
 		 -Wextra \
 		 -Wformat-security \
-		 -Wno-unused \
 		 -Wno-implicit-fallthrough \
+		 -Wno-unused \
+		 -fcf-protection \
+		 -flto \
+		 -fomit-frame-pointer \
+		 -fsanitize=address \
+		 -fstack-clash-protection \
+		 -fstack-protector \
+		 -ftree-vectorize \
+		 -g \
+		 -march=native \
 		 -pedantic \
+		 -pipe \
 		 -pthread \
-		 -fstack-protector
+		 -std=gnu17
 
 CXXFLAGS = $(CPPFLAGS) \
 		   -D_GLIBCXX_ASSERTIONS \
-		   -std=c++17 \
-		   -march=native \
-		   -pipe \
 		   -O2 \
-		   -g \
 		   -Wall \
 		   -Wextra \
-		   -Wno-unused \
 		   -Wno-implicit-fallthrough \
+		   -Wno-unused \
+		   -fcf-protection \
+		   -flto \
+		   -fomit-frame-pointer \
+		   -fsanitize=address \
+		   -fstack-clash-protection \
+		   -fstack-protector \
+		   -ftree-vectorize \
+		   -g \
+		   -march=native \
 		   -pedantic \
-		   -pthread
+		   -pipe \
+		   -pthread \
+		   -std=c++17
 
 LDFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
 		  -Llib \
