@@ -66,14 +66,13 @@ CXXFLAGS = $(CPPFLAGS) \
 		   -pthread \
 		   -std=c++17
 
-LDFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff -Llib -ljeff -luv
-LDXXFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff -Llib -luv
+LDFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff -Llib -ljeff
+LDXXFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff -Llib
 
 PKG_CONFIG_BIN := pkgconf
 
 JEFF_INCDIR = $(INCDIR)/jeff
 JEFF_H = $(JEFF_INCDIR)/jeff.h \
-		 $(JEFF_INCDIR)/jasync.h \
 		 $(JEFF_INCDIR)/jdie.h \
 		 $(JEFF_INCDIR)/jerr.h \
 		 $(JEFF_INCDIR)/jswap.h \

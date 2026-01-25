@@ -5,7 +5,6 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <jeff/jasync.h>
 #include <jeff/jdie.h>
 #include <jeff/jerr.h>
 #include <jeff/jfile.h>
