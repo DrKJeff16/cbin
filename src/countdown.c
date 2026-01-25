@@ -9,36 +9,12 @@
 const char *argp_program_version = "countdown 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Customizable countdown program.";
-static char args_doc[] = "[-v] [-n INT] [-d INT] [<MSG>]";
+static char args_doc[] = "[-v] [-s] [-n INT] [-d INT] [<MSG>]";
 static argp_option_t options[] = {
-  {
-    .name = "verbose",
-    .key = 'v',
-    .arg = 0,
-    .flags = 0,
-    .doc = "Produce verbose output",
-  },
-  {
-    .name = "silent",
-    .key = 's',
-    .arg = 0,
-    .flags = 0,
-    .doc = "Don't show the number countdown",
-  },
-  {
-    .name = 0,
-    .key = 'n',
-    .arg = "NUM",
-    .flags = 0,
-    .doc = "The starting number",
-  },
-  {
-    .name = "duration",
-    .key = 'd',
-    .arg = "DURATION",
-    .flags = 0,
-    .doc = "The duration per countdown",
-  },
+  { "verbose", 'v', 0, 0, "Produce verbose output", 0 },
+  { "show", 's', 0, 0, "Show the number countdown", 1 },
+  { 0, 'n', "NUM", 0, "The starting number", 1 },
+  { "duration", 'd', "DURATION", 0, "The duration per countdown", 1 },
   { 0 },
 };
 
@@ -62,7 +38,7 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       break;
 
     case 's':
-      arguments->no_silent = JFALSE;
+      arguments->show = JTRUE;
       break;
 
     case 'n':
@@ -110,9 +86,9 @@ j_uint *gen_range(const j_uint num) {
   return res;
 }
 
-void count_down(const j_uint *const range, const j_uint num, const j_uint duration, const jbool no_silent) {
+void count_down(const j_uint *const range, const j_uint num, const j_uint duration, const jbool show) {
   for (j_uint i = 0; i < num; i++) {
-    if (!no_silent) {
+    if (show) {
       printf("\r%d", range[i]);
       fflush(stdout);
     }
@@ -125,7 +101,7 @@ static arg_data *init_args(void) {
   arguments->duration = 1;
   arguments->num = 5;
   arguments->verbose = JFALSE;
-  arguments->no_silent = JTRUE;
+  arguments->show = JFALSE;
   arguments->n_args = 0;
   arguments->msg = NULL;
 
@@ -147,10 +123,10 @@ int main(int argc, char **argv) {
   free(s);
 
   j_uint *range = gen_range(arguments->num);
-  count_down(range, arguments->num, arguments->duration, arguments->no_silent);
+  count_down(range, arguments->num, arguments->duration, arguments->show);
   free(range);
 
-  if (arguments->no_silent) {
+  if (arguments->show) {
     fflush(stdout);
   }
 

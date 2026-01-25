@@ -9,7 +9,7 @@ extern "C" {
 
 typedef struct arguments {
   jbool verbose;
-  jbool no_silent;
+  jbool show;
   j_uint duration;
   j_uint num;
   size_t n_args;
