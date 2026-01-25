@@ -11,20 +11,8 @@ const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "An easy \"Yes/No\" prompt.";
 static char args_doc[] = "[-N] [-c INT] [<X>]";
 static argp_option_t options[] = {
-  {
-    .name = "exit-code",
-    .key = 'c',
-    .arg = "CODE",
-    .flags = 0,
-    .doc = "The desired failure exit code",
-  },
-  {
-    .name = "invert",
-    .key = 'N',
-    .arg = 0,
-    .flags = 0,
-    .doc = "Invert the default result from pressing `\\n` only",
-  },
+  { "exit-code", 'c', "CODE", 0, "The desired failure exit code", 0 },
+  { "invert", 'N', 0, 0, "Invert the default result from pressing `\\n` only", 0 },
   { 0 },
 };
 

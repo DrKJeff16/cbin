@@ -12,20 +12,8 @@ const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Simple newline trimming plugin.";
 static char args_doc[] = "[-v] [-k NUM]";
 static argp_option_t options[] = {
-  {
-    .name = "verbose",
-    .key = 'v',
-    .arg = 0,
-    .flags = 0,
-    .doc = "Produce verbose output",
-  },
-  {
-    .name = "keep-lines",
-    .key = 'k',
-    .arg = "KEEP",
-    .flags = 0,
-    .doc = "Sets how many empty lines to keep (default: 0)",
-  },
+  { "verbose", 'v', 0, 0, "Produce verbose output", 0 },
+  { "keep-lines", 'k', "KEEP", 0, "Sets how many empty lines to keep (default: 0)", 1 },
   { 0 },
 };
 

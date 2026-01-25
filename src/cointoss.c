@@ -15,45 +15,14 @@ const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Cointoss program.";
 static char args_doc[] = "[-u] [-r NUM] [-c COUNT] [<X> <Y>]";
 static argp_option_t options[] = {
-  {
-    .name = "verbose",
-    .key = 'v',
-    .arg = 0,
-    .flags = 0,
-    .doc = "Verbose mode",
-  },
-  {
-    .name = "total",
-    .key = 't',
-    .arg = 0,
-    .flags = 0,
-    .doc = "Whether to show the total stats",
-  },
-  {
-    .name = "count",
-    .key = 'c',
-    .arg = "COUNT",
-    .flags = 0,
-    .doc = "How many iterations should be repeated",
-  },
-  {
-    .name = "repeat",
-    .key = 'r',
-    .arg = "REPEAT",
-    .flags = 0,
-    .doc = "The repeating cycles amount",
-  },
-  {
-    .name = "no-urandom",
-    .key = 'u',
-    .arg = 0,
-    .flags = 0,
-    .doc = "Use /dev/random instead of /dev/urandom",
-  },
+  { "verbose", 'v', 0, 0, "Verbose mode", 1 },
+  { "total", 't', 0, 0, "Whether to show the total stats", 1 },
+  { "no-urandom", 'u', 0, 0, "Use /dev/random instead of /dev/urandom", 1 },
+  { "count", 'c', "COUNT", 0, "How many iterations should be repeated", 2 },
+  { "repeat", 'r', "REPEAT", 0, "The repeating cycles amount", 2 },
   { 0 },
 };
 
-/* Parse a single option. */
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   /* Get the input argument from argp_parse, which we
      know is a pointer to our arguments structure. */

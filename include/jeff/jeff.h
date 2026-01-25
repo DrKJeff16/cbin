@@ -29,8 +29,6 @@ extern "C" {
 
 #define jxor(x, y) (x ^ y)
 
-#define J_OUTPUT(status) status ? stderr : stdout
-
 static void verbose_print(const jbool verbose, const char *txt, FILE *restrict stream);
 static void vverbose_print(const jbool verbose, FILE *restrict stream, const char *fmt, ...);
 
