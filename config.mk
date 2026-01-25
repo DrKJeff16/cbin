@@ -133,7 +133,7 @@ JEFF_STATIC_LIBS = $(LIBDIR)/libjdie.a \
 				   $(LIBDIR)/libjstring.a
 
 JEFF_CFLAGS = $(CFLAGS) -fPIC
-JEFF_LDFLAGS = -lc -lm -lpthread -luv
+JEFF_LDFLAGS = -lc -lm
 JEFF_ACTIONS = cointoss \
 			   countdown \
 			   misc \
