@@ -1,6 +1,5 @@
 #include <asm-generic/errno.h>
 #include <jeff/jdie.h>
-#include <jeff/jeff.h>
 #include <jeff/jmemory.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -12,7 +11,7 @@
  */
 void die(const int status, char *const msg) {
   if (!null_ptr(msg)) {
-    fprintf(J_OUTPUT(status), "%s\n", msg);
+    fprintf((!status) ? stdout : stderr, "%s\n", msg);
   }
 
   exit(status);
@@ -22,7 +21,7 @@ void vdie(const int status, char *const fmt, ...) {
   if (!null_ptr(fmt)) {
     va_list argp;
     va_start(argp, fmt);
-    vfprintf(J_OUTPUT(status), fmt, argp);
+    vfprintf((!status) ? stdout : stderr, fmt, argp);
     va_end(argp);
   }
 
@@ -43,7 +42,7 @@ void cond_vdie(const int status, const jbool cond, char *const fmt, ...) {
   if (!null_ptr(fmt)) {
     va_list argp;
     va_start(argp, fmt);
-    vfprintf(J_OUTPUT(status), fmt, argp);
+    vfprintf((!status) ? stdout : stderr, fmt, argp);
     va_end(argp);
   }
 
@@ -54,7 +53,7 @@ void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...) {
   if (!null_ptr(fmt)) {
     va_list argp;
     va_start(argp, fmt);
-    vfprintf(J_OUTPUT(status), fmt, argp);
+    vfprintf((!status) ? stdout : stderr, fmt, argp);
     va_end(argp);
   }
 
@@ -63,7 +62,7 @@ void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...) {
 }
 
 void j_errno_die(const int status, const int code, char *const msg) {
-  FILE *out = J_OUTPUT(status);
+  FILE *out = (!status) ? stdout : stderr;
   fprintf(out, "%s\n", strerror((code >= EPERM && code <= EHWPOISON) ? code : ENOMSG));
 
   if (!null_ptr(msg)) {  /// If message is available
@@ -74,7 +73,7 @@ void j_errno_die(const int status, const int code, char *const msg) {
 }
 
 void j_errno_vdie(const int status, const int code, char *const fmt, ...) {
-  FILE *out = J_OUTPUT(status);
+  FILE *out = (!status) ? stdout : stderr;
   fprintf(out, "%s\n", strerror((code >= EPERM && code <= EHWPOISON) ? code : ENOMSG));
 
   if (!null_ptr(fmt)) {

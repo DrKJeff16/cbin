@@ -11,6 +11,8 @@ INCDIR = include
 LIBDIR = lib
 OBJDIR = obj
 SRCDIR = src
+ASDIR = as
+PREPROCDIR = preproc
 
 ALL_DIRS = $(BINDIR) \
 		   $(INCDIR) \
@@ -38,7 +40,6 @@ CFLAGS = $(CPPFLAGS) \
 		 -fstack-clash-protection \
 		 -fstack-protector \
 		 -ftree-vectorize \
-		 -g \
 		 -march=native \
 		 -pedantic \
 		 -pipe \
@@ -59,22 +60,14 @@ CXXFLAGS = $(CPPFLAGS) \
 		   -fstack-clash-protection \
 		   -fstack-protector \
 		   -ftree-vectorize \
-		   -g \
 		   -march=native \
 		   -pedantic \
 		   -pipe \
 		   -pthread \
 		   -std=c++17
 
-LDFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
-		  -Llib \
-		  -ljeff \
-		  -luv
-
-LDXXFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
-			-Llib \
-			-ldocopt \
-			-luv
+LDFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff -Llib -ljeff -luv
+LDXXFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff -Llib -luv
 
 PKG_CONFIG_BIN := pkgconf
 
@@ -94,22 +87,42 @@ JEFF_H = $(JEFF_INCDIR)/jeff.h \
 		 $(JEFF_INCDIR)/jstring.h \
 		 $(JEFF_INCDIR)/jtypes.h
 
-JEFF_OBJECTS = \
-			   $(OBJDIR)/jdie.o \
-			   $(OBJDIR)/jerr.o \
-			   $(OBJDIR)/jhash.o \
-			   $(OBJDIR)/jinput.o \
-			   $(OBJDIR)/jfile.o \
-			   $(OBJDIR)/jlog.o \
-			   $(OBJDIR)/jmemory.o \
-			   $(OBJDIR)/jrandom.o \
-			   $(OBJDIR)/jsignal.o \
-			   $(OBJDIR)/jstring.o
+JEFF_PREPROC =$(PREPROCDIR)/jdie.i \
+			  $(PREPROCDIR)/jerr.i \
+			  $(PREPROCDIR)/jhash.i \
+			  $(PREPROCDIR)/jinput.i \
+			  $(PREPROCDIR)/jfile.i \
+			  $(PREPROCDIR)/jlog.i \
+			  $(PREPROCDIR)/jmemory.i \
+			  $(PREPROCDIR)/jrandom.i \
+			  $(PREPROCDIR)/jsignal.i \
+			  $(PREPROCDIR)/jstring.i
+
+JEFF_AS =$(ASDIR)/jdie.s \
+		 $(ASDIR)/jerr.s \
+		 $(ASDIR)/jhash.s \
+		 $(ASDIR)/jinput.s \
+		 $(ASDIR)/jfile.s \
+		 $(ASDIR)/jlog.s \
+		 $(ASDIR)/jmemory.s \
+		 $(ASDIR)/jrandom.s \
+		 $(ASDIR)/jsignal.s \
+		 $(ASDIR)/jstring.s
+
+JEFF_OBJECTS =$(OBJDIR)/jdie.o \
+			  $(OBJDIR)/jerr.o \
+			  $(OBJDIR)/jhash.o \
+			  $(OBJDIR)/jinput.o \
+			  $(OBJDIR)/jfile.o \
+			  $(OBJDIR)/jlog.o \
+			  $(OBJDIR)/jmemory.o \
+			  $(OBJDIR)/jrandom.o \
+			  $(OBJDIR)/jsignal.o \
+			  $(OBJDIR)/jstring.o
 
 JEFF_LIBS = $(LIBDIR)/libjeff.so
 
-JEFF_STATIC_LIBS = \
-				   $(LIBDIR)/libjdie.a \
+JEFF_STATIC_LIBS = $(LIBDIR)/libjdie.a \
 				   $(LIBDIR)/libjerr.a \
 				   $(LIBDIR)/libjhash.a \
 				   $(LIBDIR)/libjinput.a \

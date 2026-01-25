@@ -23,8 +23,13 @@ SUBDIRS = $(OBJDIR) $(JEFF_INCDIR) $(INCDIR) $(LIBDIR) $(BINDIR)
 	strip_bin \
 	strip_libs \
 	yn \
-	$(SUBDIRS) \
-	$(ACTIONS)
+	$(ACTIONS) \
+	$(JEFF_AS) \
+	$(JEFF_H) \
+	$(JEFF_OBJECTS) \
+	$(JEFF_PREPROC) \
+	$(JEFF_STATIC_LIBS) \
+	$(SUBDIRS)
 
 SHELL = /bin/bash
 
@@ -42,34 +47,100 @@ $(BINDIR):
 $(OBJDIR):
 	@mkdir -p $@
 
-$(OBJDIR)/jdie.o: $(SRCDIR)/jeff/jdie.c
+$(ASDIR):
+	@mkdir -p $@
+
+$(PREFROCDIR):
+	@mkdir -p $@
+
+$(PREPROCDIR)/jdie.i: $(SRCDIR)/jeff/jdie.c
+	$(CC) -E $< $(JEFF_CFLAGS) -o $@
+
+$(PREPROCDIR)/jerr.i: $(SRCDIR)/jeff/jerr.c
+	$(CC) -E $< $(JEFF_CFLAGS) -o $@
+
+$(PREPROCDIR)/jmemory.i: $(SRCDIR)/jeff/jmemory.c
+	$(CC) -E $< $(JEFF_CFLAGS) -o $@
+
+$(PREPROCDIR)/jrandom.i: $(SRCDIR)/jeff/jrandom.c
+	$(CC) -E $< $(JEFF_CFLAGS) -o $@
+
+$(PREPROCDIR)/jfile.i: $(SRCDIR)/jeff/jfile.c
+	$(CC) -E $< $(JEFF_CFLAGS) -o $@
+
+$(PREPROCDIR)/jhash.i: $(SRCDIR)/jeff/jhash.c
+	$(CC) -E $< $(JEFF_CFLAGS) -o $@
+
+$(PREPROCDIR)/jstring.i: $(SRCDIR)/jeff/jstring.c
+	$(CC) -E $< $(JEFF_CFLAGS) -o $@
+
+$(PREPROCDIR)/jsignal.i: $(SRCDIR)/jeff/jsignal.c
+	$(CC) -E $< $(JEFF_CFLAGS) -o $@
+
+$(PREPROCDIR)/jinput.i: $(SRCDIR)/jeff/jinput.c
+	$(CC) -E $< $(JEFF_CFLAGS) -o $@
+
+$(PREPROCDIR)/jlog.i: $(SRCDIR)/jeff/jlog.c
+	$(CC) -E $< $(JEFF_CFLAGS) -o $@
+
+$(ASDIR)/jdie.s: $(PREPROCDIR)/jdie.i
+	$(CC) -S $< $(JEFF_CFLAGS) -o $@
+
+$(ASDIR)/jerr.s: $(PREPROCDIR)/jerr.i
+	$(CC) -S $< $(JEFF_CFLAGS) -o $@
+
+$(ASDIR)/jmemory.s: $(PREPROCDIR)/jmemory.i
+	$(CC) -S $< $(JEFF_CFLAGS) -o $@
+
+$(ASDIR)/jrandom.s: $(PREPROCDIR)/jrandom.i
+	$(CC) -S $< $(JEFF_CFLAGS) -o $@
+
+$(ASDIR)/jfile.s: $(PREPROCDIR)/jfile.i
+	$(CC) -S $< $(JEFF_CFLAGS) -o $@
+
+$(ASDIR)/jhash.s: $(PREPROCDIR)/jhash.i
+	$(CC) -S $< $(JEFF_CFLAGS) -o $@
+
+$(ASDIR)/jstring.s: $(PREPROCDIR)/jstring.i
+	$(CC) -S $< $(JEFF_CFLAGS) -o $@
+
+$(ASDIR)/jsignal.s: $(PREPROCDIR)/jsignal.i
+	$(CC) -S $< $(JEFF_CFLAGS) -o $@
+
+$(ASDIR)/jinput.s: $(PREPROCDIR)/jinput.i
+	$(CC) -S $< $(JEFF_CFLAGS) -o $@
+
+$(ASDIR)/jlog.s: $(PREPROCDIR)/jlog.i
+	$(CC) -S $< $(JEFF_CFLAGS) -o $@
+
+$(OBJDIR)/jdie.o: $(ASDIR)/jdie.s
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jerr.o: $(SRCDIR)/jeff/jerr.c
+$(OBJDIR)/jerr.o: $(ASDIR)/jerr.s
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jmemory.o: $(SRCDIR)/jeff/jmemory.c
+$(OBJDIR)/jmemory.o: $(ASDIR)/jmemory.s
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jrandom.o: $(SRCDIR)/jeff/jrandom.c
+$(OBJDIR)/jrandom.o: $(ASDIR)/jrandom.s
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jfile.o: $(SRCDIR)/jeff/jfile.c
+$(OBJDIR)/jfile.o: $(ASDIR)/jfile.s
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jhash.o: $(SRCDIR)/jeff/jhash.c
+$(OBJDIR)/jhash.o: $(ASDIR)/jhash.s
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jstring.o: $(SRCDIR)/jeff/jstring.c
+$(OBJDIR)/jstring.o: $(ASDIR)/jstring.s
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jsignal.o: $(SRCDIR)/jeff/jsignal.c
+$(OBJDIR)/jsignal.o: $(ASDIR)/jsignal.s
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jinput.o: $(SRCDIR)/jeff/jinput.c
+$(OBJDIR)/jinput.o: $(ASDIR)/jinput.s
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jlog.o: $(SRCDIR)/jeff/jlog.c
+$(OBJDIR)/jlog.o: $(ASDIR)/jlog.s
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
 $(LIBDIR)/libjdie.a: $(OBJDIR)/jdie.o
@@ -225,7 +296,7 @@ install_libs_stripped: install_libs
 	@strip $(GLOBAL_PREFIX)/lib/jeff/libjeff.so
 
 clean:
-	@rm -rf $(OBJDIR)/* *.log
+	@rm -rf $(PREPROCDIR)/* $(ASDIR)/* $(OBJDIR)/* *.log
 
 distclean: clean
 	@rm -rf $(BINDIR)/* $(LIBDIR)/* compile_commands.json
