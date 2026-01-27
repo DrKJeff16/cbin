@@ -8,3 +8,5 @@ compiler = "gcc"
 compile_flags_txt = []
 diagnostics = true
 default_diagnostics = false
+
+# vim: set ts=4 sts=4 sw=4 et ai si sta:
