@@ -4,6 +4,7 @@ AR := gcc-ar
 
 GLOBAL_PREFIX := /usr
 LOCAL_PREFIX := $(HOME)/.local
+
 INSTALL_BIN_DIR = $(GLOBAL_PREFIX)/bin
 
 BINDIR = bin
@@ -28,21 +29,13 @@ CPPFLAGS = -Iinclude \
 
 CFLAGS = $(CPPFLAGS) \
 		 -O2 \
-		 -g \
-		 -ggdb \
 		 -Wall \
 		 -Wextra \
 		 -Wformat-security \
 		 -Wno-implicit-fallthrough \
 		 -Wno-unused \
-		 -fcf-protection \
-		 -flto \
-		 -fomit-frame-pointer \
-		 -fsanitize=address \
-		 -fstack-clash-protection \
-		 -fstack-protector \
-		 -ftree-vectorize \
-		 -march=znver3 \
+		 -g \
+		 -ggdb \
 		 -pedantic \
 		 -pipe \
 		 -pthread \
@@ -51,8 +44,6 @@ CFLAGS = $(CPPFLAGS) \
 CXXFLAGS = $(CPPFLAGS) \
 		   -D_GLIBCXX_ASSERTIONS \
 		   -O2 \
-		   -g \
-		   -ggdb \
 		   -Wall \
 		   -Wextra \
 		   -Wno-implicit-fallthrough \
@@ -64,14 +55,34 @@ CXXFLAGS = $(CPPFLAGS) \
 		   -fstack-clash-protection \
 		   -fstack-protector \
 		   -ftree-vectorize \
-		   -march=znver3 \
+		   -g \
+		   -ggdb \
 		   -pedantic \
 		   -pipe \
 		   -pthread \
 		   -std=c++17
 
-LDFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff -Llib -ljeff
-LDXXFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff -Llib
+LDFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
+		  -Llib \
+		  -ljeff \
+		  -fcf-protection \
+		  -flto \
+		  -fomit-frame-pointer \
+		  -fsanitize=address \
+		  -fstack-clash-protection \
+		  -fstack-protector \
+		  -ftree-vectorize
+
+LDXXFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
+			-Llib \
+			-ljeff \
+			-fcf-protection \
+			-flto \
+			-fomit-frame-pointer \
+			-fsanitize=address \
+			-fstack-clash-protection \
+			-fstack-protector \
+			-ftree-vectorize
 
 PKG_CONFIG_BIN := pkgconf
 
@@ -139,13 +150,13 @@ JEFF_STATIC_LIBS = $(LIBDIR)/libjdie.a \
 				   $(LIBDIR)/libjstring.a
 
 JEFF_CFLAGS = $(CFLAGS) -fPIC
-JEFF_LDFLAGS = -lc -lm
+JEFF_LDFLAGS = -lc
 
 PREFROC_ACTIONS = $(PREPROCDIR)/cointoss.i \
-			 $(PREPROCDIR)/countdown.i \
-			 $(PREPROCDIR)/misc.i \
-			 $(PREPROCDIR)/nwl_trim.i \
-			 $(PREPROCDIR)/yn.i
+				  $(PREPROCDIR)/countdown.i \
+				  $(PREPROCDIR)/misc.i \
+				  $(PREPROCDIR)/nwl_trim.i \
+				  $(PREPROCDIR)/yn.i
 
 AS_ACTIONS = $(ASDIR)/cointoss.s \
 			 $(ASDIR)/countdown.s \
