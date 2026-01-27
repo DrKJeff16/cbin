@@ -1,5 +1,8 @@
 #include <argp.h>
 #include <jeff/jeff.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 const char *argp_program_version = "misc 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
@@ -10,6 +13,7 @@ static argp_option_t options[] = { { "verbose", 'v', 0, 0, "Produce verbose outp
 typedef struct arguments {
   jbool verbose;
   size_t n_args;
+  char **args;
 } arg_data;
 
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
@@ -21,6 +25,17 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       break;
 
     case ARGP_KEY_ARG:
+      arguments->n_args++;
+      if (null_ptr(arguments->args)) {
+        arguments->args = MALLOC(char *);
+      } else {
+        arguments->args = REALLOC(arguments->args, char *, arguments->n_args);
+      }
+
+      arguments->args[arguments->n_args - 1] = CALLOC(char, strlen(arg) + 1);
+      stpcpy(arguments->args[arguments->n_args - 1], arg);
+      break;
+
     case ARGP_KEY_END:
       break;
 
@@ -30,10 +45,12 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   return 0;
 }
 
-static arg_data *init_args(void) {
-  arg_data *arguments = MALLOC(arg_data);
-  arguments->verbose = JFALSE;
-  arguments->n_args = 0;
+static arg_data init_args(void) {
+  arg_data arguments = {
+    .verbose = JFALSE,
+    .n_args = 0,
+    .args = NULL,
+  };
 
   return arguments;
 }
@@ -41,10 +58,18 @@ static arg_data *init_args(void) {
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 int main(int argc, char **argv) {
-  arg_data *arguments = init_args();
-  argp_parse(&argp, argc, argv, 0, 0, arguments);
+  arg_data arguments = init_args();
+  argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
-  free(arguments);
+  if (!null_ptr(arguments.args)) {
+    size_t i;
+    for (i = 0; i < arguments.n_args; i++) {
+      printf("%s\n", arguments.args[i]);
+      free(arguments.args[i]);
+    }
+    free(arguments.args);
+  }
+
   die(0, NULL);
 }
 
