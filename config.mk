@@ -28,6 +28,8 @@ CPPFLAGS = -Iinclude \
 
 CFLAGS = $(CPPFLAGS) \
 		 -O2 \
+		 -g \
+		 -ggdb \
 		 -Wall \
 		 -Wextra \
 		 -Wformat-security \
@@ -40,7 +42,7 @@ CFLAGS = $(CPPFLAGS) \
 		 -fstack-clash-protection \
 		 -fstack-protector \
 		 -ftree-vectorize \
-		 -march=native \
+		 -march=znver3 \
 		 -pedantic \
 		 -pipe \
 		 -pthread \
@@ -49,6 +51,8 @@ CFLAGS = $(CPPFLAGS) \
 CXXFLAGS = $(CPPFLAGS) \
 		   -D_GLIBCXX_ASSERTIONS \
 		   -O2 \
+		   -g \
+		   -ggdb \
 		   -Wall \
 		   -Wextra \
 		   -Wno-implicit-fallthrough \
@@ -60,7 +64,7 @@ CXXFLAGS = $(CPPFLAGS) \
 		   -fstack-clash-protection \
 		   -fstack-protector \
 		   -ftree-vectorize \
-		   -march=native \
+		   -march=znver3 \
 		   -pedantic \
 		   -pipe \
 		   -pthread \
@@ -72,6 +76,8 @@ LDXXFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff -Llib
 PKG_CONFIG_BIN := pkgconf
 
 JEFF_INCDIR = $(INCDIR)/jeff
+JEFF_PREPROCDIR = $(PREPROCDIR)/jeff
+JEFF_ASDIR = $(ASDIR)/jeff
 JEFF_H = $(JEFF_INCDIR)/jeff.h \
 		 $(JEFF_INCDIR)/jdie.h \
 		 $(JEFF_INCDIR)/jerr.h \
@@ -86,27 +92,27 @@ JEFF_H = $(JEFF_INCDIR)/jeff.h \
 		 $(JEFF_INCDIR)/jstring.h \
 		 $(JEFF_INCDIR)/jtypes.h
 
-JEFF_PREPROC =$(PREPROCDIR)/jdie.i \
-			  $(PREPROCDIR)/jerr.i \
-			  $(PREPROCDIR)/jhash.i \
-			  $(PREPROCDIR)/jinput.i \
-			  $(PREPROCDIR)/jfile.i \
-			  $(PREPROCDIR)/jlog.i \
-			  $(PREPROCDIR)/jmemory.i \
-			  $(PREPROCDIR)/jrandom.i \
-			  $(PREPROCDIR)/jsignal.i \
-			  $(PREPROCDIR)/jstring.i
+JEFF_PREPROC =$(JEFF_PREPROCDIR)/jdie.i \
+			  $(JEFF_PREPROCDIR)/jerr.i \
+			  $(JEFF_PREPROCDIR)/jhash.i \
+			  $(JEFF_PREPROCDIR)/jinput.i \
+			  $(JEFF_PREPROCDIR)/jfile.i \
+			  $(JEFF_PREPROCDIR)/jlog.i \
+			  $(JEFF_PREPROCDIR)/jmemory.i \
+			  $(JEFF_PREPROCDIR)/jrandom.i \
+			  $(JEFF_PREPROCDIR)/jsignal.i \
+			  $(JEFF_PREPROCDIR)/jstring.i
 
-JEFF_AS =$(ASDIR)/jdie.s \
-		 $(ASDIR)/jerr.s \
-		 $(ASDIR)/jhash.s \
-		 $(ASDIR)/jinput.s \
-		 $(ASDIR)/jfile.s \
-		 $(ASDIR)/jlog.s \
-		 $(ASDIR)/jmemory.s \
-		 $(ASDIR)/jrandom.s \
-		 $(ASDIR)/jsignal.s \
-		 $(ASDIR)/jstring.s
+JEFF_AS =$(JEFF_ASDIR)/jdie.s \
+		 $(JEFF_ASDIR)/jerr.s \
+		 $(JEFF_ASDIR)/jhash.s \
+		 $(JEFF_ASDIR)/jinput.s \
+		 $(JEFF_ASDIR)/jfile.s \
+		 $(JEFF_ASDIR)/jlog.s \
+		 $(JEFF_ASDIR)/jmemory.s \
+		 $(JEFF_ASDIR)/jrandom.s \
+		 $(JEFF_ASDIR)/jsignal.s \
+		 $(JEFF_ASDIR)/jstring.s
 
 JEFF_OBJECTS =$(OBJDIR)/jdie.o \
 			  $(OBJDIR)/jerr.o \
@@ -134,6 +140,19 @@ JEFF_STATIC_LIBS = $(LIBDIR)/libjdie.a \
 
 JEFF_CFLAGS = $(CFLAGS) -fPIC
 JEFF_LDFLAGS = -lc -lm
+
+PREFROC_ACTIONS = $(PREPROCDIR)/cointoss.i \
+			 $(PREPROCDIR)/countdown.i \
+			 $(PREPROCDIR)/misc.i \
+			 $(PREPROCDIR)/nwl_trim.i \
+			 $(PREPROCDIR)/yn.i
+
+AS_ACTIONS = $(ASDIR)/cointoss.s \
+			 $(ASDIR)/countdown.s \
+			 $(ASDIR)/misc.s \
+			 $(ASDIR)/nwl_trim.s \
+			 $(ASDIR)/yn.s
+
 JEFF_ACTIONS = cointoss \
 			   countdown \
 			   misc \
