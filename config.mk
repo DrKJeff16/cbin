@@ -156,18 +156,21 @@ PREFROC_ACTIONS = $(PREPROCDIR)/cointoss.i \
 				  $(PREPROCDIR)/countdown.i \
 				  $(PREPROCDIR)/misc.i \
 				  $(PREPROCDIR)/nwl_trim.i \
+				  $(PREPROCDIR)/shrug.i \
 				  $(PREPROCDIR)/yn.i
 
 AS_ACTIONS = $(ASDIR)/cointoss.s \
 			 $(ASDIR)/countdown.s \
 			 $(ASDIR)/misc.s \
 			 $(ASDIR)/nwl_trim.s \
+			 $(ASDIR)/shrug.s \
 			 $(ASDIR)/yn.s
 
 JEFF_ACTIONS = cointoss \
 			   countdown \
 			   misc \
 			   nwl_trim \
+			   shrug \
 			   yn
 
 ACTIONS = $(JEFF_ACTIONS)

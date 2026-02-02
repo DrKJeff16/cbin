@@ -222,6 +222,9 @@ $(PREPROCDIR)/misc.i: $(SRCDIR)/misc.c
 $(PREPROCDIR)/nwl_trim.i: $(SRCDIR)/nwl_trim.c $(INCDIR)/nwl_trim.h
 	$(CC) -E $< $(CFLAGS) -o $@
 
+$(PREPROCDIR)/shrug.i: $(SRCDIR)/shrug.c $(INCDIR)/shrug.h
+	$(CC) -E $< $(CFLAGS) -o $@
+
 $(PREPROCDIR)/yn.i: $(SRCDIR)/yn.c $(INCDIR)/yn.h
 	$(CC) -E $< $(CFLAGS) -o $@
 
@@ -235,6 +238,9 @@ $(ASDIR)/misc.s: $(PREPROCDIR)/misc.i
 	$(CC) -S $< $(CFLAGS) -o $@
 
 $(ASDIR)/nwl_trim.s: $(PREPROCDIR)/nwl_trim.i
+	$(CC) -S $< $(CFLAGS) -o $@
+
+$(ASDIR)/shrug.s: $(PREPROCDIR)/shrug.i
 	$(CC) -S $< $(CFLAGS) -o $@
 
 $(ASDIR)/yn.s: $(PREPROCDIR)/yn.i
@@ -252,6 +258,9 @@ $(OBJDIR)/misc.o: $(ASDIR)/misc.s
 $(OBJDIR)/nwl_trim.o: $(ASDIR)/nwl_trim.s
 	$(CC) -c $< $(CFLAGS) -o $@
 
+$(OBJDIR)/shrug.o: $(ASDIR)/shrug.s
+	$(CC) -c $< $(CFLAGS) -o $@
+
 $(OBJDIR)/yn.o: $(ASDIR)/yn.s
 	$(CC) -c $< $(CFLAGS) -o $@
 
@@ -267,6 +276,9 @@ $(BINDIR)/misc: $(OBJDIR)/misc.o
 $(BINDIR)/nwl_trim: $(OBJDIR)/nwl_trim.o
 	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
 
+$(BINDIR)/shrug: $(OBJDIR)/shrug.o
+	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
+
 $(BINDIR)/yn: $(OBJDIR)/yn.o
 	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
 
@@ -279,6 +291,8 @@ countdown: $(BINDIR)/countdown
 misc: $(BINDIR)/misc
 
 nwl_trim: $(BINDIR)/nwl_trim
+
+shrug: $(BINDIR)/shrug
 
 yn: $(BINDIR)/yn
 
@@ -293,20 +307,22 @@ install_bin: cointoss yn countdown nwl_trim
 	install -m 755 $(BINDIR)/cointoss $(GLOBAL_PREFIX)/bin/cointoss
 	install -m 755 $(BINDIR)/countdown $(GLOBAL_PREFIX)/bin/countdown
 	install -m 755 $(BINDIR)/nwl_trim $(GLOBAL_PREFIX)/bin/nwl_trim
+	install -m 755 $(BINDIR)/shrug $(GLOBAL_PREFIX)/bin/shrug
 	install -m 755 $(BINDIR)/yn $(GLOBAL_PREFIX)/bin/yn
 
 install_bin_stripped: install_bin
-	@strip $(GLOBAL_PREFIX)/bin/{cointoss,countdown,nwl_trim,yn}
+	@strip $(GLOBAL_PREFIX)/bin/{cointoss,countdown,nwl_trim,shrug,yn}
 
 install_local_bin: cointoss yn countdown
 	@mkdir -p $(HOME)/.bin/cbin
 	install -m 755 $(BINDIR)/cointoss $(HOME)/.bin/cbin/cointoss
 	install -m 755 $(BINDIR)/countdown $(HOME)/.bin/cbin/countdown
 	install -m 755 $(BINDIR)/nwl_trim $(HOME)/.bin/cbin/nwl_trim
+	install -m 755 $(BINDIR)/shrug $(HOME)/.bin/cbin/shrug
 	install -m 755 $(BINDIR)/yn $(HOME)/.bin/cbin/yn
 
 install_local_bin_stripped: install_local_bin
-	@strip $(HOME)/.bin/cbin/{cointoss,countdown,nwl_trim,yn}
+	@strip $(HOME)/.bin/cbin/{cointoss,countdown,nwl_trim,shrug,yn}
 
 install_headers:
 	@rm -rf $(GLOBAL_PREFIX)/include/jeff
