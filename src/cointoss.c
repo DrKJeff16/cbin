@@ -15,9 +15,9 @@ const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Cointoss program.";
 static char args_doc[] = "[-u] [-r NUM] [-c COUNT] [<X> <Y>]";
 static argp_option_t options[] = {
-  { "verbose", 'v', 0, 0, "Verbose mode", 1 },
+  { "verbose", 'v', 0, 0, "Verbose mode", 0 },
   { "total", 't', 0, 0, "Whether to show the total stats", 1 },
-  { "no-urandom", 'u', 0, 0, "Use /dev/random instead of /dev/urandom", 1 },
+  { "urandom", 'u', 0, 0, "Use /dev/urandom instead of /dev/random", 1 },
   { "count", 'c', "COUNT", 0, "How many iterations should be repeated", 2 },
   { "repeat", 'r', "REPEAT", 0, "The repeating cycles amount", 2 },
   { 0 },
@@ -30,7 +30,7 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
   switch (key) {
     case 'u':
-      arguments->urandom = JFALSE;
+      arguments->urandom = JTRUE;
       break;
 
     case 'c':
@@ -72,44 +72,44 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
-coin_t *init_choices(void) {
-  coin_t *c = MALLOC(coin_t);
+coin_t *init_coin(void) {
+  coin_t *coin = MALLOC(coin_t);
 
-  c->TAILS = 0;
-  c->HEADS = 0;
+  coin->TAILS = 0;
+  coin->HEADS = 0;
 
-  return c;
+  return coin;
 }
 
 void show_total(char *choices[2], char **total, size_t n) {
-  coin_t c = { .HEADS = 0, .TAILS = 0 };
+  coin_t coin = { .HEADS = 0, .TAILS = 0 };
 
   for (size_t i = 0; i < n; i++) {
     if (!strcmp(choices[0], total[i])) {
-      c.HEADS++;
+      coin.HEADS++;
       continue;
     }
     if (!strcmp(choices[1], total[i])) {
-      c.TAILS++;
+      coin.TAILS++;
       continue;
     }
   }
 
-  printf("\n`%s` ==> %llu\n`%s` ==> %llu\n\n", choices[0], c.HEADS, choices[1], c.TAILS);
+  printf("\n`%s` ==> %llu\n`%s` ==> %llu\n\n", choices[0], coin.HEADS, choices[1], coin.TAILS);
   free(total);
 }
 
-void decide(const jbool x, coin_t *c) {
-  if (null_ptr(c)) {
+void decide(const jbool result, coin_t *coin) {
+  if (null_ptr(coin)) {
     j_errno_die(127, EFAULT, "Choices struct is NULL!");
   }
 
-  switch (x) {
+  switch (result) {
     case JFALSE:
-      c->HEADS++;
+      coin->HEADS++;
       break;
     case JTRUE:
-      c->TAILS++;
+      coin->TAILS++;
       break;
   }
 }
@@ -122,17 +122,18 @@ jbool fd_toss(const int fd) {
   return fd_urand(fd, JFALSE, JTRUE) ? JTRUE : JFALSE;
 }
 
-void verdict(const int fd, coin_t *c, char *coin[2], char **total, const size_t n) {
-  if (null_ptr(c)) {
+void verdict(const int fd, coin_t *coin, char *choices[2], char **total, const size_t n) {
+  if (null_ptr(coin)) {
     free(total);
-    free(c);
+    free(coin);
+    close(fd);
     j_errno_vdie(JTRUE, EFAULT, "(verdict): %s\n", "No available choices!");
   }
 
-  total[n] = coin[(c->HEADS > c->TAILS) ? JTRUE : ((c->TAILS > c->HEADS) ? JFALSE : fd_toss(fd))];
+  total[n] = choices[(coin->HEADS > coin->TAILS) ? JTRUE : ((coin->TAILS > coin->HEADS) ? JFALSE : fd_toss(fd))];
   printf("%s\n", total[n]);
 
-  free(c);
+  free(coin);
 }
 
 static arg_data init_args(void) {
@@ -159,16 +160,16 @@ int main(int argc, char **argv) {
     die(JTRUE, "-c can't be 0!");
   }
 
-  char *file = arguments.urandom ? "/dev/urandom" : "/dev/random";
-  int fd = open(file, O_RDONLY);
-  if (fd < 0) {
-    j_errno_vdie(127, ENOENT, "(cointoss): `%s` is unavailable (fd: %d)!\n", file, fd);
+  int fd;
+  if ((fd = open(arguments.urandom ? "/dev/urandom" : "/dev/random", O_RDONLY)) < 0) {
+    j_errno_vdie(127, ENOENT, "(cointoss): `%s` is unavailable (fd: %d)!\n",
+                 arguments.urandom ? "/dev/urandom" : "/dev/random", fd);
   }
 
   char **total = CALLOC(char *, arguments.count);
   size_t n = 0;
   for (; n < arguments.count; n++) {
-    coin_t *c = init_choices();
+    coin_t *c = init_coin();
     for (j_ullong j = 0; j < arguments.rep && fd >= 0; j++) {
       if (arguments.verbose) {
         printf("\r%llu%c", j + 1, (j == arguments.rep - 1) ? '\n' : 0);

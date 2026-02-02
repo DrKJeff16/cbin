@@ -42,16 +42,14 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       break;
 
     case 'n':
-      num_in = atoi(arg);
-      if (num_in <= 0) {
+      if ((num_in = atoi(arg)) <= 0) {
         num_in = 5;
       }
       arguments->num = (j_uint)num_in;
       break;
 
     case 'd':
-      num_in = atoi(arg);
-      if (num_in <= 0) {
+      if ((num_in = atoi(arg)) <= 0) {
         num_in = 1;
       }
       arguments->duration = (j_uint)num_in;
@@ -96,14 +94,15 @@ void count_down(const j_uint *const range, const j_uint num, const j_uint durati
   }
 }
 
-static arg_data *init_args(void) {
-  arg_data *arguments = MALLOC(arg_data);
-  arguments->duration = 1;
-  arguments->num = 5;
-  arguments->verbose = JFALSE;
-  arguments->show = JFALSE;
-  arguments->n_args = 0;
-  arguments->msg = NULL;
+static arg_data init_args(void) {
+  arg_data arguments = {
+    .duration = 1,
+    .num = 5,
+    .verbose = JFALSE,
+    .show = JFALSE,
+    .n_args = 0,
+    .msg = NULL,
+  };
 
   return arguments;
 }
@@ -112,32 +111,31 @@ static arg_data *init_args(void) {
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 int main(int argc, char **argv) {
-  arg_data *arguments = init_args();
-  argp_parse(&argp, argc, argv, 0, 0, arguments);
+  arg_data arguments = init_args();
+  argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
   char *s = CALLOC(char, 1024);
-  snprintf(s, 1024, "Duration: %ds\nStarts at: %d\n", arguments->duration, arguments->num);
+  snprintf(s, 1024, "Duration: %ds\nStarts at: %d\n", arguments.duration, arguments.num);
   s = REALLOC(s, char, strlen(s) + 1);
 
-  verbose_print(arguments->verbose, s, NULL);
+  verbose_print(arguments.verbose, s, NULL);
   free(s);
 
-  j_uint *range = gen_range(arguments->num);
-  count_down(range, arguments->num, arguments->duration, arguments->show);
+  j_uint *range = gen_range(arguments.num);
+  count_down(range, arguments.num, arguments.duration, arguments.show);
   free(range);
 
-  if (arguments->show) {
+  if (arguments.show) {
     fflush(stdout);
   }
 
-  if (!null_ptr(arguments->msg)) {
-    for (size_t i = 0; i < arguments->n_args; i++) {
-      printf("\r%s%c", arguments->msg[i], (i == arguments->n_args - 1) ? 0 : ' ');
+  if (!null_ptr(arguments.msg)) {
+    for (size_t i = 0; i < arguments.n_args; i++) {
+      printf("\r%s%c", arguments.msg[i], (i == arguments.n_args - 1) ? 0 : ' ');
     }
-    free(arguments->msg);
+    free(arguments.msg);
   }
 
-  free(arguments);
   return 0;
 }
 

@@ -34,10 +34,8 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       break;
 
     case ARGP_KEY_ARG:
-      if (!arguments->n_args) {
-        arguments->args = CALLOC(char, strlen(arg) + 1);
-        stpcpy(arguments->args, arg);
-        arguments->n_args++;
+      if (null_ptr(arguments->args)) {
+        arguments->args = arg;
       }
       break;
 
@@ -56,14 +54,12 @@ static void prompt(const char *restrict msg, const jbool negative) {
   printf("%s [%s]: ", msg, (!negative) ? "Y/n" : "y/N");
 }
 
-static arg_data *init_args(void) {
-  arg_data *arguments = MALLOC(arg_data);
-  arguments->invert = JFALSE;
-  arguments->n_args = 0;
-  arguments->args = CALLOC(char, 9);
-  arguments->code = 1;
-
-  stpcpy(arguments->args, "Confirm?");
+static arg_data init_args(void) {
+  arg_data arguments = {
+    .invert = JFALSE,
+    .args = NULL,
+    .code = 1,
+  };
 
   return arguments;
 }
@@ -78,22 +74,16 @@ void yes_no(arg_data *arguments) {
       case 'N':
       case 'n':
         code = arguments->code;
-        free(arguments->args);
-        free(arguments);
         die(code, NULL);
 
       case 'Y':
       case 'y':
-        free(arguments->args);
-        free(arguments);
         die(0, NULL);
 
       case '\n':
       case '\r':
         if (!prev) {
           code = (arguments->invert) ? arguments->code : 0;
-          free(arguments->args);
-          free(arguments);
           die(code, NULL);
         }
         prompt(arguments->args, arguments->invert);
@@ -108,15 +98,16 @@ void yes_no(arg_data *arguments) {
 }
 
 int main(int argc, char **argv) {
-  arg_data *arguments = init_args();
-  argp_parse(&argp, argc, argv, 0, 0, arguments);
+  arg_data arguments = init_args();
+  argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
-  yes_no(arguments);
+  if (null_ptr(arguments.args)) {
+    arguments.args = "Confirm?";
+  }
 
-  int code = arguments->code;
+  yes_no(&arguments);
 
-  free(arguments->args);
-  free(arguments);
+  int code = arguments.code;
   return code;
 }
 
