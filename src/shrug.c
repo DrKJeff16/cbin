@@ -194,3 +194,5 @@ int main(int argc, char **argv) {
   free(arguments.args);
   return 0;
 }
+
+/* vim: set ts=2 sts=2 sw=2 et ai si sta: */
