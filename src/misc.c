@@ -8,7 +8,10 @@ const char *argp_program_version = "misc 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Misc test program.";
 static char args_doc[] = "[-v] [<ARG>]";
-static argp_option_t options[] = { { "verbose", 'v', 0, 0, "Produce verbose output", 0 } };
+static argp_option_t options[] = {
+  { "verbose", 'v', 0, 0, "Produce verbose output", 0 },
+  { 0 },
+};
 
 typedef struct arguments {
   jbool verbose;

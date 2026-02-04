@@ -68,83 +68,63 @@ $(PREPROCDIR):
 	@mkdir -p $@
 
 $(JEFF_PREPROCDIR)/jdie.i: $(SRCDIR)/jeff/jdie.c $(JEFF_PREPROCDIR)
-	@mkdir -p $(JEFF_PREPROCCDIR) || true
 	$(CC) -E $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_PREPROCDIR)/jerr.i: $(SRCDIR)/jeff/jerr.c $(JEFF_PREPROCDIR)
-	@mkdir -p $(JEFF_PREPROCCDIR) || true
 	$(CC) -E $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_PREPROCDIR)/jmemory.i: $(SRCDIR)/jeff/jmemory.c $(JEFF_PREPROCDIR)
-	@mkdir -p $(JEFF_PREPROCCDIR) || true
 	$(CC) -E $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_PREPROCDIR)/jrandom.i: $(SRCDIR)/jeff/jrandom.c $(JEFF_PREPROCDIR)
-	@mkdir -p $(JEFF_PREPROCCDIR) || true
 	$(CC) -E $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_PREPROCDIR)/jfile.i: $(SRCDIR)/jeff/jfile.c $(JEFF_PREPROCDIR)
-	@mkdir -p $(JEFF_PREPROCCDIR) || true
 	$(CC) -E $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_PREPROCDIR)/jhash.i: $(SRCDIR)/jeff/jhash.c $(JEFF_PREPROCDIR)
-	@mkdir -p $(JEFF_PREPROCCDIR) || true
 	$(CC) -E $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_PREPROCDIR)/jstring.i: $(SRCDIR)/jeff/jstring.c $(JEFF_PREPROCDIR)
-	@mkdir -p $(JEFF_PREPROCCDIR) || true
 	$(CC) -E $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_PREPROCDIR)/jsignal.i: $(SRCDIR)/jeff/jsignal.c $(JEFF_PREPROCDIR)
-	@mkdir -p $(JEFF_PREPROCCDIR) || true
 	$(CC) -E $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_PREPROCDIR)/jinput.i: $(SRCDIR)/jeff/jinput.c $(JEFF_PREPROCDIR)
-	@mkdir -p $(JEFF_PREPROCCDIR) || true
 	$(CC) -E $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_PREPROCDIR)/jlog.i: $(SRCDIR)/jeff/jlog.c $(JEFF_PREPROCDIR)
-	@mkdir -p $(JEFF_PREPROCCDIR) || true
 	$(CC) -E $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_ASDIR)/jdie.s: $(JEFF_PREPROCDIR)/jdie.i $(JEFF_ASDIR)
-	@mkdir -p $(JEFF_ASCDIR) || true
 	$(CC) -S $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_ASDIR)/jerr.s: $(JEFF_PREPROCDIR)/jerr.i $(JEFF_ASDIR)
-	@mkdir -p $(JEFF_ASCDIR) || true
 	$(CC) -S $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_ASDIR)/jmemory.s: $(JEFF_PREPROCDIR)/jmemory.i $(JEFF_ASDIR)
-	@mkdir -p $(JEFF_ASCDIR) || true
 	$(CC) -S $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_ASDIR)/jrandom.s: $(JEFF_PREPROCDIR)/jrandom.i $(JEFF_ASDIR)
-	@mkdir -p $(JEFF_ASCDIR) || true
 	$(CC) -S $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_ASDIR)/jfile.s: $(JEFF_PREPROCDIR)/jfile.i $(JEFF_ASDIR)
-	@mkdir -p $(JEFF_ASCDIR) || true
 	$(CC) -S $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_ASDIR)/jhash.s: $(JEFF_PREPROCDIR)/jhash.i $(JEFF_ASDIR)
-	@mkdir -p $(JEFF_ASCDIR) || true
 	$(CC) -S $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_ASDIR)/jstring.s: $(JEFF_PREPROCDIR)/jstring.i $(JEFF_ASDIR)
-	@mkdir -p $(JEFF_ASCDIR) || true
 	$(CC) -S $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_ASDIR)/jsignal.s: $(JEFF_PREPROCDIR)/jsignal.i $(JEFF_ASDIR)
-	@mkdir -p $(JEFF_ASCDIR) || true
 	$(CC) -S $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_ASDIR)/jinput.s: $(JEFF_PREPROCDIR)/jinput.i $(JEFF_ASDIR)
-	@mkdir -p $(JEFF_ASCDIR) || true
 	$(CC) -S $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_ASDIR)/jlog.s: $(JEFF_PREPROCDIR)/jlog.i $(JEFF_ASDIR)
-	@mkdir -p $(JEFF_ASCDIR) || true
 	$(CC) -S $< $(JEFF_CFLAGS) -o $@
 
 $(OBJDIR)/jdie.o: $(JEFF_ASDIR)/jdie.s

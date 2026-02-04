@@ -168,11 +168,7 @@ void list_emotions(void) {
 }
 
 static arg_data init_args(void) {
-  arg_data arguments = {
-    .list = JFALSE,
-    .zero = JFALSE,
-    .args = NULL,
-  };
+  arg_data arguments = { .list = JFALSE, .zero = JFALSE, .args = NULL };
 
   return arguments;
 }

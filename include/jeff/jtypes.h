@@ -20,28 +20,11 @@ typedef struct argp argp_t;
 typedef struct argp_state argp_state_t;
 typedef struct argp_option argp_option_t;
 
-typedef struct _char_ptrs {
-  const char *s1;
-  const char *s2;
-} char_ptrs;
-
-typedef enum _jbool {
+enum jbool {
   JFALSE = 0,
-  JTRUE = 1,
-} jbool;
-
-typedef struct _jstate_rel {
-  char input;
-  j_uint idx;
-} jstate_rel;
-
-typedef enum __jlua_type {
-  JLUA_NIL = 0,
-  JLUA_BOOL,
-  JLUA_NUM,
-  JLUA_LSTR,
-  JLUA_STR,
-} jlua_type;
+  JTRUE = 1
+};
+typedef enum jbool jbool;
 
 #if defined(__cplusplus)
 }
