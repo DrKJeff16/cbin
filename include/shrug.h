@@ -9,11 +9,37 @@ extern "C" {
 
 typedef struct arguments {
   jbool list;
-  size_t n_args;
   char *args;
 } arg_data;
 
+const size_t N_EMOTIONS = 19;
+
+typedef enum emotions_index {
+  FACEPALM,
+  FIGHT,
+  FUCKYOU,
+  LENNY,
+  LENNYFIGHT,
+  LENNYSHRUG,
+  LOVE,
+  MEH,
+  NERD,
+  NICE,
+  OMG,
+  REALLY,
+  SADLENNY,
+  SHRUG,
+  SMILE,
+  THIS,
+  TY,
+  WOO,
+  WTF,
+} emotions_idx;
+
 static arg_data init_args(void);
+char *emotions(const jbool list, const emotions_idx idx);
+jbool is_emotion(char *const arg);
+emotions_idx map_emotion(char *const str);
 
 #if defined(__cplusplus)
 }

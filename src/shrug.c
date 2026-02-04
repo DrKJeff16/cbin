@@ -7,30 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef enum emotions_index {
-  FACEPALM,
-  FIGHT,
-  FUCKYOU,
-  LENNY,
-  LENNYFIGHT,
-  LENNYSHRUG,
-  LOVE,
-  MEH,
-  NERD,
-  NICE,
-  OMG,
-  REALLY,
-  SADLENNY,
-  SHRUG,
-  SMILE,
-  THIS,
-  TY,
-  WOO,
-  WTF,
-} emotions_idx;
-
-const size_t N_EMOTIONS = 19;
-
 const char *argp_program_version = "shrug 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Print useful ASCII art emotions.";
@@ -41,67 +17,65 @@ static argp_option_t options[] = {
   { 0 },
 };
 
-char *emotions(const jbool list_only, const emotions_idx idx) {
-  char *emotion = NULL;
+char *emotions(const jbool list, const emotions_idx idx) {
   switch (idx) {
     case FACEPALM:
-      return (list_only) ? "facepalm" : "(－‸ლ)";
+      return (list) ? "facepalm" : "(－‸ლ)";
       break;
     case FIGHT:
-      return (list_only) ? "fight" : "(ง •̀_•́)ง";
+      return (list) ? "fight" : "(ง •̀_•́)ง";
       break;
     case FUCKYOU:
-      return (list_only) ? "fuckyou" : "┌П┐(ಠ_ಠ)";
+      return (list) ? "fuckyou" : "┌П┐(ಠ_ಠ)";
       break;
     case LENNY:
-      return (list_only) ? "lenny" : "( ͡° ͜ʖ ͡°)";
+      return (list) ? "lenny" : "( ͡° ͜ʖ ͡°)";
       break;
     case LENNYFIGHT:
-      return (list_only) ? "lennyfight" : "(ง ͠° ͟ʖ ͡°)ง";
+      return (list) ? "lennyfight" : "(ง ͠° ͟ʖ ͡°)ง";
       break;
     case LENNYSHRUG:
-      return (list_only) ? "lennyshrug" : "¯\\_( ͡° ͜ʖ ͡°)_/¯";
+      return (list) ? "lennyshrug" : "¯\\_( ͡° ͜ʖ ͡°)_/¯";
       break;
     case LOVE:
-      return (list_only) ? "love" : "♥‿♥";
+      return (list) ? "love" : "♥‿♥";
       break;
     case MEH:
-      return (list_only) ? "meh" : "ಠ_ಠ";
+      return (list) ? "meh" : "ಠ_ಠ";
       break;
     case NERD:
-      return (list_only) ? "nerd" : "(⌐⊙_⊙)";
+      return (list) ? "nerd" : "(⌐⊙_⊙)";
       break;
     case NICE:
-      return (list_only) ? "nice" : "( ͡° ͜ °)";
+      return (list) ? "nice" : "( ͡° ͜ °)";
       break;
     case OMG:
-      return (list_only) ? "omg" : "◕_◕";
+      return (list) ? "omg" : "◕_◕";
       break;
     case REALLY:
-      return (list_only) ? "really" : "ò_ô";
+      return (list) ? "really" : "ò_ô";
       break;
     case SADLENNY:
-      return (list_only) ? "sadlenny" : "( ͡° ʖ̯ ͡°)";
+      return (list) ? "sadlenny" : "( ͡° ʖ̯ ͡°)";
       break;
     case SHRUG:
-      return (list_only) ? "shrug" : "¯\\_(ツ)_/¯";
+      return (list) ? "shrug" : "¯\\_(ツ)_/¯";
       break;
     case SMILE:
-      return (list_only) ? "smile" : "ツ";
+      return (list) ? "smile" : "ツ";
       break;
     case THIS:
-      return (list_only) ? "this" : "( ͡° ͜ʖ ͡°)_/¯";
+      return (list) ? "this" : "( ͡° ͜ʖ ͡°)_/¯";
       break;
     case TY:
-      return (list_only) ? "ty" : "\\(^-^)/";
+      return (list) ? "ty" : "\\(^-^)/";
       break;
     case WOO:
-      return (list_only) ? "woo" : "＼(＾O＾)／";
+      return (list) ? "woo" : "＼(＾O＾)／";
       break;
     case WTF:
-      return (list_only) ? "wtf" : "(⊙＿⊙')";
+      return (list) ? "wtf" : "(⊙＿⊙')";
       break;
-
     default:
       return NULL;
   }
@@ -139,7 +113,6 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
     case ARGP_KEY_ARG:
       if (null_ptr(arguments->args)) {
-        arguments->n_args++;
         arguments->args = CALLOC(char, strlen(arg) + 1);
         stpcpy(arguments->args, arg);
       }
@@ -159,7 +132,6 @@ static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 static arg_data init_args(void) {
   arg_data arguments = {
     .list = JFALSE,
-    .n_args = 0,
     .args = NULL,
   };
 
@@ -179,7 +151,7 @@ int main(int argc, char **argv) {
 
   if (null_ptr(arguments.args)) {
     printf("%s\n", emotions(JFALSE, SHRUG));
-    return 0;
+    die(0, NULL);
   }
 
   if (!is_emotion(arguments.args)) {
