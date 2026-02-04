@@ -7,8 +7,17 @@ extern "C" {
 
 #include <jeff/jtypes.h>
 
+#define TO_ZERO(zero, str) \
+  if (zero) {              \
+    printf("%s", str);     \
+    fflush(stdout);        \
+  } else {                 \
+    printf("%s\n", str);   \
+  }
+
 typedef struct arguments {
   jbool list;
+  jbool zero;
   char *args;
 } arg_data;
 
@@ -36,10 +45,13 @@ typedef enum emotions_index {
   WTF,
 } emotions_idx;
 
-static arg_data init_args(void);
 char *emotions(const jbool list, const emotions_idx idx);
 jbool is_emotion(char *const arg);
 emotions_idx map_emotion(char *const str);
+void list_emotions(void);
+
+static arg_data init_args(void);
+static void show_usage(const int code, arg_data *arguments);
 
 #if defined(__cplusplus)
 }

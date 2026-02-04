@@ -111,6 +111,10 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       arguments->list = JTRUE;
       break;
 
+    case '0':
+      arguments->zero = JTRUE;
+      break;
+
     case ARGP_KEY_ARG:
       if (null_ptr(arguments->args)) {
         arguments->args = CALLOC(char, strlen(arg) + 1);
@@ -127,11 +131,46 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   return 0;
 }
 
+static void show_usage(const int code, arg_data *arguments) {
+  size_t start_spaces = 4;
+  size_t len = N_EMOTIONS + start_spaces;
+
+  char **txt = CALLOC(char *, len);
+  txt[0] = "Usage: shrug [-L] [<EMOTION>]";
+  txt[1] = "";
+  txt[2] = "Available emotions:";
+  txt[3] = "";
+
+  size_t i = start_spaces;
+  for (i = start_spaces; i < len; i++) {
+    txt[i] = emotions(JTRUE, i - start_spaces);
+  }
+
+  FILE *stream = (!code) ? stdout : stderr;
+  for (i = 0; i < len; i++) {
+    fprintf(stream, (i < start_spaces) ? "%s\n" : "   %s\n", txt[i]);
+  }
+
+  if (!null_ptr(arguments->args)) {
+    free(arguments->args);
+  }
+  free(txt);
+  die(code, NULL);
+}
+
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
+
+void list_emotions(void) {
+  for (size_t i = 0; i < N_EMOTIONS; i++) {
+    printf("%s\n", emotions(JTRUE, i));
+  }
+  die(0, NULL);
+}
 
 static arg_data init_args(void) {
   arg_data arguments = {
     .list = JFALSE,
+    .zero = JFALSE,
     .args = NULL,
   };
 
@@ -143,25 +182,20 @@ int main(int argc, char **argv) {
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
   if (arguments.list) {
-    for (size_t i = 0; i < N_EMOTIONS; i++) {
-      printf("%s\n", emotions(JTRUE, i));
-    }
-    return 0;
+    list_emotions();
   }
 
   if (null_ptr(arguments.args)) {
-    printf("%s\n", emotions(JFALSE, SHRUG));
+    TO_ZERO(arguments.zero, emotions(JFALSE, SHRUG))
     die(0, NULL);
   }
 
   if (!is_emotion(arguments.args)) {
-    j_err("Not an emotion: `%s`!\n", arguments.args);
-
-    free(arguments.args);
-    die(1, NULL);
+    j_err("Not an emotion: `%s`!\n\n", arguments.args);
+    show_usage(1, &arguments);
   }
 
-  printf("%s\n", emotions(JFALSE, map_emotion(arguments.args)));
+  TO_ZERO(arguments.zero, emotions(JFALSE, map_emotion(arguments.args)))
 
   free(arguments.args);
   return 0;
