@@ -1,5 +1,6 @@
 #include <argp.h>
-#include <jeff/jeff.h>
+#include <jeff/jdie.h>
+#include <jeff/jmemory.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

@@ -21,11 +21,13 @@ ALL_DIRS = $(BINDIR) \
 		   $(OBJDIR) \
 		   $(SRCDIR)
 
-CPPFLAGS = -Iinclude \
-		   -I. \
-		   -I$(GLOBAL_PREFIX)/include/jeff \
+CPPFLAGS = -DNDEBUG \
+		   -D_DEFAULT_SOURCE \
+		   -D_FORTIFY_SOURCE=2 \
 		   -D_GNU_SOURCE \
-		   -D_FORTIFY_SOURCE=2
+		   -I$(GLOBAL_PREFIX)/include/jeff \
+		   -I. \
+		   -Iinclude
 
 CFLAGS = $(CPPFLAGS) \
 		 -O2 \
@@ -64,25 +66,25 @@ CXXFLAGS = $(CPPFLAGS) \
 
 LDFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
 		  -Llib \
-		  -ljeff \
 		  -fcf-protection \
 		  -flto \
 		  -fomit-frame-pointer \
 		  -fsanitize=address \
 		  -fstack-clash-protection \
 		  -fstack-protector \
-		  -ftree-vectorize
+		  -ftree-vectorize \
+		  -ljeff
 
 LDXXFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
 			-Llib \
-			-ljeff \
 			-fcf-protection \
 			-flto \
 			-fomit-frame-pointer \
 			-fsanitize=address \
 			-fstack-clash-protection \
 			-fstack-protector \
-			-ftree-vectorize
+			-ftree-vectorize \
+			-ljeff
 
 PKG_CONFIG_BIN := pkgconf
 
@@ -109,7 +111,6 @@ JEFF_PREPROC =$(JEFF_PREPROCDIR)/jdie.i \
 			  $(JEFF_PREPROCDIR)/jinput.i \
 			  $(JEFF_PREPROCDIR)/jfile.i \
 			  $(JEFF_PREPROCDIR)/jlog.i \
-			  $(JEFF_PREPROCDIR)/jmemory.i \
 			  $(JEFF_PREPROCDIR)/jrandom.i \
 			  $(JEFF_PREPROCDIR)/jsignal.i \
 			  $(JEFF_PREPROCDIR)/jstring.i
@@ -120,7 +121,6 @@ JEFF_AS =$(JEFF_ASDIR)/jdie.s \
 		 $(JEFF_ASDIR)/jinput.s \
 		 $(JEFF_ASDIR)/jfile.s \
 		 $(JEFF_ASDIR)/jlog.s \
-		 $(JEFF_ASDIR)/jmemory.s \
 		 $(JEFF_ASDIR)/jrandom.s \
 		 $(JEFF_ASDIR)/jsignal.s \
 		 $(JEFF_ASDIR)/jstring.s
@@ -131,7 +131,6 @@ JEFF_OBJECTS =$(OBJDIR)/jdie.o \
 			  $(OBJDIR)/jinput.o \
 			  $(OBJDIR)/jfile.o \
 			  $(OBJDIR)/jlog.o \
-			  $(OBJDIR)/jmemory.o \
 			  $(OBJDIR)/jrandom.o \
 			  $(OBJDIR)/jsignal.o \
 			  $(OBJDIR)/jstring.o

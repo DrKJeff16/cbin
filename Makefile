@@ -73,9 +73,6 @@ $(JEFF_PREPROCDIR)/jdie.i: $(SRCDIR)/jeff/jdie.c $(JEFF_PREPROCDIR)
 $(JEFF_PREPROCDIR)/jerr.i: $(SRCDIR)/jeff/jerr.c $(JEFF_PREPROCDIR)
 	$(CC) -E $< $(JEFF_CFLAGS) -o $@
 
-$(JEFF_PREPROCDIR)/jmemory.i: $(SRCDIR)/jeff/jmemory.c $(JEFF_PREPROCDIR)
-	$(CC) -E $< $(JEFF_CFLAGS) -o $@
-
 $(JEFF_PREPROCDIR)/jrandom.i: $(SRCDIR)/jeff/jrandom.c $(JEFF_PREPROCDIR)
 	$(CC) -E $< $(JEFF_CFLAGS) -o $@
 
@@ -101,9 +98,6 @@ $(JEFF_ASDIR)/jdie.s: $(JEFF_PREPROCDIR)/jdie.i $(JEFF_ASDIR)
 	$(CC) -S $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_ASDIR)/jerr.s: $(JEFF_PREPROCDIR)/jerr.i $(JEFF_ASDIR)
-	$(CC) -S $< $(JEFF_CFLAGS) -o $@
-
-$(JEFF_ASDIR)/jmemory.s: $(JEFF_PREPROCDIR)/jmemory.i $(JEFF_ASDIR)
 	$(CC) -S $< $(JEFF_CFLAGS) -o $@
 
 $(JEFF_ASDIR)/jrandom.s: $(JEFF_PREPROCDIR)/jrandom.i $(JEFF_ASDIR)
@@ -133,9 +127,6 @@ $(OBJDIR)/jdie.o: $(JEFF_ASDIR)/jdie.s
 $(OBJDIR)/jerr.o: $(JEFF_ASDIR)/jerr.s
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jmemory.o: $(JEFF_ASDIR)/jmemory.s
-	$(CC) -c $< $(JEFF_CFLAGS) -o $@
-
 $(OBJDIR)/jrandom.o: $(JEFF_ASDIR)/jrandom.s
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
@@ -161,9 +152,6 @@ $(LIBDIR)/libjdie.a: $(OBJDIR)/jdie.o
 	@$(AR) rcs $@ $<
 
 $(LIBDIR)/libjerr.a: $(OBJDIR)/jerr.o
-	@$(AR) rcs $@ $<
-
-$(LIBDIR)/libjmemory.a: $(OBJDIR)/jmemory.o
 	@$(AR) rcs $@ $<
 
 $(LIBDIR)/libjrandom.a: $(OBJDIR)/jrandom.o
@@ -282,7 +270,7 @@ strip_bin:
 strip_libs:
 	@strip $(LIBDIR)/*.so
 
-install_bin: cointoss yn countdown nwl_trim
+install_bin:
 	@mkdir -p $(GLOBAL_PREFIX)/bin
 	install -m 755 $(BINDIR)/cointoss $(GLOBAL_PREFIX)/bin/cointoss
 	install -m 755 $(BINDIR)/countdown $(GLOBAL_PREFIX)/bin/countdown
@@ -293,7 +281,7 @@ install_bin: cointoss yn countdown nwl_trim
 install_bin_stripped: install_bin
 	@strip $(GLOBAL_PREFIX)/bin/{cointoss,countdown,nwl_trim,shrug,yn}
 
-install_local_bin: cointoss yn countdown
+install_local_bin:
 	@mkdir -p $(HOME)/.bin/cbin
 	install -m 755 $(BINDIR)/cointoss $(HOME)/.bin/cbin/cointoss
 	install -m 755 $(BINDIR)/countdown $(HOME)/.bin/cbin/countdown
@@ -328,7 +316,6 @@ install_local_libs:
 	install -m 644 $(LIBDIR)/libjinput.a $(LOCAL_PREFIX)/lib/jeff/libjinput.a
 	install -m 644 $(LIBDIR)/libjfile.a $(LOCAL_PREFIX)/lib/jeff/libjfile.a
 	install -m 644 $(LIBDIR)/libjlog.a $(LOCAL_PREFIX)/lib/jeff/libjlog.a
-	install -m 644 $(LIBDIR)/libjmemory.a $(LOCAL_PREFIX)/lib/jeff/libjmemory.a
 	install -m 644 $(LIBDIR)/libjrandom.a $(LOCAL_PREFIX)/lib/jeff/libjrandom.a
 	install -m 644 $(LIBDIR)/libjsignal.a $(LOCAL_PREFIX)/lib/jeff/libjsignal.a
 	install -m 644 $(LIBDIR)/libjstring.a $(LOCAL_PREFIX)/lib/jeff/libjstring.a
@@ -343,7 +330,6 @@ install_libs:
 	install -m 644 $(LIBDIR)/libjinput.a $(GLOBAL_PREFIX)/lib/jeff/libjinput.a
 	install -m 644 $(LIBDIR)/libjfile.a $(GLOBAL_PREFIX)/lib/jeff/libjfile.a
 	install -m 644 $(LIBDIR)/libjlog.a $(GLOBAL_PREFIX)/lib/jeff/libjlog.a
-	install -m 644 $(LIBDIR)/libjmemory.a $(GLOBAL_PREFIX)/lib/jeff/libjmemory.a
 	install -m 644 $(LIBDIR)/libjrandom.a $(GLOBAL_PREFIX)/lib/jeff/libjrandom.a
 	install -m 644 $(LIBDIR)/libjsignal.a $(GLOBAL_PREFIX)/lib/jeff/libjsignal.a
 	install -m 644 $(LIBDIR)/libjstring.a $(GLOBAL_PREFIX)/lib/jeff/libjstring.a

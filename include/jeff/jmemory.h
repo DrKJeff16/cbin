@@ -5,9 +5,6 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <stddef.h>
-#include <stdlib.h>
-
 #define null_ptr(ptr) (!ptr || ptr == NULL)
 
 #if !defined(MALLOC)
@@ -29,8 +26,6 @@ extern "C" {
 #if !defined(VOID_PTR)
 #define VOID_PTR(ptr) (void *)ptr
 #endif /* !VOID_PTR */
-
-void j_gc(void **garbage, const size_t n);
 
 #if defined(__cplusplus)
 }
