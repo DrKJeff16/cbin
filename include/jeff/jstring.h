@@ -13,7 +13,6 @@ void reverse_str(char *str);
 char *str_reversed(char *const str);
 void str_append_nul(char *str);
 jbool compare_strv(char **const argv, const j_ulong len);
-char **filter_argv(const j_ulong argc, char **argv);
 
 char *dedup_str(char *const str);
 
@@ -25,7 +24,6 @@ char *str_rep(const char *const s, const size_t n);
 jbool in_str(char *const str, const char *const c);
 jbool is_lower(char *const str);
 jbool is_upper(char *const str);
-jbool check_jarg(const char *arg, char **argv, const j_uint argc);
 
 void capitalize(char *str);
 void upperize(char *str);

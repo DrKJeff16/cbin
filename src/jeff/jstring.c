@@ -122,15 +122,13 @@ jbool is_lower(char *const str) {
     return JFALSE;
   }
 
-  jbool status = JTRUE;
   for (j_ulong i = 0; i <= strlen(str); i++) {
     if (str[i] >= 'A' && str[i] <= 'Z') {
-      status = JFALSE;
-      break;
+      return JFALSE;
     }
   }
 
-  return status;
+  return JTRUE;
 }
 
 jbool is_upper(char *const str) {
@@ -138,15 +136,13 @@ jbool is_upper(char *const str) {
     return JFALSE;
   }
 
-  jbool status = JTRUE;
   for (size_t i = 0; i <= strlen(str); i++) {
     if (str[i] >= 'a' && str[i] <= 'z') {
-      status = JFALSE;
-      break;
+      return JFALSE;
     }
   }
 
-  return status;
+  return JTRUE;
 }
 
 void lowerize(char *str) {
@@ -155,12 +151,12 @@ void lowerize(char *str) {
   }
 
   for (size_t i = 0; i <= strlen(str); i++) {
-    char *c = MALLOC(char);
-    *c = str[i];
+    char *c = CALLOC(char, 2);
+    c[0] = str[i];
+    c[1] = 0;
     if (is_upper(c)) {
       str[i] += 32;
     }
-
     free(c);
   }
 }
@@ -171,12 +167,12 @@ void upperize(char *str) {
   }
 
   for (size_t i = 0; i <= strlen(str); i++) {
-    char *c = MALLOC(char);
-    *c = str[i];
+    char *c = CALLOC(char, 2);
+    c[0] = str[i];
+    c[1] = 0;
     if (is_lower(c)) {
       str[i] -= 32;
     }
-
     free(c);
   }
 }
@@ -188,8 +184,7 @@ void capitalize(char *str) {
   }
 
   jbool space = JTRUE;
-  char capital_d = 'a' - 'A';
-
+  int capital_d = 32;
   for (size_t i = 0; i < strlen(str) + 1; i++) {
     if ((str[i] >= 'a' && str[i] <= 'z') && space) {
       str[i] -= capital_d;
@@ -209,7 +204,6 @@ jbool compare_strv(char **const argv, const size_t len) {
     j_verr("%s\n", "`argv`is NULL");
     return JFALSE;
   }
-
   if (len < 2) {
     j_verr("`argv` must be of length 2 or greater (%d)\n", len);
     return JFALSE;
@@ -220,7 +214,6 @@ jbool compare_strv(char **const argv, const size_t len) {
       return JTRUE;
     }
   }
-
   return JFALSE;
 }
 
@@ -253,47 +246,6 @@ char *str_reversed(char *const str) {
   reverse_str(new_str);
 
   return new_str;
-}
-
-char **filter_argv(const size_t argc, char **const argv) {
-  if (argc <= 1) {
-    return NULL;
-  }
-
-  size_t len = argc;
-  char **result = CALLOC(char *, len - 1);
-  for (size_t i = 1; i < len; i++) {
-    if (!null_ptr(argv[i])) {
-      const size_t i_len = strlen(argv[i]) + 1;
-      result[i - 1] = CALLOC(char, i_len);
-      stpcpy(result[i - 1], argv[i]);
-    } else {
-      result[i - 1] = NULL;
-    }
-  }
-
-  return result;
-}
-
-jbool check_jarg(const char *arg, char **argv, const j_uint argc) {
-  if (null_ptr(arg) || null_ptr(argv) || !argc) {
-    return JFALSE;
-  }
-
-  jbool res = JFALSE;
-  for (j_ullong i = 1; i <= argc; i++) {
-    char *s = CALLOC(char, strlen(argv[i]) + 1);
-    strcpy(s, argv[i]);
-
-    res = (!strcmp(arg, s)) ? JTRUE : JFALSE;
-    free(s);
-
-    if (res) {
-      break;
-    }
-  }
-
-  return res;
 }
 
 void j_lstrip(const char c, char *str) {
