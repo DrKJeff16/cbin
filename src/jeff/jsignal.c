@@ -4,6 +4,7 @@
 #include <jeff/jsignal.h>
 #include <signal.h>
 #include <stddef.h>
+#include <stdlib.h>
 
 void sig_bootstrap(int *sigs, const size_t n, void (*fun)(const int)) {
   if (null_ptr(sigs) || !n) {

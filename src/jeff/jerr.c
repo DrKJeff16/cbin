@@ -3,6 +3,7 @@
 #include <jeff/jmemory.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 void j_err(char *const fmt, char *const msg) {
