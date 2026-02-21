@@ -14,10 +14,11 @@ static char args_doc[] = "[-L] [<EMOTION>]";
 static argp_option_t options[] = {
   { "zero", '0', 0, 0, "Terminate with a zero char instead", 0 },
   { "list-emotions", 'L', 0, 0, "List all the available emotions", 1 },
+  { "markdown", 'm', 0, 0, "Print the output to support Markdown format", 1 },
   { 0 },
 };
 
-char *emotions(const jbool list, const emotions_idx idx) {
+char *emotions(const jbool list, const jbool md, const emotions_idx idx) {
   switch (idx) {
     case FACEPALM:
       return (list) ? "facepalm" : "(－‸ლ)";
@@ -35,7 +36,7 @@ char *emotions(const jbool list, const emotions_idx idx) {
       return (list) ? "lennyfight" : "(ง ͠° ͟ʖ ͡°)ง";
       break;
     case LENNYSHRUG:
-      return (list) ? "lennyshrug" : "¯\\_( ͡° ͜ʖ ͡°)_/¯";
+      return (list) ? "lennyshrug" : ((!md) ? "¯\\_( ͡° ͜ʖ ͡°)_/¯" : "¯\\\\\\_( ͡° ͜ʖ ͡°)\\_/¯");
       break;
     case LOVE:
       return (list) ? "love" : "♥‿♥";
@@ -59,13 +60,13 @@ char *emotions(const jbool list, const emotions_idx idx) {
       return (list) ? "sadlenny" : "( ͡° ʖ̯ ͡°)";
       break;
     case SHRUG:
-      return (list) ? "shrug" : "¯\\_(ツ)_/¯";
+      return (list) ? "shrug" : ((!md) ? "¯\\_(ツ)_/¯" : "¯\\\\\\_(ツ)\\_/¯");
       break;
     case SMILE:
       return (list) ? "smile" : "ツ";
       break;
     case THIS:
-      return (list) ? "this" : "( ͡° ͜ʖ ͡°)_/¯";
+      return (list) ? "this" : ((!md) ? "( ͡° ͜ʖ ͡°)_/¯" : "( ͡° ͜ʖ ͡°)\\_/¯");
       break;
     case TY:
       return (list) ? "ty" : "\\(^-^)/";
@@ -83,7 +84,7 @@ char *emotions(const jbool list, const emotions_idx idx) {
 
 jbool is_emotion(char *const arg) {
   for (size_t i = 0; i < N_EMOTIONS; i++) {
-    if (!strcmp(emotions(JTRUE, i), arg)) {
+    if (!strcmp(emotions(JTRUE, JFALSE, i), arg)) {
       return JTRUE;
     }
   }
@@ -93,7 +94,7 @@ jbool is_emotion(char *const arg) {
 emotions_idx map_emotion(char *const str) {
   emotions_idx i;
   for (i = 0; i < N_EMOTIONS; i++) {
-    if (!strcmp(emotions(JTRUE, i), str)) {
+    if (!strcmp(emotions(JTRUE, JFALSE, i), str)) {
       break;
     }
   }
@@ -109,6 +110,10 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   switch (key) {
     case 'L':
       arguments->list = JTRUE;
+      break;
+
+    case 'm':
+      arguments->md = JTRUE;
       break;
 
     case '0':
@@ -143,7 +148,7 @@ static void show_usage(const int code, arg_data *arguments) {
 
   size_t i = start_spaces;
   for (i = start_spaces; i < len; i++) {
-    txt[i] = emotions(JTRUE, i - start_spaces);
+    txt[i] = emotions(JTRUE, JFALSE, i - start_spaces);
   }
 
   FILE *stream = (!code) ? stdout : stderr;
@@ -162,13 +167,13 @@ static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 void list_emotions(void) {
   for (size_t i = 0; i < N_EMOTIONS; i++) {
-    printf("%s\n", emotions(JTRUE, i));
+    printf("%s\n", emotions(JTRUE, JFALSE, i));
   }
   die(0, NULL);
 }
 
 static arg_data init_args(void) {
-  arg_data arguments = { .list = JFALSE, .zero = JFALSE, .args = NULL };
+  arg_data arguments = { .list = JFALSE, .zero = JFALSE, .md = JFALSE, .args = NULL };
 
   return arguments;
 }
@@ -182,7 +187,7 @@ int main(int argc, char **argv) {
   }
 
   if (null_ptr(arguments.args)) {
-    TO_ZERO(arguments.zero, emotions(JFALSE, SHRUG))
+    TO_ZERO(arguments.zero, emotions(JFALSE, arguments.md, SHRUG))
     die(0, NULL);
   }
 
@@ -191,7 +196,7 @@ int main(int argc, char **argv) {
     show_usage(1, &arguments);
   }
 
-  TO_ZERO(arguments.zero, emotions(JFALSE, map_emotion(arguments.args)))
+  TO_ZERO(arguments.zero, emotions(JFALSE, arguments.md, map_emotion(arguments.args)))
 
   free(arguments.args);
   return 0;

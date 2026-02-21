@@ -18,6 +18,7 @@ extern "C" {
 typedef struct arguments {
   jbool list;
   jbool zero;
+  jbool md;
   char *args;
 } arg_data;
 
@@ -45,7 +46,7 @@ typedef enum emotions_index {
   WTF,
 } emotions_idx;
 
-char *emotions(const jbool list, const emotions_idx idx);
+char *emotions(const jbool list, const jbool md, const emotions_idx idx);
 jbool is_emotion(char *const arg);
 emotions_idx map_emotion(char *const str);
 void list_emotions(void);
