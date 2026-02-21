@@ -19,7 +19,7 @@ typedef struct arguments {
   jbool list;
   jbool zero;
   jbool md;
-  char *args;
+  char *arg;
 } arg_data;
 
 const size_t N_EMOTIONS = 19;

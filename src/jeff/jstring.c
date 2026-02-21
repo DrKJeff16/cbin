@@ -145,19 +145,29 @@ jbool is_upper(char *const str) {
   return JTRUE;
 }
 
+jbool is_lower_char(const char c) {
+  if (c >= 'A' && c <= 'Z') {
+    return JFALSE;
+  }
+  return JTRUE;
+}
+
+jbool is_upper_char(const char c) {
+  if (c >= 'a' && c <= 'z') {
+    return JFALSE;
+  }
+  return JTRUE;
+}
+
 void lowerize(char *str) {
   if (null_ptr(str)) {
     return;
   }
 
-  for (size_t i = 0; i <= strlen(str); i++) {
-    char *c = CALLOC(char, 2);
-    c[0] = str[i];
-    c[1] = 0;
-    if (is_upper(c)) {
+  for (size_t i = 0; i < strlen(str); i++) {
+    if (is_upper_char(str[i])) {
       str[i] += 32;
     }
-    free(c);
   }
 }
 
@@ -166,14 +176,10 @@ void upperize(char *str) {
     return;
   }
 
-  for (size_t i = 0; i <= strlen(str); i++) {
-    char *c = CALLOC(char, 2);
-    c[0] = str[i];
-    c[1] = 0;
-    if (is_lower(c)) {
+  for (size_t i = 0; i < strlen(str); i++) {
+    if (is_lower_char(str[i])) {
       str[i] -= 32;
     }
-    free(c);
   }
 }
 

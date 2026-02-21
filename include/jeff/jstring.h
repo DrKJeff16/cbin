@@ -24,6 +24,8 @@ char *str_rep(const char *const s, const size_t n);
 jbool in_str(char *const str, const char *const c);
 jbool is_lower(char *const str);
 jbool is_upper(char *const str);
+jbool is_lower_char(const char c);
+jbool is_upper_char(const char c);
 
 void capitalize(char *str);
 void upperize(char *str);

@@ -2,6 +2,7 @@
 #include <jeff/jdie.h>
 #include <jeff/jerr.h>
 #include <jeff/jmemory.h>
+#include <jeff/jstring.h>
 #include <shrug.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,11 +11,11 @@
 const char *argp_program_version = "shrug 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Print useful ASCII art emotions.";
-static char args_doc[] = "[-L] [<EMOTION>]";
+static char args_doc[] = "[-L] [-m] [-0] [<EMOTION>]";
 static argp_option_t options[] = {
-  { "zero", '0', 0, 0, "Terminate with a zero char instead", 0 },
-  { "list-emotions", 'L', 0, 0, "List all the available emotions", 1 },
-  { "markdown", 'm', 0, 0, "Print the output to support Markdown format", 1 },
+  { 0, '0', 0, 0, "Terminate with a zero char instead", 0 },
+  { 0, 'L', 0, 0, "List all the available emotions", 1 },
+  { 0, 'm', 0, 0, "Print the output to support Markdown format", 1 },
   { 0 },
 };
 
@@ -102,10 +103,38 @@ emotions_idx map_emotion(char *const str) {
   return i;
 }
 
+static void show_usage(const int code, arg_data *arguments) {
+  size_t start_spaces = 3;
+  size_t len = N_EMOTIONS + start_spaces;
+
+  char **txt = CALLOC(char *, len);
+  txt[0] = "Usage: shrug [-L] [-0] [-m] [<EMOTION>]";
+  txt[1] = "";
+  txt[2] = "Available emotions:";
+
+  size_t i = start_spaces;
+  for (i = start_spaces; i < len; i++) {
+    txt[i] = emotions(JTRUE, JFALSE, i - start_spaces);
+  }
+
+  FILE *stream = (!code) ? stdout : stderr;
+  for (i = 0; i < len; i++) {
+    fprintf(stream, (i < start_spaces) ? "%s\n" : "   %s\n", txt[i]);
+  }
+
+  if (!null_ptr(arguments->arg)) {
+    free(arguments->arg);
+  }
+  free(txt);
+  die(code, NULL);
+}
+
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   /* Get the input argument from argp_parse, which we
      know is a pointer to our arguments structure. */
   arg_data *arguments = state->input;
+  char *lower_arg;
+  jbool use_lower = JFALSE;
 
   switch (key) {
     case 'L':
@@ -121,10 +150,22 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       break;
 
     case ARGP_KEY_ARG:
-      if (null_ptr(arguments->args)) {
-        arguments->args = CALLOC(char, strlen(arg) + 1);
-        stpcpy(arguments->args, arg);
+      lower_arg = CALLOC(char, strlen(arg) + 1);
+      stpcpy(lower_arg, arg);
+      lowerize(lower_arg);
+
+      if (!(is_emotion(arg) || is_emotion(lower_arg))) {
+        free(lower_arg);
+        j_err("Not an emotion: `%s`!\n", arg);
+        show_usage(1, arguments);
       }
+
+      use_lower = is_emotion(lower_arg);
+      if (null_ptr(arguments->arg)) {
+        arguments->arg = CALLOC(char, strlen((use_lower) ? lower_arg : arg) + 1);
+        stpcpy(arguments->arg, (use_lower) ? lower_arg : arg);
+      }
+      free(lower_arg);
       break;
 
     case ARGP_KEY_END:
@@ -134,33 +175,6 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       return ARGP_ERR_UNKNOWN;
   }
   return 0;
-}
-
-static void show_usage(const int code, arg_data *arguments) {
-  size_t start_spaces = 4;
-  size_t len = N_EMOTIONS + start_spaces;
-
-  char **txt = CALLOC(char *, len);
-  txt[0] = "Usage: shrug [-L] [<EMOTION>]";
-  txt[1] = "";
-  txt[2] = "Available emotions:";
-  txt[3] = "";
-
-  size_t i = start_spaces;
-  for (i = start_spaces; i < len; i++) {
-    txt[i] = emotions(JTRUE, JFALSE, i - start_spaces);
-  }
-
-  FILE *stream = (!code) ? stdout : stderr;
-  for (i = 0; i < len; i++) {
-    fprintf(stream, (i < start_spaces) ? "%s\n" : "   %s\n", txt[i]);
-  }
-
-  if (!null_ptr(arguments->args)) {
-    free(arguments->args);
-  }
-  free(txt);
-  die(code, NULL);
 }
 
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
@@ -173,7 +187,7 @@ void list_emotions(void) {
 }
 
 static arg_data init_args(void) {
-  arg_data arguments = { .list = JFALSE, .zero = JFALSE, .md = JFALSE, .args = NULL };
+  arg_data arguments = { .list = JFALSE, .zero = JFALSE, .md = JFALSE, .arg = NULL };
 
   return arguments;
 }
@@ -186,19 +200,19 @@ int main(int argc, char **argv) {
     list_emotions();
   }
 
-  if (null_ptr(arguments.args)) {
+  if (null_ptr(arguments.arg)) {
     TO_ZERO(arguments.zero, emotions(JFALSE, arguments.md, SHRUG))
     die(0, NULL);
   }
 
-  if (!is_emotion(arguments.args)) {
-    j_err("Not an emotion: `%s`!\n\n", arguments.args);
+  if (!is_emotion(arguments.arg)) {
+    j_err("Not an emotion: `%s`!\n\n", arguments.arg);
     show_usage(1, &arguments);
   }
 
-  TO_ZERO(arguments.zero, emotions(JFALSE, arguments.md, map_emotion(arguments.args)))
+  TO_ZERO(arguments.zero, emotions(JFALSE, arguments.md, map_emotion(arguments.arg)))
 
-  free(arguments.args);
+  free(arguments.arg);
   return 0;
 }
 
