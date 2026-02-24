@@ -188,7 +188,6 @@ void list_emotions(void) {
 
 static arg_data init_args(void) {
   arg_data arguments = { .list = JFALSE, .zero = JFALSE, .md = JFALSE, .arg = NULL };
-
   return arguments;
 }
 
@@ -207,6 +206,7 @@ int main(int argc, char **argv) {
 
   if (!is_emotion(arguments.arg)) {
     j_err("Not an emotion: `%s`!\n\n", arguments.arg);
+    free(arguments.arg);
     show_usage(1, &arguments);
   }
 
