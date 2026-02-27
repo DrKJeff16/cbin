@@ -342,7 +342,7 @@ install_libs_stripped: install_libs
 	@strip $(GLOBAL_PREFIX)/lib/jeff/libjeff.so
 
 clean:
-	@rm -rf $(PREPROCDIR)/* $(ASDIR)/* $(OBJDIR)/* *.log
+	@rm -rf $(PREPROCDIR)/* $(ASDIR)/* $(OBJDIR)/* *.log *.out
 
 distclean: clean
 	@rm -rf $(BINDIR)/* $(LIBDIR)/* compile_commands.json

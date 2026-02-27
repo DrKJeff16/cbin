@@ -9,12 +9,13 @@
 const char *argp_program_version = "countdown 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Customizable countdown program.";
-static char args_doc[] = "[-v] [-s] [-n INT] [-d INT] [<MSG>]";
+static char args_doc[] = "[-v] [-s [-f]] [-n INT] [-d INT] [<MSG>]";
 static argp_option_t options[] = {
-  { "verbose", 'v', 0, 0, "Produce verbose output", 0 },
-  { "show", 's', 0, 0, "Show the number countdown", 1 },
+  { 0, 'v', 0, 0, "Produce verbose output", 0 },
+  { 0, 's', 0, 0, "Show the number countdown", 1 },
   { 0, 'n', "NUM", 0, "The starting number", 1 },
-  { "duration", 'd', "DURATION", 0, "The duration per countdown", 1 },
+  { 0, 'd', "DURATION", 0, "The duration per countdown", 1 },
+  { 0, 'f', 0, 0, "Don't flush the output, print each count in a newline (assumes `-s`)", 2 },
   { 0 },
 };
 
@@ -35,6 +36,10 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   switch (key) {
     case 'v':
       arguments->verbose = JTRUE;
+      break;
+
+    case 'f':
+      arguments->flush = JFALSE;
       break;
 
     case 's':
@@ -84,11 +89,16 @@ j_uint *gen_range(const j_uint num) {
   return res;
 }
 
-void count_down(const j_uint *const range, const j_uint num, const j_uint duration, const jbool show) {
+void count_down(const j_uint *const range, const j_uint num, const j_uint duration, const jbool show,
+                const jbool flush) {
   for (j_uint i = 0; i < num; i++) {
     if (show) {
-      printf("\r%d", range[i]);
-      fflush(stdout);
+      if (flush) {
+        printf("\r%d", range[i]);
+        fflush(stdout);
+      } else {
+        printf("%d\n", range[i]);
+      }
     }
     sleep(duration);
   }
@@ -100,6 +110,7 @@ static arg_data init_args(void) {
     .num = 5,
     .verbose = JFALSE,
     .show = JFALSE,
+    .flush = JTRUE,
     .n_args = 0,
     .msg = NULL,
   };
@@ -122,16 +133,21 @@ int main(int argc, char **argv) {
   free(s);
 
   j_uint *range = gen_range(arguments.num);
-  count_down(range, arguments.num, arguments.duration, arguments.show);
+  count_down(range, arguments.num, arguments.duration, arguments.show, arguments.flush);
   free(range);
 
-  if (arguments.show) {
+  if (arguments.show && arguments.flush) {
     fflush(stdout);
   }
 
   if (!null_ptr(arguments.msg)) {
     for (size_t i = 0; i < arguments.n_args; i++) {
-      printf("\r%s%c", arguments.msg[i], (i == arguments.n_args - 1) ? 0 : ' ');
+      printf("%s%c", arguments.msg[i], (i == arguments.n_args - 1) ? 0 : ' ');
+    }
+    if (arguments.flush) {
+      fflush(stdout);
+    } else {
+      printf("\n");
     }
     free(arguments.msg);
   }

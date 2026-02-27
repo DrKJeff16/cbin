@@ -13,6 +13,7 @@ extern "C" {
 struct arguments {
   jbool verbose;    ///< Enables verbose mode.
   jbool show;       ///< Shows the countdown in the terminal output.
+  jbool flush;      ///< Whether to flush the output of each count or not.
   j_uint duration;  ///< How much does each step should last (default is 1).
   j_uint num;       ///< Specifies where should the countdown start (default is 5).
   size_t n_args;    ///< The number of positional arguments parsed.
@@ -29,7 +30,8 @@ typedef struct arguments arg_data;
  */
 j_uint *gen_range(const j_uint num);
 
-void count_down(const j_uint *const range, const j_uint num, const j_uint duration, const jbool no_silent);
+void count_down(const j_uint *const range, const j_uint num, const j_uint duration, const jbool show,
+                const jbool flush);
 
 static arg_data init_args(void);
 
