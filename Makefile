@@ -1,12 +1,39 @@
 include config.mk
 
+ifeq ($(CC),)
+	CC := gcc
+	AR := gcc-ar
+endif
+ifeq ($(CXX),)
+	CXX := g++
+	AR := gcc-ar
+endif
+
+ifeq ($(CC), cc)
+	AR := gcc-ar
+endif
+ifeq ($(CC), gcc)
+	AR := gcc-ar
+endif
+ifeq ($(CC), clang)
+	AR := llvm-ar
+endif
+
+ifeq ($(CXX), c++)
+	AR := gcc-ar
+endif
+ifeq ($(CXX), g++)
+	AR := gcc-ar
+endif
+ifeq ($(CXX), clang++)
+	AR := llvm-ar
+endif
+
 SUBDIRS = $(OBJDIR) \
 		  $(JEFF_INCDIR) \
 		  $(INCDIR) \
 		  $(LIBDIR) \
 		  $(BINDIR) \
-		  $(JEFF_ASDIR) \
-		  $(JEFF_PREPROCDIR)
 
 .SUFFIXES: .c .o .cpp .c++ .cc. .C .h .hpp .hh .h++ .H .o .so .a
 
@@ -30,13 +57,9 @@ SUBDIRS = $(OBJDIR) \
 	strip_libs \
 	yn \
 	$(ACTIONS) \
-	$(AS_ACTIONS) \
-	$(JEFF_AS) \
 	$(JEFF_H) \
 	$(JEFF_OBJECTS) \
-	$(JEFF_PREPROC) \
 	$(JEFF_STATIC_LIBS) \
-	$(PREPROC_ACTIONS) \
 	$(SUBDIRS)
 
 SHELL = /bin/bash
@@ -49,9 +72,6 @@ $(JEFF_INCDIR):
 $(JEFF_PREPROCDIR):
 	@mkdir -p $@
 
-$(JEFF_ASDIR):
-	@mkdir -p $@
-
 $(LIBDIR):
 	@mkdir -p $@
 
@@ -61,175 +81,85 @@ $(BINDIR):
 $(OBJDIR):
 	@mkdir -p $@
 
-$(ASDIR):
-	@mkdir -p $@
-
 $(PREPROCDIR):
 	@mkdir -p $@
 
-$(JEFF_PREPROCDIR)/jdie.i: $(SRCDIR)/jeff/jdie.c $(JEFF_PREPROCDIR)
-	$(CC) -E $< $(JEFF_CFLAGS) -o $@
-
-$(JEFF_PREPROCDIR)/jerr.i: $(SRCDIR)/jeff/jerr.c $(JEFF_PREPROCDIR)
-	$(CC) -E $< $(JEFF_CFLAGS) -o $@
-
-$(JEFF_PREPROCDIR)/jrandom.i: $(SRCDIR)/jeff/jrandom.c $(JEFF_PREPROCDIR)
-	$(CC) -E $< $(JEFF_CFLAGS) -o $@
-
-$(JEFF_PREPROCDIR)/jfile.i: $(SRCDIR)/jeff/jfile.c $(JEFF_PREPROCDIR)
-	$(CC) -E $< $(JEFF_CFLAGS) -o $@
-
-$(JEFF_PREPROCDIR)/jhash.i: $(SRCDIR)/jeff/jhash.c $(JEFF_PREPROCDIR)
-	$(CC) -E $< $(JEFF_CFLAGS) -o $@
-
-$(JEFF_PREPROCDIR)/jstring.i: $(SRCDIR)/jeff/jstring.c $(JEFF_PREPROCDIR)
-	$(CC) -E $< $(JEFF_CFLAGS) -o $@
-
-$(JEFF_PREPROCDIR)/jsignal.i: $(SRCDIR)/jeff/jsignal.c $(JEFF_PREPROCDIR)
-	$(CC) -E $< $(JEFF_CFLAGS) -o $@
-
-$(JEFF_PREPROCDIR)/jinput.i: $(SRCDIR)/jeff/jinput.c $(JEFF_PREPROCDIR)
-	$(CC) -E $< $(JEFF_CFLAGS) -o $@
-
-$(JEFF_PREPROCDIR)/jlog.i: $(SRCDIR)/jeff/jlog.c $(JEFF_PREPROCDIR)
-	$(CC) -E $< $(JEFF_CFLAGS) -o $@
-
-$(JEFF_ASDIR)/jdie.s: $(JEFF_PREPROCDIR)/jdie.i $(JEFF_ASDIR)
-	$(CC) -S $< $(JEFF_CFLAGS) -o $@
-
-$(JEFF_ASDIR)/jerr.s: $(JEFF_PREPROCDIR)/jerr.i $(JEFF_ASDIR)
-	$(CC) -S $< $(JEFF_CFLAGS) -o $@
-
-$(JEFF_ASDIR)/jrandom.s: $(JEFF_PREPROCDIR)/jrandom.i $(JEFF_ASDIR)
-	$(CC) -S $< $(JEFF_CFLAGS) -o $@
-
-$(JEFF_ASDIR)/jfile.s: $(JEFF_PREPROCDIR)/jfile.i $(JEFF_ASDIR)
-	$(CC) -S $< $(JEFF_CFLAGS) -o $@
-
-$(JEFF_ASDIR)/jhash.s: $(JEFF_PREPROCDIR)/jhash.i $(JEFF_ASDIR)
-	$(CC) -S $< $(JEFF_CFLAGS) -o $@
-
-$(JEFF_ASDIR)/jstring.s: $(JEFF_PREPROCDIR)/jstring.i $(JEFF_ASDIR)
-	$(CC) -S $< $(JEFF_CFLAGS) -o $@
-
-$(JEFF_ASDIR)/jsignal.s: $(JEFF_PREPROCDIR)/jsignal.i $(JEFF_ASDIR)
-	$(CC) -S $< $(JEFF_CFLAGS) -o $@
-
-$(JEFF_ASDIR)/jinput.s: $(JEFF_PREPROCDIR)/jinput.i $(JEFF_ASDIR)
-	$(CC) -S $< $(JEFF_CFLAGS) -o $@
-
-$(JEFF_ASDIR)/jlog.s: $(JEFF_PREPROCDIR)/jlog.i $(JEFF_ASDIR)
-	$(CC) -S $< $(JEFF_CFLAGS) -o $@
-
-$(OBJDIR)/jdie.o: $(JEFF_ASDIR)/jdie.s
+$(OBJDIR)/jdie.o: $(SRCDIR)/jeff/jdie.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jerr.o: $(JEFF_ASDIR)/jerr.s
+$(OBJDIR)/jerr.o: $(SRCDIR)/jeff/jerr.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jrandom.o: $(JEFF_ASDIR)/jrandom.s
+$(OBJDIR)/jrandom.o: $(SRCDIR)/jeff/jrandom.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jfile.o: $(JEFF_ASDIR)/jfile.s
+$(OBJDIR)/jfile.o: $(SRCDIR)/jeff/jfile.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jhash.o: $(JEFF_ASDIR)/jhash.s
+$(OBJDIR)/jhash.o: $(SRCDIR)/jeff/jhash.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jstring.o: $(JEFF_ASDIR)/jstring.s
+$(OBJDIR)/jstring.o: $(SRCDIR)/jeff/jstring.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jsignal.o: $(JEFF_ASDIR)/jsignal.s
+$(OBJDIR)/jsignal.o: $(SRCDIR)/jeff/jsignal.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jinput.o: $(JEFF_ASDIR)/jinput.s
+$(OBJDIR)/jinput.o: $(SRCDIR)/jeff/jinput.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
-$(OBJDIR)/jlog.o: $(JEFF_ASDIR)/jlog.s
+$(OBJDIR)/jlog.o: $(SRCDIR)/jeff/jlog.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
 $(LIBDIR)/libjdie.a: $(OBJDIR)/jdie.o
-	@$(AR) rcs $@ $<
+	$(AR) rcs $@ $<
 
 $(LIBDIR)/libjerr.a: $(OBJDIR)/jerr.o
-	@$(AR) rcs $@ $<
+	$(AR) rcs $@ $<
 
 $(LIBDIR)/libjrandom.a: $(OBJDIR)/jrandom.o
-	@$(AR) rcs $@ $<
+	$(AR) rcs $@ $<
 
 $(LIBDIR)/libjfile.a: $(OBJDIR)/jfile.o
-	@$(AR) rcs $@ $<
+	$(AR) rcs $@ $<
 
 $(LIBDIR)/libjhash.a: $(OBJDIR)/jhash.o
-	@$(AR) rcs $@ $<
+	$(AR) rcs $@ $<
 
 $(LIBDIR)/libjstring.a: $(OBJDIR)/jstring.o
-	@$(AR) rcs $@ $<
+	$(AR) rcs $@ $<
 
 $(LIBDIR)/libjsignal.a: $(OBJDIR)/jsignal.o
-	@$(AR) rcs $@ $<
+	$(AR) rcs $@ $<
 
 $(LIBDIR)/libjinput.a: $(OBJDIR)/jinput.o
-	@$(AR) rcs $@ $<
+	$(AR) rcs $@ $<
 
 $(LIBDIR)/libjlog.a: $(OBJDIR)/jlog.o
-	@$(AR) rcs $@ $<
+	$(AR) rcs $@ $<
 
 $(LIBDIR)/libjeff.so: $(JEFF_OBJECTS)
 	$(CC) $(JEFF_OBJECTS) $(JEFF_CFLAGS) -shared -o $@ $(JEFF_LDFLAGS)
 
-$(PREPROCDIR)/cointoss.i: $(SRCDIR)/cointoss.c $(INCDIR)/cointoss.h
-	$(CC) -E $< $(CFLAGS) -o $@
-
-$(PREPROCDIR)/countdown.i: $(SRCDIR)/countdown.c $(INCDIR)/countdown.h
-	$(CC) -E $< $(CFLAGS) -o $@
-
-$(PREPROCDIR)/misc.i: $(SRCDIR)/misc.c
-	$(CC) -E $< $(CFLAGS) -o $@
-
-$(PREPROCDIR)/nwl_trim.i: $(SRCDIR)/nwl_trim.c $(INCDIR)/nwl_trim.h
-	$(CC) -E $< $(CFLAGS) -o $@
-
-$(PREPROCDIR)/shrug.i: $(SRCDIR)/shrug.c $(INCDIR)/shrug.h
-	$(CC) -E $< $(CFLAGS) -o $@
-
-$(PREPROCDIR)/yn.i: $(SRCDIR)/yn.c $(INCDIR)/yn.h
-	$(CC) -E $< $(CFLAGS) -o $@
-
-$(ASDIR)/cointoss.s: $(PREPROCDIR)/cointoss.i
-	$(CC) -S $< $(CFLAGS) -o $@
-
-$(ASDIR)/countdown.s: $(PREPROCDIR)/countdown.i
-	$(CC) -S $< $(CFLAGS) -o $@
-
-$(ASDIR)/misc.s: $(PREPROCDIR)/misc.i
-	$(CC) -S $< $(CFLAGS) -o $@
-
-$(ASDIR)/nwl_trim.s: $(PREPROCDIR)/nwl_trim.i
-	$(CC) -S $< $(CFLAGS) -o $@
-
-$(ASDIR)/shrug.s: $(PREPROCDIR)/shrug.i
-	$(CC) -S $< $(CFLAGS) -o $@
-
-$(ASDIR)/yn.s: $(PREPROCDIR)/yn.i
-	$(CC) -S $< $(CFLAGS) -o $@
-
-$(OBJDIR)/cointoss.o: $(ASDIR)/cointoss.s
+$(OBJDIR)/cointoss.o: $(SRCDIR)/cointoss.c
 	$(CC) -c $< $(CFLAGS) -o $@
 
-$(OBJDIR)/countdown.o: $(ASDIR)/countdown.s
+$(OBJDIR)/countdown.o: $(SRCDIR)/countdown.c
 	$(CC) -c $< $(CFLAGS) -o $@
 
-$(OBJDIR)/misc.o: $(ASDIR)/misc.s
+$(OBJDIR)/gtkmm_example.o: $(SRCDIR)/gtkmm_example.cpp
+	$(CXX) -c $< $(GTKMM_EXAMPLE_CFLAGS) -o $@
+
+$(OBJDIR)/misc.o: $(SRCDIR)/misc.c
 	$(CC) -c $< $(CFLAGS) -o $@
 
-$(OBJDIR)/nwl_trim.o: $(ASDIR)/nwl_trim.s
+$(OBJDIR)/nwl_trim.o: $(SRCDIR)/nwl_trim.c
 	$(CC) -c $< $(CFLAGS) -o $@
 
-$(OBJDIR)/shrug.o: $(ASDIR)/shrug.s
+$(OBJDIR)/shrug.o: $(SRCDIR)/shrug.c
 	$(CC) -c $< $(CFLAGS) -o $@
 
-$(OBJDIR)/yn.o: $(ASDIR)/yn.s
+$(OBJDIR)/yn.o: $(SRCDIR)/yn.c
 	$(CC) -c $< $(CFLAGS) -o $@
 
 $(BINDIR)/cointoss: $(OBJDIR)/cointoss.o
@@ -237,6 +167,9 @@ $(BINDIR)/cointoss: $(OBJDIR)/cointoss.o
 
 $(BINDIR)/countdown: $(OBJDIR)/countdown.o
 	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
+
+$(BINDIR)/gtkmm_example: $(OBJDIR)/gtkmm_example.o
+	$(CXX) $< $(GTKMM_EXAMPLE_CFLAGS) -o $@ $(GTKMM_EXAMPLE_LDFLAGS)
 
 $(BINDIR)/misc: $(OBJDIR)/misc.o
 	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
@@ -255,6 +188,8 @@ libs: $(SUBDIRS) $(JEFF_LIBS) $(JEFF_STATIC_LIBS)
 cointoss: $(BINDIR)/cointoss
 
 countdown: $(BINDIR)/countdown
+
+gtkmm_example: $(BINDIR)/gtkmm_example
 
 misc: $(BINDIR)/misc
 
@@ -342,7 +277,7 @@ install_libs_stripped: install_libs
 	@strip $(GLOBAL_PREFIX)/lib/jeff/libjeff.so
 
 clean:
-	@rm -rf $(PREPROCDIR)/* $(ASDIR)/* $(OBJDIR)/* *.log *.out
+	@rm -rf $(OBJDIR)/* *.log *.out
 
 distclean: clean
 	@rm -rf $(BINDIR)/* $(LIBDIR)/* compile_commands.json

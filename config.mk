@@ -1,5 +1,5 @@
-CC := gcc
-CXX := g++
+CC := ${CC}
+CXX := ${CXX}
 AR := gcc-ar
 
 GLOBAL_PREFIX := /usr
@@ -12,8 +12,6 @@ INCDIR = include
 LIBDIR = lib
 OBJDIR = obj
 SRCDIR = src
-ASDIR = as
-PREPROCDIR = preproc
 
 ALL_DIRS = $(BINDIR) \
 		   $(INCDIR) \
@@ -88,9 +86,64 @@ LDXXFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
 
 PKG_CONFIG_BIN := pkgconf
 
+GTKMM_EXAMPLE_CFLAGS = $(CXXFLAGS) \
+					   -I/usr/include/blkid \
+					   -I/usr/include/cairo \
+					   -I/usr/include/cairomm-1.16 \
+					   -I/usr/include/freetype2 \
+					   -I/usr/include/fribidi \
+					   -I/usr/include/gdk-pixbuf-2.0 \
+					   -I/usr/include/gio-unix-2.0 \
+					   -I/usr/include/giomm-2.68 \
+					   -I/usr/include/glib-2.0 \
+					   -I/usr/include/glibmm-2.68 \
+					   -I/usr/include/glycin-2 \
+					   -I/usr/include/graphene-1.0 \
+					   -I/usr/include/gtk-4.0 \
+					   -I/usr/include/gtk-4.0/unix-print \
+					   -I/usr/include/gtkmm-4.0 \
+					   -I/usr/include/harfbuzz \
+					   -I/usr/include/libmount \
+					   -I/usr/include/libpng16 \
+					   -I/usr/include/pango-1.0 \
+					   -I/usr/include/pangomm-2.48 \
+					   -I/usr/include/pixman-1 \
+					   -I/usr/include/sigc++-3.0 \
+					   -I/usr/include/sysprof-6 \
+					   -I/usr/lib/cairomm-1.16/include \
+					   -I/usr/lib/giomm-2.68/include \
+					   -I/usr/lib/glib-2.0/include \
+					   -I/usr/lib/glibmm-2.68/include \
+					   -I/usr/lib/graphene-1.0/include \
+					   -I/usr/lib/gtkmm-4.0/include \
+					   -I/usr/lib/pangomm-2.48/include \
+					   -I/usr/lib/sigc++-3.0/include \
+					   -mfpmath=sse \
+					   -msse \
+					   -msse2
+
+GTKMM_EXAMPLE_LDFLAGS = $(LDXXFLAGS) \
+						-lcairo \
+						-lcairo-gobject \
+						-lcairomm-1.16 \
+						-lgdk_pixbuf-2.0 \
+						-lgio-2.0 \
+						-lgiomm-2.68 \
+						-lglib-2.0 \
+						-lglibmm-2.68 \
+						-lgobject-2.0 \
+						-lgraphene-1.0 \
+						-lgtk-4 \
+						-lgtkmm-4.0 \
+						-lharfbuzz \
+						-lpango-1.0 \
+						-lpangocairo-1.0 \
+						-lpangomm-2.48 \
+						-lsigc-3.0 \
+						-lvulkan
+
 JEFF_INCDIR = $(INCDIR)/jeff
-JEFF_PREPROCDIR = $(PREPROCDIR)/jeff
-JEFF_ASDIR = $(ASDIR)/jeff
+
 JEFF_H = $(JEFF_INCDIR)/jeff.h \
 		 $(JEFF_INCDIR)/jdie.h \
 		 $(JEFF_INCDIR)/jerr.h \
@@ -104,26 +157,6 @@ JEFF_H = $(JEFF_INCDIR)/jeff.h \
 		 $(JEFF_INCDIR)/jsignal.h \
 		 $(JEFF_INCDIR)/jstring.h \
 		 $(JEFF_INCDIR)/jtypes.h
-
-JEFF_PREPROC =$(JEFF_PREPROCDIR)/jdie.i \
-			  $(JEFF_PREPROCDIR)/jerr.i \
-			  $(JEFF_PREPROCDIR)/jhash.i \
-			  $(JEFF_PREPROCDIR)/jinput.i \
-			  $(JEFF_PREPROCDIR)/jfile.i \
-			  $(JEFF_PREPROCDIR)/jlog.i \
-			  $(JEFF_PREPROCDIR)/jrandom.i \
-			  $(JEFF_PREPROCDIR)/jsignal.i \
-			  $(JEFF_PREPROCDIR)/jstring.i
-
-JEFF_AS =$(JEFF_ASDIR)/jdie.s \
-		 $(JEFF_ASDIR)/jerr.s \
-		 $(JEFF_ASDIR)/jhash.s \
-		 $(JEFF_ASDIR)/jinput.s \
-		 $(JEFF_ASDIR)/jfile.s \
-		 $(JEFF_ASDIR)/jlog.s \
-		 $(JEFF_ASDIR)/jrandom.s \
-		 $(JEFF_ASDIR)/jsignal.s \
-		 $(JEFF_ASDIR)/jstring.s
 
 JEFF_OBJECTS =$(OBJDIR)/jdie.o \
 			  $(OBJDIR)/jerr.o \
@@ -151,22 +184,9 @@ JEFF_STATIC_LIBS = $(LIBDIR)/libjdie.a \
 JEFF_CFLAGS = $(CFLAGS) -fPIC
 JEFF_LDFLAGS = -lc
 
-PREFROC_ACTIONS = $(PREPROCDIR)/cointoss.i \
-				  $(PREPROCDIR)/countdown.i \
-				  $(PREPROCDIR)/misc.i \
-				  $(PREPROCDIR)/nwl_trim.i \
-				  $(PREPROCDIR)/shrug.i \
-				  $(PREPROCDIR)/yn.i
-
-AS_ACTIONS = $(ASDIR)/cointoss.s \
-			 $(ASDIR)/countdown.s \
-			 $(ASDIR)/misc.s \
-			 $(ASDIR)/nwl_trim.s \
-			 $(ASDIR)/shrug.s \
-			 $(ASDIR)/yn.s
-
 JEFF_ACTIONS = cointoss \
 			   countdown \
+			   gtkmm_example \
 			   misc \
 			   nwl_trim \
 			   shrug \
