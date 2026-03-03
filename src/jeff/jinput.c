@@ -1,10 +1,12 @@
+#include <errno.h>
 #include <jeff/jdie.h>
 #include <jeff/jinput.h>
 #include <jeff/jmemory.h>
 #include <jeff/jstring.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+
+#include "jeff/jtypes.h"
 
 char *buffer_get(char *const msg, size_t *const buf_len) {
   size_t len = 0;

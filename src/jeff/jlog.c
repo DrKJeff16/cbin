@@ -1,4 +1,4 @@
-#include <asm-generic/errno.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <jeff/jerr.h>
 #include <jeff/jlog.h>
@@ -6,7 +6,10 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/stat.h>
 #include <unistd.h>
+
+#include "jeff/jtypes.h"
 
 int fdlog(int fd, char *const msg) {
   if (fd < 0) {

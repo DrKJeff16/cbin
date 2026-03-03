@@ -3,8 +3,9 @@
 #include <jeff/jmemory.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <yn.h>
+
+#include "jeff/jtypes.h"
 
 const char *argp_program_version = "yn 1.0";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";

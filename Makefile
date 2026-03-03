@@ -51,6 +51,7 @@ SUBDIRS = $(OBJDIR) \
 	install_local_bin_stripped \
 	install_local_libs \
 	install_local_libs_stripped \
+	iwyu \
 	libs \
 	nwl_trim \
 	strip_bin \
@@ -85,30 +86,39 @@ $(PREPROCDIR):
 	@mkdir -p $@
 
 $(OBJDIR)/jdie.o: $(SRCDIR)/jeff/jdie.c
+	$(IWYU) $(JEFF_CFLAGS) $<
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
 $(OBJDIR)/jerr.o: $(SRCDIR)/jeff/jerr.c
+	$(IWYU) $(JEFF_CFLAGS) $<
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
 $(OBJDIR)/jrandom.o: $(SRCDIR)/jeff/jrandom.c
+	$(IWYU) $(JEFF_CFLAGS) $<
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
 $(OBJDIR)/jfile.o: $(SRCDIR)/jeff/jfile.c
+	$(IWYU) $(JEFF_CFLAGS) $<
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
 $(OBJDIR)/jhash.o: $(SRCDIR)/jeff/jhash.c
+	$(IWYU) $(JEFF_CFLAGS) $<
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
 $(OBJDIR)/jstring.o: $(SRCDIR)/jeff/jstring.c
+	$(IWYU) $(JEFF_CFLAGS) $<
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
 $(OBJDIR)/jsignal.o: $(SRCDIR)/jeff/jsignal.c
+	$(IWYU) $(JEFF_CFLAGS) $<
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
 $(OBJDIR)/jinput.o: $(SRCDIR)/jeff/jinput.c
+	$(IWYU) $(JEFF_CFLAGS) $<
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
 $(OBJDIR)/jlog.o: $(SRCDIR)/jeff/jlog.c
+	$(IWYU) $(JEFF_CFLAGS) $<
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
 $(LIBDIR)/libjdie.a: $(OBJDIR)/jdie.o
@@ -142,24 +152,31 @@ $(LIBDIR)/libjeff.so: $(JEFF_OBJECTS)
 	$(CC) $(JEFF_OBJECTS) $(JEFF_CFLAGS) -shared -o $@ $(JEFF_LDFLAGS)
 
 $(OBJDIR)/cointoss.o: $(SRCDIR)/cointoss.c
+	$(IWYU) $(CFLAGS) $<
 	$(CC) -c $< $(CFLAGS) -o $@
 
 $(OBJDIR)/countdown.o: $(SRCDIR)/countdown.c
+	$(IWYU) $(CFLAGS) $<
 	$(CC) -c $< $(CFLAGS) -o $@
 
 $(OBJDIR)/gtkmm_example.o: $(SRCDIR)/gtkmm_example.cpp
+	$(IWYU) $(GTKMM_EXAMPLE_CFLAGS) $<
 	$(CXX) -c $< $(GTKMM_EXAMPLE_CFLAGS) -o $@
 
 $(OBJDIR)/misc.o: $(SRCDIR)/misc.c
+	$(IWYU) $(CFLAGS) $<
 	$(CC) -c $< $(CFLAGS) -o $@
 
 $(OBJDIR)/nwl_trim.o: $(SRCDIR)/nwl_trim.c
+	$(IWYU) $(CFLAGS) $<
 	$(CC) -c $< $(CFLAGS) -o $@
 
 $(OBJDIR)/shrug.o: $(SRCDIR)/shrug.c
+	$(IWYU) $(CFLAGS) $<
 	$(CC) -c $< $(CFLAGS) -o $@
 
 $(OBJDIR)/yn.o: $(SRCDIR)/yn.c
+	$(IWYU) $(CFLAGS) $<
 	$(CC) -c $< $(CFLAGS) -o $@
 
 $(BINDIR)/cointoss: $(OBJDIR)/cointoss.o

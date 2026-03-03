@@ -1,3 +1,4 @@
+#include <errno.h>
 #include <jeff/jerr.h>
 #include <jeff/jmemory.h>
 #include <jeff/jrandom.h>
@@ -5,6 +6,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+
+#include "jeff/jtypes.h"
 
 void j_seed(const jbool *const force) {
   if (seeded && (null_ptr(force) || !(*force))) {

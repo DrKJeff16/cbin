@@ -1,6 +1,6 @@
 #include <argp.h>
-#include <asm-generic/errno.h>
 #include <cointoss.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <jeff/jdie.h>
 #include <jeff/jmemory.h>
@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+#include "jeff/jtypes.h"
 
 const char *argp_program_version = "cointoss 0.2";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";

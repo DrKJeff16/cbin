@@ -2,6 +2,8 @@ CC := ${CC}
 CXX := ${CXX}
 AR := gcc-ar
 
+IWYU = include-what-you-use --error_always
+
 GLOBAL_PREFIX := /usr
 LOCAL_PREFIX := $(HOME)/.local
 

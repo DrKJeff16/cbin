@@ -6,6 +6,9 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "jeff/jmemory.h"
+#include "jeff/jtypes.h"
+
 const char *argp_program_version = "countdown 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Customizable countdown program.";

@@ -1,10 +1,12 @@
-#include <asm-generic/errno.h>
+#include <errno.h>
 #include <jeff/jdie.h>
 #include <jeff/jmemory.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "jeff/jtypes.h"
 
 /**
  * @brief Kill program ekecution with optional output message

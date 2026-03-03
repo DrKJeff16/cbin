@@ -1,4 +1,4 @@
-#include <asm-generic/errno.h>
+#include <errno.h>
 #include <jeff/jerr.h>
 #include <jeff/jmemory.h>
 #include <stdarg.h>

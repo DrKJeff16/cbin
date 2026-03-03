@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "jeff/jtypes.h"
+
 const char *argp_program_version = "misc 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Misc test program.";

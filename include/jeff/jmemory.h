@@ -5,6 +5,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#include <stdlib.h>
+
 #define null_ptr(ptr) (!ptr || ptr == NULL)
 
 #if !defined(MALLOC)
