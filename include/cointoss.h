@@ -27,6 +27,7 @@ struct coin {
   j_ullong TAILS;  ///< The amount of times the "coin" lands on "tails"
   j_ullong HEADS;  ///< The amount of times the "coin" lands on "heads"
 };
+
 /**
  * @brief The typedef for the `arguments` struct.
  */

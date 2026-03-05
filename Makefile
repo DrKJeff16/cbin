@@ -29,6 +29,10 @@ ifeq ($(CXX), clang++)
 	AR := llvm-ar
 endif
 
+ifeq ($(LTO), ON)
+	LTO_FLAG = -flto
+endif
+
 SUBDIRS = $(OBJDIR) \
 		  $(JEFF_INCDIR) \
 		  $(INCDIR) \
@@ -53,6 +57,7 @@ SUBDIRS = $(OBJDIR) \
 	install_local_libs_stripped \
 	iwyu \
 	libs \
+	ndice \
 	nwl_trim \
 	strip_bin \
 	strip_libs \
@@ -149,7 +154,7 @@ $(LIBDIR)/libjlog.a: $(OBJDIR)/jlog.o
 	$(AR) rcs $@ $<
 
 $(LIBDIR)/libjeff.so: $(JEFF_OBJECTS)
-	$(CC) $(JEFF_OBJECTS) $(JEFF_CFLAGS) -shared -o $@ $(JEFF_LDFLAGS)
+	$(CC) $(JEFF_OBJECTS) $(JEFF_CFLAGS) -shared -o $@ $(JEFF_LDFLAGS) $(LTO_FLAG)
 
 $(OBJDIR)/cointoss.o: $(SRCDIR)/cointoss.c
 	$(IWYU) $(CFLAGS) $<
@@ -167,6 +172,10 @@ $(OBJDIR)/misc.o: $(SRCDIR)/misc.c
 	$(IWYU) $(CFLAGS) $<
 	$(CC) -c $< $(CFLAGS) -o $@
 
+$(OBJDIR)/ndice.o: $(SRCDIR)/ndice.c
+	$(IWYU) $(CFLAGS) $<
+	$(CC) -c $< $(CFLAGS) -o $@
+
 $(OBJDIR)/nwl_trim.o: $(SRCDIR)/nwl_trim.c
 	$(IWYU) $(CFLAGS) $<
 	$(CC) -c $< $(CFLAGS) -o $@
@@ -180,25 +189,28 @@ $(OBJDIR)/yn.o: $(SRCDIR)/yn.c
 	$(CC) -c $< $(CFLAGS) -o $@
 
 $(BINDIR)/cointoss: $(OBJDIR)/cointoss.o
-	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
+	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS) $(LTO_FLAG)
 
 $(BINDIR)/countdown: $(OBJDIR)/countdown.o
-	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
+	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS) $(LTO_FLAG)
 
 $(BINDIR)/gtkmm_example: $(OBJDIR)/gtkmm_example.o
-	$(CXX) $< $(GTKMM_EXAMPLE_CFLAGS) -o $@ $(GTKMM_EXAMPLE_LDFLAGS)
+	$(CXX) $< $(GTKMM_EXAMPLE_CFLAGS) -o $@ $(GTKMM_EXAMPLE_LDFLAGS) $(LTO_FLAG)
 
 $(BINDIR)/misc: $(OBJDIR)/misc.o
-	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
+	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS) $(LTO_FLAG)
+
+$(BINDIR)/ndice: $(OBJDIR)/ndice.o
+	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS) $(LTO_FLAG)
 
 $(BINDIR)/nwl_trim: $(OBJDIR)/nwl_trim.o
-	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
+	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS) $(LTO_FLAG)
 
 $(BINDIR)/shrug: $(OBJDIR)/shrug.o
-	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
+	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS) $(LTO_FLAG)
 
 $(BINDIR)/yn: $(OBJDIR)/yn.o
-	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS)
+	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS) $(LTO_FLAG)
 
 libs: $(SUBDIRS) $(JEFF_LIBS) $(JEFF_STATIC_LIBS)
 
@@ -209,6 +221,8 @@ countdown: $(BINDIR)/countdown
 gtkmm_example: $(BINDIR)/gtkmm_example
 
 misc: $(BINDIR)/misc
+
+ndice: $(BINDIR)/ndice
 
 nwl_trim: $(BINDIR)/nwl_trim
 
@@ -226,23 +240,25 @@ install_bin:
 	@mkdir -p $(GLOBAL_PREFIX)/bin
 	install -m 755 $(BINDIR)/cointoss $(GLOBAL_PREFIX)/bin/cointoss
 	install -m 755 $(BINDIR)/countdown $(GLOBAL_PREFIX)/bin/countdown
+	install -m 755 $(BINDIR)/ndice $(GLOBAL_PREFIX)/bin/ndice
 	install -m 755 $(BINDIR)/nwl_trim $(GLOBAL_PREFIX)/bin/nwl_trim
 	install -m 755 $(BINDIR)/shrug $(GLOBAL_PREFIX)/bin/shrug
 	install -m 755 $(BINDIR)/yn $(GLOBAL_PREFIX)/bin/yn
 
 install_bin_stripped: install_bin
-	@strip $(GLOBAL_PREFIX)/bin/{cointoss,countdown,nwl_trim,shrug,yn}
+	@strip $(GLOBAL_PREFIX)/bin/{cointoss,countdown,ndice,nwl_trim,shrug,yn}
 
 install_local_bin:
 	@mkdir -p $(HOME)/.bin/cbin
 	install -m 755 $(BINDIR)/cointoss $(HOME)/.bin/cbin/cointoss
 	install -m 755 $(BINDIR)/countdown $(HOME)/.bin/cbin/countdown
+	install -m 755 $(BINDIR)/ndice $(HOME)/.bin/cbin/ndice
 	install -m 755 $(BINDIR)/nwl_trim $(HOME)/.bin/cbin/nwl_trim
 	install -m 755 $(BINDIR)/shrug $(HOME)/.bin/cbin/shrug
 	install -m 755 $(BINDIR)/yn $(HOME)/.bin/cbin/yn
 
 install_local_bin_stripped: install_local_bin
-	@strip $(HOME)/.bin/cbin/{cointoss,countdown,nwl_trim,shrug,yn}
+	@strip $(HOME)/.bin/cbin/{cointoss,countdown,ndice,nwl_trim,shrug,yn}
 
 install_headers:
 	@rm -rf $(GLOBAL_PREFIX)/include/jeff

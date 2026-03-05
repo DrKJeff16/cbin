@@ -2,7 +2,9 @@ CC := ${CC}
 CXX := ${CXX}
 AR := gcc-ar
 
-IWYU = include-what-you-use --error_always
+LTO := OFF
+
+IWYU = include-what-you-use
 
 GLOBAL_PREFIX := /usr
 LOCAL_PREFIX := $(HOME)/.local
@@ -51,7 +53,6 @@ CXXFLAGS = $(CPPFLAGS) \
 		   -Wno-implicit-fallthrough \
 		   -Wno-unused \
 		   -fcf-protection \
-		   -flto \
 		   -fomit-frame-pointer \
 		   -fsanitize=address \
 		   -fstack-clash-protection \
@@ -67,7 +68,6 @@ CXXFLAGS = $(CPPFLAGS) \
 LDFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
 		  -Llib \
 		  -fcf-protection \
-		  -flto \
 		  -fomit-frame-pointer \
 		  -fsanitize=address \
 		  -fstack-clash-protection \
@@ -78,7 +78,6 @@ LDFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
 LDXXFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
 			-Llib \
 			-fcf-protection \
-			-flto \
 			-fomit-frame-pointer \
 			-fsanitize=address \
 			-fstack-clash-protection \
@@ -190,6 +189,7 @@ JEFF_ACTIONS = cointoss \
 			   countdown \
 			   gtkmm_example \
 			   misc \
+			   ndice \
 			   nwl_trim \
 			   shrug \
 			   yn
