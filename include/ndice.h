@@ -57,3 +57,5 @@ void ndice_wipe(ndice_t *ndice);
 #endif /* __cplusplus */
 
 #endif /* !DICE_H */
+
+/* vim: set ts=2 sts=2 sw=2 et ai si sta: */
