@@ -1,4 +1,5 @@
 #include <argp.h>
+#include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <jeff/jdie.h>
@@ -248,7 +249,8 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
      know is a pointer to our arguments structure. */
   arg_data *arguments = state->input;
   int throws;
-  char *p;
+  char *p, *x;
+  jbool digit = JTRUE;
 
   switch (key) {
     case 'u':
@@ -263,6 +265,22 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
     case 't':
       if (arguments->single) {
         arguments->n_throws = DEFAULT_THROWS;
+        break;
+      }
+
+      for (x = arg; *x; x++) {
+        if (!isdigit(*x)) {
+          digit = JFALSE;
+          break;
+        }
+      }
+
+      if (!digit) {
+        if (!null_ptr(arguments->args)) {
+          free(arguments->args);
+        }
+
+        vdie(1, "Invalid: `%s`\n", arg);
         break;
       }
 
