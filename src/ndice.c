@@ -1,17 +1,26 @@
 #include <argp.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <jeff/jdie.h>
 #include <jeff/jmemory.h>
+#include <jeff/jrandom.h>
 #include <jeff/jtypes.h>
 #include <ndice.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+
+const j_ullong DEFAULT_THROWS = 2500L;
 
 const char *argp_program_version = "ndice 0.0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "N-dice program.";
-static char args_doc[] = "[-u]";
+static char args_doc[] = "[-u] [-t THROWS] [-s]";
 static argp_option_t options[] = {
-  { 0, 'u', 0, 0, "Use /dev/urandom instead of /dev/random", 1 },
+  { "use-urandom", 'u', 0, 0, "Use /dev/urandom instead of /dev/random", 1 },
+  { "single", 's', 0, 0, "Whether to do a single throw (will ignore `-t`!)", 1 },
+  { "throws", 't', "THROWS", 0, "Throw the dice N times (default: 2500)", 2 },
   { 0 },
 };
 
@@ -151,6 +160,73 @@ void ndice_reset_count(ndice_t *ndice) {
   }
 }
 
+void ndice_throw(ndice_t *ndice, const jbool urandom) {
+  int fd;
+  if ((fd = open(urandom ? "/dev/urandom" : "/dev/random", O_RDONLY)) < 0) {
+    return;
+  }
+
+  j_ullong idx = fd_urand(fd, 0, ndice_len(ndice) - 1);
+  close(fd);
+
+  ndice_t *index = ndice_index(ndice, idx);
+  if (null_ptr(index)) {
+    return;
+  }
+
+  index->n_landings++;
+}
+
+ndice_t *ndice_pop(ndice_t *ndice) {
+  if (null_ptr(ndice) || ndice_len(ndice) == 0) {
+    return NULL;
+  }
+
+  ndice_t *p = ndice_end(ndice);
+  if (!null_ptr(p->prev)) {
+    p->prev->next = NULL;
+    p->prev = NULL;
+  }
+
+  ndice_t *res = MALLOC(ndice_t);
+  memcpy(res, p, sizeof(ndice_t));
+
+  res->value = CALLOC(char, strlen(p->value) + 1);
+  strcpy(res->value, p->value);
+
+  free(p->value);
+  free(p);
+  return res;
+}
+
+void ndice_insert(ndice_t *ndice, ndice_t *const new, const size_t index) {
+  if (null_ptr(ndice) || null_ptr(new) || index >= ndice_len(ndice)) {
+    return;
+  }
+
+  new->idx = index;
+
+  ndice_t *old = ndice;
+  ndice = ndice_index(ndice, index);
+
+  if (!null_ptr(ndice->prev)) {
+    ndice->prev->next = new;
+    new->prev = ndice->prev;
+  }
+  ndice->prev = new;
+  new->next = ndice;
+
+  size_t i = 1;
+  while (!null_ptr(ndice)) {
+    ndice->idx = index + i;
+    i++;
+
+    ndice = ndice_next(ndice);
+  }
+
+  ndice = old;
+}
+
 void ndice_wipe(ndice_t *ndice) {
   if (null_ptr(ndice)) {
     return;
@@ -171,10 +247,40 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   /* Get the input argument from argp_parse, which we
      know is a pointer to our arguments structure. */
   arg_data *arguments = state->input;
+  int throws;
+  char *p;
 
   switch (key) {
     case 'u':
       arguments->urandom = JTRUE;
+      break;
+
+    case 's':
+      arguments->single = JTRUE;
+      arguments->n_throws = 1;
+      break;
+
+    case 't':
+      if (arguments->single) {
+        arguments->n_throws = DEFAULT_THROWS;
+        break;
+      }
+
+      throws = strtol(arg, &p, 10);
+      if (p == arg || throws <= 0) {
+        arguments->n_throws = DEFAULT_THROWS;
+        break;
+      }
+      if (*p != 0) {
+        if (!null_ptr(arguments->args)) {
+          free(arguments->args);
+        }
+
+        vdie(1, "Invalid character: %c\n", *p);
+        break;
+      }
+
+      arguments->n_throws = (j_ullong)throws;
       break;
 
     case ARGP_KEY_ARG:
@@ -202,9 +308,11 @@ static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 static arg_data init_args(void) {
   arg_data arguments = {
-    .n_args = 0,
-    .urandom = JTRUE,
     .args = NULL,
+    .n_args = 0,
+    .n_throws = DEFAULT_THROWS,
+    .urandom = JTRUE,
+    .single = JFALSE,
   };
 
   return arguments;
@@ -242,13 +350,21 @@ int main(int argc, char **argv) {
   free(value);
   free(arguments.args);
 
-  ndice_t *p = ndice_start(ndice);
-  while (!null_ptr(p)) {
-    printf("%zu  ===>  %s\n", p->idx, p->value);
-    p = ndice_next(p);
+  int fd;
+  if ((fd = open(arguments.urandom ? "/dev/urandom" : "/dev/random", O_RDONLY)) < 0) {
+    ndice_wipe(ndice);
+    j_errno_vdie(1, ENOENT, "`%s` is unavailable\n", arguments.urandom ? "/dev/urandom" : "/dev/random");
   }
 
-  printf("Length: %zu\n", ndice_len(ndice));
+  for (j_ullong i = 0; i < arguments.n_throws; i++) {
+    ndice_throw(ndice, arguments.urandom);
+  }
+
+  ndice_t *p = ndice_start(ndice);
+  while (!null_ptr(p)) {
+    printf("%zu  ===>  %llu\n", p->idx, p->n_landings);
+    p = ndice_next(p);
+  }
 
   ndice_wipe(ndice);
   return 0;
