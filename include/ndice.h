@@ -11,9 +11,11 @@ extern "C" {
  * @struct arguments
  */
 struct arguments {
-  jbool urandom;  ///< Toggles the usage of `/dev/urandom` instead of `/dev/random`.
-  size_t n_args;  ///< The number of positional arguments.
-  char **args;    ///< An array of strings.
+  jbool urandom;      ///< Toggles the usage of `/dev/urandom` instead of `/dev/random`.
+  jbool single;       ///< Signals whether a single throw should be performed.
+  j_ullong n_throws;  ///< The amount of throws to perform.
+  size_t n_args;      ///< The number of positional arguments.
+  char **args;        ///< An array of strings.
 };
 
 /**
@@ -31,7 +33,6 @@ struct ndice {
 
 typedef struct ndice ndice_t;
 
-static jbool seeded = JFALSE;
 static void seed_dice(void);
 
 ndice_t *new_ndice(ndice_t *const main_ndice, char *const value);
@@ -46,11 +47,19 @@ ndice_t *ndice_prev(ndice_t *const ndice);
 size_t ndice_len(ndice_t *const ndice);
 
 ndice_t *ndice_pop(ndice_t *ndice);
-void ndice_insert(ndice_t *ndice, size_t index);
+void ndice_insert(ndice_t *ndice, ndice_t *const new_ndice, const size_t index);
 void ndice_append(ndice_t *ndice, ndice_t *const new_ndice);
 
 void ndice_reset_count(ndice_t *ndice);
 void ndice_wipe(ndice_t *ndice);
+
+void ndice_throw(ndice_t *ndice, const jbool urandom);
+
+/**
+ * @brief Initialize the `arg_data` struct with the default values.
+ * @return The `arguments` struct type.
+ */
+static arg_data init_args(void);
 
 #if defined(__cplusplus)
 }
