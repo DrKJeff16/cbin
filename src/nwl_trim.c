@@ -27,7 +27,7 @@ static void vverbose_print(const jbool verbose, FILE *restrict stream, const cha
   if (!verbose) {
     return;
   }
-  if (null_ptr(stream)) {
+  if (NULL_PTR(stream)) {
     stream = stdout;
   }
 
@@ -107,7 +107,7 @@ int main(int argc, char **argv) {
 
   for (j_ullong i = 0; i < arguments.n_files; i++) {
     FILE *file = fopen(arguments.files[i], "r");
-    if (null_ptr(file)) {
+    if (NULL_PTR(file)) {
       j_err("Empty file pointer for `%s`!\n", arguments.files[i]);
       files_gc(arguments.files, arguments.n_files);
       die(1, NULL);
@@ -119,7 +119,7 @@ int main(int argc, char **argv) {
     j_ullong l = 0;
     char **lines = NULL;
     while ((read_n = getline(&line, &len, file) != -1)) {
-      lines = (null_ptr(lines)) ? MALLOC(char *) : REALLOC(lines, char *, l + 1);
+      lines = (NULL_PTR(lines)) ? MALLOC(char *) : REALLOC(lines, char *, l + 1);
       lines[l] = CALLOC(char, strlen(line) + 1);
       stpcpy(lines[l], line);
 

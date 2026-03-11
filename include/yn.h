@@ -7,15 +7,17 @@ extern "C" {
 
 #include <jeff/jtypes.h>
 
-typedef struct arguments {
+struct arguments {
   jbool invert;
   int code;
   char *args;
-} arg_data;
+};
+
+typedef struct arguments arg_data;
 
 char *get_no_args(char **const argv, const size_t argc);
 void yes_no(arg_data *arguments);
-static void prompt(const char *restrict msg, const jbool negative);
+static void prompt(char *restrict msg, const jbool negative);
 static arg_data init_args(void);
 
 #if defined(__cplusplus)

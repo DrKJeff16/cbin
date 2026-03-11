@@ -26,7 +26,7 @@ static void verbose_print(const jbool verbose, const char *txt, FILE *restrict s
   if (!verbose) {
     return;
   }
-  if (null_ptr(stream)) {
+  if (NULL_PTR(stream)) {
     stream = stdout;
   }
 
@@ -65,7 +65,7 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
     case ARGP_KEY_ARG:
       arguments->n_args++;
-      if (null_ptr(arguments->msg)) {
+      if (NULL_PTR(arguments->msg)) {
         arguments->msg = MALLOC(char *);
         arguments->msg[0] = arg;
         break;
@@ -143,7 +143,7 @@ int main(int argc, char **argv) {
     fflush(stdout);
   }
 
-  if (!null_ptr(arguments.msg)) {
+  if (!NULL_PTR(arguments.msg)) {
     for (size_t i = 0; i < arguments.n_args; i++) {
       printf("%s%c", arguments.msg[i], (i == arguments.n_args - 1) ? 0 : ' ');
     }

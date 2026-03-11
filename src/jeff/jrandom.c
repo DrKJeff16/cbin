@@ -10,7 +10,7 @@
 #include "jeff/jtypes.h"
 
 void j_seed(const jbool *const force) {
-  if (seeded && (null_ptr(force) || !(*force))) {
+  if (seeded && (NULL_PTR(force) || !(*force))) {
     return;
   }
 

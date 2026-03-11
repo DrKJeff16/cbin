@@ -33,7 +33,7 @@ void insert(jhash_map *mp, char *key, char *value) {
 
   init_jhash(new_node, key, value);
 
-  if (!null_ptr(mp->arr[bucket_index])) {
+  if (!NULL_PTR(mp->arr[bucket_index])) {
     new_node->next = mp->arr[bucket_index];
   }
 
@@ -46,7 +46,7 @@ void delete(jhash_map *mp, char *key) {
   jhash_t *prev_node = NULL;
   jhash_t *curr_node = mp->arr[bucket_index];
 
-  while (!null_ptr(curr_node)) {
+  while (!NULL_PTR(curr_node)) {
     if (strcmp(key, curr_node->key) == 0) {
       if (curr_node == mp->arr[bucket_index]) {
         mp->arr[bucket_index] = curr_node->next;
@@ -65,7 +65,7 @@ char *search(jhash_map *mp, char *key) {
   j_llong bucket_index = jhash(mp, key);
 
   jhash_t *bucket_head = mp->arr[bucket_index];
-  while (!null_ptr(bucket_head)) {
+  while (!NULL_PTR(bucket_head)) {
     // Key is found in the hashMap
     if (bucket_head->key == key) {
       return bucket_head->value;

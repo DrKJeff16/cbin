@@ -124,7 +124,7 @@ static void show_usage(const int code, arg_data *arguments) {
     fprintf(stream, (i < start_spaces) ? "%s\n" : "   %s\n", txt[i]);
   }
 
-  if (!null_ptr(arguments->arg)) {
+  if (!NULL_PTR(arguments->arg)) {
     free(arguments->arg);
   }
   free(txt);
@@ -163,7 +163,7 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       }
 
       use_lower = is_emotion(lower_arg);
-      if (null_ptr(arguments->arg)) {
+      if (NULL_PTR(arguments->arg)) {
         arguments->arg = CALLOC(char, strlen((use_lower) ? lower_arg : arg) + 1);
         stpcpy(arguments->arg, (use_lower) ? lower_arg : arg);
       }
@@ -201,7 +201,7 @@ int main(int argc, char **argv) {
     list_emotions();
   }
 
-  if (null_ptr(arguments.arg)) {
+  if (NULL_PTR(arguments.arg)) {
     TO_ZERO(arguments.zero, emotions(JFALSE, arguments.md, SHRUG))
     die(0, NULL);
   }
