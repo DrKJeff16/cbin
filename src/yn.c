@@ -1,8 +1,10 @@
 #include <argp.h>
+#include <ctype.h>
 #include <jeff/jdie.h>
 #include <jeff/jmemory.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <yn.h>
 
 #include "jeff/jtypes.h"
@@ -22,11 +24,37 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   /* Get the input argument from argp_parse, which we
      know is a pointer to our arguments structure. */
   arg_data *arguments = state->input;
+  char *p, *x;
+  long num;
+  size_t len;
+  j_ullong throws;
+  jbool digit = JTRUE;
 
-  int num;
   switch (key) {
     case 'c':
-      num = atoi(arg);
+      len = strlen(arg);
+      for (x = arg; *x; x++) {
+        if (!isdigit(*x)) {
+          digit = JFALSE;
+          break;
+        }
+      }
+
+      if (!digit || len == 0) {
+        if (!NULL_PTR(arguments->args)) {
+          free(arguments->args);
+        }
+        vdie(1, "Bad argument for `-c`: `%s`\n", arg);
+      }
+
+      num = strtol(arg, &p, 10);
+
+      if (num > 239) {
+        if (!NULL_PTR(arguments->args)) {
+          free(arguments->args);
+        }
+        vdie(1, "You've exceeded the max shell exit code (`239`): `%ld`\n", num);
+      }
       arguments->code = (num != JFALSE) ? num : JTRUE;
       break;
 
@@ -35,12 +63,22 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       break;
 
     case ARGP_KEY_ARG:
-      if (null_ptr(arguments->args)) {
-        arguments->args = arg;
+      len = strlen(arg);
+      if (len == 0) {
+        break;
+      }
+
+      if (NULL_PTR(arguments->args)) {
+        arguments->args = CALLOC(char, len + 1);
+        strcpy(arguments->args, arg);
       }
       break;
 
     case ARGP_KEY_END:
+      if (NULL_PTR(arguments->args)) {
+        arguments->args = CALLOC(char, 9);
+        strcpy(arguments->args, "Confirm?");
+      }
       break;
 
     default:
@@ -51,7 +89,7 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
-static void prompt(const char *restrict msg, const jbool negative) {
+static void prompt(char *restrict msg, const jbool negative) {
   printf("%s [%s]: ", msg, (!negative) ? "Y/n" : "y/N");
 }
 
@@ -65,27 +103,29 @@ static arg_data init_args(void) {
   return arguments;
 }
 
+static void gc_exit(arg_data *arguments, const int code, char *const msg) {
+  free(arguments->args);
+  die(code, msg);
+}
+
 void yes_no(arg_data *arguments) {
   prompt(arguments->args, arguments->invert);
   jbool prev = JFALSE;
   char in;
-  int code;
   while ((in = getchar())) {
     switch (in) {
       case 'N':
       case 'n':
-        code = arguments->code;
-        die(code, NULL);
+        gc_exit(arguments, arguments->code, NULL);
 
       case 'Y':
       case 'y':
-        die(0, NULL);
+        gc_exit(arguments, 0, NULL);
 
       case '\n':
       case '\r':
         if (!prev) {
-          code = (arguments->invert) ? arguments->code : 0;
-          die(code, NULL);
+          gc_exit(arguments, (arguments->invert) ? arguments->code : 0, NULL);
         }
         prompt(arguments->args, arguments->invert);
         prev = JFALSE;
@@ -102,14 +142,10 @@ int main(int argc, char **argv) {
   arg_data arguments = init_args();
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
-  if (null_ptr(arguments.args)) {
-    arguments.args = "Confirm?";
-  }
-
   yes_no(&arguments);
 
-  int code = arguments.code;
-  return code;
+  free(arguments.args);
+  return arguments.code;
 }
 
 /* vim: set ts=2 sts=2 sw=2 et ai si sta: */

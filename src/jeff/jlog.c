@@ -17,7 +17,7 @@ int fdlog(int fd, char *const msg) {
     return fd;
   }
 
-  if (null_ptr(msg)) {
+  if (NULL_PTR(msg)) {
     j_errno_verr(EINVAL, "(fdlog): %s\n", "NULL format string");
     return fd;
   }
@@ -31,7 +31,7 @@ int vfdlog(int fd, char *const fmt, ...) {
     return -1;
   }
 
-  if (null_ptr(fmt)) {
+  if (NULL_PTR(fmt)) {
     j_errno_verr(EINVAL,
                  "(vfdlog): %s\n"
                  "NULL format string");
@@ -47,12 +47,12 @@ int vfdlog(int fd, char *const fmt, ...) {
 }
 
 int log_to_file(char *const path, char *const msg, const jbool need_fd) {
-  if (null_ptr(path)) {
+  if (NULL_PTR(path)) {
     j_errno_verr(EINVAL, "(log_to_file): %s\n", "File path points to NULL");
     return -1;
   }
 
-  if (null_ptr(msg)) {
+  if (NULL_PTR(msg)) {
     j_errno_verr(EINVAL, "(log_to_file): %s\n", "No message was given to log");
     return -1;
   }

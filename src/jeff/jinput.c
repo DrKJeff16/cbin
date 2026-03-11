@@ -11,7 +11,7 @@
 char *buffer_get(char *const msg, size_t *const buf_len) {
   size_t len = 0;
 
-  if (null_ptr(buf_len)) {
+  if (NULL_PTR(buf_len)) {
     len = 1024;
   } else {
     len = *buf_len;
@@ -29,14 +29,14 @@ char *buffer_get(char *const msg, size_t *const buf_len) {
     res[i] = '\0';
   }
 
-  if (!null_ptr(msg)) {
+  if (!NULL_PTR(msg)) {
     snprintf(res, len, "%s: ", msg);
   } else {
     snprintf(res, len, "Press any key...: ");
   }
 
   char *chr = strchr(res, 0);
-  if (null_ptr(chr)) {
+  if (NULL_PTR(chr)) {
     res = REALLOC(res, char, len + 1);
     res[len] = '\0';
   } else {
@@ -48,7 +48,7 @@ char *buffer_get(char *const msg, size_t *const buf_len) {
     }
   }
 
-  if (null_ptr(res)) {
+  if (NULL_PTR(res)) {
     j_errno_vdie(1, EFAULT, "(buffer_get): %s\n", "Buffer got null'd for some reason");
   }
 

@@ -102,7 +102,7 @@ void show_total(char *choices[2], char **total, size_t n) {
 }
 
 void decide(const jbool result, coin_t *coin) {
-  if (null_ptr(coin)) {
+  if (NULL_PTR(coin)) {
     j_errno_die(127, EFAULT, "Choices struct is NULL!");
   }
 
@@ -125,7 +125,7 @@ jbool fd_toss(const int fd) {
 }
 
 void verdict(const int fd, coin_t *coin, char *choices[2], char **total, const size_t n) {
-  if (null_ptr(coin)) {
+  if (NULL_PTR(coin)) {
     free(total);
     free(coin);
     close(fd);

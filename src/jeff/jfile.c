@@ -5,7 +5,7 @@
 #include "jeff/jtypes.h"
 
 jbool is_file(const char *restrict path) {
-  if (null_ptr(path)) {
+  if (NULL_PTR(path)) {
     return JFALSE;
   }
 

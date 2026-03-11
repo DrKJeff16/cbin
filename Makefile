@@ -164,10 +164,6 @@ $(OBJDIR)/countdown.o: $(SRCDIR)/countdown.c
 	$(IWYU) $(CFLAGS) $<
 	$(CC) -c $< $(CFLAGS) -o $@
 
-$(OBJDIR)/gtkmm_example.o: $(SRCDIR)/gtkmm_example.cpp
-	$(IWYU) $(GTKMM_EXAMPLE_CFLAGS) $<
-	$(CXX) -c $< $(GTKMM_EXAMPLE_CFLAGS) -o $@
-
 $(OBJDIR)/misc.o: $(SRCDIR)/misc.c
 	$(IWYU) $(CFLAGS) $<
 	$(CC) -c $< $(CFLAGS) -o $@
@@ -194,9 +190,6 @@ $(BINDIR)/cointoss: $(OBJDIR)/cointoss.o
 $(BINDIR)/countdown: $(OBJDIR)/countdown.o
 	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS) $(LTO_FLAG)
 
-$(BINDIR)/gtkmm_example: $(OBJDIR)/gtkmm_example.o
-	$(CXX) $< $(GTKMM_EXAMPLE_CFLAGS) -o $@ $(GTKMM_EXAMPLE_LDFLAGS) $(LTO_FLAG)
-
 $(BINDIR)/misc: $(OBJDIR)/misc.o
 	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS) $(LTO_FLAG)
 
@@ -217,8 +210,6 @@ libs: $(SUBDIRS) $(JEFF_LIBS) $(JEFF_STATIC_LIBS)
 cointoss: $(BINDIR)/cointoss
 
 countdown: $(BINDIR)/countdown
-
-gtkmm_example: $(BINDIR)/gtkmm_example
 
 misc: $(BINDIR)/misc
 

@@ -7,7 +7,7 @@ extern "C" {
 
 #include <stdlib.h>
 
-#define null_ptr(ptr) (!ptr || ptr == NULL)
+#define NULL_PTR(ptr) (!ptr || ptr == NULL)
 
 #if !defined(MALLOC)
 #define MALLOC(type) (type *)malloc(sizeof(type))

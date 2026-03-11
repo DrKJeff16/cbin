@@ -8,7 +8,7 @@
 #include "jeff/jtypes.h"
 
 jbool str_startswith(char *const str, char *const start) {
-  if (null_ptr(str) || null_ptr(start) || strlen(str) >= strlen(start)) {
+  if (NULL_PTR(str) || NULL_PTR(start) || strlen(str) >= strlen(start)) {
     return JFALSE;
   }
 
@@ -24,7 +24,7 @@ jbool str_startswith(char *const str, char *const start) {
 }
 
 char *str_rep(const char *const s, const size_t n) {
-  if (null_ptr(s)) {
+  if (NULL_PTR(s)) {
     return NULL;
   }
 
@@ -46,8 +46,8 @@ char *str_rep(const char *const s, const size_t n) {
 }
 
 jbool in_str(char *const str, const char *const c) {
-  if (null_ptr(c) || null_ptr(str)) {
-    die(3, (null_ptr(c)) ? "NULL char array!\n" : ((null_ptr(str) ? "NULL string!\n" : NULL)));
+  if (NULL_PTR(c) || NULL_PTR(str)) {
+    die(3, (NULL_PTR(c)) ? "NULL char array!\n" : ((NULL_PTR(str) ? "NULL string!\n" : NULL)));
   }
 
   for (size_t i = 0; i <= strlen(str); i++) {
@@ -87,12 +87,12 @@ char *dedup_str(char *const str) {
 }
 
 void str_append_nul(char *str) {
-  if (null_ptr(str)) {
+  if (NULL_PTR(str)) {
     return;
   }
 
   char *chr = strchr(str, 0);
-  if (!null_ptr(chr)) {
+  if (!NULL_PTR(chr)) {
     return;
   }
 
@@ -102,14 +102,14 @@ void str_append_nul(char *str) {
 
   chr = stpcpy(new_str, str);
   /// If no NUL char in `str`
-  if (null_ptr(chr)) {
+  if (NULL_PTR(chr)) {
     new_str[len] = '\0';
   } else {
     new_str = REALLOC(new_str, char, len);
   }
 
   chr = stpcpy(str, new_str);
-  if (null_ptr(chr)) {
+  if (NULL_PTR(chr)) {
     stpcpy(str, str_og);
     j_verr("(str_append_nul): %s\n", "Unable to copy `new_str` back to `str`");
   }
@@ -119,7 +119,7 @@ void str_append_nul(char *str) {
 }
 
 jbool is_lower(char *const str) {
-  if (null_ptr(str)) {
+  if (NULL_PTR(str)) {
     return JFALSE;
   }
 
@@ -133,7 +133,7 @@ jbool is_lower(char *const str) {
 }
 
 jbool is_upper(char *const str) {
-  if (null_ptr(str)) {
+  if (NULL_PTR(str)) {
     return JFALSE;
   }
 
@@ -161,7 +161,7 @@ jbool is_upper_char(const char c) {
 }
 
 void lowerize(char *str) {
-  if (null_ptr(str)) {
+  if (NULL_PTR(str)) {
     return;
   }
 
@@ -173,7 +173,7 @@ void lowerize(char *str) {
 }
 
 void upperize(char *str) {
-  if (null_ptr(str)) {
+  if (NULL_PTR(str)) {
     return;
   }
 
@@ -185,7 +185,7 @@ void upperize(char *str) {
 }
 
 void capitalize(char *str) {
-  if (null_ptr(str)) {
+  if (NULL_PTR(str)) {
     j_verr("%s\n", "NULL string cannot be capitalized");
     return;
   }
@@ -207,7 +207,7 @@ void capitalize(char *str) {
 }
 
 jbool compare_strv(char **const argv, const size_t len) {
-  if (null_ptr(argv)) {
+  if (NULL_PTR(argv)) {
     j_verr("%s\n", "`argv`is NULL");
     return JFALSE;
   }
@@ -225,7 +225,7 @@ jbool compare_strv(char **const argv, const size_t len) {
 }
 
 void reverse_str(char *s) {
-  if (null_ptr(s)) {
+  if (NULL_PTR(s)) {
     return;
   }
 
@@ -241,12 +241,12 @@ void reverse_str(char *s) {
 }
 
 char *str_reversed(char *const str) {
-  if (null_ptr(str)) {
+  if (NULL_PTR(str)) {
     return NULL;
   }
 
   char *new_str = CALLOC(char, strlen(str) + 1);
-  if (null_ptr(stpcpy(new_str, str))) {
+  if (NULL_PTR(stpcpy(new_str, str))) {
     return NULL;
   }
 
@@ -256,13 +256,13 @@ char *str_reversed(char *const str) {
 }
 
 void j_lstrip(const char c, char *str) {
-  if (null_ptr(str)) {
+  if (NULL_PTR(str)) {
     die(4, "(j_lstrip): No str to strip!");
   }
 
   size_t len = strlen(str), i = 0;
   size_t new_len = len;
-  if (c == 0 || !len || null_ptr(strchr(str, c))) {
+  if (c == 0 || !len || NULL_PTR(strchr(str, c))) {
     return;
   }
 
@@ -280,13 +280,13 @@ void j_lstrip(const char c, char *str) {
 
   str = REALLOC(str, char, new_len + 1);
 
-  if (null_ptr(str)) {
+  if (NULL_PTR(str)) {
     free(new_str);
     free(str);
     die(2, "(j_lstrip): FAILED TO REALLOCATE str!");
   }
 
-  if (null_ptr(stpcpy(str, new_str))) {
+  if (NULL_PTR(stpcpy(str, new_str))) {
     free(new_str);
     free(str);
     die(3, "(j_lstrip): FAILED TO COPY new_str INTO str!");
@@ -297,7 +297,7 @@ void j_lstrip(const char c, char *str) {
 }
 
 void j_rstrip(const char c, char *str) {
-  if (null_ptr(str)) {
+  if (NULL_PTR(str)) {
     die(4, "(j_rstrip): No str to strip!");
   }
 
@@ -307,7 +307,7 @@ void j_rstrip(const char c, char *str) {
 }
 
 void j_strip(const char c, char *str) {
-  if (null_ptr(str)) {
+  if (NULL_PTR(str)) {
     die(4, "(j_strip): No str to strip!");
   }
 

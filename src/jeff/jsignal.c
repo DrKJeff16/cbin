@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 void sig_bootstrap(int *sigs, const size_t n, void (*fun)(const int)) {
-  if (null_ptr(sigs) || !n) {
+  if (NULL_PTR(sigs) || !n) {
     return;
   }
 

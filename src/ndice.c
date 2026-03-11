@@ -17,21 +17,42 @@ const j_ullong DEFAULT_THROWS = 2500L;
 const char *argp_program_version = "ndice 0.0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "N-dice program.";
-static char args_doc[] = "[-u] [-t THROWS] [-s]";
+static char args_doc[] = "[-u] [-t THROWS] [-s] [ARG [ARG [...]]]";
 static argp_option_t options[] = {
-  { "use-urandom", 'u', 0, 0, "Use /dev/urandom instead of /dev/random", 1 },
-  { "single", 's', 0, 0, "Whether to do a single throw (will ignore `-t`!)", 1 },
-  { "throws", 't', "THROWS", 0, "Throw the dice N times (default: 2500)", 2 },
+  {
+    .name = "use-urandom",
+    .key = 'u',
+    .arg = 0,
+    .flags = 0,
+    .doc = "Use /dev/urandom instead of /dev/random",
+    .group = 0,
+  },
+  {
+    .name = "single",
+    .key = 's',
+    .arg = 0,
+    .flags = 0,
+    .doc = "Whether to do a single throw (will ignore `-t`!)",
+    .group = 0,
+  },
+  {
+    .name = "throws",
+    .key = 't',
+    .arg = "THROWS",
+    .flags = 0,
+    .doc = "Throw the dice N times (default: 2500)",
+    .group = 1,
+  },
   { 0 },
 };
 
 ndice_t *ndice_start(ndice_t *const ndice) {
-  if (null_ptr(ndice)) {
+  if (NULL_PTR(ndice)) {
     return NULL;
   }
 
   ndice_t *p = ndice;
-  while (!null_ptr(p->prev)) {
+  while (!NULL_PTR(p->prev)) {
     p = ndice_prev(p);
   }
 
@@ -39,12 +60,12 @@ ndice_t *ndice_start(ndice_t *const ndice) {
 }
 
 ndice_t *ndice_end(ndice_t *const ndice) {
-  if (null_ptr(ndice)) {
+  if (NULL_PTR(ndice)) {
     return NULL;
   }
 
   ndice_t *p = ndice;
-  while (!null_ptr(p->next)) {
+  while (!NULL_PTR(p->next)) {
     p = ndice_next(p);
   }
 
@@ -52,7 +73,7 @@ ndice_t *ndice_end(ndice_t *const ndice) {
 }
 
 ndice_t *ndice_prev(ndice_t *const ndice) {
-  if (null_ptr(ndice)) {
+  if (NULL_PTR(ndice)) {
     return NULL;
   }
 
@@ -60,7 +81,7 @@ ndice_t *ndice_prev(ndice_t *const ndice) {
 }
 
 ndice_t *ndice_next(ndice_t *const ndice) {
-  if (null_ptr(ndice)) {
+  if (NULL_PTR(ndice)) {
     return NULL;
   }
 
@@ -68,11 +89,14 @@ ndice_t *ndice_next(ndice_t *const ndice) {
 }
 
 ndice_t *ndice_index(ndice_t *const ndice, const size_t index) {
-  if (null_ptr(ndice) || ndice_len(ndice) <= index) {
+  if (NULL_PTR(ndice) || ndice_len(ndice) <= index) {
     return NULL;
   }
 
   ndice_t *p = ndice_start(ndice);
+  if (NULL_PTR(p)) {
+    return NULL;
+  }
 
   while (p->idx != index) {
     p = ndice_next(p);
@@ -82,12 +106,12 @@ ndice_t *ndice_index(ndice_t *const ndice, const size_t index) {
 }
 
 ndice_t *new_ndice(ndice_t *const main_ndice, char *const value) {
-  if (null_ptr(value)) {
+  if (NULL_PTR(value)) {
     return NULL;
   }
 
   ndice_t *ndice;
-  if (null_ptr(main_ndice)) {
+  if (NULL_PTR(main_ndice)) {
     ndice = MALLOC(ndice_t);
     ndice->idx = 0;
     ndice->n_landings = 0;
@@ -101,6 +125,9 @@ ndice_t *new_ndice(ndice_t *const main_ndice, char *const value) {
   }
 
   ndice = ndice_end(main_ndice);
+  if (NULL_PTR(ndice)) {
+    return main_ndice;
+  }
 
   ndice_t *next = MALLOC(ndice_t);
   next->idx = ndice->idx + 1;
@@ -118,14 +145,14 @@ ndice_t *new_ndice(ndice_t *const main_ndice, char *const value) {
 }
 
 ndice_t *gen_full_ndice(char *const values) {
-  if (null_ptr(values)) {
+  if (NULL_PTR(values)) {
     return NULL;
   }
 
   char sep_str[2] = " ";
   char *p = values, *sep = values;
   ndice_t *ndice = NULL;
-  while (!null_ptr(sep)) {
+  while (!NULL_PTR(sep)) {
     strsep(&p, sep_str);
     ndice = new_ndice(ndice, sep);
     sep = p;
@@ -135,13 +162,13 @@ ndice_t *gen_full_ndice(char *const values) {
 }
 
 size_t ndice_len(ndice_t *ndice) {
-  if (null_ptr(ndice)) {
+  if (NULL_PTR(ndice)) {
     return 0;
   }
 
   size_t len = 0;
   ndice_t *p = ndice_start(ndice);
-  while (!null_ptr(p)) {
+  while (!NULL_PTR(p)) {
     len++;
     p = ndice_next(p);
   }
@@ -150,12 +177,16 @@ size_t ndice_len(ndice_t *ndice) {
 }
 
 void ndice_reset_count(ndice_t *ndice) {
-  if (null_ptr(ndice)) {
+  if (NULL_PTR(ndice)) {
     return;
   }
 
   ndice_t *p = ndice_start(ndice);
-  while (!null_ptr(p->next)) {
+  if (NULL_PTR(p)) {
+    return;
+  }
+
+  while (!NULL_PTR(p->next)) {
     p->n_landings = 0;
     p = ndice_next(p);
   }
@@ -171,7 +202,7 @@ void ndice_throw(ndice_t *ndice, const jbool urandom) {
   close(fd);
 
   ndice_t *index = ndice_index(ndice, idx);
-  if (null_ptr(index)) {
+  if (NULL_PTR(index)) {
     return;
   }
 
@@ -179,12 +210,16 @@ void ndice_throw(ndice_t *ndice, const jbool urandom) {
 }
 
 ndice_t *ndice_pop(ndice_t *ndice) {
-  if (null_ptr(ndice) || ndice_len(ndice) == 0) {
+  if (NULL_PTR(ndice) || ndice_len(ndice) == 0) {
     return NULL;
   }
 
   ndice_t *p = ndice_end(ndice);
-  if (!null_ptr(p->prev)) {
+  if (NULL_PTR(p)) {
+    return NULL;
+  }
+
+  if (!NULL_PTR(p->prev)) {
     p->prev->next = NULL;
     p->prev = NULL;
   }
@@ -201,7 +236,7 @@ ndice_t *ndice_pop(ndice_t *ndice) {
 }
 
 void ndice_insert(ndice_t *ndice, ndice_t *const new, const size_t index) {
-  if (null_ptr(ndice) || null_ptr(new) || index >= ndice_len(ndice)) {
+  if (NULL_PTR(ndice) || NULL_PTR(new) || index >= ndice_len(ndice)) {
     return;
   }
 
@@ -209,8 +244,12 @@ void ndice_insert(ndice_t *ndice, ndice_t *const new, const size_t index) {
 
   ndice_t *old = ndice;
   ndice = ndice_index(ndice, index);
+  if (NULL_PTR(ndice)) {
+    ndice = old;
+    return;
+  }
 
-  if (!null_ptr(ndice->prev)) {
+  if (!NULL_PTR(ndice->prev)) {
     ndice->prev->next = new;
     new->prev = ndice->prev;
   }
@@ -218,23 +257,27 @@ void ndice_insert(ndice_t *ndice, ndice_t *const new, const size_t index) {
   new->next = ndice;
 
   size_t i = 1;
-  while (!null_ptr(ndice)) {
+  while (!NULL_PTR(ndice)) {
     ndice->idx = index + i;
-    i++;
-
     ndice = ndice_next(ndice);
+    i++;
   }
 
   ndice = old;
 }
 
 void ndice_wipe(ndice_t *ndice) {
-  if (null_ptr(ndice)) {
+  if (NULL_PTR(ndice)) {
     return;
   }
 
   ndice_t *end = ndice_end(ndice);
-  while (!null_ptr(end->prev)) {
+  if (NULL_PTR(end)) {
+    free(ndice->value);
+    free(ndice);
+    return;
+  }
+  while (!NULL_PTR(end->prev)) {
     end = ndice_prev(end);
     free(end->next->value);
     free(end->next);
@@ -275,8 +318,8 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
         }
       }
 
-      if (!digit) {
-        if (!null_ptr(arguments->args)) {
+      if (!digit || strlen(arg) == 0) {
+        if (!NULL_PTR(arguments->args)) {
           free(arguments->args);
         }
 
@@ -290,7 +333,7 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
         break;
       }
       if (*p != 0) {
-        if (!null_ptr(arguments->args)) {
+        if (!NULL_PTR(arguments->args)) {
           free(arguments->args);
         }
 
@@ -350,7 +393,7 @@ int main(int argc, char **argv) {
         strcat(mid, " ");
       }
 
-      if (!null_ptr(value)) {
+      if (!NULL_PTR(value)) {
         value = REALLOC(value, char, strlen(value) + strlen(mid) + 1);
         strcat(value, mid);
         free(mid);
@@ -379,10 +422,16 @@ int main(int argc, char **argv) {
   }
 
   ndice_t *p = ndice_start(ndice);
-  while (!null_ptr(p)) {
-    printf("%zu  ===>  %llu\n", p->idx, p->n_landings);
+  ndice_t *res = NULL;
+  while (!NULL_PTR(p)) {
+    printf("%llu  ===>  %llu\n", p->idx, p->n_landings);
+    if (NULL_PTR(res) || p->n_landings > res->n_landings) {
+      res = p;
+    }
     p = ndice_next(p);
   }
+
+  printf("%llu\n", res->idx);
 
   ndice_wipe(ndice);
   return 0;

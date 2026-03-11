@@ -12,7 +12,7 @@
  * @brief Kill program ekecution with optional output message
  */
 void die(const int status, char *const msg) {
-  if (!null_ptr(msg)) {
+  if (!NULL_PTR(msg)) {
     fprintf((!status) ? stdout : stderr, "%s\n", msg);
   }
 
@@ -20,7 +20,7 @@ void die(const int status, char *const msg) {
 }
 
 void vdie(const int status, char *const fmt, ...) {
-  if (!null_ptr(fmt)) {
+  if (!NULL_PTR(fmt)) {
     va_list argp;
     va_start(argp, fmt);
     vfprintf((!status) ? stdout : stderr, fmt, argp);
@@ -41,7 +41,7 @@ void cond_vdie(const int status, const jbool cond, char *const fmt, ...) {
     return;
   }
 
-  if (!null_ptr(fmt)) {
+  if (!NULL_PTR(fmt)) {
     va_list argp;
     va_start(argp, fmt);
     vfprintf((!status) ? stdout : stderr, fmt, argp);
@@ -52,7 +52,7 @@ void cond_vdie(const int status, const jbool cond, char *const fmt, ...) {
 }
 
 void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...) {
-  if (!null_ptr(fmt)) {
+  if (!NULL_PTR(fmt)) {
     va_list argp;
     va_start(argp, fmt);
     vfprintf((!status) ? stdout : stderr, fmt, argp);
@@ -67,7 +67,7 @@ void j_errno_die(const int status, const int code, char *const msg) {
   FILE *out = (!status) ? stdout : stderr;
   fprintf(out, "%s\n", strerror((code >= EPERM && code <= EHWPOISON) ? code : ENOMSG));
 
-  if (!null_ptr(msg)) {  /// If message is available
+  if (!NULL_PTR(msg)) {  /// If message is available
     fprintf(out, "%s\n", msg);
   }
 
@@ -78,7 +78,7 @@ void j_errno_vdie(const int status, const int code, char *const fmt, ...) {
   FILE *out = (!status) ? stdout : stderr;
   fprintf(out, "%s\n", strerror((code >= EPERM && code <= EHWPOISON) ? code : ENOMSG));
 
-  if (!null_ptr(fmt)) {
+  if (!NULL_PTR(fmt)) {
     va_list argp;
     va_start(argp, fmt);
     vfprintf(out, fmt, argp);
