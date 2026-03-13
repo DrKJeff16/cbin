@@ -19,9 +19,30 @@ const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "N-dice program.";
 static char args_doc[] = "[-u] [-t THROWS] [-s]";
 static argp_option_t options[] = {
-  { "use-urandom", 'u', 0, 0, "Use /dev/urandom instead of /dev/random", 1 },
-  { "single", 's', 0, 0, "Whether to do a single throw (will ignore `-t`!)", 1 },
-  { "throws", 't', "THROWS", 0, "Throw the dice N times (default: 2500)", 2 },
+  {
+    .name = "use-urandom",
+    .key = 'u',
+    .arg = 0,
+    .flags = 0,
+    .doc = "Use /dev/urandom instead of /dev/random",
+    .group = 0,
+  },
+  {
+    .name = "single",
+    .key = 's',
+    .arg = 0,
+    .flags = 0,
+    .doc = "Whether to do a single throw (will ignore `-t`!)",
+    .group = 0,
+  },
+  {
+    .name = "throws",
+    .key = 't',
+    .arg = "THROWS",
+    .flags = 0,
+    .doc = "Throw the dice N times (default: 2500)",
+    .group = 1,
+  },
   { 0 },
 };
 
@@ -379,10 +400,16 @@ int main(int argc, char **argv) {
   }
 
   ndice_t *p = ndice_start(ndice);
+  ndice_t *res = NULL;
   while (!NULL_PTR(p)) {
-    printf("%zu  ===>  %llu\n", p->idx, p->n_landings);
+    printf("%llu  ===>  %llu\n", p->idx, p->n_landings);
+    if (NULL_PTR(res) || p->n_landings > res->n_landings) {
+      res = p;
+    }
     p = ndice_next(p);
   }
+
+  printf("%llu\n", res->idx);
 
   ndice_wipe(ndice);
   return 0;

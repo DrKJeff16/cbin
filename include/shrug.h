@@ -15,16 +15,19 @@ extern "C" {
     printf("%s\n", str);   \
   }
 
-typedef struct arguments {
+struct arguments {
   jbool list;
   jbool zero;
   jbool md;
+  jbool random;
   char *arg;
-} arg_data;
+};
+
+typedef struct arguments arg_data;
 
 const size_t N_EMOTIONS = 19;
 
-typedef enum emotions_index {
+enum emotions_index {
   FACEPALM,
   FIGHT,
   FUCKYOU,
@@ -44,7 +47,9 @@ typedef enum emotions_index {
   TY,
   WOO,
   WTF,
-} emotions_idx;
+};
+
+typedef enum emotions_index emotions_idx;
 
 char *emotions(const jbool list, const jbool md, const emotions_idx idx);
 jbool is_emotion(char *const arg);

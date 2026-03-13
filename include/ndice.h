@@ -24,7 +24,7 @@ struct arguments {
 typedef struct arguments arg_data;
 
 struct ndice {
-  size_t idx;
+  j_ullong idx;
   j_ullong n_landings;
   char *value;
   struct ndice *prev;

@@ -103,30 +103,29 @@ static arg_data init_args(void) {
   return arguments;
 }
 
+static void gc_exit(arg_data *arguments, const int code, char *const msg) {
+  free(arguments->args);
+  die(code, msg);
+}
+
 void yes_no(arg_data *arguments) {
   prompt(arguments->args, arguments->invert);
   jbool prev = JFALSE;
   char in;
-  int code;
   while ((in = getchar())) {
     switch (in) {
       case 'N':
       case 'n':
-        code = arguments->code;
-        free(arguments->args);
-        die(code, NULL);
+        gc_exit(arguments, arguments->code, NULL);
 
       case 'Y':
       case 'y':
-        free(arguments->args);
-        die(0, NULL);
+        gc_exit(arguments, 0, NULL);
 
       case '\n':
       case '\r':
         if (!prev) {
-          code = (arguments->invert) ? arguments->code : 0;
-          free(arguments->args);
-          die(code, NULL);
+          gc_exit(arguments, (arguments->invert) ? arguments->code : 0, NULL);
         }
         prompt(arguments->args, arguments->invert);
         prev = JFALSE;
@@ -146,8 +145,7 @@ int main(int argc, char **argv) {
   yes_no(&arguments);
 
   free(arguments.args);
-  int code = arguments.code;
-  return code;
+  return arguments.code;
 }
 
 /* vim: set ts=2 sts=2 sw=2 et ai si sta: */

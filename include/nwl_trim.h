@@ -7,12 +7,14 @@ extern "C" {
 
 #include <jeff/jtypes.h>
 
-typedef struct arguments {
+struct arguments {
   jbool verbose;
   j_ullong keep_lines;
   j_ullong n_files;
   char **files;
-} arg_data;
+};
+
+typedef struct arguments arg_data;
 
 static void files_gc(char **files, const j_ullong n);
 static arg_data init_args(void);

@@ -1,7 +1,9 @@
 #include <argp.h>
+#include <fcntl.h>
 #include <jeff/jdie.h>
 #include <jeff/jerr.h>
 #include <jeff/jmemory.h>
+#include <jeff/jrandom.h>
 #include <jeff/jstring.h>
 #include <shrug.h>
 #include <stdio.h>
@@ -13,11 +15,12 @@
 const char *argp_program_version = "shrug 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Print useful ASCII art emotions.";
-static char args_doc[] = "[-L] [-m] [-0] [<EMOTION>]";
+static char args_doc[] = "[-L] [-m] [-r] [-z] [<EMOTION>]";
 static argp_option_t options[] = {
-  { 0, '0', 0, 0, "Terminate with a zero char instead", 0 },
-  { 0, 'L', 0, 0, "List all the available emotions", 1 },
-  { 0, 'm', 0, 0, "Print the output to support Markdown format", 1 },
+  { "zero", 'z', 0, 0, "Terminate with a zero char instead", 0 },
+  { "random", 'r', 0, 0, "Print a random emotion", 0 },
+  { "list", 'L', 0, 0, "List all the available emotions", 1 },
+  { "markdown", 'm', 0, 0, "Print the output to support Markdown format", 1 },
   { 0 },
 };
 
@@ -147,7 +150,11 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       arguments->md = JTRUE;
       break;
 
-    case '0':
+    case 'r':
+      arguments->random = JTRUE;
+      break;
+
+    case 'z':
       arguments->zero = JTRUE;
       break;
 
@@ -188,8 +195,28 @@ void list_emotions(void) {
   die(0, NULL);
 }
 
+void random_emotion(arg_data *arguments) {
+  int fd;
+  if ((fd = open("/dev/urandom", O_RDONLY)) < 0) {
+    die(0, NULL);
+  }
+
+  TO_ZERO(arguments->zero, emotions(JFALSE, arguments->md, fd_urand(fd, FACEPALM, WTF)));
+
+  if (!NULL_PTR(arguments->arg)) {
+    free(arguments->arg);
+  }
+  die(0, NULL);
+}
+
 static arg_data init_args(void) {
-  arg_data arguments = { .list = JFALSE, .zero = JFALSE, .md = JFALSE, .arg = NULL };
+  arg_data arguments = {
+    .list = JFALSE,
+    .zero = JFALSE,
+    .md = JFALSE,
+    .random = JFALSE,
+    .arg = NULL,
+  };
   return arguments;
 }
 
@@ -199,6 +226,10 @@ int main(int argc, char **argv) {
 
   if (arguments.list) {
     list_emotions();
+  }
+
+  if (arguments.random) {
+    random_emotion(&arguments);
   }
 
   if (NULL_PTR(arguments.arg)) {
