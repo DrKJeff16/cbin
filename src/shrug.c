@@ -127,8 +127,8 @@ static void show_usage(const int code, arg_data *arguments) {
     fprintf(stream, (i < start_spaces) ? "%s\n" : "   %s\n", txt[i]);
   }
 
-  if (!NULL_PTR(arguments->arg)) {
-    free(arguments->arg);
+  if (!NULL_PTR(arguments->args)) {
+    free(arguments->args);
   }
   free(txt);
   die(code, NULL);
@@ -159,22 +159,22 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       break;
 
     case ARGP_KEY_ARG:
-      lower_arg = CALLOC(char, strlen(arg) + 1);
-      stpcpy(lower_arg, arg);
-      lowerize(lower_arg);
+      lowerize(arg);
 
-      if (!(is_emotion(arg) || is_emotion(lower_arg))) {
-        free(lower_arg);
+      if (!(is_emotion(arg))) {
         j_err("Not an emotion: `%s`!\n", arg);
         show_usage(1, arguments);
       }
 
-      use_lower = is_emotion(lower_arg);
-      if (NULL_PTR(arguments->arg)) {
-        arguments->arg = CALLOC(char, strlen((use_lower) ? lower_arg : arg) + 1);
-        stpcpy(arguments->arg, (use_lower) ? lower_arg : arg);
+      arguments->n_args++;
+
+      if (NULL_PTR(arguments->args)) {
+        arguments->args = MALLOC(char *);
+      } else {
+        arguments->args = REALLOC(arguments->args, char *, arguments->n_args);
       }
-      free(lower_arg);
+
+      arguments->args[arguments->n_args - 1] = arg;
       break;
 
     case ARGP_KEY_END:
@@ -203,8 +203,8 @@ void random_emotion(arg_data *arguments) {
 
   TO_ZERO(arguments->zero, emotions(JFALSE, arguments->md, fd_urand(fd, FACEPALM, WTF)));
 
-  if (!NULL_PTR(arguments->arg)) {
-    free(arguments->arg);
+  if (!NULL_PTR(arguments->args)) {
+    free(arguments->args);
   }
   die(0, NULL);
 }
@@ -215,7 +215,8 @@ static arg_data init_args(void) {
     .zero = JFALSE,
     .md = JFALSE,
     .random = JFALSE,
-    .arg = NULL,
+    .n_args = 0,
+    .args = NULL,
   };
   return arguments;
 }
@@ -232,20 +233,22 @@ int main(int argc, char **argv) {
     random_emotion(&arguments);
   }
 
-  if (NULL_PTR(arguments.arg)) {
+  if (NULL_PTR(arguments.args)) {
     TO_ZERO(arguments.zero, emotions(JFALSE, arguments.md, SHRUG))
     die(0, NULL);
   }
 
-  if (!is_emotion(arguments.arg)) {
-    j_err("Not an emotion: `%s`!\n\n", arguments.arg);
-    free(arguments.arg);
-    show_usage(1, &arguments);
+  for (size_t i = 0; i < arguments.n_args; i++) {
+    if (!is_emotion(arguments.args[i])) {
+      j_err("Not an emotion: `%s`!\n\n", arguments.args[i]);
+      free(arguments.args);
+      show_usage(1, &arguments);
+    }
+
+    TO_ZERO(arguments.zero, emotions(JFALSE, arguments.md, map_emotion(arguments.args[i])))
   }
 
-  TO_ZERO(arguments.zero, emotions(JFALSE, arguments.md, map_emotion(arguments.arg)))
-
-  free(arguments.arg);
+  free(arguments.args);
   return 0;
 }
 

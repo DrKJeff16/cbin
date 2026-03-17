@@ -1,24 +1,25 @@
 #include <argp.h>
 #include <countdown.h>
-#include <jeff/jeff.h>
+#include <ctype.h>
+#include <jeff/jdie.h>
+#include <jeff/jmemory.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
-#include "jeff/jmemory.h"
 #include "jeff/jtypes.h"
 
 const char *argp_program_version = "countdown 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Customizable countdown program.";
-static char args_doc[] = "[-v] [-s [-f]] [-n INT] [-d INT] [<MSG>]";
+static char args_doc[] = "[-v] [-s [-f]] [-n INT] [-d INT] [<MSG> [...]]";
 static argp_option_t options[] = {
-  { 0, 'v', 0, 0, "Produce verbose output", 0 },
-  { 0, 's', 0, 0, "Show the number countdown", 1 },
-  { 0, 'n', "NUM", 0, "The starting number", 1 },
-  { 0, 'd', "DURATION", 0, "The duration per countdown", 1 },
-  { 0, 'f', 0, 0, "Don't flush the output, print each count in a newline (assumes `-s`)", 2 },
+  { "verbose", 'v', 0, 0, "Produce verbose output", 0 },
+  { "show", 's', 0, 0, "Show the number countdown", 1 },
+  { "start-num", 'n', "NUM", 0, "The starting number", 1 },
+  { "duration", 'd', "DURATION", 0, "The duration per countdown", 1 },
+  { "no-flush", 'f', 0, 0, "Don't flush the output, print each count in a newline (assumes `-s`)", 2 },
   { 0 },
 };
 
@@ -36,6 +37,9 @@ static void verbose_print(const jbool verbose, const char *txt, FILE *restrict s
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   arg_data *arguments = state->input;
   int num_in;
+  char *p, *x;
+  long num;
+  jbool digit = JTRUE;
   switch (key) {
     case 'v':
       arguments->verbose = JTRUE;
@@ -50,28 +54,60 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       break;
 
     case 'n':
-      if ((num_in = atoi(arg)) <= 0) {
+      for (x = arg; *x; x++) {
+        if (!isdigit(*x)) {
+          digit = JFALSE;
+          break;
+        }
+      }
+
+      if (!digit || strlen(arg) == 0) {
+        if (!NULL_PTR(arguments->args)) {
+          free(arguments->args);
+        }
+        vdie(1, "Invalid: `%s`\n", arg);
+        break;
+      }
+
+      num = strtol(arg, &p, 10);
+      if (num <= 0) {
         num_in = 5;
       }
-      arguments->num = (j_uint)num_in;
+
+      arguments->num = num;
       break;
 
     case 'd':
-      if ((num_in = atoi(arg)) <= 0) {
-        num_in = 1;
+      for (x = arg; *x; x++) {
+        if (!isdigit(*x)) {
+          digit = JFALSE;
+          break;
+        }
       }
-      arguments->duration = (j_uint)num_in;
+
+      if (!digit || strlen(arg) == 0) {
+        if (!NULL_PTR(arguments->args)) {
+          free(arguments->args);
+        }
+        vdie(1, "Invalid: `%s`\n", arg);
+        break;
+      }
+
+      num = strtol(arg, &p, 10);
+      if (num <= 0) {
+        num = 1;
+      }
+      arguments->duration = num;
       break;
 
     case ARGP_KEY_ARG:
       arguments->n_args++;
-      if (NULL_PTR(arguments->msg)) {
-        arguments->msg = MALLOC(char *);
-        arguments->msg[0] = arg;
-        break;
+      if (NULL_PTR(arguments->args)) {
+        arguments->args = MALLOC(char *);
+      } else {
+        arguments->args = REALLOC(arguments->args, char *, arguments->n_args);
       }
-      arguments->msg = REALLOC(arguments->msg, char *, arguments->n_args);
-      arguments->msg[arguments->n_args - 1] = arg;
+      arguments->args[arguments->n_args - 1] = arg;
       break;
 
     case ARGP_KEY_END:
@@ -115,7 +151,7 @@ static arg_data init_args(void) {
     .show = JFALSE,
     .flush = JTRUE,
     .n_args = 0,
-    .msg = NULL,
+    .args = NULL,
   };
 
   return arguments;
@@ -143,16 +179,16 @@ int main(int argc, char **argv) {
     fflush(stdout);
   }
 
-  if (!NULL_PTR(arguments.msg)) {
+  if (!NULL_PTR(arguments.args)) {
     for (size_t i = 0; i < arguments.n_args; i++) {
-      printf("%s%c", arguments.msg[i], (i == arguments.n_args - 1) ? 0 : ' ');
+      printf("%s%c", arguments.args[i], (i == arguments.n_args - 1) ? 0 : ' ');
     }
     if (arguments.flush) {
       fflush(stdout);
     } else {
       printf("\n");
     }
-    free(arguments.msg);
+    free(arguments.args);
   }
 
   return 0;

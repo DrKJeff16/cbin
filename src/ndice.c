@@ -17,7 +17,7 @@ const j_ullong DEFAULT_THROWS = 2500L;
 const char *argp_program_version = "ndice 0.0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "N-dice program.";
-static char args_doc[] = "[-u] [-t THROWS] [-s]";
+static char args_doc[] = "[-u] [-t THROWS] [-s] [ARG [ARG [...]]]";
 static argp_option_t options[] = {
   {
     .name = "use-urandom",
@@ -94,6 +94,9 @@ ndice_t *ndice_index(ndice_t *const ndice, const size_t index) {
   }
 
   ndice_t *p = ndice_start(ndice);
+  if (NULL_PTR(p)) {
+    return NULL;
+  }
 
   while (p->idx != index) {
     p = ndice_next(p);
@@ -122,6 +125,9 @@ ndice_t *new_ndice(ndice_t *const main_ndice, char *const value) {
   }
 
   ndice = ndice_end(main_ndice);
+  if (NULL_PTR(ndice)) {
+    return main_ndice;
+  }
 
   ndice_t *next = MALLOC(ndice_t);
   next->idx = ndice->idx + 1;
@@ -176,6 +182,10 @@ void ndice_reset_count(ndice_t *ndice) {
   }
 
   ndice_t *p = ndice_start(ndice);
+  if (NULL_PTR(p)) {
+    return;
+  }
+
   while (!NULL_PTR(p->next)) {
     p->n_landings = 0;
     p = ndice_next(p);
@@ -205,6 +215,10 @@ ndice_t *ndice_pop(ndice_t *ndice) {
   }
 
   ndice_t *p = ndice_end(ndice);
+  if (NULL_PTR(p)) {
+    return NULL;
+  }
+
   if (!NULL_PTR(p->prev)) {
     p->prev->next = NULL;
     p->prev = NULL;
@@ -230,6 +244,10 @@ void ndice_insert(ndice_t *ndice, ndice_t *const new, const size_t index) {
 
   ndice_t *old = ndice;
   ndice = ndice_index(ndice, index);
+  if (NULL_PTR(ndice)) {
+    ndice = old;
+    return;
+  }
 
   if (!NULL_PTR(ndice->prev)) {
     ndice->prev->next = new;
@@ -241,9 +259,8 @@ void ndice_insert(ndice_t *ndice, ndice_t *const new, const size_t index) {
   size_t i = 1;
   while (!NULL_PTR(ndice)) {
     ndice->idx = index + i;
-    i++;
-
     ndice = ndice_next(ndice);
+    i++;
   }
 
   ndice = old;
@@ -255,6 +272,11 @@ void ndice_wipe(ndice_t *ndice) {
   }
 
   ndice_t *end = ndice_end(ndice);
+  if (NULL_PTR(end)) {
+    free(ndice->value);
+    free(ndice);
+    return;
+  }
   while (!NULL_PTR(end->prev)) {
     end = ndice_prev(end);
     free(end->next->value);

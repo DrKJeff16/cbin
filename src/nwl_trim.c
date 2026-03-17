@@ -1,17 +1,15 @@
 #include <argp.h>
-#include <jeff/jeff.h>
+#include <jeff/jdie.h>
+#include <jeff/jerr.h>
+#include <jeff/jfile.h>
+#include <jeff/jmemory.h>
+#include <jeff/jtypes.h>
 #include <nwl_trim.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
-
-#include "jeff/jdie.h"
-#include "jeff/jerr.h"
-#include "jeff/jfile.h"
-#include "jeff/jmemory.h"
-#include "jeff/jtypes.h"
 
 const char *argp_program_version = "nwl_trim 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";

@@ -20,7 +20,8 @@ struct arguments {
   jbool zero;
   jbool md;
   jbool random;
-  char *arg;
+  size_t n_args;
+  char **args;
 };
 
 typedef struct arguments arg_data;
