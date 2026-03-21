@@ -17,6 +17,7 @@ static char args_doc[] = "[-v] [-s [-f]] [-n INT] [-d INT] [<MSG> [...]]";
 static argp_option_t options[] = {
   { "verbose", 'v', 0, 0, "Produce verbose output", 0 },
   { "show", 's', 0, 0, "Show the number countdown", 1 },
+  { "separator", 'S', "SEP", 0, "The separator string between positional arguments", 1 },
   { "start-num", 'n', "NUM", 0, "The starting number", 1 },
   { "duration", 'd', "DURATION", 0, "The duration per countdown", 1 },
   { "no-flush", 'f', 0, 0, "Don't flush the output, print each count in a newline (assumes `-s`)", 2 },
@@ -49,6 +50,15 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       arguments->flush = JFALSE;
       break;
 
+    case 'S':
+      if (!NULL_PTR(arguments->sep)) {
+        free(arguments->sep);
+      }
+
+      arguments->sep = CALLOC(char, strlen(arg) + 1);
+      strcpy(arguments->sep, arg);
+      break;
+
     case 's':
       arguments->show = JTRUE;
       break;
@@ -64,6 +74,9 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       if (!digit || strlen(arg) == 0) {
         if (!NULL_PTR(arguments->args)) {
           free(arguments->args);
+        }
+        if (!NULL_PTR(arguments->sep)) {
+          free(arguments->sep);
         }
         vdie(1, "Invalid: `%s`\n", arg);
         break;
@@ -89,6 +102,9 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
         if (!NULL_PTR(arguments->args)) {
           free(arguments->args);
         }
+        if (!NULL_PTR(arguments->sep)) {
+          free(arguments->sep);
+        }
         vdie(1, "Invalid: `%s`\n", arg);
         break;
       }
@@ -111,6 +127,11 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       break;
 
     case ARGP_KEY_END:
+      if (NULL_PTR(arguments->sep)) {
+        arguments->sep = CALLOC(char, 2);
+        arguments->sep[0] = '\n';
+        arguments->sep[1] = 0;
+      }
       break;
 
     default:
@@ -151,6 +172,7 @@ static arg_data init_args(void) {
     .show = JFALSE,
     .flush = JTRUE,
     .n_args = 0,
+    .sep = NULL,
     .args = NULL,
   };
 
@@ -181,7 +203,7 @@ int main(int argc, char **argv) {
 
   if (!NULL_PTR(arguments.args)) {
     for (size_t i = 0; i < arguments.n_args; i++) {
-      printf("%s%c", arguments.args[i], (i == arguments.n_args - 1) ? 0 : ' ');
+      printf("%s%s", arguments.args[i], (i == arguments.n_args - 1) ? "" : arguments.sep);
     }
     if (arguments.flush) {
       fflush(stdout);
@@ -191,6 +213,7 @@ int main(int argc, char **argv) {
     free(arguments.args);
   }
 
+  free(arguments.sep);
   return 0;
 }
 

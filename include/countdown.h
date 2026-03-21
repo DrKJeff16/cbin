@@ -17,6 +17,7 @@ struct arguments {
   j_uint duration;  ///< How much does each step should last (default is 1).
   j_uint num;       ///< Specifies where should the countdown start (default is 5).
   size_t n_args;    ///< The number of positional arguments parsed.
+  char *sep;        ///< The separator of the printed output (default is `" "`).
   char **args;      ///< The positional arguments array.
 };
 
