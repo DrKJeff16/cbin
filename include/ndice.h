@@ -61,6 +61,8 @@ void ndice_throw(ndice_t *ndice, const jbool urandom);
  */
 static arg_data init_args(void);
 
+static error_t parse_opt(int key, char *arg, argp_state_t *state);
+
 #if defined(__cplusplus)
 }
 #endif /* __cplusplus */
