@@ -291,7 +291,7 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   /* Get the input argument from argp_parse, which we
      know is a pointer to our arguments structure. */
   arg_data *arguments = state->input;
-  int throws;
+  long throws;
   char *p, *x;
   jbool digit = JTRUE;
 
@@ -322,23 +322,15 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
         if (!NULL_PTR(arguments->args)) {
           free(arguments->args);
         }
-
         vdie(1, "Invalid: `%s`\n", arg);
-        break;
       }
 
       throws = strtol(arg, &p, 10);
-      if (p == arg || throws <= 0) {
-        arguments->n_throws = DEFAULT_THROWS;
-        break;
-      }
-      if (*p != 0) {
+      if (*p != 0 || p == arg || throws <= 0) {
         if (!NULL_PTR(arguments->args)) {
           free(arguments->args);
         }
-
-        vdie(1, "Invalid character: %c\n", *p);
-        break;
+        die(1, NULL);
       }
 
       arguments->n_throws = (j_ullong)throws;
@@ -347,12 +339,7 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
     case ARGP_KEY_ARG:
       arguments->n_args++;
 
-      if (arguments->n_args == 1) {
-        arguments->args = MALLOC(char *);
-      } else {
-        arguments->args = REALLOC(arguments->args, char *, arguments->n_args);
-      }
-
+      arguments->args = (arguments->n_args == 1) ? MALLOC(char *) : REALLOC(arguments->args, char *, arguments->n_args);
       arguments->args[arguments->n_args - 1] = arg;
       break;
 
