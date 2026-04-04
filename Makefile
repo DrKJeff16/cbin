@@ -164,7 +164,7 @@ $(OBJDIR)/countdown.o: $(SRCDIR)/countdown.c
 	$(IWYU) $(CFLAGS) $<
 	$(CC) -c $< $(CFLAGS) -o $@
 
-$(OBJDIR)/misc.o: $(SRCDIR)/misc.c
+$(OBJDIR)/jmisc.o: $(SRCDIR)/jmisc.c
 	$(IWYU) $(CFLAGS) $<
 	$(CC) -c $< $(CFLAGS) -o $@
 
@@ -190,7 +190,7 @@ $(BINDIR)/cointoss: $(OBJDIR)/cointoss.o
 $(BINDIR)/countdown: $(OBJDIR)/countdown.o
 	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS) $(LTO_FLAG)
 
-$(BINDIR)/misc: $(OBJDIR)/misc.o
+$(BINDIR)/jmisc: $(OBJDIR)/jmisc.o
 	$(CC) $< $(CFLAGS) -o $@ $(LDFLAGS) $(LTO_FLAG)
 
 $(BINDIR)/ndice: $(OBJDIR)/ndice.o
@@ -211,7 +211,7 @@ cointoss: $(BINDIR)/cointoss
 
 countdown: $(BINDIR)/countdown
 
-misc: $(BINDIR)/misc
+jmisc: $(BINDIR)/jmisc
 
 ndice: $(BINDIR)/ndice
 
