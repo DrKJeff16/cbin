@@ -1,11 +1,11 @@
 #include <argp.h>
 #include <jeff/jdie.h>
 #include <jeff/jmemory.h>
+#include <jeff/jtypes.h>
+#include <jmisc.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "jeff/jtypes.h"
 
 const char *argp_program_version = "misc 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
@@ -16,15 +16,8 @@ static argp_option_t options[] = {
   { 0 },
 };
 
-typedef struct arguments {
-  jbool verbose;
-  size_t n_args;
-  char **args;
-} arg_data;
-
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   arg_data *arguments = state->input;
-  int num_in;
   switch (key) {
     case 'v':
       arguments->verbose = JTRUE;
@@ -37,9 +30,7 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       } else {
         arguments->args = REALLOC(arguments->args, char *, arguments->n_args);
       }
-
-      arguments->args[arguments->n_args - 1] = CALLOC(char, strlen(arg) + 1);
-      stpcpy(arguments->args[arguments->n_args - 1], arg);
+      arguments->args[arguments->n_args - 1] = arg;
       break;
 
     case ARGP_KEY_END:
@@ -67,16 +58,16 @@ int main(int argc, char **argv) {
   arg_data arguments = init_args();
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
-  if (!NULL_PTR(arguments.args)) {
-    size_t i;
-    for (i = 0; i < arguments.n_args; i++) {
-      printf("%s\n", arguments.args[i]);
-      free(arguments.args[i]);
-    }
-    free(arguments.args);
+  if (NULL_PTR(arguments.args)) {
+    return 0;
   }
 
-  die(0, NULL);
+  for (size_t i = 0; i < arguments.n_args; i++) {
+    printf("%s\n", arguments.args[i]);
+  }
+
+  free(arguments.args);
+  return 0;
 }
 
 /* vim: set ts=2 sts=2 sw=2 et ai si sta: */
