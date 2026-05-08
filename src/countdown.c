@@ -56,7 +56,7 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       }
 
       arguments->sep = CALLOC(char, strlen(arg) + 1);
-      strcpy(arguments->sep, arg);
+      stpcpy(arguments->sep, arg);
       break;
 
     case 's':
@@ -203,12 +203,13 @@ int main(int argc, char **argv) {
 
   if (!NULL_PTR(arguments.args)) {
     for (size_t i = 0; i < arguments.n_args; i++) {
-      printf("%s%s", arguments.args[i], (i == arguments.n_args - 1) ? "" : arguments.sep);
-    }
-    if (arguments.flush) {
-      fflush(stdout);
-    } else {
-      printf("\n");
+      if (arguments.flush || arguments.show) {
+        printf("\r%s%s", arguments.args[i], (i == arguments.n_args - 1) ? "" : arguments.sep);
+        fflush(stdout);
+      } else {
+        printf("%s%s", arguments.args[i], (i == arguments.n_args - 1) ? "" : arguments.sep);
+        printf("\n");
+      }
     }
     free(arguments.args);
   }

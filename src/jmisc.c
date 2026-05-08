@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-const char *argp_program_version = "misc 0.1";
+const char *argp_program_version = "jmisc 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Misc test program.";
 static char args_doc[] = "[-v] [<ARG>]";
