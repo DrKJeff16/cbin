@@ -64,20 +64,20 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
     case ARGP_KEY_ARG:
       len = strlen(arg);
-      if (len == 0) {
+      if (!len) {
         break;
       }
 
       if (NULL_PTR(arguments->args)) {
         arguments->args = CALLOC(char, len + 1);
-        strcpy(arguments->args, arg);
+        stpcpy(arguments->args, arg);
       }
       break;
 
     case ARGP_KEY_END:
       if (NULL_PTR(arguments->args)) {
         arguments->args = CALLOC(char, 9);
-        strcpy(arguments->args, "Confirm?");
+        stpcpy(arguments->args, "Confirm?");
       }
       break;
 
