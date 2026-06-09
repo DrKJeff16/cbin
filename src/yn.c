@@ -2,6 +2,7 @@
 #include <ctype.h>
 #include <jeff/jdie.h>
 #include <jeff/jmemory.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -109,14 +110,16 @@ static void gc_exit(arg_data *arguments, const int code, char *const msg) {
 }
 
 void yes_no(arg_data *arguments) {
-  prompt(arguments->args, arguments->invert);
-  jbool prev = JFALSE;
+  int code = arguments->code;
+  char *args = arguments->args;
+  jbool invert = arguments->invert, prev = JFALSE;
   char in;
+  prompt(args, invert);
   while ((in = getchar())) {
     switch (in) {
       case 'N':
       case 'n':
-        gc_exit(arguments, arguments->code, NULL);
+        gc_exit(arguments, code, NULL);
 
       case 'Y':
       case 'y':
@@ -125,9 +128,9 @@ void yes_no(arg_data *arguments) {
       case '\n':
       case '\r':
         if (!prev) {
-          gc_exit(arguments, (arguments->invert) ? arguments->code : 0, NULL);
+          gc_exit(arguments, invert ? code : 0, NULL);
         }
-        prompt(arguments->args, arguments->invert);
+        prompt(args, invert);
         prev = JFALSE;
         break;
 
@@ -138,7 +141,29 @@ void yes_no(arg_data *arguments) {
   }
 }
 
+static void sig_handler(const int sig) {
+  vdie(sig, "Signal caught: %d\n", sig);
+}
+
 int main(int argc, char **argv) {
+  signal(SIGINT, sig_handler);
+  signal(SIGSTOP, sig_handler);
+  signal(SIGKILL, sig_handler);
+  signal(SIGABRT, sig_handler);
+  signal(SIGTERM, sig_handler);
+  signal(SIGALRM, sig_handler);
+  signal(SIGHUP, sig_handler);
+  signal(SIGILL, sig_handler);
+  signal(SIGFPE, sig_handler);
+  signal(SIGQUIT, sig_handler);
+  signal(SIGSEGV, sig_handler);
+  signal(SIGTSTP, sig_handler);
+  signal(SIGURG, sig_handler);
+  signal(SIGVTALRM, sig_handler);
+  signal(SIGWINCH, sig_handler);
+  signal(SIGXCPU, sig_handler);
+  signal(SIGXFSZ, sig_handler);
+
   arg_data arguments = init_args();
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
