@@ -37,7 +37,6 @@ static void verbose_print(const jbool verbose, const char *txt, FILE *restrict s
 
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   arg_data *arguments = state->input;
-  int num_in;
   char *p, *x;
   long num;
   jbool digit = JTRUE;
@@ -79,12 +78,17 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
           free(arguments->sep);
         }
         vdie(1, "Invalid: `%s`\n", arg);
-        break;
       }
 
       num = strtol(arg, &p, 10);
       if (num <= 0) {
-        num_in = 5;
+        if (!NULL_PTR(arguments->args)) {
+          free(arguments->args);
+        }
+        if (!NULL_PTR(arguments->sep)) {
+          free(arguments->sep);
+        }
+        vdie(1, "Invalid: `%s`\n", arg);
       }
 
       arguments->num = num;
