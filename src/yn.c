@@ -2,18 +2,17 @@
 #include <ctype.h>
 #include <jeff/jdie.h>
 #include <jeff/jmemory.h>
+#include <jeff/jtypes.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <yn.h>
 
-#include "jeff/jtypes.h"
-
 const char *argp_program_version = "yn 1.0";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "An easy \"Yes/No\" prompt.";
-static char args_doc[] = "[-N] [-c INT] [<X>] [-t TRIES]";
+static char args_doc[] = "[-N] [-c CODE] [-t TRIES] [PROMPT [...]]";
 static argp_option_t options[] = {
   { "exit-code", 'c', "CODE", 0, "The desired failure exit code", 0 },
   { "invert", 'N', 0, 0, "Invert the default result from pressing `\\n` only", 0 },
@@ -31,6 +30,8 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   size_t len;
   j_ullong throws;
   jbool digit = JTRUE;
+
+  char *default_msg = "Confirm?";
 
   switch (key) {
     case 'c':
@@ -98,15 +99,19 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       }
 
       if (NULL_PTR(arguments->args)) {
-        arguments->args = CALLOC(char, len + 1);
-        stpcpy(arguments->args, arg);
+        arguments->args = MALLOC(char *);
+      } else {
+        arguments->args = REALLOC(arguments->args, char *, arguments->n_args + 1);
       }
+      arguments->args[arguments->n_args] = arg;
+      arguments->n_args++;
       break;
 
     case ARGP_KEY_END:
       if (NULL_PTR(arguments->args)) {
-        arguments->args = CALLOC(char, 9);
-        stpcpy(arguments->args, "Confirm?");
+        arguments->args = MALLOC(char *);
+        arguments->args[0] = default_msg;
+        arguments->n_args = 1;
       }
       break;
 
@@ -118,14 +123,19 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
-static void prompt(char *restrict msg, const jbool negative) {
-  printf("%s [%s]: ", msg, (!negative) ? "Y/n" : "y/N");
+static void prompt(char **restrict msg, const size_t n, const jbool negative) {
+  for (size_t i = 0; i < n; i++) {
+    printf("%s ", msg[i]);
+  }
+
+  printf("[%s]: ", (!negative) ? "Y/n" : "y/N");
 }
 
 static arg_data init_args(void) {
   arg_data arguments = {
     .invert = JFALSE,
     .args = NULL,
+    .n_args = 0,
     .code = 1,
     .tries = 3,
   };
@@ -140,7 +150,7 @@ static void gc_exit(arg_data *arguments, const int code, char *const msg) {
 
 void yes_no(arg_data *arguments) {
   int code = arguments->code;
-  char *args = arguments->args;
+  size_t nargs = arguments->n_args;
   j_ullong tries = arguments->tries;
   jbool invert = arguments->invert, prev = JFALSE;
   jbool unlimited_tries = (tries > 0) ? JFALSE : JTRUE;
@@ -148,7 +158,7 @@ void yes_no(arg_data *arguments) {
 
   tries = (unlimited_tries) ? 1 : tries - 1;
 
-  prompt(args, invert);
+  prompt(arguments->args, arguments->n_args, invert);
   while ((in = getchar())) {
     switch (in) {
       case 'N':
@@ -161,15 +171,16 @@ void yes_no(arg_data *arguments) {
 
       case '\n':
       case '\r':
-        if (!unlimited_tries && tries == 0) {
-          gc_exit(arguments, 1, NULL);
-        } else if (!unlimited_tries) {
-          tries--;
-        }
         if (!prev) {
           gc_exit(arguments, invert ? code : 0, NULL);
         }
-        prompt(args, invert);
+        if (!unlimited_tries) {
+          if (!tries) {
+            gc_exit(arguments, code, NULL);
+          }
+          tries--;
+        }
+        prompt(arguments->args, arguments->n_args, invert);
         prev = JFALSE;
         break;
 
