@@ -13,10 +13,11 @@
 const char *argp_program_version = "yn 1.0";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "An easy \"Yes/No\" prompt.";
-static char args_doc[] = "[-N] [-c INT] [<X>]";
+static char args_doc[] = "[-N] [-c INT] [<X>] [-t TRIES]";
 static argp_option_t options[] = {
   { "exit-code", 'c', "CODE", 0, "The desired failure exit code", 0 },
   { "invert", 'N', 0, 0, "Invert the default result from pressing `\\n` only", 0 },
+  { "num-tries", 't', "TRIES", 0, "Set the maximum amount of tries, set to 0 for unlimited tries (default: `3`)", 0 },
   { 0 },
 };
 
@@ -59,6 +60,33 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       arguments->code = (num != JFALSE) ? num : JTRUE;
       break;
 
+    case 't':
+      for (x = arg; *x; x++) {
+        if (!isdigit(*x)) {
+          digit = JFALSE;
+          break;
+        }
+      }
+
+      len = strlen(arg);
+      if (!digit || len == 0) {
+        if (!NULL_PTR(arguments->args)) {
+          free(arguments->args);
+        }
+        vdie(1, "Bad argument for `-t`: `%s`\n", arg);
+      }
+
+      num = strtol(arg, &p, 10);
+
+      if (num < 0) {
+        if (!NULL_PTR(arguments->args)) {
+          free(arguments->args);
+        }
+        vdie(1, "Invalid number of tries: `%ld`\n", num);
+      }
+      arguments->tries = (j_ullong)num;
+      break;
+
     case 'N':
       arguments->invert = JTRUE;
       break;
@@ -99,6 +127,7 @@ static arg_data init_args(void) {
     .invert = JFALSE,
     .args = NULL,
     .code = 1,
+    .tries = 3,
   };
 
   return arguments;
@@ -112,8 +141,13 @@ static void gc_exit(arg_data *arguments, const int code, char *const msg) {
 void yes_no(arg_data *arguments) {
   int code = arguments->code;
   char *args = arguments->args;
+  j_ullong tries = arguments->tries;
   jbool invert = arguments->invert, prev = JFALSE;
+  jbool unlimited_tries = (tries > 0) ? JFALSE : JTRUE;
   char in;
+
+  tries = (unlimited_tries) ? 1 : tries - 1;
+
   prompt(args, invert);
   while ((in = getchar())) {
     switch (in) {
@@ -127,6 +161,11 @@ void yes_no(arg_data *arguments) {
 
       case '\n':
       case '\r':
+        if (!unlimited_tries && tries == 0) {
+          gc_exit(arguments, 1, NULL);
+        } else if (!unlimited_tries) {
+          tries--;
+        }
         if (!prev) {
           gc_exit(arguments, invert ? code : 0, NULL);
         }

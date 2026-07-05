@@ -11,6 +11,7 @@ struct arguments {
   jbool invert;
   int code;
   char *args;
+  j_ullong tries;
 };
 
 typedef struct arguments arg_data;
