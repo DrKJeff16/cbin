@@ -46,6 +46,37 @@ static argp_option_t options[] = {
   { 0 },
 };
 
+void ndice_remove(ndice_t *ndice, const size_t index) {
+  if (NULL_PTR(ndice) || ndice_len(ndice) == 0 || ndice_len(ndice) - 1 < index) {
+    return;
+  }
+
+  ndice_t *p = ndice_start(ndice);
+
+  while (p->idx != index && !NULL_PTR(p)) {
+    p = ndice_next(p);
+  }
+  if (NULL_PTR(p)) {
+    return;
+  }
+  ndice_t *res = p;
+  if (!NULL_PTR(p->next)) {
+    p->prev->next = p->next;
+    p->next->prev = p->prev;
+
+    do {
+      p = ndice_next(p);
+      p->idx--;
+    } while (!NULL_PTR(p->next));
+  } else {
+    p->prev->next = NULL;
+  }
+
+  ndice = p;
+  free(res->value);
+  free(res);
+}
+
 ndice_t *ndice_start(ndice_t *const ndice) {
   if (NULL_PTR(ndice)) {
     return NULL;
@@ -338,7 +369,6 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
     case ARGP_KEY_ARG:
       arguments->n_args++;
-
       arguments->args = (arguments->n_args == 1) ? MALLOC(char *) : REALLOC(arguments->args, char *, arguments->n_args);
       arguments->args[arguments->n_args - 1] = arg;
       break;
@@ -411,14 +441,14 @@ int main(int argc, char **argv) {
   ndice_t *p = ndice_start(ndice);
   ndice_t *res = NULL;
   while (!NULL_PTR(p)) {
-    printf("%llu  ===>  %llu\n", p->idx, p->n_landings);
+    printf("%s  ===>  %llu\n", p->value, p->n_landings);
     if (NULL_PTR(res) || p->n_landings > res->n_landings) {
       res = p;
     }
     p = ndice_next(p);
   }
 
-  printf("%llu\n", res->idx);
+  printf("Length: %lu\tValue: %s\n", ndice_len(res), res->value);
 
   ndice_wipe(ndice);
   return 0;

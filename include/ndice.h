@@ -43,10 +43,11 @@ ndice_t *ndice_end(ndice_t *const ndice);
 ndice_t *ndice_index(ndice_t *const ndice, const size_t index);
 ndice_t *ndice_next(ndice_t *const ndice);
 ndice_t *ndice_prev(ndice_t *const ndice);
+ndice_t *ndice_pop(ndice_t *ndice);
+void ndice_remove(ndice_t *ndice, const size_t index);
 
 size_t ndice_len(ndice_t *const ndice);
 
-ndice_t *ndice_pop(ndice_t *ndice);
 void ndice_insert(ndice_t *ndice, ndice_t *const new_ndice, const size_t index);
 void ndice_append(ndice_t *ndice, ndice_t *const new_ndice);
 
