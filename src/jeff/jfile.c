@@ -1,8 +1,7 @@
 #include <jeff/jfile.h>
 #include <jeff/jmemory.h>
+#include <jeff/jtypes.h>
 #include <sys/stat.h>
-
-#include "jeff/jtypes.h"
 
 jbool is_file(const char *restrict path) {
   if (NULL_PTR(path)) {

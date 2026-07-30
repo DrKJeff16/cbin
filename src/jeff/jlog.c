@@ -3,13 +3,12 @@
 #include <jeff/jerr.h>
 #include <jeff/jlog.h>
 #include <jeff/jmemory.h>
+#include <jeff/jtypes.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
-
-#include "jeff/jtypes.h"
 
 int fdlog(int fd, char *const msg) {
   if (fd < 0) {

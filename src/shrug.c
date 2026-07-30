@@ -5,12 +5,11 @@
 #include <jeff/jmemory.h>
 #include <jeff/jrandom.h>
 #include <jeff/jstring.h>
+#include <jeff/jtypes.h>
 #include <shrug.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "jeff/jtypes.h"
 
 const char *argp_program_version = "shrug 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";

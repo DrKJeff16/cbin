@@ -3,11 +3,10 @@
 #include <jeff/jmemory.h>
 #include <jeff/jrandom.h>
 #include <jeff/jswap.h>
+#include <jeff/jtypes.h>
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
-
-#include "jeff/jtypes.h"
 
 void j_seed(const jbool *const force) {
   if (seeded && (NULL_PTR(force) || !(*force))) {
