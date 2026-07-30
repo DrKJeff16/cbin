@@ -8,7 +8,7 @@ extern "C" {
 #include <jeff/jtypes.h>
 
 /**
- * @struct arguments
+ * \struct arguments
  */
 struct arguments {
   jbool urandom;  ///< Toggles the usage of `/dev/urandom` instead of `/dev/random`.
@@ -21,7 +21,12 @@ struct arguments {
 };
 
 /**
- * @struct coin
+ * \brief The typedef for the `arguments` struct.
+ */
+typedef struct arguments arg_data;
+
+/**
+ * \struct coin
  */
 struct coin {
   j_ullong TAILS;  ///< The amount of times the "coin" lands on "tails"
@@ -29,56 +34,51 @@ struct coin {
 };
 
 /**
- * @brief The typedef for the `arguments` struct.
- */
-typedef struct arguments arg_data;
-
-/**
- * @brief The typedef for the `coin` struct.
+ * \brief The typedef for the `coin` struct.
  */
 typedef struct coin coin_t;
 
 /**
- * @brief The amount of times a random toss is made given the file descriptor.
- * @param fd[in] The file descriptor pointing to either `/dev/random` or `/dev/urandom`.
- * @return Whether the coin tossed to "heads" (0) or "tails" (1).
+ * \brief The amount of times a random toss is made given the file descriptor.
+ * \param fd[in] The file descriptor pointing to either `/dev/random` or `/dev/urandom`.
+ * \return Whether the coin tossed to "heads" (0) or "tails" (1).
  */
 jbool fd_toss(const int fd);
 
 /**
- * @brief Initialize the coin choices pointer.
- * @return The `coin_t` type pointer (heap).
+ * \brief Initialize the coin choices pointer.
+ * \return The `coin_t` type pointer (heap).
  */
 coin_t *init_coin(void);
 
 /**
- * @brief With the given `result` increment the corresponding `coin_t` struct element.
- * @param result[in] Either 0 ("heads") or 1 ("tails").
- * @param c[in] The `coin` struct pointer.
+ * \brief With the given `result` increment the corresponding `coin_t` struct element.
+ * \param result[in] Either 0 ("heads") or 1 ("tails").
+ * \param c[in] The `coin` struct pointer.
  */
 void decide(const jbool result, coin_t *c);
 
 /**
- * @brief After multiple runs decide what side of the given coin will be printed.
- * @param fd[in] The random file descriptor.
- * @param coin[in] The coin struct pointer.
- * @param choices[in] The 2-sized string array with the text for either coin side.
- * @param total[in] The string array with all the total results for each run.
- * @param n[in] The size of `total`.
+ * \brief After multiple runs decide what side of the given coin will be printed.
+ * \param fd[in] The random file descriptor.
+ * \param coin[in] The coin struct pointer.
+ * \param choices[in] The 2-sized string array with the text for either coin side.
+ * \param total[in] The string array with all the total results for each run.
+ * \param n[in] The size of `total`.
  */
 void verdict(const int fd, coin_t *coin, char *choices[2], char **total, const size_t n);
 
 /**
- * @brief Print each string from the total strings array.
- * @param choices[in] The 2-sized string array with the text for either coin side.
- * @param total[in] The string array with all the total results for each run.
- * @param n[in] The size of `total`.
+ * \brief Print each string from the total strings array.
+ * \param choices[in] The 2-sized string array with the text for either coin side.
+ * \param total[in] The string array with all the total results for each run.
+ * \param n[in] The size of `total`.
  */
 void show_total(char *choices[2], char **total, size_t n);
 
 /**
- * @brief Initialize the `arg_data` struct with the default values.
- * @return The `arguments` struct type.
+ * \brief Initialize the `arg_data` struct with the default values.
+ * \return The `arguments` struct type.
  */
 static arg_data init_args(void);
 
