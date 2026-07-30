@@ -2,10 +2,9 @@
 #include <jeff/jerr.h>
 #include <jeff/jmemory.h>
 #include <jeff/jstring.h>
+#include <jeff/jtypes.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "jeff/jtypes.h"
 
 jbool str_startswith(char *const str, char *const start) {
   if (NULL_PTR(str) || NULL_PTR(start) || strlen(str) >= strlen(start)) {

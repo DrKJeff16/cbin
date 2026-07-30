@@ -3,10 +3,9 @@
 #include <jeff/jinput.h>
 #include <jeff/jmemory.h>
 #include <jeff/jstring.h>
+#include <jeff/jtypes.h>
 #include <stdio.h>
 #include <string.h>
-
-#include "jeff/jtypes.h"
 
 char *buffer_get(char *const msg, size_t *const buf_len) {
   size_t len = 0;

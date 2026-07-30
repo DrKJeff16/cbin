@@ -1,9 +1,8 @@
 #include <jeff/jhash.h>
 #include <jeff/jmemory.h>
+#include <jeff/jtypes.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "jeff/jtypes.h"
 
 void init_jhash(jhash_t *node, char *key, char *value) {
   node->key = key;
