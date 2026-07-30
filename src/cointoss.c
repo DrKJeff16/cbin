@@ -25,6 +25,21 @@ static argp_option_t options[] = {
   { 0 },
 };
 
+jbool in_arr(char *arr[2], char *const word) {
+  jbool result = JFALSE;
+  if (!NULL_PTR(word)) {
+    for (size_t i = 0; i < 2; i++) {
+      if (NULL_PTR(arr[i])) {
+        break;
+      }
+      if (strcmp(arr[i], word) == 0) {
+        result = JTRUE;
+      }
+    }
+  }
+  return result;
+}
+
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   /* Get the input argument from argp_parse, which we
      know is a pointer to our arguments structure. */
@@ -53,14 +68,20 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
     case ARGP_KEY_ARG:
       if (arguments->n_args < 2) {
-        arguments->args[arguments->n_args] = arg;
-        arguments->n_args++;
+        jbool is_in_arr = in_arr(arguments->args, arg);
+        if (!is_in_arr) {
+          arguments->args[arguments->n_args] = arg;
+          arguments->n_args++;
+        }
       }
       break;
 
     case ARGP_KEY_END:
-      if (arguments->n_args == 1) {
-        argp_failure(state, 1, 0, "%s %s\n", "Can't accept a single positional parameter.",
+      if (arguments->n_args == 0) {
+        arguments->args[0] = "HEADS";
+        arguments->args[1] = "TAILS";
+      } else if (arguments->n_args == 1) {
+        argp_failure(state, 1, 0, "%s\n%s\n", "Can't accept a single positional parameter.",
                      "See --help for more information.");
         die(1, NULL);
       }
@@ -146,8 +167,8 @@ static arg_data init_args(void) {
     .verbose = JFALSE,
     .count = 1,
     .rep = 1000000,
-    .args[0] = "HEADS",
-    .args[1] = "TAILS",
+    .args[0] = NULL,
+    .args[1] = NULL,
   };
 
   return arguments;

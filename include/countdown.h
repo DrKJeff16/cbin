@@ -8,7 +8,7 @@ extern "C" {
 #include <jeff/jtypes.h>
 
 /**
- * @struct arguments
+ * \struct arguments
  */
 struct arguments {
   jbool verbose;    ///< Enables verbose mode.
@@ -25,9 +25,9 @@ struct arguments {
 typedef struct arguments arg_data;
 
 /**
- * @brief Generate the range from `num` to 0.
- * @param num[in] The starting point.
- * @returns The array of steps to be made.
+ * \brief Generate the range from `num` to 0.
+ * \param num[in] The starting point.
+ * \return The array of steps to be made.
  */
 j_uint *gen_range(const j_uint num);
 

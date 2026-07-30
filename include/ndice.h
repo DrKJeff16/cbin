@@ -8,7 +8,7 @@ extern "C" {
 #include <jeff/jtypes.h>
 
 /**
- * @struct arguments
+ * \struct arguments
  */
 struct arguments {
   jbool urandom;      ///< Toggles the usage of `/dev/urandom` instead of `/dev/random`.
@@ -19,7 +19,7 @@ struct arguments {
 };
 
 /**
- * @brief The typedef for the `arguments` struct.
+ * \brief The typedef for the `arguments` struct.
  */
 typedef struct arguments arg_data;
 
@@ -57,8 +57,8 @@ void ndice_wipe(ndice_t *ndice);
 void ndice_throw(ndice_t *ndice, const jbool urandom);
 
 /**
- * @brief Initialize the `arg_data` struct with the default values.
- * @return The `arguments` struct type.
+ * \brief Initialize the `arg_data` struct with the default values.
+ * \return The `arguments` struct type.
  */
 static arg_data init_args(void);
 
