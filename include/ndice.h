@@ -35,7 +35,11 @@ typedef struct ndice ndice_t;
 
 static void seed_dice(void);
 
-ndice_t *new_ndice(ndice_t *const main_ndice, char *const value);
+/**
+ * \brief Generate a new dice element to the main dice struct
+ * \param main_ndice[in] The dice struct to add the dice to.
+ * \param value[in] The string value of the new element.
+ */
 ndice_t *gen_full_ndice(char *const values);
 
 ndice_t *ndice_start(ndice_t *const ndice);
