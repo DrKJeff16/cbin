@@ -1,6 +1,7 @@
 #include <argp.h>
 #include <ctype.h>
 #include <jeff/jdie.h>
+#include <jeff/jerr.h>
 #include <jeff/jmemory.h>
 #include <jeff/jtypes.h>
 #include <signal.h>
@@ -15,19 +16,25 @@ static char doc[] = "An easy \"Yes/No\" prompt.";
 static char args_doc[] = "[-N] [-c CODE] [-t TRIES] [PROMPT [...]]";
 static argp_option_t options[] = {
   { "exit-code", 'c', "CODE", 0, "The desired failure exit code", 0 },
-  { "invert", 'N', 0, 0, "Invert the default result from pressing `\\n` only", 0 },
+  { "invert", 'I', 0, 0, "Invert the default result from pressing `\\n` only", 0 },
   { "num-tries", 't', "TRIES", 0, "Set the maximum amount of tries, set to 0 for unlimited tries (default: `3`)", 0 },
   { 0 },
 };
+
+static void gc_exit(arg_data *arguments, const int code) {
+  if (!NULL_PTR(arguments->args)) {
+    free(arguments->args);
+  }
+  die(code, NULL);
+}
 
 /* Parse a single option. */
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   /* Get the input argument from argp_parse, which we
      know is a pointer to our arguments structure. */
   arg_data *arguments = state->input;
-  char *p, *x;
+  char *p;
   long num;
-  size_t len;
   j_ullong throws;
   jbool digit = JTRUE;
 
@@ -35,76 +42,60 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
   switch (key) {
     case 'c':
-      len = strlen(arg);
-      for (x = arg; *x; x++) {
+      for (char *x = arg; *x; x++) {
         if (!isdigit(*x)) {
           digit = JFALSE;
           break;
         }
       }
 
-      if (!digit || len == 0) {
-        if (!NULL_PTR(arguments->args)) {
-          free(arguments->args);
-        }
-        vdie(1, "Bad argument for `-c`: `%s`\n", arg);
+      if (!digit || strlen(arg) == 0) {
+        j_verr("Bad argument for `-c`: `%s`\n", arg);
+        gc_exit(arguments, 1);
       }
 
       num = strtol(arg, &p, 10);
 
-      if (num > 239) {
-        if (!NULL_PTR(arguments->args)) {
-          free(arguments->args);
-        }
-        vdie(1, "You've exceeded the max shell exit code (`239`): `%ld`\n", num);
+      if (num > YN_MAX_EC) {
+        j_verr("You've exceeded the max shell exit code (`%d`): `%ld`\n", YN_MAX_EC, num);
+        gc_exit(arguments, 1);
       }
       arguments->code = (num != JFALSE) ? num : JTRUE;
       break;
 
     case 't':
-      for (x = arg; *x; x++) {
+      for (char *x = arg; *x; x++) {
         if (!isdigit(*x)) {
           digit = JFALSE;
           break;
         }
       }
 
-      len = strlen(arg);
-      if (!digit || len == 0) {
-        if (!NULL_PTR(arguments->args)) {
-          free(arguments->args);
-        }
-        vdie(1, "Bad argument for `-t`: `%s`\n", arg);
+      if (!digit || strlen(arg) == 0) {
+        j_verr("Bad argument for `-t`: `%s`\n", arg);
+        gc_exit(arguments, 1);
       }
 
       num = strtol(arg, &p, 10);
 
       if (num < 0) {
-        if (!NULL_PTR(arguments->args)) {
-          free(arguments->args);
-        }
-        vdie(1, "Invalid number of tries: `%ld`\n", num);
+        j_verr("Invalid number of tries: `%ld`\n", num);
+        gc_exit(arguments, 1);
       }
       arguments->tries = (j_ullong)num;
       break;
 
-    case 'N':
+    case 'I':
       arguments->invert = JTRUE;
       break;
 
     case ARGP_KEY_ARG:
-      len = strlen(arg);
-      if (!len) {
-        break;
+      if (strlen(arg) != 0) {
+        arguments->args =
+          (NULL_PTR(arguments->args)) ? MALLOC(char *) : REALLOC(arguments->args, char *, arguments->n_args + 1);
+        arguments->args[arguments->n_args] = arg;
+        arguments->n_args++;
       }
-
-      if (NULL_PTR(arguments->args)) {
-        arguments->args = MALLOC(char *);
-      } else {
-        arguments->args = REALLOC(arguments->args, char *, arguments->n_args + 1);
-      }
-      arguments->args[arguments->n_args] = arg;
-      arguments->n_args++;
       break;
 
     case ARGP_KEY_END:
@@ -143,11 +134,6 @@ static arg_data init_args(void) {
   return arguments;
 }
 
-static void gc_exit(arg_data *arguments, const int code, char *const msg) {
-  free(arguments->args);
-  die(code, msg);
-}
-
 void yes_no(arg_data *arguments) {
   int code = arguments->code;
   size_t nargs = arguments->n_args;
@@ -163,20 +149,20 @@ void yes_no(arg_data *arguments) {
     switch (in) {
       case 'N':
       case 'n':
-        gc_exit(arguments, code, NULL);
+        gc_exit(arguments, code);
 
       case 'Y':
       case 'y':
-        gc_exit(arguments, 0, NULL);
+        gc_exit(arguments, 0);
 
       case '\n':
       case '\r':
         if (!prev) {
-          gc_exit(arguments, invert ? code : 0, NULL);
+          gc_exit(arguments, invert ? code : 0);
         }
         if (!unlimited_tries) {
           if (!tries) {
-            gc_exit(arguments, code, NULL);
+            gc_exit(arguments, code);
           }
           tries--;
         }
