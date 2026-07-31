@@ -150,7 +150,7 @@ ndice_t *new_ndice(ndice_t *const main_ndice, char *const value) {
     ndice->next = NULL;
 
     ndice->value = CALLOC(char, strlen(value) + 1);
-    stpcpy(ndice->value, value);
+    strcpy(ndice->value, value);
 
     return ndice;
   }
@@ -166,9 +166,8 @@ ndice_t *new_ndice(ndice_t *const main_ndice, char *const value) {
   next->prev = ndice;
   next->next = NULL;
 
-  next->value = value;
   next->value = CALLOC(char, strlen(value) + 1);
-  stpcpy(next->value, value);
+  strcpy(next->value, value);
 
   ndice->next = next;
 
@@ -259,7 +258,7 @@ ndice_t *ndice_pop(ndice_t *ndice) {
   memcpy(res, p, sizeof(ndice_t));
 
   res->value = CALLOC(char, strlen(p->value) + 1);
-  stpcpy(res->value, p->value);
+  strcpy(res->value, p->value);
 
   free(p->value);
   free(p);
@@ -404,7 +403,7 @@ int main(int argc, char **argv) {
   if (arguments.n_args > 0) {
     for (size_t i = 0; i < arguments.n_args; i++) {
       char *mid = CALLOC(char, strlen(arguments.args[i]) + ((i < arguments.n_args - 1) ? 2 : 1));
-      stpcpy(mid, arguments.args[i]);
+      strcpy(mid, arguments.args[i]);
 
       if (i < arguments.n_args - 1) {
         strcat(mid, " ");
@@ -420,7 +419,7 @@ int main(int argc, char **argv) {
     }
   } else {
     value = CALLOC(char, 12);
-    stpcpy(value, "1 2 3 4 5 6");
+    strcpy(value, "1 2 3 4 5 6");
   }
 
   ndice_t *ndice = gen_full_ndice(value);
