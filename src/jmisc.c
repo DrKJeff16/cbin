@@ -1,11 +1,9 @@
 #include <argp.h>
-#include <jeff/jdie.h>
 #include <jeff/jmemory.h>
 #include <jeff/jtypes.h>
 #include <jmisc.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 const char *argp_program_version = "jmisc 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";

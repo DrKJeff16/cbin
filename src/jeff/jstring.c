@@ -18,7 +18,6 @@ jbool str_startswith(char *const str, char *const start) {
       break;
     }
   }
-
   return status;
 }
 

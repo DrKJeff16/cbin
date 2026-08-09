@@ -1,6 +1,5 @@
 #include <errno.h>
 #include <jeff/jerr.h>
-#include <jeff/jmemory.h>
 #include <jeff/jrandom.h>
 #include <jeff/jswap.h>
 #include <jeff/jtypes.h>
@@ -8,13 +7,11 @@
 #include <time.h>
 #include <unistd.h>
 
-void j_seed(const jbool *const force) {
-  if (seeded && (NULL_PTR(force) || !(*force))) {
-    return;
+void j_seed(const jbool force) {
+  if (!seeded || force) {
+    srand(time(NULL));
+    seeded = JTRUE;
   }
-
-  srand(time(NULL));
-  seeded = JTRUE;
 }
 
 j_ullong fd_urand(const int fd, j_ullong min, j_ullong max) {

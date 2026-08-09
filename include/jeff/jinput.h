@@ -8,7 +8,7 @@ extern "C" {
 #include <jeff/jtypes.h>
 #include <stddef.h>
 
-char *buffer_get(char *const msg, size_t *const buf_len);
+char *buffer_get(char *const msg, const size_t buf_len);
 
 #if defined(__cplusplus)
 }

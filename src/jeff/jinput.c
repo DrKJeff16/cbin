@@ -3,17 +3,16 @@
 #include <jeff/jinput.h>
 #include <jeff/jmemory.h>
 #include <jeff/jstring.h>
-#include <jeff/jtypes.h>
 #include <stdio.h>
 #include <string.h>
 
-char *buffer_get(char *const msg, size_t *const buf_len) {
+char *buffer_get(char *const msg, const size_t buf_len) {
   size_t len = 0;
 
-  if (NULL_PTR(buf_len)) {
+  if (!buf_len) {
     len = 1024;
   } else {
-    len = *buf_len;
+    len = buf_len;
   }
 
   if (!len) {
@@ -23,8 +22,7 @@ char *buffer_get(char *const msg, size_t *const buf_len) {
   len++;
 
   char *res = CALLOC(char, len);
-
-  for (j_ulong i = 0; i < len; i++) {
+  for (size_t i = 0; i < len; i++) {
     res[i] = '\0';
   }
 
@@ -40,7 +38,6 @@ char *buffer_get(char *const msg, size_t *const buf_len) {
     res[len] = '\0';
   } else {
     size_t new_len = strnlen(res, len);
-
     if (new_len < len) {
       res = REALLOC(res, char, new_len);
       str_append_nul(res);

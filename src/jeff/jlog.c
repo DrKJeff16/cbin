@@ -15,12 +15,10 @@ int fdlog(int fd, char *const msg) {
     j_errno_verr(EBADFD, "(fdlog): %s (%d)\n", "Invalid file descriptor", fd);
     return fd;
   }
-
   if (NULL_PTR(msg)) {
     j_errno_verr(EINVAL, "(fdlog): %s\n", "NULL format string");
     return fd;
   }
-
   return write(fd, msg, strlen(msg) + 1);
 }
 
@@ -29,11 +27,8 @@ int vfdlog(int fd, char *const fmt, ...) {
     j_errno_verr(EBADFD, "(vfdlog): %s (%d)\n", "Invalid file descriptor", fd);
     return -1;
   }
-
   if (NULL_PTR(fmt)) {
-    j_errno_verr(EINVAL,
-                 "(vfdlog): %s\n"
-                 "NULL format string");
+    j_errno_verr(EINVAL, "(vfdlog): %s\n", "NULL format string");
     return -1;
   }
 
@@ -50,7 +45,6 @@ int log_to_file(char *const path, char *const msg, const jbool need_fd) {
     j_errno_verr(EINVAL, "(log_to_file): %s\n", "File path points to NULL");
     return -1;
   }
-
   if (NULL_PTR(msg)) {
     j_errno_verr(EINVAL, "(log_to_file): %s\n", "No message was given to log");
     return -1;
@@ -63,25 +57,19 @@ int log_to_file(char *const path, char *const msg, const jbool need_fd) {
   }
 
   int write_d = write(logfile_fd, msg, strlen(msg) + 1);
-
   if (write_d < 0) {
     j_errno_verr(EIO, "(log_to_file): Unable to write log to file: `%s` (%d)\n", path, write_d);
     close(logfile_fd);
     return -1;
   }
 
-  if (need_fd) {
-    return logfile_fd;
-  }
-
   int close_d = close(logfile_fd);
-
   if (close_d < 0) {
     j_errno_verr(ENOTTY, "(log_to_file): Unable to close file descriptor for `%s` (%d)\n", path, close_d);
     return -1;
   }
 
-  return 0;
+  return (need_fd) ? logfile_fd : 0;
 }
 
 /* vim: set ts=2 sts=2 sw=2 et ai si sta: */
