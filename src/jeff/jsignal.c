@@ -6,15 +6,12 @@
 #include <stdlib.h>
 
 void sig_bootstrap(int *sigs, const size_t n, void (*fun)(const int)) {
-  if (NULL_PTR(sigs) || !n) {
-    return;
+  if (!NULL_PTR(sigs) && n) {
+    for (size_t i = 0; i < n; i++) {
+      signal(sigs[i], fun);
+    }
+    free(sigs);
   }
-
-  for (size_t i = 0; i < n; i++) {
-    signal(sigs[i], fun);
-  }
-
-  free(sigs);
 }
 
 void sig_handler(const int sig) {

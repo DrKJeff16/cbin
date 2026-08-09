@@ -10,7 +10,7 @@ extern "C" {
 static jbool seeded = JFALSE;
 
 j_ullong fd_urand(const int fd, j_ullong min, j_ullong max);
-void j_seed(const jbool *const force);
+void j_seed(const jbool force);
 
 #if defined(__cplusplus)
 }
