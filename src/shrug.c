@@ -14,77 +14,79 @@
 const char *argp_program_version = "shrug 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Print useful ASCII art emotions.";
-static char args_doc[] = "[-L] [-m] [-r] [-z] [<EMOTION>]";
+static char args_doc[] = "[-l] [-m] [-r] [-z] [<EMOTION>]";
 static argp_option_t options[] = {
-  { "zero", 'z', 0, 0, "Terminate with a zero char instead", 0 },
-  { "random", 'r', 0, 0, "Print a random emotion", 0 },
-  { "list", 'L', 0, 0, "List all the available emotions", 1 },
+  { "list", 'l', 0, 0, "List all the available emotions", 1 },
   { "markdown", 'm', 0, 0, "Print the output to support Markdown format", 1 },
+  { "random", 'r', 0, 0, "Print a random emotion", 0 },
+  { "zero", 'z', 0, 0, "Terminate with a zero char instead", 0 },
   { 0 },
 };
 
 char *emotions(const jbool list, const jbool md, const emotions_idx idx) {
+  char *emotion = NULL;
   switch (idx) {
     case FACEPALM:
-      return (list) ? "facepalm" : "(－‸ლ)";
+      emotion = (list) ? "facepalm" : "(－‸ლ)";
       break;
     case FIGHT:
-      return (list) ? "fight" : "(ง •̀_•́)ง";
+      emotion = (list) ? "fight" : "(ง •̀_•́)ง";
       break;
     case FUCKYOU:
-      return (list) ? "fuckyou" : "┌П┐(ಠ_ಠ)";
+      emotion = (list) ? "fuckyou" : "┌П┐(ಠ_ಠ)";
       break;
     case LENNY:
-      return (list) ? "lenny" : "( ͡° ͜ʖ ͡°)";
+      emotion = (list) ? "lenny" : "( ͡° ͜ʖ ͡°)";
       break;
     case LENNYFIGHT:
-      return (list) ? "lennyfight" : "(ง ͠° ͟ʖ ͡°)ง";
+      emotion = (list) ? "lennyfight" : "(ง ͠° ͟ʖ ͡°)ง";
       break;
     case LENNYSHRUG:
-      return (list) ? "lennyshrug" : ((!md) ? "¯\\_( ͡° ͜ʖ ͡°)_/¯" : "¯\\\\\\_( ͡° ͜ʖ ͡°)\\_/¯");
+      emotion = (list) ? "lennyshrug" : ((!md) ? "¯\\_( ͡° ͜ʖ ͡°)_/¯" : "¯\\\\\\_( ͡° ͜ʖ ͡°)\\_/¯");
       break;
     case LOVE:
-      return (list) ? "love" : "♥‿♥";
+      emotion = (list) ? "love" : "♥‿♥";
       break;
     case MEH:
-      return (list) ? "meh" : "ಠ_ಠ";
+      emotion = (list) ? "meh" : "ಠ_ಠ";
       break;
     case NERD:
-      return (list) ? "nerd" : "(⌐⊙_⊙)";
+      emotion = (list) ? "nerd" : "(⌐⊙_⊙)";
       break;
     case NICE:
-      return (list) ? "nice" : "( ͡° ͜ °)";
+      emotion = (list) ? "nice" : "( ͡° ͜ °)";
       break;
     case OMG:
-      return (list) ? "omg" : "◕_◕";
+      emotion = (list) ? "omg" : "◕_◕";
       break;
     case REALLY:
-      return (list) ? "really" : "ò_ô";
+      emotion = (list) ? "really" : "ò_ô";
       break;
     case SADLENNY:
-      return (list) ? "sadlenny" : "( ͡° ʖ̯ ͡°)";
+      emotion = (list) ? "sadlenny" : "( ͡° ʖ̯ ͡°)";
       break;
     case SHRUG:
-      return (list) ? "shrug" : ((!md) ? "¯\\_(ツ)_/¯" : "¯\\\\\\_(ツ)\\_/¯");
+      emotion = (list) ? "shrug" : ((!md) ? "¯\\_(ツ)_/¯" : "¯\\\\\\_(ツ)\\_/¯");
       break;
     case SMILE:
-      return (list) ? "smile" : "ツ";
+      emotion = (list) ? "smile" : "ツ";
       break;
     case THIS:
-      return (list) ? "this" : ((!md) ? "( ͡° ͜ʖ ͡°)_/¯" : "( ͡° ͜ʖ ͡°)\\_/¯");
+      emotion = (list) ? "this" : ((!md) ? "( ͡° ͜ʖ ͡°)_/¯" : "( ͡° ͜ʖ ͡°)\\_/¯");
       break;
     case TY:
-      return (list) ? "ty" : "\\(^-^)/";
+      emotion = (list) ? "ty" : "\\(^-^)/";
       break;
     case WOO:
-      return (list) ? "woo" : "＼(＾O＾)／";
+      emotion = (list) ? "woo" : "＼(＾O＾)／";
       break;
     case WTF:
-      return (list) ? "wtf" : "(⊙＿⊙')";
+      emotion = (list) ? "wtf" : "(⊙＿⊙')";
       break;
     default:
-      return NULL;
+      break;
   }
+  return emotion;
 }
 
 jbool is_emotion(char *const arg) {
@@ -141,7 +143,7 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   jbool use_lower = JFALSE;
 
   switch (key) {
-    case 'L':
+    case 'l':
       arguments->list = JTRUE;
       break;
 
