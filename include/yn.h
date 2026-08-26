@@ -25,6 +25,8 @@ static void prompt(char **restrict msg, const size_t n, const jbool negative);
 static arg_data init_args(void);
 static void gc_exit(arg_data *arguments, const int code);
 
+static void sig_handler(const int sig);
+
 #if defined(__cplusplus)
 }
 #endif /* __cplusplus */

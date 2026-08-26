@@ -42,6 +42,7 @@ SUBDIRS = $(OBJDIR) \
 .SUFFIXES: .c .o .cpp .c++ .cc. .C .h .hpp .hh .h++ .H .o .so .a
 
 .PHONY: all \
+	all_with_libs \
 	clean \
 	cointoss \
 	countdown \
@@ -71,6 +72,8 @@ SUBDIRS = $(OBJDIR) \
 SHELL = /bin/bash
 
 all: $(ACTIONS)
+
+all_with_libs: libs all
 
 $(JEFF_INCDIR):
 	@mkdir -p $@
@@ -304,6 +307,6 @@ clean:
 	@rm -rf $(OBJDIR)/* *.log *.out
 
 distclean: clean
-	@rm -rf $(BINDIR)/* $(LIBDIR)/* compile_commands.json
+	@rm -rf $(BINDIR)/* $(LIBDIR)/* compile_commands.json doc
 
 # vim: set ts=4 sts=4 sw=0 noet ai si sta:

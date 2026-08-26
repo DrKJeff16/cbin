@@ -20,10 +20,16 @@ typedef struct argp argp_t;
 typedef struct argp_state argp_state_t;
 typedef struct argp_option argp_option_t;
 
+/*! Boolean-like enum */
 enum jbool {
-  JFALSE = 0,
-  JTRUE = 1
+  JFALSE = 0, /*!< Same as FALSE */
+  JTRUE = 1,  /*!< Same as TRUE */
 };
+
+/**
+ * \typedef jbool
+ * \brief Boolean-like enum value type
+ */
 typedef enum jbool jbool;
 
 #if defined(__cplusplus)

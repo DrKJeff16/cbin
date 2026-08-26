@@ -22,7 +22,7 @@ static argp_option_t options[] = {
 };
 
 static void vverbose_print(const jbool verbose, FILE *restrict stream, const char *fmt, ...) {
-  if (!verbose) {
+  if (!verbose || NULL_PTR(fmt)) {
     return;
   }
   if (NULL_PTR(stream)) {
@@ -68,7 +68,7 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       arguments->files = REALLOC(arguments->files, char *, arguments->n_files);
 
       arguments->files[arguments->n_files - 1] = CALLOC(char, strlen(arg) + 1);
-      stpcpy(arguments->files[arguments->n_files - 1], arg);
+      strcpy(arguments->files[arguments->n_files - 1], arg);
       break;
 
     case ARGP_KEY_END:
@@ -119,7 +119,7 @@ int main(int argc, char **argv) {
     while ((read_n = getline(&line, &len, file) != -1)) {
       lines = (NULL_PTR(lines)) ? MALLOC(char *) : REALLOC(lines, char *, l + 1);
       lines[l] = CALLOC(char, strlen(line) + 1);
-      stpcpy(lines[l], line);
+      strcpy(lines[l], line);
 
       l++;
     }
@@ -150,8 +150,10 @@ int main(int argc, char **argv) {
     vverbose_print(arguments.verbose, NULL, "`%s` ==> %zu newlines to be deleted\n", arguments.files[i], n_del);
 
     l -= n_del;
+
     char *all_lines = MALLOC(char);
     *all_lines = '\0';
+
     for (j_ullong j = 0; j < l; j++) {
       size_t all_len = strlen(all_lines) + strlen(lines[j]) + 1;
       char *new_all = CALLOC(char, all_len);
@@ -161,7 +163,7 @@ int main(int argc, char **argv) {
       strcat(new_all, lines[j]);
 
       all_lines = REALLOC(all_lines, char, all_len);
-      stpcpy(all_lines, new_all);
+      strcpy(all_lines, new_all);
       free(new_all);
     }
 
