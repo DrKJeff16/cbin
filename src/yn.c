@@ -124,10 +124,10 @@ static void prompt(char **restrict msg, const size_t n, const jbool negative) {
 
 static arg_data init_args(void) {
   arg_data arguments = {
-    .invert = JFALSE,
     .args = NULL,
-    .n_args = 0,
     .code = 1,
+    .invert = JFALSE,
+    .n_args = 0,
     .tries = 3,
   };
 
@@ -160,10 +160,10 @@ void yes_no(arg_data *arguments) {
         if (!prev) {
           gc_exit(arguments, invert ? code : 0);
         }
+        if (!(unlimited_tries || tries)) {
+          gc_exit(arguments, code);
+        }
         if (!unlimited_tries) {
-          if (!tries) {
-            gc_exit(arguments, code);
-          }
           tries--;
         }
         prompt(arguments->args, arguments->n_args, invert);

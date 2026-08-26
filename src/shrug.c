@@ -24,7 +24,7 @@ static argp_option_t options[] = {
 };
 
 char *emotions(const jbool list, const jbool md, const emotions_idx idx) {
-  char *emotion = NULL;
+  char *emotion;
   switch (idx) {
     case FACEPALM:
       emotion = (list) ? "facepalm" : "(－‸ლ)";
@@ -84,18 +84,21 @@ char *emotions(const jbool list, const jbool md, const emotions_idx idx) {
       emotion = (list) ? "wtf" : "(⊙＿⊙')";
       break;
     default:
+      emotion = NULL;
       break;
   }
   return emotion;
 }
 
 jbool is_emotion(char *const arg) {
+  jbool res = JFALSE;
   for (size_t i = 0; i < N_EMOTIONS; i++) {
     if (!strcmp(emotions(JTRUE, JFALSE, i), arg)) {
-      return JTRUE;
+      res = JTRUE;
+      break;
     }
   }
-  return JFALSE;
+  return res;
 }
 
 emotions_idx map_emotion(char *const str) {

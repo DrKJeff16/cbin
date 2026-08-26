@@ -73,7 +73,7 @@ SHELL = /bin/bash
 
 all: $(ACTIONS)
 
-all_with_libs: all libs
+all_with_libs: libs all
 
 $(JEFF_INCDIR):
 	@mkdir -p $@
@@ -307,6 +307,6 @@ clean:
 	@rm -rf $(OBJDIR)/* *.log *.out
 
 distclean: clean
-	@rm -rf $(BINDIR)/* $(LIBDIR)/* compile_commands.json
+	@rm -rf $(BINDIR)/* $(LIBDIR)/* compile_commands.json doc
 
 # vim: set ts=4 sts=4 sw=0 noet ai si sta:
