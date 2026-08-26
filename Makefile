@@ -42,6 +42,7 @@ SUBDIRS = $(OBJDIR) \
 .SUFFIXES: .c .o .cpp .c++ .cc. .C .h .hpp .hh .h++ .H .o .so .a
 
 .PHONY: all \
+	all_with_libs \
 	clean \
 	cointoss \
 	countdown \
@@ -71,6 +72,8 @@ SUBDIRS = $(OBJDIR) \
 SHELL = /bin/bash
 
 all: $(ACTIONS)
+
+all_with_libs: all libs
 
 $(JEFF_INCDIR):
 	@mkdir -p $@

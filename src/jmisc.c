@@ -4,6 +4,7 @@
 #include <jmisc.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 const char *argp_program_version = "jmisc 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
@@ -56,15 +57,21 @@ int main(int argc, char **argv) {
   arg_data arguments = init_args();
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
-  if (NULL_PTR(arguments.args)) {
-    return 0;
+  if (!NULL_PTR(arguments.args)) {
+    for (size_t i = 0; i < arguments.n_args; i++) {
+      printf("%s\n", arguments.args[i]);
+    }
+
+    free(arguments.args);
   }
 
-  for (size_t i = 0; i < arguments.n_args; i++) {
-    printf("%s\n", arguments.args[i]);
+  char *env_vars[2] = { "FOO", "BAR" };
+  for (size_t i = 0; i < 2; i++) {
+    char *envvar = secure_getenv(env_vars[i]);
+    if (!NULL_PTR(envvar)) {
+      printf("%s: %s\n", env_vars[i], envvar);
+    }
   }
-
-  free(arguments.args);
   return 0;
 }
 

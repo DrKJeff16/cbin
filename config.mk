@@ -40,6 +40,7 @@ CFLAGS = $(CPPFLAGS) \
 		 -Wno-unused \
 		 -g \
 		 -ggdb \
+		 -march=native \
 		 -pedantic \
 		 -pipe \
 		 -pthread \
@@ -60,6 +61,7 @@ CXXFLAGS = $(CPPFLAGS) \
 		   -ftree-vectorize \
 		   -g \
 		   -ggdb \
+		   -march=native \
 		   -pedantic \
 		   -pipe \
 		   -pthread \
@@ -73,6 +75,7 @@ LDFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
 		  -fstack-clash-protection \
 		  -fstack-protector \
 		  -ftree-vectorize \
+		  -lc \
 		  -ljeff
 
 LDXXFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
