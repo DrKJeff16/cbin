@@ -21,7 +21,10 @@ struct arguments {
   char **args;      ///< The positional arguments array.
 };
 
-/** The `arguments` struct typedef */
+/**
+ * \typedef arg_data
+ * \brief The `arguments` struct typedef
+ */
 typedef struct arguments arg_data;
 
 /**
@@ -31,10 +34,20 @@ typedef struct arguments arg_data;
  */
 j_uint *gen_range(const j_uint num);
 
+/**
+ * \brief Make a countdown
+ * \param range[in] Range
+ * \param num[in] The number of iterations
+ * \param duration[in] The duration of the countdown
+ * \param show[in] Whether to show the countdown in the CLI
+ * \param flush[in] Whether to flush the printed text
+ */
 void count_down(const j_uint *const range, const j_uint num, const j_uint duration, const jbool show,
                 const jbool flush);
 
 static arg_data init_args(void);
+
+static void verbose_print(const jbool verbose, const char *txt, FILE *restrict stream);
 
 #if defined(__cplusplus)
 }
