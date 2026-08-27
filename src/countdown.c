@@ -24,7 +24,7 @@ static argp_option_t options[] = {
 };
 
 static void verbose_print(const jbool verbose, const char *txt, FILE *restrict stream) {
-  if (!verbose) {
+  if (!verbose || NULL_PTR(txt)) {
     return;
   }
   if (NULL_PTR(stream)) {
