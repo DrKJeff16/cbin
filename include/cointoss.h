@@ -21,18 +21,18 @@ struct arguments {
 };
 
 /**
- * \typedef arg_data_t
- * \brief The typedef for the `arguments` struct
- */
-typedef struct arguments arg_data_t;
-
-/**
  * \struct coin
  */
 struct coin {
   j_ullong HEADS; /*!< The amount of times the "coin" lands on "heads" */
   j_ullong TAILS; /*!< The amount of times the "coin" lands on "tails" */
 };
+
+/**
+ * \typedef arg_data_t
+ * \brief The typedef for the `arguments` struct
+ */
+typedef struct arguments arg_data_t;
 
 /**
  * \typedef coin_t
@@ -49,14 +49,14 @@ jbool fd_toss(const int fd);
 
 /**
  * \brief Initialize the coin choices pointer
- * \return The `coin_t` type pointer (heap)
+ * \return The `coin_t` type pointer (heap array)
  */
 coin_t *init_coin(void);
 
 /**
  * \brief With the given `result` increment the corresponding `coin_t` struct element
  * \param result Either 0 ("heads") or 1 ("tails")
- * \param c The `coin` struct pointer
+ * \param c The `coin_t` struct pointer
  */
 void decide(const jbool result, coin_t *c);
 
@@ -80,7 +80,7 @@ void show_total(char *choices[2], char **total, size_t n);
 
 /**
  * \brief Initialize the `arg_data_t` struct with the default values
- * \return The `arguments` struct type
+ * \return The `arg_data_t` struct
  */
 static arg_data_t init_args(void);
 
