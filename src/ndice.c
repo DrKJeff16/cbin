@@ -328,7 +328,7 @@ void ndice_wipe(ndice_t *ndice) {
 }
 
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
-  arg_data_t *args = state->input;
+  ndice_arg_t *args = state->input;
   long throws;
   char *p, *x;
   jbool digit = JTRUE, dup = JFALSE;
@@ -405,8 +405,8 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
-static arg_data_t init_args(void) {
-  arg_data_t arguments = {
+static ndice_arg_t init_args(void) {
+  ndice_arg_t arguments = {
     .args = NULL,
     .n_args = 0,
     .n_throws = DEFAULT_THROWS,
@@ -419,7 +419,7 @@ static arg_data_t init_args(void) {
 }
 
 int main(int argc, char **argv) {
-  arg_data_t arguments = init_args();
+  ndice_arg_t arguments = init_args();
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
   char *value = NULL;

@@ -204,94 +204,65 @@ void capitalize(char *str) {
   }
 }
 
-jbool compare_strv(char **const argv, const size_t len) {
-  if (NULL_PTR(argv)) {
-    j_verr("%s\n", "`argv`is NULL");
-    return JFALSE;
-  }
-  if (len < 2) {
-    j_verr("`argv` must be of length 2 or greater (%d)\n", len);
-    return JFALSE;
-  }
-
-  for (size_t i = 1; i < len; i++) {
-    if (!strcmp(argv[0], argv[i])) {
-      return JTRUE;
-    }
-  }
-  return JFALSE;
-}
-
 void reverse_str(char *s) {
-  if (NULL_PTR(s)) {
-    return;
-  }
-
-  size_t l = 0, r = strlen(s) - 1;
-  while (l < r) {
-    char t = s[l];
-    s[l] = s[r];
-    s[r] = t;
-
-    l++;
-    r--;
+  if (!NULL_PTR(s)) {
+    size_t l = 0, r = strlen(s) - 1;
+    while (l < r) {
+      char t = s[l];
+      s[l] = s[r];
+      s[r] = t;
+      l++;
+      r--;
+    }
   }
 }
 
 char *str_reversed(char *const str) {
-  if (NULL_PTR(str)) {
-    return NULL;
+  char *new_str = NULL;
+  if (!NULL_PTR(str)) {
+    char *new_str = CALLOC(char, strlen(str) + 1);
+    strcpy(new_str, str);
+    reverse_str(new_str);
   }
-
-  char *new_str = CALLOC(char, strlen(str) + 1);
-  if (NULL_PTR(stpcpy(new_str, str))) {
-    return NULL;
-  }
-
-  reverse_str(new_str);
-
   return new_str;
 }
 
 void j_lstrip(const char c, char *str) {
   if (NULL_PTR(str)) {
-    die(4, "(j_lstrip): No str to strip!");
+    die(4, "(j_lstrip): No string to strip!");
   }
 
-  size_t len = strlen(str), i = 0;
-  size_t new_len = len;
-  if (c == 0 || !len || NULL_PTR(strchr(str, c))) {
-    return;
-  }
+  size_t len = strlen(str), i = 0, new_len = strlen(str);
+  if (c != 0 && len > 0 && !NULL_PTR(strchr(str, c))) {
+    while (i <= len && str[i] == c) {
+      new_len--;
+      i++;
+    }
 
-  while (i <= len && str[i] == c) {
-    new_len--;
-    i++;
-  }
+    char *new_str = CALLOC(char, new_len + 1);
+    for (i = 0; i <= new_len; i++) {
+      new_str[i] = str[len - new_len + i];
+    }
 
-  char *new_str = CALLOC(char, new_len + 1);
-  for (i = 0; i <= new_len; i++) {
-    new_str[i] = str[len - new_len + i];
-  }
+    new_str[i] = '\0';
 
-  new_str[i] = '\0';
+    str = REALLOC(str, char, new_len + 1);
 
-  str = REALLOC(str, char, new_len + 1);
+    if (NULL_PTR(str)) {
+      free(new_str);
+      free(str);
+      die(2, "(j_lstrip): FAILED TO REALLOCATE str!");
+    }
 
-  if (NULL_PTR(str)) {
+    if (NULL_PTR(stpcpy(str, new_str))) {
+      free(new_str);
+      free(str);
+      die(3, "(j_lstrip): FAILED TO COPY new_str INTO str!");
+    }
+
     free(new_str);
     free(str);
-    die(2, "(j_lstrip): FAILED TO REALLOCATE str!");
   }
-
-  if (NULL_PTR(stpcpy(str, new_str))) {
-    free(new_str);
-    free(str);
-    die(3, "(j_lstrip): FAILED TO COPY new_str INTO str!");
-  }
-
-  free(new_str);
-  free(str);
 }
 
 void j_rstrip(const char c, char *str) {

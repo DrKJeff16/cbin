@@ -24,41 +24,36 @@ static argp_option_t options[] = {
 };
 
 static void verbose_print(const jbool verbose, const char *txt, FILE *restrict stream) {
-  if (!verbose || NULL_PTR(txt)) {
-    return;
+  if (verbose && !NULL_PTR(txt)) {
+    fprintf((NULL_PTR(stream)) ? stdout : stream, "%s\n", txt);
   }
-  if (NULL_PTR(stream)) {
-    stream = stdout;
-  }
-
-  fprintf(stream, "%s\n", txt);
 }
 
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
-  arg_data_t *arguments = state->input;
+  countdown_arg_t *args = state->input;
   char *p, *x;
   long num;
   jbool digit = JTRUE;
   switch (key) {
     case 'v':
-      arguments->verbose = JTRUE;
+      args->verbose = JTRUE;
       break;
 
     case 'f':
-      arguments->flush = JFALSE;
+      args->flush = JFALSE;
       break;
 
     case 'S':
-      if (!NULL_PTR(arguments->sep)) {
-        free(arguments->sep);
+      if (!NULL_PTR(args->sep)) {
+        free(args->sep);
       }
 
-      arguments->sep = CALLOC(char, strlen(arg) + 1);
-      stpcpy(arguments->sep, arg);
+      args->sep = CALLOC(char, strlen(arg) + 1);
+      stpcpy(args->sep, arg);
       break;
 
     case 's':
-      arguments->show = JTRUE;
+      args->show = JTRUE;
       break;
 
     case 'n':
@@ -70,27 +65,27 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       }
 
       if (!digit || strlen(arg) == 0) {
-        if (!NULL_PTR(arguments->args)) {
-          free(arguments->args);
+        if (!NULL_PTR(args->args)) {
+          free(args->args);
         }
-        if (!NULL_PTR(arguments->sep)) {
-          free(arguments->sep);
+        if (!NULL_PTR(args->sep)) {
+          free(args->sep);
         }
         vdie(1, "Invalid: `%s`\n", arg);
       }
 
       num = strtol(arg, &p, 10);
       if (num <= 0) {
-        if (!NULL_PTR(arguments->args)) {
-          free(arguments->args);
+        if (!NULL_PTR(args->args)) {
+          free(args->args);
         }
-        if (!NULL_PTR(arguments->sep)) {
-          free(arguments->sep);
+        if (!NULL_PTR(args->sep)) {
+          free(args->sep);
         }
         vdie(1, "Invalid: `%s`\n", arg);
       }
 
-      arguments->num = num;
+      args->num = num;
       break;
 
     case 'd':
@@ -102,11 +97,11 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       }
 
       if (!digit || strlen(arg) == 0) {
-        if (!NULL_PTR(arguments->args)) {
-          free(arguments->args);
+        if (!NULL_PTR(args->args)) {
+          free(args->args);
         }
-        if (!NULL_PTR(arguments->sep)) {
-          free(arguments->sep);
+        if (!NULL_PTR(args->sep)) {
+          free(args->sep);
         }
         vdie(1, "Invalid: `%s`\n", arg);
         break;
@@ -116,24 +111,20 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       if (num <= 0) {
         num = 1;
       }
-      arguments->duration = num;
+      args->duration = num;
       break;
 
     case ARGP_KEY_ARG:
-      arguments->n_args++;
-      if (NULL_PTR(arguments->args)) {
-        arguments->args = MALLOC(char *);
-      } else {
-        arguments->args = REALLOC(arguments->args, char *, arguments->n_args);
-      }
-      arguments->args[arguments->n_args - 1] = arg;
+      args->n_args++;
+      args->args = (NULL_PTR(args->args)) ? MALLOC(char *) : REALLOC(args->args, char *, args->n_args);
+      args->args[args->n_args - 1] = arg;
       break;
 
     case ARGP_KEY_END:
-      if (NULL_PTR(arguments->sep)) {
-        arguments->sep = CALLOC(char, 2);
-        arguments->sep[0] = '\n';
-        arguments->sep[1] = 0;
+      if (NULL_PTR(args->sep)) {
+        args->sep = CALLOC(char, 2);
+        args->sep[0] = '\n';
+        args->sep[1] = 0;
       }
       break;
 
@@ -148,7 +139,6 @@ j_uint *gen_range(const j_uint num) {
   for (j_uint i = 0; i < num; i++) {
     res[i] = num - i;
   }
-
   return res;
 }
 
@@ -167,8 +157,8 @@ void count_down(const j_uint *const range, const j_uint num, const j_uint durati
   }
 }
 
-static arg_data_t init_args(void) {
-  arg_data_t arguments = {
+static countdown_arg_t init_args(void) {
+  countdown_arg_t arguments = {
     .duration = 1,
     .num = 5,
     .verbose = JFALSE,
@@ -186,7 +176,7 @@ static arg_data_t init_args(void) {
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 int main(int argc, char **argv) {
-  arg_data_t arguments = init_args();
+  countdown_arg_t arguments = init_args();
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
   char *s = CALLOC(char, 1024);

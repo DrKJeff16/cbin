@@ -14,7 +14,7 @@ extern "C" {
 /**
  * \brief Terminate program and optionally print message
  *
- * If exit code is 0 message will be printed to `stdout`. Otherwise it'll be `stderr`
+ * If exit code is 0 the message will be printed to `stdout`, otherwise it'll be `stderr`
  *
  * \param code Exit code
  * \param msg Output string to print before termination. If `NULL` then no message will be printed
@@ -27,8 +27,7 @@ void die(const int code, char *const msg);
  * If exit code is 0 message will be printed to `stdout`. Otherwise it'll be `stderr`
  *
  * \param code Exit code
- * \param fmt Formatted string to print before termination. If `NULL` then no message will be
- * printed
+ * \param fmt Formatted string to print before termination. If `NULL` then no message will be printed
  * \param ...
  */
 void vdie(const int code, char *const fmt, ...);

@@ -7,12 +7,16 @@ extern "C" {
 
 #include <jeff/jtypes.h>
 
+/** \defgroup ndice All elements from ndice
+ * @{
+ */
+
 #define NO_SECTION 0
 
 /**
- * \struct arguments
+ * \struct ndice_args
  */
-struct arguments {
+struct ndice_args {
   char **args;       /*!< An array of strings */
   size_t n_args;     /*!< The number of positional arguments */
   j_ullong n_throws; /*!< The amount of throws to perform */
@@ -33,10 +37,10 @@ struct ndice {
 };
 
 /**
- * \typedef arg_data_t
+ * \typedef ndice_arg_t
  * \brief The typedef for the `arguments` struct.
  */
-typedef struct arguments arg_data_t;
+typedef struct ndice_args ndice_arg_t;
 
 /**
  * \typedef ndice_t
@@ -161,10 +165,10 @@ void ndice_wipe(ndice_t *ndice);
 void ndice_throw(ndice_t *ndice, const jbool urandom);
 
 /**
- * \brief Initialize the `arg_data_t` struct with the default values.
+ * \brief Initialize the `ndice_arg_t` struct with the default values.
  * \return The `arguments` struct type.
  */
-static arg_data_t init_args(void);
+static ndice_arg_t init_args(void);
 
 /**
  * \brief Seed the dice
@@ -179,6 +183,8 @@ static void seed_dice(void);
  * \return Any error number, or none
  */
 static error_t parse_opt(int key, char *arg, argp_state_t *state);
+
+/** @} */
 
 #if defined(__cplusplus)
 }

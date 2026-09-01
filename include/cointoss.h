@@ -7,10 +7,14 @@ extern "C" {
 
 #include <jeff/jtypes.h>
 
-/**
- * \struct arguments
+/** \defgroup cointoss All elements from cointoss
+ * @{
  */
-struct arguments {
+
+/**
+ * \struct cointoss_args
+ */
+struct cointoss_args {
   char *args[2]; /*!< A 2-sized array of strings */
   size_t count;  /*!< The amount of coins to toss */
   size_t n_args; /*!< The number of positional arguments */
@@ -29,10 +33,10 @@ struct coin {
 };
 
 /**
- * \typedef arg_data_t
+ * \typedef cointoss_arg_t
  * \brief The typedef for the `arguments` struct
  */
-typedef struct arguments arg_data_t;
+typedef struct cointoss_args cointoss_arg_t;
 
 /**
  * \typedef coin_t
@@ -79,10 +83,12 @@ void verdict(const int fd, coin_t *coin, char *choices[2], char **total, const s
 void show_total(char *choices[2], char **total, size_t n);
 
 /**
- * \brief Initialize the `arg_data_t` struct with the default values
- * \return The `arg_data_t` struct
+ * \brief Initialize the `cointoss_arg_t` struct with the default values
+ * \return The `cointoss_arg_t` struct
  */
-static arg_data_t init_args(void);
+static cointoss_arg_t init_args(void);
+
+/** @} */
 
 #if defined(__cplusplus)
 }
