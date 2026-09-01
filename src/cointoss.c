@@ -42,7 +42,7 @@ jbool in_arr(char *arr[2], char *const word) {
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   /* Get the input argument from argp_parse, which we
      know is a pointer to our arguments structure. */
-  arg_data *arguments = state->input;
+  arg_data_t *arguments = state->input;
 
   switch (key) {
     case 'u':
@@ -155,8 +155,8 @@ void verdict(const int fd, coin_t *coin, char *choices[2], char **total, const s
   free(coin);
 }
 
-static arg_data init_args(void) {
-  arg_data arguments = {
+static arg_data_t init_args(void) {
+  arg_data_t arguments = {
     .n_args = 0,
     .urandom = JTRUE,
     .total = JFALSE,
@@ -171,7 +171,7 @@ static arg_data init_args(void) {
 }
 
 int main(int argc, char **argv) {
-  arg_data arguments = init_args();
+  arg_data_t arguments = init_args();
 
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 

@@ -5,9 +5,20 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <jeff/jtypes.h>
+#include "jtypes.h"
 
+/** \addtogroup libjeff
+ * @{
+ */
+
+/**
+ * \brief Check if given path string is a file
+ * \param path The file path string
+ * \return Boolean-like that indicates if said file exists
+ */
 jbool is_file(const char *restrict path);
+
+/** @} */
 
 #if defined(__cplusplus)
 }

@@ -5,10 +5,21 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <jeff/jtypes.h>
 #include <stddef.h>
 
+/** \addtogroup libjeff
+ * @{
+ */
+
+/**
+ * \brief Get a buffered input
+ * \param msg The input prompt message
+ * \param buf_len The length of the buffer
+ * \return The buffered string
+ */
 char *buffer_get(char *const msg, const size_t buf_len);
+
+/** @} */
 
 #if defined(__cplusplus)
 }

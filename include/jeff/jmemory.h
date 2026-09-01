@@ -7,6 +7,10 @@ extern "C" {
 
 #include <stdlib.h>
 
+/** \addtogroup libjeff
+ * @{
+ */
+
 #define NULL_PTR(ptr) (!ptr || ptr == NULL)
 
 #if !defined(MALLOC)
@@ -28,6 +32,8 @@ extern "C" {
 #if !defined(VOID_PTR)
 #define VOID_PTR(ptr) (void *)ptr
 #endif /* !VOID_PTR */
+
+/** @} */
 
 #if defined(__cplusplus)
 }

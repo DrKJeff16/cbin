@@ -21,7 +21,7 @@ static argp_option_t options[] = {
   { 0 },
 };
 
-static void gc_exit(arg_data *arguments, const int code) {
+static void gc_exit(arg_data_t *arguments, const int code) {
   if (!NULL_PTR(arguments->args)) {
     free(arguments->args);
   }
@@ -32,7 +32,7 @@ static void gc_exit(arg_data *arguments, const int code) {
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   /* Get the input argument from argp_parse, which we
      know is a pointer to our arguments structure. */
-  arg_data *arguments = state->input;
+  arg_data_t *arguments = state->input;
   char *p;
   long num;
   j_ullong throws;
@@ -122,8 +122,8 @@ static void prompt(char **restrict msg, const size_t n, const jbool negative) {
   printf("[%s]: ", (!negative) ? "Y/n" : "y/N");
 }
 
-static arg_data init_args(void) {
-  arg_data arguments = {
+static arg_data_t init_args(void) {
+  arg_data_t arguments = {
     .args = NULL,
     .code = 1,
     .invert = JFALSE,
@@ -134,7 +134,7 @@ static arg_data init_args(void) {
   return arguments;
 }
 
-void yes_no(arg_data *arguments) {
+void yes_no(arg_data_t *arguments) {
   int code = arguments->code;
   size_t nargs = arguments->n_args;
   j_ullong tries = arguments->tries;
@@ -200,7 +200,7 @@ int main(int argc, char **argv) {
   signal(SIGXCPU, sig_handler);
   signal(SIGXFSZ, sig_handler);
 
-  arg_data arguments = init_args();
+  arg_data_t arguments = init_args();
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
   yes_no(&arguments);

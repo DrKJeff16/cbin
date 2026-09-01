@@ -171,7 +171,7 @@ ALWAYS_DETAILED_SEC    = YES
 # operators of the base classes will not be shown.
 # The default value is: NO.
 
-INLINE_INHERITED_MEMB  = NO
+INLINE_INHERITED_MEMB  = YES
 
 # If the FULL_PATH_NAMES tag is set to YES, Doxygen will prepend the full path
 # before files name in the file list and in the header files. If set to NO the
@@ -267,7 +267,7 @@ INHERIT_DOCS           = YES
 # of the file/class/namespace that contains it.
 # The default value is: NO.
 
-SEPARATE_MEMBER_PAGES  = YES
+SEPARATE_MEMBER_PAGES  = NO
 
 # The TAB_SIZE tag can be used to set the number of spaces in a tab. Doxygen
 # uses this value to replace tabs by spaces in code fragments.
@@ -451,7 +451,7 @@ IDL_PROPERTY_SUPPORT   = YES
 # all members of a group must be documented explicitly.
 # The default value is: NO.
 
-DISTRIBUTE_GROUP_DOC   = YES
+DISTRIBUTE_GROUP_DOC   = NO
 
 # If one adds a struct or class to a group and this option is enabled, then also
 # any nested class or struct is added to the same group. By default this option
@@ -571,7 +571,7 @@ EXTRACT_PACKAGE        = YES
 # included in the documentation.
 # The default value is: NO.
 
-EXTRACT_STATIC         = YES
+EXTRACT_STATIC         = NO
 
 # If the EXTRACT_LOCAL_CLASSES tag is set to YES, classes (and structs) defined
 # locally in source files will be included in the documentation. If set to NO,
@@ -628,7 +628,7 @@ HIDE_UNDOC_CLASSES     = NO
 # option has no effect if EXTRACT_ALL is enabled.
 # The default value is: YES.
 
-HIDE_UNDOC_NAMESPACES  = YES
+HIDE_UNDOC_NAMESPACES  = NO
 
 # If the HIDE_FRIEND_COMPOUNDS tag is set to YES, Doxygen will hide all friend
 # declarations. If set to NO, these declarations will be included in the
@@ -649,7 +649,7 @@ HIDE_IN_BODY_DOCS      = NO
 # will be excluded. Set it to YES to include the internal documentation.
 # The default value is: NO.
 
-INTERNAL_DOCS          = NO
+INTERNAL_DOCS          = YES
 
 # With the correct setting of option CASE_SENSE_NAMES Doxygen will better be
 # able to match the capabilities of the underlying filesystem. In case the
@@ -777,27 +777,27 @@ GENERATE_TODOLIST      = YES
 # list. This list is created by putting \test commands in the documentation.
 # The default value is: YES.
 
-GENERATE_TESTLIST      = YES
+GENERATE_TESTLIST      = NO
 
 # The GENERATE_BUGLIST tag can be used to enable (YES) or disable (NO) the bug
 # list. This list is created by putting \bug commands in the documentation.
 # The default value is: YES.
 
-GENERATE_BUGLIST       = YES
+GENERATE_BUGLIST       = NO
 
 # The GENERATE_DEPRECATEDLIST tag can be used to enable (YES) or disable (NO)
 # the deprecated list. This list is created by putting \deprecated commands in
 # the documentation.
 # The default value is: YES.
 
-GENERATE_DEPRECATEDLIST= YES
+GENERATE_DEPRECATEDLIST= NO
 
 # The GENERATE_REQUIREMENTS tag can be used to enable (YES) or disable (NO) the
 # requirements page. When enabled, this page is automatically created when at
 # least one comment block with a \requirement command appears in the input.
 # The default value is: YES.
 
-GENERATE_REQUIREMENTS  = YES
+GENERATE_REQUIREMENTS  = NO
 
 # The REQ_TRACEABILITY_INFO tag controls if traceability information is shown on
 # the requirements page (only relevant when using \requirement comment blocks).
@@ -951,7 +951,7 @@ WARN_IF_INCOMPLETE_DOC = YES
 # WARN_IF_INCOMPLETE_DOC
 # The default value is: NO.
 
-WARN_NO_PARAMDOC       = NO
+WARN_NO_PARAMDOC       = YES
 
 # If WARN_IF_UNDOC_ENUM_VAL option is set to YES, Doxygen will warn about
 # undocumented enumeration values. If set to NO, Doxygen will accept
@@ -959,7 +959,7 @@ WARN_NO_PARAMDOC       = NO
 # will automatically be disabled.
 # The default value is: NO.
 
-WARN_IF_UNDOC_ENUM_VAL = NO
+WARN_IF_UNDOC_ENUM_VAL = YES
 
 # If WARN_LAYOUT_FILE option is set to YES, Doxygen will warn about issues found
 # while parsing the user defined layout file, such as missing or wrong elements.
@@ -1285,7 +1285,7 @@ INLINE_SOURCES         = YES
 # Fortran comments will always remain visible.
 # The default value is: YES.
 
-STRIP_CODE_COMMENTS    = YES
+STRIP_CODE_COMMENTS    = NO
 
 # If the REFERENCED_BY_RELATION tag is set to YES then for each documented
 # entity all documented functions referencing it will be listed.
@@ -1356,7 +1356,7 @@ VERBATIM_HEADERS       = YES
 # generated with the -Duse_libclang=ON option for CMake.
 # The default value is: NO.
 
-CLANG_ASSISTED_PARSING = YES
+CLANG_ASSISTED_PARSING = NO
 
 # If the CLANG_ASSISTED_PARSING tag is set to YES and the CLANG_ADD_INC_PATHS
 # tag is set to YES then Doxygen will add the directory of each input to the
@@ -1675,7 +1675,7 @@ DOCSET_PUBLISHER_NAME  = Publisher
 # The default value is: NO.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-GENERATE_HTMLHELP      = YES
+GENERATE_HTMLHELP      = NO
 
 # The CHM_FILE tag can be used to specify the file name of the resulting .chm
 # file. You can add a path in front of the file if the result should not be
@@ -1898,7 +1898,7 @@ EXT_LINKS_IN_WINDOW    = YES
 # The default value is: YES.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-OBFUSCATE_EMAILS       = YES
+OBFUSCATE_EMAILS       = NO
 
 # If the HTML_FORMULA_FORMAT option is set to svg, Doxygen will use the pdf2svg
 # tool (see https://github.com/dawbarton/pdf2svg) or inkscape (see
@@ -1918,7 +1918,7 @@ HTML_FORMULA_FORMAT    = png
 # Minimum value: 8, maximum value: 50, default value: 10.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-FORMULA_FONTSIZE       = 10
+FORMULA_FONTSIZE       = 16
 
 # The FORMULA_MACROFILE can contain LaTeX \newcommand and \renewcommand commands
 # to create new LaTeX commands to be used in formulas as building blocks. See
@@ -2167,7 +2167,7 @@ COMPACT_LATEX          = NO
 # The default value is: a4.
 # This tag requires that the tag GENERATE_LATEX is set to YES.
 
-PAPER_TYPE             = a4
+PAPER_TYPE             = letter
 
 # The EXTRA_PACKAGES tag can be used to specify one or more LaTeX package names
 # that should be included in the LaTeX output. The package can be specified just
@@ -2323,7 +2323,7 @@ COMPACT_RTF            = NO
 # The default value is: NO.
 # This tag requires that the tag GENERATE_RTF is set to YES.
 
-RTF_HYPERLINKS         = NO
+RTF_HYPERLINKS         = YES
 
 # Load stylesheet definitions from file. Syntax is similar to Doxygen's
 # configuration file, i.e. a series of assignments. You only have to provide
@@ -2358,7 +2358,7 @@ RTF_EXTRA_FILES        =
 # classes and files.
 # The default value is: NO.
 
-GENERATE_MAN           = YES
+GENERATE_MAN           = NO
 
 # The MAN_OUTPUT tag is used to specify where the man pages will be put. If a
 # relative path is entered the value of OUTPUT_DIRECTORY will be put in front of
@@ -2376,7 +2376,7 @@ MAN_OUTPUT             = man
 # The default value is: .3.
 # This tag requires that the tag GENERATE_MAN is set to YES.
 
-MAN_EXTENSION          = .3
+MAN_EXTENSION          = .5
 
 # The MAN_SUBDIR tag determines the name of the directory created within
 # MAN_OUTPUT in which the man pages are placed. If defaults to man followed by
@@ -2915,7 +2915,7 @@ DOT_IMAGE_FORMAT       = png
 # The default value is: NO.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-INTERACTIVE_SVG        = NO
+INTERACTIVE_SVG        = YES
 
 # The DOT_PATH tag can be used to specify the path where the dot tool can be
 # found. If left blank, it is assumed the dot tool can be found in the path.
@@ -2990,15 +2990,6 @@ DOT_GRAPH_MAX_NODES    = 50
 # This tag requires that the tag HAVE_DOT is set to YES.
 
 MAX_DOT_GRAPH_DEPTH    = 0
-
-# Set the DOT_MULTI_TARGETS tag to YES to allow dot to generate multiple output
-# files in one run (i.e. multiple -o and -T options on the command line). This
-# makes dot run faster, but since only newer versions of dot (>1.8.10) support
-# this, this feature is disabled by default.
-# The default value is: NO.
-# This tag requires that the tag HAVE_DOT is set to YES.
-
-DOT_MULTI_TARGETS      = NO
 
 # If the GENERATE_LEGEND tag is set to YES Doxygen will generate a legend page
 # explaining the meaning of the various boxes and arrows in the dot generated

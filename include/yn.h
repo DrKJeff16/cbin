@@ -17,13 +17,13 @@ struct arguments {
   size_t n_args;
 };
 
-typedef struct arguments arg_data;
+typedef struct arguments arg_data_t;
 
 char *get_no_args(char **const argv, const size_t argc);
-void yes_no(arg_data *arguments);
+void yes_no(arg_data_t *arguments);
 static void prompt(char **restrict msg, const size_t n, const jbool negative);
-static arg_data init_args(void);
-static void gc_exit(arg_data *arguments, const int code);
+static arg_data_t init_args(void);
+static void gc_exit(arg_data_t *arguments, const int code);
 
 static void sig_handler(const int sig);
 

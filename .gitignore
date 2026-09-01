@@ -8,6 +8,9 @@ compile_commands.json
 /obj/
 /preproc/
 
+# Documentation
+/doc/
+
 # Binary files
 *.S
 *.a

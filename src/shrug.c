@@ -112,7 +112,7 @@ emotions_idx map_emotion(char *const str) {
   return i;
 }
 
-static void show_usage(const int code, arg_data *arguments) {
+static void show_usage(const int code, arg_data_t *arguments) {
   size_t start_spaces = 3;
   size_t len = N_EMOTIONS + start_spaces;
 
@@ -141,7 +141,7 @@ static void show_usage(const int code, arg_data *arguments) {
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   /* Get the input argument from argp_parse, which we
      know is a pointer to our arguments structure. */
-  arg_data *arguments = state->input;
+  arg_data_t *arguments = state->input;
   char *lower_arg;
   jbool use_lower = JFALSE;
 
@@ -199,7 +199,7 @@ void list_emotions(void) {
   die(0, NULL);
 }
 
-void random_emotion(arg_data *arguments) {
+void random_emotion(arg_data_t *arguments) {
   int fd;
   if ((fd = open("/dev/urandom", O_RDONLY)) < 0) {
     die(0, NULL);
@@ -213,8 +213,8 @@ void random_emotion(arg_data *arguments) {
   die(0, NULL);
 }
 
-static arg_data init_args(void) {
-  arg_data arguments = {
+static arg_data_t init_args(void) {
+  arg_data_t arguments = {
     .list = JFALSE,
     .zero = JFALSE,
     .md = JFALSE,
@@ -226,7 +226,7 @@ static arg_data init_args(void) {
 }
 
 int main(int argc, char **argv) {
-  arg_data arguments = init_args();
+  arg_data_t arguments = init_args();
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
   if (arguments.list) {

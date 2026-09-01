@@ -7,9 +7,15 @@ extern "C" {
 
 #include "jtypes.h"
 
+/** \addtogroup libjeff
+ * @{
+ */
+
 int fdlog(int fd, char *const msg);
 int log_to_file(char *const path, char *const msg, const jbool need_fd);
 int vfdlog(int fd, char *const fmt, ...);
+
+/** @} */
 
 #if defined(__cplusplus)
 }

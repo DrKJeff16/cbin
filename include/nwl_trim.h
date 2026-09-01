@@ -14,10 +14,10 @@ struct arguments {
   char **files;
 };
 
-typedef struct arguments arg_data;
+typedef struct arguments arg_data_t;
 
 static void files_gc(char **files, const j_ullong n);
-static arg_data init_args(void);
+static arg_data_t init_args(void);
 
 #if defined(__cplusplus)
 }
