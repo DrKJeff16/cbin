@@ -7,10 +7,14 @@ extern "C" {
 
 #include <jeff/jtypes.h>
 
-/**
- * \struct arguments
+/** \defgroup countdown All elements from countdown
+ * @{
  */
-struct arguments {
+
+/**
+ * \struct countdown_args
+ */
+struct countdown_args {
   char **args;     /*!< The positional arguments array */
   j_uint duration; /*!< How much does each step should last (default is 1) */
   jbool flush;     /*!< Whether to flush the output of each count or not */
@@ -22,10 +26,10 @@ struct arguments {
 };
 
 /**
- * \typedef arg_data_t
+ * \typedef countdown_arg_t
  * \brief The `arguments` struct typedef
  */
-typedef struct arguments arg_data_t;
+typedef struct countdown_args countdown_arg_t;
 
 /**
  * \brief Generate the range from `num` to 0
@@ -46,10 +50,10 @@ void count_down(const j_uint *const range, const j_uint num, const j_uint durati
                 const jbool flush);
 
 /**
- * \brief Initialize `arg_data_t` arguments for a program
- * \return The `arg_data_t` structure
+ * \brief Initialize `countdown_arg_t` arguments for a program
+ * \return The `countdown_arg_t` struct
  */
-static arg_data_t init_args(void);
+static countdown_arg_t init_args(void);
 
 /**
  * \brief Only print if `verbose` is enabled
@@ -58,6 +62,8 @@ static arg_data_t init_args(void);
  * \param stream The output stream. Defaults to `stdout`
  */
 static void verbose_print(const jbool verbose, const char *txt, FILE *restrict stream);
+
+/** @} */
 
 #if defined(__cplusplus)
 }

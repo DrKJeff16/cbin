@@ -22,53 +22,43 @@ static argp_option_t options[] = {
 };
 
 static void vverbose_print(const jbool verbose, FILE *restrict stream, const char *fmt, ...) {
-  if (!verbose || NULL_PTR(fmt)) {
-    return;
+  if (verbose && !NULL_PTR(fmt)) {
+    va_list argp;
+    va_start(argp, fmt);
+    fprintf((NULL_PTR(stream)) ? stdout : stream, fmt, argp);
+    va_end(argp);
   }
-  if (NULL_PTR(stream)) {
-    stream = stdout;
-  }
-
-  va_list argp;
-  va_start(argp, fmt);
-  fprintf(stream, fmt, argp);
-  va_end(argp);
 }
 
 static void files_gc(char **files, const j_ullong n) {
   for (j_ullong i = 0; i < n; i++) {
     free(files[i]);
   }
-
   free(files);
 }
 
-/* Parse a single option. */
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
-  /* Get the input argument from argp_parse, which we
-     know is a pointer to our arguments structure. */
-  arg_data_t *arguments = state->input;
-
+  nwltrim_arg_t *args = state->input;
   switch (key) {
     case 'v':
-      arguments->verbose = JTRUE;
+      args->verbose = JTRUE;
       break;
 
     case 'k':
-      arguments->keep_lines = atoi(arg);
+      args->keep_lines = atoi(arg);
       break;
 
     case ARGP_KEY_ARG:
       if (!is_file(arg)) {
-        files_gc(arguments->files, arguments->n_files);
+        files_gc(args->files, args->n_files);
         vdie(1, "`%s` is not a file!\n", arg);
       }
 
-      arguments->n_files++;
-      arguments->files = REALLOC(arguments->files, char *, arguments->n_files);
+      args->n_files++;
+      args->files = REALLOC(args->files, char *, args->n_files);
 
-      arguments->files[arguments->n_files - 1] = CALLOC(char, strlen(arg) + 1);
-      strcpy(arguments->files[arguments->n_files - 1], arg);
+      args->files[args->n_files - 1] = CALLOC(char, strlen(arg) + 1);
+      strcpy(args->files[args->n_files - 1], arg);
       break;
 
     case ARGP_KEY_END:
@@ -82,8 +72,8 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
-static arg_data_t init_args(void) {
-  arg_data_t arguments = {
+static nwltrim_arg_t init_args(void) {
+  nwltrim_arg_t arguments = {
     .verbose = JFALSE,
     .n_files = 0,
     .keep_lines = 0,
@@ -94,7 +84,7 @@ static arg_data_t init_args(void) {
 }
 
 int main(int argc, char **argv) {
-  arg_data_t arguments = init_args();
+  nwltrim_arg_t arguments = init_args();
 
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 

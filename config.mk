@@ -76,7 +76,7 @@ LDFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
 		  -fstack-protector \
 		  -ftree-vectorize \
 		  -lc \
-		  -liniparser \
+		  -linih \
 		  -ljeff
 
 LDXXFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
@@ -132,7 +132,7 @@ JEFF_STATIC_LIBS = $(LIBDIR)/libjdie.a \
 
 JEFF_CFLAGS = $(CFLAGS) -fPIC
 JEFF_LDFLAGS = -lc \
-			   -liniparser
+			   -linih
 
 JEFF_ACTIONS = cointoss \
 			   countdown \
