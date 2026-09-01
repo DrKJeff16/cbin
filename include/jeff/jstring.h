@@ -5,8 +5,18 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <jeff/jtypes.h>
+#include "jtypes.h"
 
+/** \addtogroup libjeff
+ * @{
+ */
+
+/**
+ * \brief Check whether a given string starts with a given substring
+ * \param str The string value to be checked on
+ * \param start The substring to check against the string
+ * \return A boolean-like value indicating whether the search was successful or not
+ */
 jbool str_startswith(char *const str, char *const start);
 
 void reverse_str(char *str);
@@ -34,6 +44,8 @@ void lowerize(char *str);
 void j_lstrip(const char c, char *str);
 void j_rstrip(const char c, char *str);
 void j_strip(const char c, char *str);
+
+/** @} */
 
 #if defined(__cplusplus)
 }

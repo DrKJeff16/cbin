@@ -35,7 +35,7 @@ static void verbose_print(const jbool verbose, const char *txt, FILE *restrict s
 }
 
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
-  arg_data *arguments = state->input;
+  arg_data_t *arguments = state->input;
   char *p, *x;
   long num;
   jbool digit = JTRUE;
@@ -167,8 +167,8 @@ void count_down(const j_uint *const range, const j_uint num, const j_uint durati
   }
 }
 
-static arg_data init_args(void) {
-  arg_data arguments = {
+static arg_data_t init_args(void) {
+  arg_data_t arguments = {
     .duration = 1,
     .num = 5,
     .verbose = JFALSE,
@@ -186,7 +186,7 @@ static arg_data init_args(void) {
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
 int main(int argc, char **argv) {
-  arg_data arguments = init_args();
+  arg_data_t arguments = init_args();
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
   char *s = CALLOC(char, 1024);

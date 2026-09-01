@@ -5,6 +5,10 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/** \addtogroup libjeff
+ * @{
+ */
+
 /**
  * \brief Print message to `stderr`
  *
@@ -33,6 +37,8 @@ void j_errno_verr(const int code, char *const fmt, ...);
  */
 /* ----------------------------------------------------------------------------*/
 void j_exec_verr(void (*fun)(void), char *const fmt, ...);
+
+/** @} */
 
 #if defined(__cplusplus)
 }

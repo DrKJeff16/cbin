@@ -16,7 +16,12 @@ extern "C" {
 #include <jeff/jsignal.h>
 #include <jeff/jstring.h>
 #include <jeff/jswap.h>
-#include <jeff/jtypes.h>
+
+#include "jtypes.h"
+
+/** \defgroup libjeff All elements from libjeff
+ * @{
+ */
 
 #define JCAST(type, data) (type)(data)
 
@@ -28,8 +33,22 @@ extern "C" {
 
 #define jxor(x, y) (x ^ y)
 
+/**
+ * \param verbose Whether verbose mode is enabled
+ * \param txt The text to print
+ * \param stream The output stream. If `NULL`, defaults to `stdout`
+ */
 static void verbose_print(const jbool verbose, const char *txt, FILE *restrict stream);
+
+/**
+ * \param verbose Whether verbose mode is enabled
+ * \param stream The output stream. If `NULL`, defaults to `stdout`
+ * \param fmt The format string
+ * \param ... All the other arguments
+ */
 static void vverbose_print(const jbool verbose, FILE *restrict stream, const char *fmt, ...);
+
+/** @} */
 
 #if defined(__cplusplus)
 }

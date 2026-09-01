@@ -7,9 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/**
- * @brief Kill program ekecution with optional output message
- */
 void die(const int status, char *const msg) {
   if (!NULL_PTR(msg)) {
     fprintf((!status) ? stdout : stderr, "%s\n", msg);

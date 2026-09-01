@@ -5,7 +5,11 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <jeff/jtypes.h>
+#include "jtypes.h"
+
+/** \addtogroup libjeff
+ * @{
+ */
 
 /**
  * \brief Terminate program and optionally print message
@@ -47,8 +51,7 @@ void cond_die(const int code, const jbool cond, char *const msg);
  *
  * \param code Exit code
  * \param cond The boolean-like value that acts as the condition
- * \param fmt Formatted string to print before termination. If `NULL` then no message will be
- * printed
+ * \param fmt Formatted string to print before termination. If `NULL` then no message will be printed
  * \param ...
  */
 void cond_vdie(const int code, const jbool cond, char *const fmt, ...);
@@ -98,6 +101,8 @@ void exec_vdie(const int code, void (*fun)(void), char *const fmt, ...);
  * \param code Exit code
  */
 static void usage(const int code);
+
+/** @} */
 
 #if defined(__cplusplus)
 }

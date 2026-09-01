@@ -5,6 +5,10 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/** \addtogroup libjeff
+ * @{
+ */
+
 #define J_SWAP(x, y)   \
   do {                 \
     typeof(x) __x = x; \
@@ -12,6 +16,8 @@ extern "C" {
     x = __y;           \
     y = __x;           \
   } while (0)
+
+/** @} */
 
 #if defined(__cplusplus)
 }

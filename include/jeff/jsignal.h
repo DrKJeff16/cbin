@@ -7,8 +7,14 @@ extern "C" {
 
 #include <stddef.h>
 
+/** \addtogroup libjeff
+ * @{
+ */
+
 void sig_handler(const int sig);
 void sig_bootstrap(int *sigs, const size_t n, void (*fun)(const int));
+
+/** @} */
 
 #if defined(__cplusplus)
 }

@@ -7,15 +7,40 @@ extern "C" {
 
 #include <jeff/jtypes.h>
 
+/**
+ * \struct arguments
+ */
 struct arguments {
-  jbool verbose;
-  size_t n_args;
   char **args;
+  size_t n_args;
 };
 
-typedef struct arguments arg_data;
+/**
+ * \typedef arg_data_t
+ * \brief Argument data structure
+ */
+typedef struct arguments arg_data_t;
 
-static arg_data init_args(void);
+/**
+ * \brief Parse the provided INI file
+ * \param file_name The path to the INI file
+ */
+void ini_file_get(char *const file_name);
+
+/**
+ * \brief Parse the options using argp
+ * \param key The key or character to parse
+ * \param arg The argument that either follows an option, or positional argument. Can be `NULL`
+ * \param state The state struct
+ * \return Any error value or none in case of parsing failure
+ */
+static error_t parse_opt(int key, char *arg, argp_state_t *state);
+
+/**
+ * \brief Initializes the `arg_data_t` struct
+ * \return The `arg_data_t` struct
+ */
+static arg_data_t init_args(void);
 
 #if defined(__cplusplus)
 }

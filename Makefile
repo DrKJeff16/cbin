@@ -47,6 +47,8 @@ SUBDIRS = $(OBJDIR) \
 	cointoss \
 	countdown \
 	distclean \
+	doc \
+	docs \
 	install_bin \
 	install_bin_stripped \
 	install_headers \
@@ -302,6 +304,11 @@ install_local_libs_stripped: install_local_libs
 
 install_libs_stripped: install_libs
 	@strip $(GLOBAL_PREFIX)/lib/jeff/libjeff.so
+
+docs: Doxyfile
+	@doxygen
+
+doc: docs
 
 clean:
 	@rm -rf $(OBJDIR)/* *.log *.out

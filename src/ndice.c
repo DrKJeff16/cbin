@@ -20,31 +20,49 @@ static char doc[] = "N-dice program.";
 static char args_doc[] = "[-u] [-t THROWS] [-s] [ARG [ARG [...]]]";
 static argp_option_t options[] = {
   {
-    .name = "use-urandom",
-    .key = 'u',
     .arg = 0,
-    .flags = 0,
     .doc = "Use /dev/urandom instead of /dev/random",
+    .flags = 0,
     .group = 0,
+    .key = 'u',
+    .name = "use-urandom",
   },
   {
-    .name = "single",
-    .key = 's',
     .arg = 0,
-    .flags = 0,
     .doc = "Whether to do a single throw (will ignore `-t`!)",
+    .flags = 0,
     .group = 0,
+    .key = 's',
+    .name = "single",
   },
   {
-    .name = "throws",
-    .key = 't',
     .arg = "THROWS",
-    .flags = 0,
     .doc = "Throw the dice N times (default: 2500)",
+    .flags = 0,
     .group = 1,
+    .key = 't',
+    .name = "throws",
   },
   { 0 },
 };
+
+char **ndice_values(ndice_t *const ndice) {
+  char **items = NULL;
+  if (!NULL_PTR(ndice)) {
+    ndice_t *p = ndice_start(ndice);
+    if (!NULL_PTR(p)) {
+      size_t idx = 0;
+
+      items = CALLOC(char *, ndice_len(ndice));
+      while (!NULL_PTR(p)) {
+        items[idx] = p->value;
+        p = p->next;
+        idx++;
+      }
+    }
+  }
+  return items;
+}
 
 void ndice_remove(ndice_t *ndice, const size_t index) {
   if (NULL_PTR(ndice) || ndice_len(ndice) == 0 || ndice_len(ndice) - 1 < index) {
@@ -56,83 +74,68 @@ void ndice_remove(ndice_t *ndice, const size_t index) {
   while (p->idx != index && !NULL_PTR(p)) {
     p = ndice_next(p);
   }
-  if (NULL_PTR(p)) {
-    return;
-  }
-  ndice_t *res = p;
-  if (!NULL_PTR(p->next)) {
-    p->prev->next = p->next;
-    p->next->prev = p->prev;
+  if (!NULL_PTR(p)) {
+    ndice_t *res = p;
+    if (!NULL_PTR(p->next)) {
+      p->prev->next = p->next;
+      p->next->prev = p->prev;
 
-    do {
-      p = ndice_next(p);
-      p->idx--;
-    } while (!NULL_PTR(p->next));
-  } else {
-    p->prev->next = NULL;
-  }
+      do {
+        p = ndice_next(p);
+        p->idx--;
+      } while (!NULL_PTR(p->next));
+    } else {
+      p->prev->next = NULL;
+    }
 
-  ndice = p;
-  free(res->value);
-  free(res);
+    ndice = p;
+    free(res->value);
+    free(res);
+  }
 }
 
 ndice_t *ndice_start(ndice_t *const ndice) {
-  if (NULL_PTR(ndice)) {
-    return NULL;
-  }
-
-  ndice_t *p = ndice;
-  while (!NULL_PTR(p->prev)) {
-    p = ndice_prev(p);
+  ndice_t *p = NULL;
+  if (!NULL_PTR(ndice)) {
+    p = ndice;
+    while (!NULL_PTR(p->prev)) {
+      p = ndice_prev(p);
+    }
   }
 
   return p;
 }
 
 ndice_t *ndice_end(ndice_t *const ndice) {
-  if (NULL_PTR(ndice)) {
-    return NULL;
-  }
-
-  ndice_t *p = ndice;
-  while (!NULL_PTR(p->next)) {
-    p = ndice_next(p);
+  ndice_t *p = NULL;
+  if (!NULL_PTR(ndice)) {
+    p = ndice;
+    while (!NULL_PTR(p->next)) {
+      p = ndice_next(p);
+    }
   }
 
   return p;
 }
 
 ndice_t *ndice_prev(ndice_t *const ndice) {
-  if (NULL_PTR(ndice)) {
-    return NULL;
-  }
-
-  return ndice->prev;
+  return (!NULL_PTR(ndice)) ? ndice->prev : NULL;
 }
 
 ndice_t *ndice_next(ndice_t *const ndice) {
-  if (NULL_PTR(ndice)) {
-    return NULL;
-  }
-
-  return ndice->next;
+  return (!NULL_PTR(ndice)) ? ndice->next : NULL;
 }
 
 ndice_t *ndice_index(ndice_t *const ndice, const size_t index) {
-  if (NULL_PTR(ndice) || ndice_len(ndice) <= index) {
-    return NULL;
+  ndice_t *p = NULL;
+  if (!NULL_PTR(ndice) && ndice_len(ndice) > index) {
+    p = ndice_start(ndice);
+    if (!NULL_PTR(p)) {
+      while (p->idx != index) {
+        p = ndice_next(p);
+      }
+    }
   }
-
-  ndice_t *p = ndice_start(ndice);
-  if (NULL_PTR(p)) {
-    return NULL;
-  }
-
-  while (p->idx != index) {
-    p = ndice_next(p);
-  }
-
   return p;
 }
 
@@ -175,93 +178,82 @@ ndice_t *new_ndice(ndice_t *const main_ndice, char *const value) {
 }
 
 ndice_t *gen_full_ndice(char *const values) {
-  if (NULL_PTR(values)) {
-    return NULL;
-  }
-
-  char sep_str[2] = " ";
-  char *p = values, *sep = values;
   ndice_t *ndice = NULL;
-  while (!NULL_PTR(sep)) {
-    strsep(&p, sep_str);
-    ndice = new_ndice(ndice, sep);
-    sep = p;
+  if (!NULL_PTR(values)) {
+    char *sep_str = CALLOC(char, 2);
+    sep_str[0] = ' ';
+    sep_str[1] = '\0';
+
+    char *p = values, *sep = values;
+    while (!NULL_PTR(sep)) {
+      strsep(&p, sep_str);
+      ndice = new_ndice(ndice, sep);
+      sep = p;
+    }
+
+    free(sep_str);
   }
 
   return ndice;
 }
 
-size_t ndice_len(ndice_t *ndice) {
-  if (NULL_PTR(ndice)) {
-    return 0;
-  }
-
+size_t ndice_len(ndice_t *const ndice) {
   size_t len = 0;
-  ndice_t *p = ndice_start(ndice);
-  while (!NULL_PTR(p)) {
-    len++;
-    p = ndice_next(p);
+  if (!NULL_PTR(ndice)) {
+    ndice_t *p = ndice_start(ndice);
+    while (!NULL_PTR(p)) {
+      len++;
+      p = ndice_next(p);
+    }
   }
-
   return len;
 }
 
 void ndice_reset_count(ndice_t *ndice) {
-  if (NULL_PTR(ndice)) {
-    return;
-  }
-
-  ndice_t *p = ndice_start(ndice);
-  if (NULL_PTR(p)) {
-    return;
-  }
-
-  while (!NULL_PTR(p->next)) {
-    p->n_landings = 0;
-    p = ndice_next(p);
+  if (!NULL_PTR(ndice)) {
+    ndice_t *p = ndice_start(ndice);
+    if (!NULL_PTR(p)) {
+      while (!NULL_PTR(p->next)) {
+        p->n_landings = 0;
+        p = ndice_next(p);
+      }
+    }
   }
 }
 
 void ndice_throw(ndice_t *ndice, const jbool urandom) {
-  int fd;
-  if ((fd = open(urandom ? "/dev/urandom" : "/dev/random", O_RDONLY)) < 0) {
-    return;
+  int fd = open(urandom ? "/dev/urandom" : "/dev/random", O_RDONLY);
+  if (fd >= 0) {
+    j_ullong idx = fd_urand(fd, 0, ndice_len(ndice) - 1);
+    close(fd);
+
+    ndice_t *index = ndice_index(ndice, idx);
+    if (!NULL_PTR(index)) {
+      index->n_landings++;
+    }
   }
-
-  j_ullong idx = fd_urand(fd, 0, ndice_len(ndice) - 1);
-  close(fd);
-
-  ndice_t *index = ndice_index(ndice, idx);
-  if (NULL_PTR(index)) {
-    return;
-  }
-
-  index->n_landings++;
 }
 
 ndice_t *ndice_pop(ndice_t *ndice) {
-  if (NULL_PTR(ndice) || ndice_len(ndice) == 0) {
-    return NULL;
+  ndice_t *res = NULL;
+  if (!NULL_PTR(ndice) && ndice_len(ndice) != 0) {
+    ndice_t *p = ndice_end(ndice);
+    if (!NULL_PTR(p)) {
+      if (!NULL_PTR(p->prev)) {
+        p->prev->next = NULL;
+        p->prev = NULL;
+      }
+
+      res = MALLOC(ndice_t);
+      memcpy(res, p, sizeof(ndice_t));
+
+      res->value = CALLOC(char, strlen(p->value) + 1);
+      strcpy(res->value, p->value);
+
+      free(p->value);
+      free(p);
+    }
   }
-
-  ndice_t *p = ndice_end(ndice);
-  if (NULL_PTR(p)) {
-    return NULL;
-  }
-
-  if (!NULL_PTR(p->prev)) {
-    p->prev->next = NULL;
-    p->prev = NULL;
-  }
-
-  ndice_t *res = MALLOC(ndice_t);
-  memcpy(res, p, sizeof(ndice_t));
-
-  res->value = CALLOC(char, strlen(p->value) + 1);
-  strcpy(res->value, p->value);
-
-  free(p->value);
-  free(p);
   return res;
 }
 
@@ -297,30 +289,22 @@ void ndice_insert(ndice_t *ndice, ndice_t *const new, const size_t index) {
 }
 
 void ndice_wipe(ndice_t *ndice) {
-  if (NULL_PTR(ndice)) {
-    return;
-  }
-
-  ndice_t *end = ndice_end(ndice);
-  if (NULL_PTR(end)) {
+  if (!NULL_PTR(ndice)) {
+    ndice_t *end = ndice_end(ndice);
+    if (!NULL_PTR(end)) {
+      while (!NULL_PTR(end->prev)) {
+        end = ndice_prev(end);
+        free(end->next->value);
+        free(end->next);
+      }
+    }
     free(ndice->value);
     free(ndice);
-    return;
   }
-  while (!NULL_PTR(end->prev)) {
-    end = ndice_prev(end);
-    free(end->next->value);
-    free(end->next);
-  }
-
-  free(ndice->value);
-  free(ndice);
 }
 
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
-  /* Get the input argument from argp_parse, which we
-     know is a pointer to our arguments structure. */
-  arg_data *arguments = state->input;
+  arg_data_t *arguments = state->input;
   long throws;
   char *p, *x;
   jbool digit = JTRUE;
@@ -383,20 +367,20 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
-static arg_data init_args(void) {
-  arg_data arguments = {
+static arg_data_t init_args(void) {
+  arg_data_t arguments = {
     .args = NULL,
     .n_args = 0,
     .n_throws = DEFAULT_THROWS,
-    .urandom = JTRUE,
     .single = JFALSE,
+    .urandom = JTRUE,
   };
 
   return arguments;
 }
 
 int main(int argc, char **argv) {
-  arg_data arguments = init_args();
+  arg_data_t arguments = init_args();
   argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
   char *value = NULL;
@@ -427,18 +411,19 @@ int main(int argc, char **argv) {
   free(value);
   free(arguments.args);
 
-  int fd;
-  if ((fd = open(arguments.urandom ? "/dev/urandom" : "/dev/random", O_RDONLY)) < 0) {
+  int fd = open(arguments.urandom ? "/dev/urandom" : "/dev/random", O_RDONLY);
+  if (fd < 0) {
     ndice_wipe(ndice);
     j_errno_vdie(1, ENOENT, "`%s` is unavailable\n", arguments.urandom ? "/dev/urandom" : "/dev/random");
   }
+
+  close(fd);
 
   for (j_ullong i = 0; i < arguments.n_throws; i++) {
     ndice_throw(ndice, arguments.urandom);
   }
 
-  ndice_t *p = ndice_start(ndice);
-  ndice_t *res = NULL;
+  ndice_t *p = ndice_start(ndice), *res = NULL;
   while (!NULL_PTR(p)) {
     printf("%s  ===>  %llu\n", p->value, p->n_landings);
     if (NULL_PTR(res) || p->n_landings > res->n_landings) {

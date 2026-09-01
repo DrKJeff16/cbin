@@ -24,7 +24,7 @@ struct arguments {
   char **args;
 };
 
-typedef struct arguments arg_data;
+typedef struct arguments arg_data_t;
 
 const size_t N_EMOTIONS = 19;
 
@@ -57,8 +57,8 @@ jbool is_emotion(char *const arg);
 emotions_idx map_emotion(char *const str);
 void list_emotions(void);
 
-static arg_data init_args(void);
-static void show_usage(const int code, arg_data *arguments);
+static arg_data_t init_args(void);
+static void show_usage(const int code, arg_data_t *arguments);
 
 #if defined(__cplusplus)
 }
