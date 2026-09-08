@@ -49,6 +49,13 @@ typedef struct ndice_args ndice_arg_t;
 typedef struct ndice ndice_t;
 
 /**
+ * \brief Get all the values all the linked list elements
+ * \param ndice The dice linked list
+ * \return The string array of all the dice values
+ */
+char **ndice_values(ndice_t *const ndice);
+
+/**
  * \brief Generate a new dice linked list element
  * \param main_ndice The main dice linked list
  * \param value The value associated to the dice element
@@ -126,7 +133,7 @@ void ndice_fix_indeces(ndice_t *ndice);
 /**
  * \brief Get the length of a dice linked list
  * \param ndice The dice linked list
- * \return The length of the dice linked list, or `0` if the dice is `NULL`
+ * \return The length of the dice linked list, or `-1` if the dice is `NULL`
  */
 j_llong ndice_len(ndice_t *const ndice);
 
@@ -153,7 +160,7 @@ void ndice_reset_count(ndice_t *ndice);
 
 /**
  * \brief Wipe a dice linked list
- * \param ndice The dice linked list
+ * \param ndice The dice linked list to be wiped (A.K.A. to free)
  */
 void ndice_wipe(ndice_t *ndice);
 
@@ -169,11 +176,6 @@ void ndice_throw(ndice_t *ndice, const jbool urandom);
  * \return The `arguments` struct type.
  */
 static ndice_arg_t init_args(void);
-
-/**
- * \brief Seed the dice
- */
-static void seed_dice(void);
 
 /**
  * \brief Parse the command arguments

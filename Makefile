@@ -132,31 +132,31 @@ $(OBJDIR)/jlog.o: $(SRCDIR)/jeff/jlog.c
 	$(CC) -c $< $(JEFF_CFLAGS) -o $@
 
 $(LIBDIR)/libjdie.a: $(OBJDIR)/jdie.o
-	$(AR) rcs $@ $<
+	@$(AR) rcs $@ $<
 
 $(LIBDIR)/libjerr.a: $(OBJDIR)/jerr.o
-	$(AR) rcs $@ $<
+	@$(AR) rcs $@ $<
 
 $(LIBDIR)/libjrandom.a: $(OBJDIR)/jrandom.o
-	$(AR) rcs $@ $<
+	@$(AR) rcs $@ $<
 
 $(LIBDIR)/libjfile.a: $(OBJDIR)/jfile.o
-	$(AR) rcs $@ $<
+	@$(AR) rcs $@ $<
 
 $(LIBDIR)/libjhash.a: $(OBJDIR)/jhash.o
-	$(AR) rcs $@ $<
+	@$(AR) rcs $@ $<
 
 $(LIBDIR)/libjstring.a: $(OBJDIR)/jstring.o
-	$(AR) rcs $@ $<
+	@$(AR) rcs $@ $<
 
 $(LIBDIR)/libjsignal.a: $(OBJDIR)/jsignal.o
-	$(AR) rcs $@ $<
+	@$(AR) rcs $@ $<
 
 $(LIBDIR)/libjinput.a: $(OBJDIR)/jinput.o
-	$(AR) rcs $@ $<
+	@$(AR) rcs $@ $<
 
 $(LIBDIR)/libjlog.a: $(OBJDIR)/jlog.o
-	$(AR) rcs $@ $<
+	@$(AR) rcs $@ $<
 
 $(LIBDIR)/libjeff.so: $(JEFF_OBJECTS)
 	$(CC) $(JEFF_OBJECTS) $(JEFF_CFLAGS) -shared -o $@ $(JEFF_LDFLAGS) $(LTO_FLAG)

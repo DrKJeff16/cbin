@@ -134,6 +134,7 @@ static void show_usage(const int code, shrug_arg_t *arguments) {
   if (!NULL_PTR(arguments->args)) {
     free(arguments->args);
   }
+  free(arguments);
   free(txt);
   die(code, NULL);
 }
@@ -192,10 +193,15 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
-void list_emotions(void) {
+void list_emotions(shrug_arg_t *args) {
   for (size_t i = 0; i < N_EMOTIONS; i++) {
     printf("%s\n", emotions(JTRUE, JFALSE, i));
   }
+
+  if (!NULL_PTR(args->args)) {
+    free(args->args);
+  }
+  free(args);
   die(0, NULL);
 }
 
@@ -210,49 +216,51 @@ void random_emotion(shrug_arg_t *arguments) {
   if (!NULL_PTR(arguments->args)) {
     free(arguments->args);
   }
+  free(arguments);
   die(0, NULL);
 }
 
-static shrug_arg_t init_args(void) {
-  shrug_arg_t arguments = {
-    .list = JFALSE,
-    .zero = JFALSE,
-    .md = JFALSE,
-    .random = JFALSE,
-    .n_args = 0,
-    .args = NULL,
-  };
+static shrug_arg_t *init_args(void) {
+  shrug_arg_t *arguments = MALLOC(shrug_arg_t);
+  arguments->list = JFALSE;
+  arguments->zero = JFALSE;
+  arguments->md = JFALSE;
+  arguments->random = JFALSE;
+  arguments->n_args = 0;
+  arguments->args = NULL;
   return arguments;
 }
 
 int main(int argc, char **argv) {
-  shrug_arg_t arguments = init_args();
-  argp_parse(&argp, argc, argv, 0, 0, &arguments);
+  shrug_arg_t *arguments = init_args();
+  argp_parse(&argp, argc, argv, 0, 0, arguments);
 
-  if (arguments.list) {
-    list_emotions();
+  if (arguments->list) {
+    list_emotions(arguments);
   }
 
-  if (arguments.random) {
-    random_emotion(&arguments);
+  if (arguments->random) {
+    random_emotion(arguments);
   }
 
-  if (NULL_PTR(arguments.args)) {
-    TO_ZERO(arguments.zero, emotions(JFALSE, arguments.md, SHRUG))
+  if (NULL_PTR(arguments->args)) {
+    TO_ZERO(arguments->zero, emotions(JFALSE, arguments->md, SHRUG))
+
+    free(arguments);
     die(0, NULL);
   }
 
-  for (size_t i = 0; i < arguments.n_args; i++) {
-    if (!is_emotion(arguments.args[i])) {
-      j_err("Not an emotion: `%s`!\n\n", arguments.args[i]);
-      free(arguments.args);
-      show_usage(1, &arguments);
+  for (size_t i = 0; i < arguments->n_args; i++) {
+    if (!is_emotion(arguments->args[i])) {
+      j_err("Not an emotion: `%s`!\n\n", arguments->args[i]);
+      show_usage(1, arguments);
     }
 
-    TO_ZERO(arguments.zero, emotions(JFALSE, arguments.md, map_emotion(arguments.args[i])))
+    TO_ZERO(arguments->zero, emotions(JFALSE, arguments->md, map_emotion(arguments->args[i])))
   }
 
-  free(arguments.args);
+  free(arguments->args);
+  free(arguments);
   return 0;
 }
 
