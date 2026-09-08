@@ -49,7 +49,7 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       }
 
       args->sep = CALLOC(char, strlen(arg) + 1);
-      stpcpy(args->sep, arg);
+      strcpy(args->sep, arg);
       break;
 
     case 's':
@@ -145,13 +145,11 @@ j_uint *gen_range(const j_uint num) {
 void count_down(const j_uint *const range, const j_uint num, const j_uint duration, const jbool show,
                 const jbool flush) {
   for (j_uint i = 0; i < num; i++) {
-    if (show) {
-      if (flush) {
-        printf("\r%d", range[i]);
-        fflush(stdout);
-      } else {
-        printf("%d\n", range[i]);
-      }
+    if (show && flush) {
+      printf("\r%d", range[i]);
+      fflush(stdout);
+    } else if (show) {
+      printf("%d\n", range[i]);
     }
     sleep(duration);
   }
@@ -159,14 +157,14 @@ void count_down(const j_uint *const range, const j_uint num, const j_uint durati
 
 static countdown_arg_t init_args(void) {
   countdown_arg_t arguments = {
+    .args = NULL,
     .duration = 1,
-    .num = 5,
-    .verbose = JFALSE,
-    .show = JFALSE,
     .flush = JTRUE,
     .n_args = 0,
+    .num = 5,
     .sep = NULL,
-    .args = NULL,
+    .show = JFALSE,
+    .verbose = JFALSE,
   };
 
   return arguments;
@@ -196,7 +194,7 @@ int main(int argc, char **argv) {
 
   if (!NULL_PTR(arguments.args)) {
     for (size_t i = 0; i < arguments.n_args; i++) {
-      if (arguments.flush || arguments.show) {
+      if (arguments.flush) {
         printf("\r%s%s", arguments.args[i], (i == arguments.n_args - 1) ? "" : arguments.sep);
         fflush(stdout);
       } else {

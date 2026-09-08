@@ -9,13 +9,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 
 const char *argp_program_version = "cointoss 0.2";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Coin tossing program";
 static char args_doc[] = "[-u] [-r NUM] [-c COUNT] [<X> <Y>]";
 static argp_option_t options[] = {
+  { "exit-code", 'E', 0, 0, "Whether to exit the program depending on the result of the coin toss (HEADS is 0)", 2 },
   { "count", 'c', "COUNT", 0, "How many iterations should be repeated", 2 },
   { "repeat", 'r', "REPEAT", 0, "The repeating cycles amount", 2 },
   { "total", 't', 0, 0, "Whether to show the total stats", 1 },
@@ -40,46 +40,45 @@ jbool in_arr(char *arr[2], char *const word) {
 }
 
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
-  /* Get the input argument from argp_parse, which we
-     know is a pointer to our arguments structure. */
-  cointoss_arg_t *arguments = state->input;
-
+  cointoss_arg_t *args = state->input;
   switch (key) {
+    case 'E':
+      args->by_exit_code = JTRUE;
+      break;
+
     case 'u':
-      arguments->urandom = JTRUE;
+      args->urandom = JTRUE;
       break;
 
     case 'c':
-      arguments->count = (size_t)atoi(arg);
+      args->count = (size_t)atoi(arg);
       break;
 
     case 't':
-      arguments->total = JTRUE;
+      args->total = JTRUE;
       break;
 
     case 'r':
-      arguments->rep = (j_ullong)atoi(arg);
+      args->rep = (j_ullong)atoi(arg);
       break;
 
     case 'v':
-      arguments->verbose = JTRUE;
+      args->verbose = JTRUE;
       break;
 
     case ARGP_KEY_ARG:
-      if (arguments->n_args < 2 && !in_arr(arguments->args, arg)) {
-        arguments->args[arguments->n_args] = arg;
-        arguments->n_args++;
+      if (args->n_args < 2 && !in_arr(args->args, arg)) {
+        args->args[args->n_args] = arg;
+        args->n_args++;
       }
       break;
 
     case ARGP_KEY_END:
-      if (arguments->n_args == 0) {
-        arguments->args[0] = "HEADS";
-        arguments->args[1] = "TAILS";
-      } else if (arguments->n_args == 1) {
-        argp_failure(state, 1, 0, "%s\n%s\n", "Can't accept a single positional parameter.",
-                     "See --help for more information.");
-        die(1, NULL);
+      if (args->n_args == 0) {
+        args->args[HEADS] = "HEADS";
+        args->args[TAILS] = "TAILS";
+      } else if (args->n_args != 2) {
+        vdie(127, "%s\n%s\n", "Can only accept two positional arguments!", "See --help for more information.");
       }
       break;
 
@@ -91,80 +90,77 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
-coin_t *init_coin(void) {
-  coin_t *coin = MALLOC(coin_t);
+j_ullong *init_coin(void) {
+  j_ullong *coin = CALLOC(j_ullong, 2);
 
-  coin->TAILS = 0;
-  coin->HEADS = 0;
+  coin[HEADS] = 0;
+  coin[TAILS] = 0;
 
   return coin;
 }
 
-void show_total(char *choices[2], char **total, size_t n) {
-  coin_t coin = { .HEADS = 0, .TAILS = 0 };
-
+void show_total(cointoss_arg_t *arguments, cointoss_value_t *ec, char **const total, const size_t n) {
+  char **choices = arguments->args;
+  j_ullong coin[2] = { [HEADS] = 0, [TAILS] = 0 };
   for (size_t i = 0; i < n; i++) {
-    if (!strcmp(choices[0], total[i])) {
-      coin.HEADS++;
-      continue;
-    }
-    if (!strcmp(choices[1], total[i])) {
-      coin.TAILS++;
-      continue;
+    if (!strcmp(choices[HEADS], total[i])) {
+      coin[HEADS]++;
+    } else if (!strcmp(choices[TAILS], total[i])) {
+      coin[TAILS]++;
     }
   }
 
-  printf("\n`%s` ==> %llu\n`%s` ==> %llu\n\n", choices[0], coin.HEADS, choices[1], coin.TAILS);
-  free(total);
-}
+  *ec = (coin[HEADS] > coin[TAILS]) ? HEADS : TAILS;
 
-void decide(const jbool result, coin_t *coin) {
-  if (NULL_PTR(coin)) {
-    j_errno_die(127, EFAULT, "Choices struct is NULL!");
-  }
-
-  switch (result) {
-    case JFALSE:
-      coin->HEADS++;
-      break;
-    case JTRUE:
-      coin->TAILS++;
-      break;
+  if (arguments->total) {
+    printf("\n(HEADS): `%s` ==> %llu\n(TAILS): `%s` ==> %llu\n\n", choices[HEADS], coin[HEADS], choices[TAILS],
+           coin[TAILS]);
   }
 }
 
-jbool fd_toss(const int fd) {
-  if (fd < 0) {
-    j_errno_vdie(JTRUE, EBADFD, "(fd_toss): %s (fd: %d)\n", "File descriptor unavailable!", fd);
+void decide(const cointoss_value_t result, j_ullong *coin) {
+  if (!NULL_PTR(coin)) {
+    coin[result]++;
   }
-
-  return fd_urand(fd, JFALSE, JTRUE) ? JTRUE : JFALSE;
 }
 
-void verdict(const int fd, coin_t *coin, char *choices[2], char **total, const size_t n) {
-  if (NULL_PTR(coin)) {
+cointoss_value_t fd_toss(cointoss_arg_t *arguments) {
+  return fd_urand(open(arguments->urandom ? "/dev/urandom" : "/dev/random", O_RDONLY), HEADS, TAILS) ? HEADS : TAILS;
+}
+
+void verdict(cointoss_arg_t *args, j_ullong *const coin, char *choices[2], char **total, const size_t n) {
+  if (NULL_PTR(coin) && !NULL_PTR(total)) {
     free(total);
+    j_errno_die(JTRUE, EFAULT, "(verdict): No available choices!");
+  } else if (NULL_PTR(total) && !NULL_PTR(coin)) {
     free(coin);
-    close(fd);
-    j_errno_vdie(JTRUE, EFAULT, "(verdict): %s\n", "No available choices!");
+    j_errno_die(JTRUE, EFAULT, "(verdict): Total is unavailable!");
+  } else if (NULL_PTR(total) && NULL_PTR(coin)) {
+    j_errno_die(JTRUE, EFAULT, "(verdict): Total and available choices are unavailable!");
   }
 
-  total[n] = choices[(coin->HEADS > coin->TAILS) ? JTRUE : ((coin->TAILS > coin->HEADS) ? JFALSE : fd_toss(fd))];
+  total[n] = choices[cointoss_max_coin(args, coin)];
   printf("%s\n", total[n]);
+}
 
-  free(coin);
+cointoss_value_t cointoss_max_coin(cointoss_arg_t *args, j_ullong *coin) {
+  if (coin[TAILS] == coin[HEADS]) {
+    coin[fd_toss(args)]++;
+  }
+  return (coin[HEADS] > coin[TAILS]) ? HEADS : TAILS;
 }
 
 static cointoss_arg_t init_args(void) {
   cointoss_arg_t arguments = {
-    .n_args = 0,
-    .urandom = JTRUE,
-    .total = JFALSE,
-    .verbose = JFALSE,
-    .count = 1,
-    .rep = 1000000,
     .args[0] = NULL,
     .args[1] = NULL,
+    .by_exit_code = JFALSE,
+    .count = 1,
+    .n_args = 0,
+    .rep = 1000000,
+    .total = JFALSE,
+    .urandom = JTRUE,
+    .verbose = JFALSE,
   };
 
   return arguments;
@@ -179,36 +175,26 @@ int main(int argc, char **argv) {
     die(JTRUE, "-c can't be 0!");
   }
 
-  int fd;
-  if ((fd = open(arguments.urandom ? "/dev/urandom" : "/dev/random", O_RDONLY)) < 0) {
-    j_errno_vdie(127, ENOENT, "(cointoss): `%s` is unavailable (fd: %d)!\n",
-                 arguments.urandom ? "/dev/urandom" : "/dev/random", fd);
-  }
-
   char **total = CALLOC(char *, arguments.count);
   size_t n = 0;
+  cointoss_value_t ec = HEADS;
   for (; n < arguments.count; n++) {
-    coin_t *c = init_coin();
-    for (j_ullong j = 0; j < arguments.rep && fd >= 0; j++) {
+    j_ullong *c = init_coin();
+    for (j_ullong j = 0; j < arguments.rep; j++) {
       if (arguments.verbose) {
         printf("\r%llu%c", j + 1, (j == arguments.rep - 1) ? '\n' : 0);
         fflush(stdout);
       }
-      decide(fd_toss(fd), c);
+      decide(fd_toss(&arguments) ? TAILS : HEADS, c);
     }
-
-    verdict(fd, c, arguments.args, total, n);
-  }
-  if (close(fd) != 0) {
-    free(total);
-    die(JTRUE, "File descriptor could not be closed correctly!");
+    verdict(&arguments, c, arguments.args, total, n);
+    free(c);
   }
 
-  if (arguments.total) {
-    show_total(arguments.args, total, n);
-  }
+  show_total(&arguments, &ec, total, n);
 
-  die(JFALSE, NULL);
+  free(total);
+  return (arguments.by_exit_code) ? ec : 0;
 }
 
 /* vim: set ts=2 sts=2 sw=2 et ai si sta: */

@@ -201,20 +201,13 @@ ndice_t *new_ndice(ndice_t *const main_ndice, char *const value) {
 ndice_t *gen_full_ndice(char *const values) {
   ndice_t *ndice = NULL;
   if (!NULL_PTR(values)) {
-    char *sep_str = CALLOC(char, 2);
-    sep_str[0] = ' ';
-    sep_str[1] = '\0';
-
     char *p = values, *sep = values;
     while (!NULL_PTR(sep)) {
-      strsep(&p, sep_str);
+      strsep(&p, " ");
       ndice = new_ndice(ndice, sep);
       sep = p;
     }
-
-    free(sep_str);
   }
-
   return ndice;
 }
 
@@ -248,8 +241,6 @@ void ndice_throw(ndice_t *ndice, const jbool urandom) {
     int fd = open(urandom ? "/dev/urandom" : "/dev/random", O_RDONLY);
     if (fd >= 0) {
       j_ullong idx = fd_urand(fd, 0, ndice_len(ndice) - 1);
-      close(fd);
-
       ndice_t *index = ndice_index(ndice, idx);
       if (!NULL_PTR(index)) {
         index->n_landings++;
@@ -260,7 +251,7 @@ void ndice_throw(ndice_t *ndice, const jbool urandom) {
 
 ndice_t *ndice_pop(ndice_t *ndice) {
   ndice_t *res = NULL;
-  if (!NULL_PTR(ndice) && ndice_len(ndice) != 0) {
+  if (!NULL_PTR(ndice) && ndice_len(ndice) != -1) {
     ndice_t *p = ndice_end(ndice);
     if (!NULL_PTR(p)) {
       if (!NULL_PTR(p->prev)) {
@@ -282,34 +273,31 @@ ndice_t *ndice_pop(ndice_t *ndice) {
 }
 
 void ndice_insert(ndice_t *ndice, ndice_t *const new, const size_t index) {
-  if (NULL_PTR(ndice) || NULL_PTR(new) || (j_llong)index >= ndice_len(ndice)) {
-    return;
-  }
+  if (!(NULL_PTR(ndice) || NULL_PTR(new) || (j_llong)index >= ndice_len(ndice))) {
+    new->idx = index;
 
-  new->idx = index;
+    ndice_t *old = ndice;
+    ndice = ndice_index(ndice, index);
+    if (NULL_PTR(ndice)) {
+      ndice = old;
+      return;
+    }
 
-  ndice_t *old = ndice;
-  ndice = ndice_index(ndice, index);
-  if (NULL_PTR(ndice)) {
+    if (!NULL_PTR(ndice->prev)) {
+      ndice->prev->next = new;
+      new->prev = ndice->prev;
+    }
+    ndice->prev = new;
+    new->next = ndice;
+
+    size_t i = 1;
+    while (!NULL_PTR(ndice)) {
+      ndice->idx = index + i;
+      ndice = ndice_next(ndice);
+      i++;
+    }
     ndice = old;
-    return;
   }
-
-  if (!NULL_PTR(ndice->prev)) {
-    ndice->prev->next = new;
-    new->prev = ndice->prev;
-  }
-  ndice->prev = new;
-  new->next = ndice;
-
-  size_t i = 1;
-  while (!NULL_PTR(ndice)) {
-    ndice->idx = index + i;
-    ndice = ndice_next(ndice);
-    i++;
-  }
-
-  ndice = old;
 }
 
 void ndice_wipe(ndice_t *ndice) {

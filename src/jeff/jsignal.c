@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 void sig_bootstrap(int *sigs, const size_t n, void (*fun)(const int)) {
-  if (!NULL_PTR(sigs) && n) {
+  if (!NULL_PTR(sigs) && n > 0) {
     for (size_t i = 0; i < n; i++) {
       signal(sigs[i], fun);
     }

@@ -33,18 +33,15 @@ void cond_die(const int status, const jbool cond, char *const msg) {
 }
 
 void cond_vdie(const int status, const jbool cond, char *const fmt, ...) {
-  if (!cond) {
-    return;
+  if (cond) {
+    if (!NULL_PTR(fmt)) {
+      va_list argp;
+      va_start(argp, fmt);
+      vfprintf((!status) ? stdout : stderr, fmt, argp);
+      va_end(argp);
+    }
+    die(status, NULL);
   }
-
-  if (!NULL_PTR(fmt)) {
-    va_list argp;
-    va_start(argp, fmt);
-    vfprintf((!status) ? stdout : stderr, fmt, argp);
-    va_end(argp);
-  }
-
-  die(status, NULL);
 }
 
 void exec_vdie(const int status, void (*fun)(void), char *const fmt, ...) {

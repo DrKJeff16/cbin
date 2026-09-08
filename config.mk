@@ -38,6 +38,7 @@ CFLAGS = $(CPPFLAGS) \
 		 -Wformat-security \
 		 -Wno-implicit-fallthrough \
 		 -Wno-unused \
+		 -Wno-unused-parameter \
 		 -g \
 		 -ggdb \
 		 -march=native \
@@ -53,6 +54,7 @@ CXXFLAGS = $(CPPFLAGS) \
 		   -Wextra \
 		   -Wno-implicit-fallthrough \
 		   -Wno-unused \
+		   -Wno-unused-parameter \
 		   -fcf-protection \
 		   -fomit-frame-pointer \
 		   -fsanitize=address \
@@ -87,7 +89,15 @@ LDXXFLAGS = -L$(GLOBAL_PREFIX)/lib/jeff \
 			-fstack-clash-protection \
 			-fstack-protector \
 			-ftree-vectorize \
-			-ljeff
+			-lX11 \
+			-lXi \
+			-lXrandr \
+			-lXxf86vm \
+			-ldl \
+			-lglfw \
+			-ljeff \
+			-lpthread \
+			-lvulkan
 
 PKG_CONFIG_BIN := pkgconf
 

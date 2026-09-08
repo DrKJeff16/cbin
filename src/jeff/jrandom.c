@@ -31,6 +31,7 @@ j_ullong fd_urand(const int fd, j_ullong min, j_ullong max) {
     return 0;
   }
 
+  close(fd);
   return result % (max - min + 1) + min;
 }
 

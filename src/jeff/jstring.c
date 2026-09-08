@@ -7,11 +7,12 @@
 #include <string.h>
 
 jbool str_startswith(char *const str, char *const start) {
+  jbool status = JFALSE;
   if (NULL_PTR(str) || NULL_PTR(start) || strlen(str) >= strlen(start)) {
-    return JFALSE;
+    return status;
   }
 
-  jbool status = JTRUE;
+  status = JTRUE;
   for (size_t i = 0; i <= strlen(start); i++) {
     if (str[i] != start[i]) {
       status = JFALSE;
@@ -22,24 +23,23 @@ jbool str_startswith(char *const str, char *const start) {
 }
 
 char *str_rep(const char *const s, const size_t n) {
+  char *new_arr = NULL;
   if (NULL_PTR(s)) {
-    return NULL;
-  }
-
-  size_t i, count = 0;
-  while (s[count] != '\0') {
-    ++count;
-  }
-
-  char *new_arr = CALLOC(char, (count * n) + 1);
-  char *na = new_arr;
-  for (i = 0; i < n; ++i) {
-    const char *p = s;
-    while (*p) {
-      *na++ = *p++;
+    size_t i, count = 0;
+    while (s[count] != '\0') {
+      ++count;
     }
+
+    new_arr = CALLOC(char, (count * n) + 1);
+    char *na = new_arr;
+    for (i = 0; i < n; ++i) {
+      const char *p = s;
+      while (*p) {
+        *na++ = *p++;
+      }
+    }
+    *na = '\0';
   }
-  *na = '\0';
   return new_arr;
 }
 
@@ -62,10 +62,8 @@ jbool in_str(char *const str, const char *const c) {
 /// I gave up, so tysm:
 /// https://www.quora.com/How-do-I-write-a-C-program-to-remove-duplicates-from-a-string
 char *dedup_str(char *const str) {
-  j_ulong len = strlen(str);
+  j_ulong len = strlen(str), j = 0;
   char *res = CALLOC(char, len + 1);
-  j_ulong j = 0;
-
   for (j_ulong i = 0; i < len; i++) {
     j_ulong found = 0;
     for (j_ulong k = 0; k < j; k++) {
@@ -85,35 +83,33 @@ char *dedup_str(char *const str) {
 }
 
 void str_append_nul(char *str) {
-  if (NULL_PTR(str)) {
-    return;
+  if (!NULL_PTR(str)) {
+    char *chr = strchr(str, 0);
+    if (!NULL_PTR(chr)) {
+      return;
+    }
+
+    const size_t len = strlen(str) + 1;
+    char *str_og = CALLOC(char, len);
+    char *new_str = CALLOC(char, len + 1);
+
+    chr = strcpy(new_str, str);
+    /// If no NUL char in `str`
+    if (NULL_PTR(chr)) {
+      new_str[len] = '\0';
+    } else {
+      new_str = REALLOC(new_str, char, len);
+    }
+
+    chr = strcpy(str, new_str);
+    if (NULL_PTR(chr)) {
+      strcpy(str, str_og);
+      j_verr("(str_append_nul): %s\n", "Unable to copy `new_str` back to `str`");
+    }
+
+    free(new_str);
+    free(str_og);
   }
-
-  char *chr = strchr(str, 0);
-  if (!NULL_PTR(chr)) {
-    return;
-  }
-
-  const size_t len = strlen(str) + 1;
-  char *str_og = CALLOC(char, len);
-  char *new_str = CALLOC(char, len + 1);
-
-  chr = stpcpy(new_str, str);
-  /// If no NUL char in `str`
-  if (NULL_PTR(chr)) {
-    new_str[len] = '\0';
-  } else {
-    new_str = REALLOC(new_str, char, len);
-  }
-
-  chr = stpcpy(str, new_str);
-  if (NULL_PTR(chr)) {
-    stpcpy(str, str_og);
-    j_verr("(str_append_nul): %s\n", "Unable to copy `new_str` back to `str`");
-  }
-
-  free(new_str);
-  free(str_og);
 }
 
 jbool is_lower(char *const str) {
@@ -140,44 +136,33 @@ jbool is_upper(char *const str) {
       return JFALSE;
     }
   }
-
   return JTRUE;
 }
 
 jbool is_lower_char(const char c) {
-  if (c >= 'A' && c <= 'Z') {
-    return JFALSE;
-  }
-  return JTRUE;
+  return (c >= 'A' && c <= 'Z') ? JFALSE : JTRUE;
 }
 
 jbool is_upper_char(const char c) {
-  if (c >= 'a' && c <= 'z') {
-    return JFALSE;
-  }
-  return JTRUE;
+  return (c >= 'a' && c <= 'z') ? JFALSE : JTRUE;
 }
 
 void lowerize(char *str) {
-  if (NULL_PTR(str)) {
-    return;
-  }
-
-  for (size_t i = 0; i < strlen(str); i++) {
-    if (is_upper_char(str[i])) {
-      str[i] += 32;
+  if (!NULL_PTR(str)) {
+    for (size_t i = 0; i < strlen(str); i++) {
+      if (is_upper_char(str[i])) {
+        str[i] += 32;
+      }
     }
   }
 }
 
 void upperize(char *str) {
-  if (NULL_PTR(str)) {
-    return;
-  }
-
-  for (size_t i = 0; i < strlen(str); i++) {
-    if (is_lower_char(str[i])) {
-      str[i] -= 32;
+  if (!NULL_PTR(str)) {
+    for (size_t i = 0; i < strlen(str); i++) {
+      if (is_lower_char(str[i])) {
+        str[i] -= 32;
+      }
     }
   }
 }
@@ -220,7 +205,7 @@ void reverse_str(char *s) {
 char *str_reversed(char *const str) {
   char *new_str = NULL;
   if (!NULL_PTR(str)) {
-    char *new_str = CALLOC(char, strlen(str) + 1);
+    new_str = CALLOC(char, strlen(str) + 1);
     strcpy(new_str, str);
     reverse_str(new_str);
   }
@@ -228,60 +213,54 @@ char *str_reversed(char *const str) {
 }
 
 void j_lstrip(const char c, char *str) {
-  if (NULL_PTR(str)) {
-    die(4, "(j_lstrip): No string to strip!");
-  }
+  if (!NULL_PTR(str)) {
+    size_t len = strlen(str), i = 0, new_len = strlen(str);
+    if (c != 0 && len > 0 && !NULL_PTR(strchr(str, c))) {
+      while (i <= len && str[i] == c) {
+        new_len--;
+        i++;
+      }
 
-  size_t len = strlen(str), i = 0, new_len = strlen(str);
-  if (c != 0 && len > 0 && !NULL_PTR(strchr(str, c))) {
-    while (i <= len && str[i] == c) {
-      new_len--;
-      i++;
-    }
+      char *new_str = CALLOC(char, new_len + 1);
+      for (i = 0; i <= new_len; i++) {
+        new_str[i] = str[len - new_len + i];
+      }
 
-    char *new_str = CALLOC(char, new_len + 1);
-    for (i = 0; i <= new_len; i++) {
-      new_str[i] = str[len - new_len + i];
-    }
+      new_str[i] = '\0';
 
-    new_str[i] = '\0';
+      str = REALLOC(str, char, new_len + 1);
 
-    str = REALLOC(str, char, new_len + 1);
+      if (NULL_PTR(str)) {
+        free(new_str);
+        free(str);
+        die(2, "(j_lstrip): FAILED TO REALLOCATE str!");
+      }
 
-    if (NULL_PTR(str)) {
+      if (NULL_PTR(strcpy(str, new_str))) {
+        free(new_str);
+        free(str);
+        die(3, "(j_lstrip): FAILED TO COPY new_str INTO str!");
+      }
+
       free(new_str);
       free(str);
-      die(2, "(j_lstrip): FAILED TO REALLOCATE str!");
     }
-
-    if (NULL_PTR(stpcpy(str, new_str))) {
-      free(new_str);
-      free(str);
-      die(3, "(j_lstrip): FAILED TO COPY new_str INTO str!");
-    }
-
-    free(new_str);
-    free(str);
   }
 }
 
 void j_rstrip(const char c, char *str) {
-  if (NULL_PTR(str)) {
-    die(4, "(j_rstrip): No str to strip!");
+  if (!NULL_PTR(str)) {
+    reverse_str(str);
+    j_lstrip(c, str);
+    reverse_str(str);
   }
-
-  reverse_str(str);
-  j_lstrip(c, str);
-  reverse_str(str);
 }
 
 void j_strip(const char c, char *str) {
-  if (NULL_PTR(str)) {
-    die(4, "(j_strip): No str to strip!");
+  if (!NULL_PTR(str)) {
+    j_lstrip(c, str);
+    j_rstrip(c, str);
   }
-
-  j_lstrip(c, str);
-  j_rstrip(c, str);
 }
 
 /* vim: set ts=2 sts=2 sw=2 et ai si sta: */

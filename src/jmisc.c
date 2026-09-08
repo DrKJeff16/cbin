@@ -1,5 +1,6 @@
 #include <argp.h>
 #include <ini.h>
+#include <jeff/jdie.h>
 #include <jeff/jerr.h>
 #include <jeff/jmemory.h>
 #include <jeff/jstring.h>
@@ -17,6 +18,15 @@ static argp_option_t options[] = {
   { 0 },
 };
 
+static void args_gc(jmisc_arg_t *args) {
+  if (!NULL_PTR(args)) {
+    if (!NULL_PTR(args->args)) {
+      free(args->args);
+    }
+    free(args);
+  }
+}
+
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   jmisc_arg_t *args = state->input;
   switch (key) {
@@ -27,6 +37,10 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       break;
 
     case ARGP_KEY_END:
+      if (!args->n_args) {
+        args_gc(args);
+        die(1, "No arguments given!");
+      }
       break;
 
     default:
@@ -68,9 +82,8 @@ int main(int argc, char **argv) {
     for (size_t i = 0; i < arguments->n_args; i++) {
       printf("%s\n", arguments->args[i]);
     }
-    free(arguments->args);
   }
-  free(arguments);
+  args_gc(arguments);
 
   char *env_vars[2] = { "FOO", "BAR" };
   for (size_t i = 0; i < 2; i++) {

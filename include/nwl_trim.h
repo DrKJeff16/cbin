@@ -40,6 +40,15 @@ static void files_gc(char **files, const j_ullong n);
  */
 static nwltrim_arg_t init_args(void);
 
+/**
+ * \brief Print only if verbose mode is on
+ * \param verbose Whether verbose mode is enabled
+ * \param stream The file stream to print to. If `NULL`, defaults to `stdout`
+ * \param fmt The format string
+ * \param ... Extra arguments for the format string
+ */
+static void vverbose_print(const jbool verbose, FILE *restrict stream, const char *fmt, ...);
+
 /** @} */
 
 #if defined(__cplusplus)

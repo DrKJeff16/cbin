@@ -47,7 +47,7 @@ typedef struct hash_map jhash_map;
  * \param key The key of the element
  * \param value The value of the element
  */
-void init_jhash(jhash_t *node, char *key, char *value);
+void init_jhash(jhash_t *node, char *const key, char *const value);
 
 /**
  * \brief Initialize a hash table

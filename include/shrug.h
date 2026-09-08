@@ -93,7 +93,7 @@ emotions_idx map_emotion(char *const str);
 /**
  * \brief List all emotions, then exit successfully
  */
-void list_emotions(void);
+void list_emotions(shrug_arg_t *args);
 
 /**
  * \brief Show usage message, then exit
@@ -106,7 +106,7 @@ static void show_usage(const int code, shrug_arg_t *arguments);
  * \brief Initialize the `shrug_arg_t` struct
  * \return The `shrug_arg_t` struct
  */
-static shrug_arg_t init_args(void);
+static shrug_arg_t *init_args(void);
 
 /** @} */
 

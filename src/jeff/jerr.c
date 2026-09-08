@@ -8,11 +8,11 @@
 
 void j_err(char *const fmt, char *const msg) {
   char *format = CALLOC(char, 4);
-  stpcpy(format, "%s\n");
+  strcpy(format, "%s\n");
 
   if (!NULL_PTR(fmt)) {
     format = REALLOC(format, char, strlen(fmt) + 1);
-    stpcpy(format, fmt);
+    strcpy(format, fmt);
   }
   if (!NULL_PTR(msg)) {
     fprintf(stderr, format, msg);
@@ -24,21 +24,19 @@ void j_err(char *const fmt, char *const msg) {
 }
 
 void j_verr(char *const fmt, ...) {
-  if (NULL_PTR(fmt)) {
-    return;
+  if (!NULL_PTR(fmt)) {
+    va_list argp;
+    va_start(argp, fmt);
+    vfprintf(stderr, fmt, argp);
+    va_end(argp);
   }
-
-  va_list argp;
-  va_start(argp, fmt);
-  vfprintf(stderr, fmt, argp);
-  va_end(argp);
 }
 
 void j_errno_err(const int code, char *const fmt, char *const msg) {
   char *format = CALLOC(char, 4);
   int e_code = (code >= EPERM && code <= EHWPOISON) ? code : ENOMSG;
 
-  stpcpy(format, "%s\n");
+  strcpy(format, "%s\n");
   j_err(format, strerror(e_code));
 
   if (!NULL_PTR(fmt)) {
@@ -54,14 +52,13 @@ void j_errno_err(const int code, char *const fmt, char *const msg) {
 void j_errno_verr(const int code, char *const fmt, ...) {
   int e_code = (code >= EPERM && code <= EHWPOISON) ? code : ENOMSG;
   j_err("%s\n", strerror(e_code));
-  if (NULL_PTR(fmt)) {
-    return;
-  }
 
-  va_list argp;
-  va_start(argp, fmt);
-  vfprintf(stderr, fmt, argp);
-  va_end(argp);
+  if (!NULL_PTR(fmt)) {
+    va_list argp;
+    va_start(argp, fmt);
+    vfprintf(stderr, fmt, argp);
+    va_end(argp);
+  }
 }
 
 void j_exec_verr(void (*fun)(void), char *const fmt, ...) {

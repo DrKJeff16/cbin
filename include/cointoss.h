@@ -15,22 +15,26 @@ extern "C" {
  * \struct cointoss_args
  */
 struct cointoss_args {
-  char *args[2]; /*!< A 2-sized array of strings */
-  size_t count;  /*!< The amount of coins to toss */
-  size_t n_args; /*!< The number of positional arguments */
-  j_ullong rep;  /*!< The number of times to "toss the coin" in a single cycle */
-  jbool total;   /*!< Whether the total number of runs should be printed */
-  jbool urandom; /*!< Toggles the usage of `/dev/urandom` instead of `/dev/random` */
-  jbool verbose; /*!< Enables verbose mode if set to `JTRUE` */
+  char *args[2];      /*!< A 2-sized array of strings */
+  jbool by_exit_code; /*!< Whether to exit the program with an exit code based on the cointoss result */
+  size_t count;       /*!< The amount of coins to toss */
+  size_t n_args;      /*!< The number of positional arguments */
+  j_ullong rep;       /*!< The number of times to "toss the coin" in a single cycle */
+  jbool total;        /*!< Whether the total number of runs should be printed */
+  jbool urandom;      /*!< Toggles the usage of `/dev/urandom` instead of `/dev/random` */
+  jbool verbose;      /*!< Enables verbose mode if set to `JTRUE` */
+};
+
+enum cointoss_values {
+  HEADS = JFALSE,
+  TAILS = JTRUE,
 };
 
 /**
- * \struct coin
+ * \typedef cointoss_value_t
+ * \brief The enum value types for each coin's element index
  */
-struct coin {
-  j_ullong HEADS; /*!< The amount of times the "coin" lands on "heads" */
-  j_ullong TAILS; /*!< The amount of times the "coin" lands on "tails" */
-};
+typedef enum cointoss_values cointoss_value_t;
 
 /**
  * \typedef cointoss_arg_t
@@ -39,48 +43,51 @@ struct coin {
 typedef struct cointoss_args cointoss_arg_t;
 
 /**
- * \typedef coin_t
- * \brief The typedef for the `coin` struct
- */
-typedef struct coin coin_t;
-
-/**
  * \brief The amount of times a random toss is made given the file descriptor
- * \param fd The file descriptor pointing to either `/dev/random` or `/dev/urandom`
+ * \param args The arguments struct
  * \return Whether the coin tossed to "heads" (0) or "tails" (1)
  */
-jbool fd_toss(const int fd);
+cointoss_value_t fd_toss(cointoss_arg_t *args);
 
 /**
  * \brief Initialize the coin choices pointer
- * \return The `coin_t` type pointer (heap array)
+ * \return The coin pointer, heap-array
  */
-coin_t *init_coin(void);
+j_ullong *init_coin(void);
 
 /**
- * \brief With the given `result` increment the corresponding `coin_t` struct element
+ * \brief With the given `result` increment the corresponding coin array
  * \param result Either 0 ("heads") or 1 ("tails")
- * \param c The `coin_t` struct pointer
+ * \param c The coin array
  */
-void decide(const jbool result, coin_t *c);
+void decide(const cointoss_value_t result, j_ullong *c);
+
+/**
+ * \brief Return the index of the coin array with the largest value.
+ * If they're equal, toss the coin again.
+ * \param args The arguments struct pointer
+ * \param coin The coin array
+ * \return Either 0 (HEADS) or 1 (TAILS)
+ */
+cointoss_value_t cointoss_max_coin(cointoss_arg_t *args, j_ullong *coin);
 
 /**
  * \brief After multiple runs decide what side of the given coin will be printed
- * \param fd The random file descriptor
- * \param coin The coin struct pointer
+ * \param args The arguments struct
+ * \param coin The coin array
  * \param choices The 2-sized string array with the text for either coin side
  * \param total The string array with all the total results for each run
  * \param n The size of `total`
  */
-void verdict(const int fd, coin_t *coin, char *choices[2], char **total, const size_t n);
+void verdict(cointoss_arg_t *args, j_ullong *const coin, char *choices[2], char **total, const size_t n);
 
 /**
  * \brief Print each string from the total strings array
- * \param choices The 2-sized string array with the text for either coin side
+ * \param arguments The arguments struct pointer
  * \param total The string array with all the total results for each run
  * \param n The size of `total`
  */
-void show_total(char *choices[2], char **total, size_t n);
+void show_total(cointoss_arg_t *arguments, cointoss_value_t *ec, char **const total, const size_t n);
 
 /**
  * \brief Initialize the `cointoss_arg_t` struct with the default values
