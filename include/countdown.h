@@ -20,6 +20,7 @@ struct countdown_args {
   jbool flush;     /*!< Whether to flush the output of each count or not */
   size_t n_args;   /*!< The number of positional arguments parsed */
   j_uint num;      /*!< Specifies where should the countdown start (default is 5) */
+  char *prompt;    /*!< The prompt to show when making the countdown */
   char *sep;       /*!< The separator of the printed output (default is `" "`) */
   jbool show;      /*!< Shows the countdown in the terminal output */
   jbool verbose;   /*!< Enables verbose mode */
@@ -45,9 +46,10 @@ j_uint *gen_range(const j_uint num);
  * \param duration The duration of the countdown
  * \param show Whether to show the countdown in the CLI
  * \param flush Whether to flush the printed text
+ * \param prompt The prompt for the count down
  */
-void count_down(const j_uint *const range, const j_uint num, const j_uint duration, const jbool show,
-                const jbool flush);
+void count_down(const j_uint *const range, const j_uint num, const j_uint duration, const jbool show, const jbool flush,
+                char *const prompt);
 
 /**
  * \brief Initialize `countdown_arg_t` arguments for a program
@@ -62,6 +64,12 @@ static countdown_arg_t init_args(void);
  * \param stream The output stream. If `NULL`, it will default to stdout
  */
 static void verbose_print(const jbool verbose, const char *txt, FILE *restrict stream);
+
+/**
+ * \brief Garbage-collect the arguments struct
+ * \param args The arguments struct
+ */
+static void args_gc(countdown_arg_t *args);
 
 /** @} */
 
