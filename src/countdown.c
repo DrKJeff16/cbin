@@ -14,12 +14,13 @@ const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Customizable countdown program.";
 static char args_doc[] = "[-v] [-s [-f]] [-n INT] [-d INT] [<MSG> [...]]";
 static argp_option_t options[] = {
-  { "verbose", 'v', 0, 0, "Produce verbose output", 0 },
-  { "show", 's', 0, 0, "Show the number countdown", 1 },
   { "separator", 'S', "SEP", 0, "The separator string between positional arguments", 1 },
-  { "start-num", 'n', "NUM", 0, "The starting number", 1 },
+  { "prompt", 'p', "PROMPT", 0, "The prompt to show when making the countdown (requires `-s` to work)", 1 },
   { "duration", 'd', "DURATION", 0, "The duration per countdown", 1 },
   { "no-flush", 'f', 0, 0, "Don't flush the output, print each count in a newline (assumes `-s`)", 2 },
+  { "show", 's', 0, 0, "Show the number countdown", 1 },
+  { "start-num", 'n', "NUM", 0, "The starting number", 1 },
+  { "verbose", 'v', 0, 0, "Produce verbose output", 0 },
   { 0 },
 };
 
@@ -37,6 +38,11 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   switch (key) {
     case 'v':
       args->verbose = JTRUE;
+      break;
+
+    case 'p':
+      args->prompt = CALLOC(char, strlen(arg) + 1);
+      strcpy(args->prompt, arg);
       break;
 
     case 'f':
@@ -65,23 +71,13 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       }
 
       if (!digit || strlen(arg) == 0) {
-        if (!NULL_PTR(args->args)) {
-          free(args->args);
-        }
-        if (!NULL_PTR(args->sep)) {
-          free(args->sep);
-        }
+        args_gc(args);
         vdie(1, "Invalid: `%s`\n", arg);
       }
 
       num = strtol(arg, &p, 10);
       if (num <= 0) {
-        if (!NULL_PTR(args->args)) {
-          free(args->args);
-        }
-        if (!NULL_PTR(args->sep)) {
-          free(args->sep);
-        }
+        args_gc(args);
         vdie(1, "Invalid: `%s`\n", arg);
       }
 
@@ -97,12 +93,7 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       }
 
       if (!digit || strlen(arg) == 0) {
-        if (!NULL_PTR(args->args)) {
-          free(args->args);
-        }
-        if (!NULL_PTR(args->sep)) {
-          free(args->sep);
-        }
+        args_gc(args);
         vdie(1, "Invalid: `%s`\n", arg);
         break;
       }
@@ -142,14 +133,14 @@ j_uint *gen_range(const j_uint num) {
   return res;
 }
 
-void count_down(const j_uint *const range, const j_uint num, const j_uint duration, const jbool show,
-                const jbool flush) {
+void count_down(const j_uint *const range, const j_uint num, const j_uint duration, const jbool show, const jbool flush,
+                char *const prompt) {
   for (j_uint i = 0; i < num; i++) {
     if (show && flush) {
-      printf("\r%d", range[i]);
+      printf("\r%s%c%d", (!NULL_PTR(prompt)) ? prompt : "", (!NULL_PTR(prompt)) ? ' ' : 0, range[i]);
       fflush(stdout);
     } else if (show) {
-      printf("%d\n", range[i]);
+      printf("%s%c%d\n", (!NULL_PTR(prompt)) ? prompt : "", (!NULL_PTR(prompt)) ? ' ' : 0, range[i]);
     }
     sleep(duration);
   }
@@ -162,12 +153,27 @@ static countdown_arg_t init_args(void) {
     .flush = JTRUE,
     .n_args = 0,
     .num = 5,
+    .prompt = NULL,
     .sep = NULL,
     .show = JFALSE,
     .verbose = JFALSE,
   };
 
   return arguments;
+}
+
+static void args_gc(countdown_arg_t *args) {
+  if (!NULL_PTR(args)) {
+    if (!NULL_PTR(args->args)) {
+      free(args->args);
+    }
+    if (!NULL_PTR(args->prompt)) {
+      free(args->prompt);
+    }
+    if (!NULL_PTR(args->sep)) {
+      free(args->sep);
+    }
+  }
 }
 
 /* Our argp parser. */
@@ -185,7 +191,7 @@ int main(int argc, char **argv) {
   free(s);
 
   j_uint *range = gen_range(arguments.num);
-  count_down(range, arguments.num, arguments.duration, arguments.show, arguments.flush);
+  count_down(range, arguments.num, arguments.duration, arguments.show, arguments.flush, arguments.prompt);
   free(range);
 
   if (arguments.show && arguments.flush) {
@@ -202,10 +208,9 @@ int main(int argc, char **argv) {
         printf("\n");
       }
     }
-    free(arguments.args);
   }
 
-  free(arguments.sep);
+  args_gc(&arguments);
   return 0;
 }
 
