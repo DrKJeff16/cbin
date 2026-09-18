@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void init_jhash(jhash_t *node, char *key, char *value) {
+void init_jhash(jhash_t *node, char *const key, char *const value) {
   node->key = key;
   node->value = value;
   node->next = NULL;
@@ -41,8 +41,7 @@ void jhash_insert(jhash_map *mp, char *key, char *value) {
 
 void jhash_delete(jhash_map *mp, char *key) {
   j_llong bucket_index = jhash(mp, key);
-  jhash_t *prev_node = NULL;
-  jhash_t *curr_node = mp->arr[bucket_index];
+  jhash_t *prev_node = NULL, *curr_node = mp->arr[bucket_index];
   while (!NULL_PTR(curr_node)) {
     if (strcmp(key, curr_node->key) == 0) {
       if (curr_node == mp->arr[bucket_index]) {

@@ -122,7 +122,6 @@ int main(int argc, char **argv) {
       if (strlen(lines[j]) > 1) {
         break;
       }
-
       n_del++;
     }
 

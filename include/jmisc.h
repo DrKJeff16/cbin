@@ -45,6 +45,12 @@ typedef struct config config_t;
 typedef struct jmisc_args jmisc_arg_t;
 
 /**
+ * \brief Garbage-collect the arguments struct
+ * \param args The arguments struct
+ */
+static void args_gc(jmisc_arg_t *args);
+
+/**
  * \brief Parse the options using argp
  * \param key The key or character to parse
  * \param arg The argument that either follows an option, or positional argument. Can be `NULL`

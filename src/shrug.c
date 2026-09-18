@@ -92,10 +92,12 @@ char *emotions(const jbool list, const jbool md, const emotions_idx idx) {
 
 jbool is_emotion(char *const arg) {
   jbool res = JFALSE;
-  for (size_t i = 0; i < N_EMOTIONS; i++) {
-    if (!strcmp(emotions(JTRUE, JFALSE, i), arg)) {
-      res = JTRUE;
-      break;
+  if (!NULL_PTR(arg)) {
+    for (size_t i = 0; i < N_EMOTIONS; i++) {
+      if (!strcmp(emotions(JTRUE, JFALSE, i), arg)) {
+        res = JTRUE;
+        break;
+      }
     }
   }
   return res;
@@ -108,7 +110,6 @@ emotions_idx map_emotion(char *const str) {
       break;
     }
   }
-
   return i;
 }
 
@@ -140,8 +141,6 @@ static void show_usage(const int code, shrug_arg_t *arguments) {
 }
 
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
-  /* Get the input argument from argp_parse, which we
-     know is a pointer to our arguments structure. */
   shrug_arg_t *arguments = state->input;
   char *lower_arg;
   jbool use_lower = JFALSE;
@@ -247,7 +246,7 @@ int main(int argc, char **argv) {
     TO_ZERO(arguments->zero, emotions(JFALSE, arguments->md, SHRUG))
 
     free(arguments);
-    die(0, NULL);
+    return 0;
   }
 
   for (size_t i = 0; i < arguments->n_args; i++) {

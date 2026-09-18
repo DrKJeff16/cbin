@@ -59,7 +59,7 @@ static countdown_arg_t init_args(void);
  * \brief Only print if `verbose` is enabled
  * \param verbose Whether verbose is enabled
  * \param txt The string to print
- * \param stream The output stream. Defaults to `stdout`
+ * \param stream The output stream. If `NULL`, it will default to stdout
  */
 static void verbose_print(const jbool verbose, const char *txt, FILE *restrict stream);
 
