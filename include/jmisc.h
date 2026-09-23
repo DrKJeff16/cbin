@@ -21,7 +21,6 @@ extern "C" {
 struct config {
   char *gf;
   char *name;
-  int version;
 };
 
 /**
@@ -61,9 +60,9 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state);
 
 /**
  * \brief Initializes the `jmisc_arg_t` struct
- * \return The `jmisc_arg_t` struct pointer (heap)
+ * \return The `jmisc_arg_t` struct
  */
-static jmisc_arg_t *init_args(void);
+static jmisc_arg_t init_args(void);
 
 /**
  * \brief Handler for libinih parsing

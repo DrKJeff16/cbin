@@ -8,6 +8,9 @@ compile_commands.json
 /obj/
 /preproc/
 
+# INI files for testing
+*.ini
+
 # Documentation
 /doc/
 

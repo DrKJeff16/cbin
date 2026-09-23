@@ -159,6 +159,12 @@ void ndice_append(ndice_t *ndice, ndice_t *const new_ndice);
 void ndice_reset_count(ndice_t *ndice);
 
 /**
+ * \brief Garbage-collect an element from a dice linked list
+ * \param ndice The dice linked list
+ */
+void ndice_gc(ndice_t *ndice);
+
+/**
  * \brief Wipe a dice linked list
  * \param ndice The dice linked list to be wiped (A.K.A. to free)
  */
@@ -185,6 +191,12 @@ static ndice_arg_t init_args(void);
  * \return Any error number, or none
  */
 static error_t parse_opt(int key, char *arg, argp_state_t *state);
+
+/**
+ * \brief Garbage-collector for the arguments struct
+ * \param args The arguments struct
+ */
+static void args_gc(ndice_arg_t *args);
 
 /** @} */
 

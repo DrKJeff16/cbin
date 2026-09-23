@@ -118,7 +118,6 @@ static void prompt(char **restrict msg, const size_t n, const jbool negative) {
   for (size_t i = 0; i < n; i++) {
     printf("%s ", msg[i]);
   }
-
   printf("[%s]: ", (!negative) ? "Y/n" : "y/N");
 }
 
@@ -138,8 +137,7 @@ void yes_no(yn_arg_t *arguments) {
   int code = arguments->code;
   size_t nargs = arguments->n_args;
   j_ullong tries = arguments->tries;
-  jbool invert = arguments->invert, prev = JFALSE;
-  jbool unlimited_tries = (tries > 0) ? JFALSE : JTRUE;
+  jbool invert = arguments->invert, prev = JFALSE, unlimited_tries = (tries > 0) ? JFALSE : JTRUE;
   char in;
 
   tries = (unlimited_tries) ? 1 : tries - 1;

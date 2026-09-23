@@ -1,6 +1,7 @@
 CC := ${CC}
 CXX := ${CXX}
 AR := gcc-ar
+STRIP := strip
 
 LTO := OFF
 

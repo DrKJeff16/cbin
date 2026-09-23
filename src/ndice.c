@@ -12,7 +12,7 @@
 #include <string.h>
 #include <unistd.h>
 
-const j_ullong DEFAULT_THROWS = 2500L;
+const j_ullong DEFAULT_THROWS = 5000L;
 
 const char *argp_program_version = "ndice 0.0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
@@ -23,7 +23,7 @@ static argp_option_t options[] = {
     .arg = 0,
     .doc = "Enable verbose mode",
     .flags = 0,
-    .group = 1,
+    .group = 0,
     .key = 'v',
     .name = "verbose",
   },
@@ -39,7 +39,7 @@ static argp_option_t options[] = {
     .arg = 0,
     .doc = "Whether to do a single throw (will ignore `-t`!)",
     .flags = 0,
-    .group = 0,
+    .group = 1,
     .key = 's',
     .name = "single",
   },
@@ -53,6 +53,12 @@ static argp_option_t options[] = {
   },
   { 0 },
 };
+
+static void args_gc(ndice_arg_t *args) {
+  if (!(NULL_PTR(args) || NULL_PTR(args->args))) {
+    free(args->args);
+  }
+}
 
 char **ndice_values(ndice_t *const ndice) {
   char **items = NULL;
@@ -80,11 +86,7 @@ ndice_t *ndice_remove(ndice_t *ndice, const size_t index) {
 
   ndice_t *p = ndice_start(ndice);
   while (p->idx != index && !NULL_PTR(p)) {
-    if (p->idx < index) {
-      p = ndice_next(p);
-    } else {
-      p = ndice_prev(p);
-    }
+    p = (p->idx < index) ? ndice_next(p) : ndice_prev(p);
   }
   if (!NULL_PTR(p)) {
     res = p;
@@ -265,8 +267,7 @@ ndice_t *ndice_pop(ndice_t *ndice) {
       res->value = CALLOC(char, strlen(p->value) + 1);
       strcpy(res->value, p->value);
 
-      free(p->value);
-      free(p);
+      ndice_gc(p);
     }
   }
   return res;
@@ -280,23 +281,29 @@ void ndice_insert(ndice_t *ndice, ndice_t *const new, const size_t index) {
     ndice = ndice_index(ndice, index);
     if (NULL_PTR(ndice)) {
       ndice = old;
-      return;
-    }
+    } else {
+      if (!NULL_PTR(ndice->prev)) {
+        ndice->prev->next = new;
+        new->prev = ndice->prev;
+      }
+      ndice->prev = new;
+      new->next = ndice;
 
-    if (!NULL_PTR(ndice->prev)) {
-      ndice->prev->next = new;
-      new->prev = ndice->prev;
+      size_t i = 1;
+      while (!NULL_PTR(ndice)) {
+        ndice->idx = index + i;
+        ndice = ndice_next(ndice);
+        i++;
+      }
+      ndice = old;
     }
-    ndice->prev = new;
-    new->next = ndice;
+  }
+}
 
-    size_t i = 1;
-    while (!NULL_PTR(ndice)) {
-      ndice->idx = index + i;
-      ndice = ndice_next(ndice);
-      i++;
-    }
-    ndice = old;
+void ndice_gc(ndice_t *ndice) {
+  if (!(NULL_PTR(ndice) || NULL_PTR(ndice->value))) {
+    free(ndice->value);
+    free(ndice);
   }
 }
 
@@ -306,12 +313,10 @@ void ndice_wipe(ndice_t *ndice) {
     if (!NULL_PTR(end)) {
       while (!NULL_PTR(end->prev)) {
         end = ndice_prev(end);
-        free(end->next->value);
-        free(end->next);
+        ndice_gc(end->next);
       }
     }
-    free(ndice->value);
-    free(ndice);
+    ndice_gc(ndice);
   }
 }
 
@@ -349,17 +354,13 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       }
 
       if (!digit || strlen(arg) == 0) {
-        if (!NULL_PTR(args->args)) {
-          free(args->args);
-        }
+        args_gc(args);
         vdie(1, "Invalid: `%s`\n", arg);
       }
 
       throws = strtol(arg, &p, 10);
       if (*p != 0 || p == arg || throws <= 0) {
-        if (!NULL_PTR(args->args)) {
-          free(args->args);
-        }
+        args_gc(args);
         die(1, NULL);
       }
 
@@ -436,7 +437,7 @@ int main(int argc, char **argv) {
   ndice_t *ndice = gen_full_ndice(value);
 
   free(value);
-  free(arguments.args);
+  args_gc(&arguments);
 
   int fd = open(arguments.urandom ? "/dev/urandom" : "/dev/random", O_RDONLY);
   if (fd < 0) {

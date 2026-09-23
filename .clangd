@@ -20,6 +20,8 @@ CompileFlags:
     - "-xc"
   CompilationDatabase: .
   Compiler: gcc
+Diagnostics:
+  UnusedIncludes: None
 Index:
   Background: Build
   StandardLibrary: true
@@ -57,6 +59,8 @@ CompileFlags:
     - "-xc-header"
   CompilationDatabase: .
   Compiler: gcc
+Diagnostics:
+  UnusedIncludes: None
 Index:
   Background: Build
   StandardLibrary: true
@@ -126,6 +130,8 @@ CompileFlags:
     - "-xc++"
   CompilationDatabase: .
   Compiler: g++
+Diagnostics:
+  UnusedIncludes: None
 Index:
   Background: Build
   StandardLibrary: true
@@ -195,6 +201,8 @@ CompileFlags:
     - "-xc++-header"
   CompilationDatabase: .
   Compiler: g++
+Diagnostics:
+  UnusedIncludes: None
 Index:
   Background: Build
   StandardLibrary: true

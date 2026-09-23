@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 const char *argp_program_version = "jmisc 0.1";
 const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
@@ -19,11 +20,8 @@ static argp_option_t options[] = {
 };
 
 static void args_gc(jmisc_arg_t *args) {
-  if (!NULL_PTR(args)) {
-    if (!NULL_PTR(args->args)) {
-      free(args->args);
-    }
-    free(args);
+  if (!NULL_PTR(args) && !NULL_PTR(args->args)) {
+    free(args->args);
   }
 }
 
@@ -49,10 +47,11 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   return 0;
 }
 
-static jmisc_arg_t *init_args(void) {
-  jmisc_arg_t *arguments = MALLOC(jmisc_arg_t);
-  arguments->n_args = 0;
-  arguments->args = NULL;
+static jmisc_arg_t init_args(void) {
+  jmisc_arg_t arguments = {
+    .n_args = 0,
+    .args = NULL,
+  };
 
   return arguments;
 }
@@ -62,9 +61,7 @@ static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 static int j_ini_handler(void *user, const char *section, const char *key, const char *value) {
   config_t *pconfig = (config_t *)user;
 
-  if (J_STRMATCH(section, "protocol") && J_STRMATCH(key, "version")) {
-    pconfig->version = atoi(value);
-  } else if (J_STRMATCH(section, "user") && J_STRMATCH(key, "name")) {
+  if (J_STRMATCH(section, "user") && J_STRMATCH(key, "name")) {
     pconfig->name = strdup(value);
   } else if (J_STRMATCH(section, "user") && J_STRMATCH(key, "gf")) {
     pconfig->gf = strdup(value);
@@ -75,15 +72,15 @@ static int j_ini_handler(void *user, const char *section, const char *key, const
 }
 
 int main(int argc, char **argv) {
-  jmisc_arg_t *arguments = init_args();
-  argp_parse(&argp, argc, argv, 0, 0, arguments);
+  jmisc_arg_t arguments = init_args();
+  argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
-  if (!NULL_PTR(arguments->args)) {
-    for (size_t i = 0; i < arguments->n_args; i++) {
-      printf("%s\n", arguments->args[i]);
+  if (!NULL_PTR(arguments.args)) {
+    for (size_t i = 0; i < arguments.n_args; i++) {
+      printf("%s\n", arguments.args[i]);
     }
   }
-  args_gc(arguments);
+  args_gc(&arguments);
 
   char *env_vars[2] = { "FOO", "BAR" };
   for (size_t i = 0; i < 2; i++) {
@@ -93,9 +90,11 @@ int main(int argc, char **argv) {
     }
   }
 
-  config_t config;
-  if (ini_parse("example.ini", j_ini_handler, &config) >= 0) {
-    printf("example.ini:\nversion ==> %d\nname ==> %s\ngf ==> %s", config.version, config.name, config.gf);
+  if (!access("example.ini", F_OK)) {
+    config_t config;
+    if (ini_parse("example.ini", j_ini_handler, &config) >= 0) {
+      printf("example.ini:\nname ==> %s\ngf ==> %s", config.name, config.gf);
+    }
   } else {
     j_err("Can't load example.ini\n", NULL);
   }
