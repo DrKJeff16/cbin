@@ -180,17 +180,17 @@ static void sig_handler(const int sig) {
 }
 
 int main(int argc, char **argv) {
-  signal(SIGINT, sig_handler);
-  signal(SIGSTOP, sig_handler);
-  signal(SIGKILL, sig_handler);
   signal(SIGABRT, sig_handler);
-  signal(SIGTERM, sig_handler);
   signal(SIGALRM, sig_handler);
+  signal(SIGFPE, sig_handler);
   signal(SIGHUP, sig_handler);
   signal(SIGILL, sig_handler);
-  signal(SIGFPE, sig_handler);
+  signal(SIGINT, sig_handler);
+  signal(SIGKILL, sig_handler);
   signal(SIGQUIT, sig_handler);
   signal(SIGSEGV, sig_handler);
+  signal(SIGSTOP, sig_handler);
+  signal(SIGTERM, sig_handler);
   signal(SIGTSTP, sig_handler);
   signal(SIGURG, sig_handler);
   signal(SIGVTALRM, sig_handler);
