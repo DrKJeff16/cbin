@@ -33,9 +33,9 @@ typedef struct yn_args yn_arg_t;
 
 /**
  * \brief Make a yes/no prompt given the arguments struct
- * \param arguments The `yn_arg_t` struct
+ * \param args The `yn_arg_t` struct
  */
-void yes_no(yn_arg_t *arguments);
+void yes_no(yn_arg_t *args);
 
 /**
  * \brief Create a prompt preceding the user input
@@ -48,10 +48,10 @@ static void prompt(char **restrict msg, const size_t n, const jbool negative, co
 
 /**
  * \brief Garbage collects the arguments struct, then exits with the given code
- * \param arguments The `yn_arg_t` struct
+ * \param args The `yn_arg_t` struct
  * \param code The exit code
  */
-static void gc_exit(yn_arg_t *arguments, const int code);
+static void gc_exit(yn_arg_t *args, const int code);
 
 /**
  * \brief Initialize the `yn_arg_t` struct
@@ -64,6 +64,15 @@ static yn_arg_t init_args(void);
  * \param sig The signal passed
  */
 static void sig_handler(const int sig);
+
+/**
+ * \brief Parser function for `argp.h`
+ * \param key The parsed key
+ * \param arg The argument that goes after the key, if any
+ * \param state The state struct containing the argument table
+ * \return Any error number
+ */
+static error_t parse_opt(int key, char *arg, argp_state_t *state);
 
 /** @} */
 

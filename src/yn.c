@@ -22,18 +22,15 @@ static argp_option_t options[] = {
   { 0 },
 };
 
-static void gc_exit(yn_arg_t *arguments, const int code) {
-  if (!NULL_PTR(arguments->args)) {
-    free(arguments->args);
+static void gc_exit(yn_arg_t *args, const int code) {
+  if (!NULL_PTR(args->args)) {
+    free(args->args);
   }
   die(code, NULL);
 }
 
-/* Parse a single option. */
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
-  /* Get the input argument from argp_parse, which we
-     know is a pointer to our arguments structure. */
-  yn_arg_t *arguments = state->input;
+  yn_arg_t *args = state->input;
   char *p;
   long num;
   j_ullong throws;
@@ -52,20 +49,20 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
       if (!digit || strlen(arg) == 0) {
         j_verr("Bad argument for `-c`: `%s`\n", arg);
-        gc_exit(arguments, 1);
+        gc_exit(args, 1);
       }
 
       num = strtol(arg, &p, 10);
 
       if (num > YN_MAX_EC) {
         j_verr("You've exceeded the max shell exit code (`%d`): `%ld`\n", YN_MAX_EC, num);
-        gc_exit(arguments, 1);
+        gc_exit(args, 1);
       }
-      arguments->code = (num != JFALSE) ? num : JTRUE;
+      args->code = (num != JFALSE) ? num : JTRUE;
       break;
 
     case 'n':
-      arguments->no_yn = JTRUE;
+      args->no_yn = JTRUE;
       break;
 
     case 't':
@@ -78,36 +75,35 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
       if (!digit || strlen(arg) == 0) {
         j_verr("Bad argument for `-t`: `%s`\n", arg);
-        gc_exit(arguments, 1);
+        gc_exit(args, 1);
       }
 
       num = strtol(arg, &p, 10);
 
       if (num < 0) {
         j_verr("Invalid number of tries: `%ld`\n", num);
-        gc_exit(arguments, 1);
+        gc_exit(args, 1);
       }
-      arguments->tries = (j_ullong)num;
+      args->tries = (j_ullong)num;
       break;
 
     case 'I':
-      arguments->invert = JTRUE;
+      args->invert = JTRUE;
       break;
 
     case ARGP_KEY_ARG:
       if (strlen(arg) != 0) {
-        arguments->args =
-          (NULL_PTR(arguments->args)) ? MALLOC(char *) : REALLOC(arguments->args, char *, arguments->n_args + 1);
-        arguments->args[arguments->n_args] = arg;
-        arguments->n_args++;
+        args->args = (NULL_PTR(args->args)) ? MALLOC(char *) : REALLOC(args->args, char *, args->n_args + 1);
+        args->args[args->n_args] = arg;
+        args->n_args++;
       }
       break;
 
     case ARGP_KEY_END:
-      if (NULL_PTR(arguments->args)) {
-        arguments->args = MALLOC(char *);
-        arguments->args[0] = default_msg;
-        arguments->n_args = 1;
+      if (NULL_PTR(args->args)) {
+        args->args = MALLOC(char *);
+        args->args[0] = default_msg;
+        args->n_args = 1;
       }
       break;
 
@@ -131,7 +127,7 @@ static void prompt(char **restrict msg, const size_t n, const jbool negative, co
 }
 
 static yn_arg_t init_args(void) {
-  yn_arg_t arguments = {
+  yn_arg_t args = {
     .args = NULL,
     .code = 1,
     .invert = JFALSE,
@@ -140,42 +136,42 @@ static yn_arg_t init_args(void) {
     .tries = 3,
   };
 
-  return arguments;
+  return args;
 }
 
-void yes_no(yn_arg_t *arguments) {
-  int code = arguments->code;
-  size_t nargs = arguments->n_args;
-  j_ullong tries = arguments->tries;
-  jbool invert = arguments->invert, no_yn = arguments->no_yn;
+void yes_no(yn_arg_t *args) {
+  int code = args->code;
+  size_t nargs = args->n_args;
+  j_ullong tries = args->tries;
+  jbool invert = args->invert, no_yn = args->no_yn;
   jbool prev = JFALSE, unlimited_tries = (tries > 0) ? JFALSE : JTRUE;
   char in;
 
   tries = (unlimited_tries) ? 1 : tries - 1;
 
-  prompt(arguments->args, arguments->n_args, invert, no_yn);
+  prompt(args->args, args->n_args, invert, no_yn);
   while ((in = getchar())) {
     switch (in) {
       case 'N':
       case 'n':
-        gc_exit(arguments, code);
+        gc_exit(args, code);
 
       case 'Y':
       case 'y':
-        gc_exit(arguments, 0);
+        gc_exit(args, 0);
 
       case '\n':
       case '\r':
         if (!prev) {
-          gc_exit(arguments, invert ? code : 0);
+          gc_exit(args, invert ? code : 0);
         }
         if (!(unlimited_tries || tries)) {
-          gc_exit(arguments, code);
+          gc_exit(args, code);
         }
         if (!unlimited_tries) {
           tries--;
         }
-        prompt(arguments->args, arguments->n_args, invert, no_yn);
+        prompt(args->args, args->n_args, invert, no_yn);
         prev = JFALSE;
         break;
 
@@ -209,13 +205,13 @@ int main(int argc, char **argv) {
   signal(SIGXCPU, sig_handler);
   signal(SIGXFSZ, sig_handler);
 
-  yn_arg_t arguments = init_args();
-  argp_parse(&argp, argc, argv, 0, 0, &arguments);
+  yn_arg_t args = init_args();
+  argp_parse(&argp, argc, argv, 0, 0, &args);
 
-  yes_no(&arguments);
+  yes_no(&args);
 
-  free(arguments.args);
-  return arguments.code;
+  free(args.args);
+  return args.code;
 }
 
 /* vim: set ts=2 sts=2 sw=2 et ai si sta: */
