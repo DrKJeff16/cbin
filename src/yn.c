@@ -18,6 +18,7 @@ static argp_option_t options[] = {
   { "exit-code", 'c', "CODE", 0, "The desired failure exit code", 0 },
   { "invert", 'I', 0, 0, "Invert the default result from pressing `\\n` only", 0 },
   { "num-tries", 't', "TRIES", 0, "Set the maximum amount of tries, set to 0 for unlimited tries (default: `3`)", 0 },
+  { "no-yn-prompt", 'n', 0, 0, "If passed, the `[Y/n]` prompt will not appear", 0 },
   { 0 },
 };
 
@@ -61,6 +62,10 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
         gc_exit(arguments, 1);
       }
       arguments->code = (num != JFALSE) ? num : JTRUE;
+      break;
+
+    case 'n':
+      arguments->no_yn = JTRUE;
       break;
 
     case 't':
@@ -114,11 +119,15 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
 
 static argp_t argp = { options, parse_opt, args_doc, doc, NULL, NULL, NULL };
 
-static void prompt(char **restrict msg, const size_t n, const jbool negative) {
+static void prompt(char **restrict msg, const size_t n, const jbool negative, const jbool no_prompt) {
   for (size_t i = 0; i < n; i++) {
-    printf("%s ", msg[i]);
+    printf("%s", msg[i]);
   }
-  printf("[%s]: ", (!negative) ? "Y/n" : "y/N");
+  if (!no_prompt) {
+    printf(" [%s]: ", (!negative) ? "Y/n" : "y/N");
+  } else {
+    printf(": ");
+  }
 }
 
 static yn_arg_t init_args(void) {
@@ -127,6 +136,7 @@ static yn_arg_t init_args(void) {
     .code = 1,
     .invert = JFALSE,
     .n_args = 0,
+    .no_yn = JFALSE,
     .tries = 3,
   };
 
@@ -137,12 +147,13 @@ void yes_no(yn_arg_t *arguments) {
   int code = arguments->code;
   size_t nargs = arguments->n_args;
   j_ullong tries = arguments->tries;
-  jbool invert = arguments->invert, prev = JFALSE, unlimited_tries = (tries > 0) ? JFALSE : JTRUE;
+  jbool invert = arguments->invert, no_yn = arguments->no_yn;
+  jbool prev = JFALSE, unlimited_tries = (tries > 0) ? JFALSE : JTRUE;
   char in;
 
   tries = (unlimited_tries) ? 1 : tries - 1;
 
-  prompt(arguments->args, arguments->n_args, invert);
+  prompt(arguments->args, arguments->n_args, invert, no_yn);
   while ((in = getchar())) {
     switch (in) {
       case 'N':
@@ -164,7 +175,7 @@ void yes_no(yn_arg_t *arguments) {
         if (!unlimited_tries) {
           tries--;
         }
-        prompt(arguments->args, arguments->n_args, invert);
+        prompt(arguments->args, arguments->n_args, invert, no_yn);
         prev = JFALSE;
         break;
 

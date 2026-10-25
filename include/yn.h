@@ -21,6 +21,7 @@ struct yn_args {
   int code;       /*!< The custom exit code in case of failure */
   jbool invert;   /*!< Whether to invert the exit code when only pressing ENTER */
   size_t n_args;  /*!< The amount of positional arguments passed to the program */
+  jbool no_yn;    /*!< Whether to omit the `[Y/n]` prompt */
   j_ullong tries; /*!< How many tries before failing */
 };
 
@@ -41,8 +42,9 @@ void yes_no(yn_arg_t *arguments);
  * \param msg The messages for the prompt
  * \param n The length of the messages array
  * \param negative Whether the default ENTER option is flipped
+ * \param no_prompt Whether to omit the `[Y/n]` prompt
  */
-static void prompt(char **restrict msg, const size_t n, const jbool negative);
+static void prompt(char **restrict msg, const size_t n, const jbool negative, const jbool no_prompt);
 
 /**
  * \brief Garbage collects the arguments struct, then exits with the given code

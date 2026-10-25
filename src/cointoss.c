@@ -15,12 +15,54 @@ const char *argp_program_bug_address = "<g.maxc.fox@protonmail.com>";
 static char doc[] = "Coin tossing program";
 static char args_doc[] = "[-u] [-r NUM] [-c COUNT] [<X> <Y>]";
 static argp_option_t options[] = {
-  { "exit-code", 'E', 0, 0, "Whether to exit the program depending on the result of the coin toss (HEADS is 0)", 2 },
-  { "count", 'c', "COUNT", 0, "How many iterations should be repeated", 2 },
-  { "repeat", 'r', "REPEAT", 0, "The repeating cycles amount", 2 },
-  { "total", 't', 0, 0, "Whether to show the total stats", 1 },
-  { "urandom", 'u', 0, 0, "Use /dev/urandom instead of /dev/random", 1 },
-  { "verbose", 'v', 0, 0, "Verbose mode", 0 },
+  {
+    .arg = "COUNT",
+    .doc = "How many iterations should be repeated",
+    .flags = 0,
+    .group = 2,
+    .key = 'c',
+    .name = "count",
+  },
+  {
+    .arg = 0,
+    .doc = "Whether to exit the program depending on the result of the coin toss (HEADS is 0)",
+    .flags = 0,
+    .group = 2,
+    .key = 'E',
+    .name = "exit-code",
+  },
+  {
+    .arg = "REPEAT",
+    .doc = "The repeating cycles amount",
+    .flags = 0,
+    .group = 2,
+    .key = 'r',
+    .name = "repeat",
+  },
+  {
+    .arg = 0,
+    .doc = "Whether to show the total stats",
+    .flags = 0,
+    .group = 1,
+    .key = 't',
+    .name = "total",
+  },
+  {
+    .arg = 0,
+    .doc = "Use /dev/urandom instead of /dev/random",
+    .flags = 0,
+    .group = 1,
+    .key = 'u',
+    .name = "urandom",
+  },
+  {
+    .arg = 0,
+    .doc = "Verbose mode",
+    .flags = 0,
+    .group = 0,
+    .key = 'v',
+    .name = "verbose",
+  },
   { 0 },
 };
 
@@ -41,6 +83,7 @@ jbool in_arr(char *arr[2], char *const word) {
 
 static error_t parse_opt(int key, char *arg, argp_state_t *state) {
   cointoss_arg_t *args = state->input;
+  int count;
   switch (key) {
     case 'E':
       args->by_exit_code = JTRUE;
@@ -51,7 +94,11 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       break;
 
     case 'c':
-      args->count = (size_t)atoi(arg);
+      count = atoi(arg);
+      if (count <= 0) {
+        die(127, "Cannot accept a count number lower than 1!");
+      }
+      args->count = (size_t)count;
       break;
 
     case 't':
@@ -59,7 +106,11 @@ static error_t parse_opt(int key, char *arg, argp_state_t *state) {
       break;
 
     case 'r':
-      args->rep = (j_ullong)atoi(arg);
+      count = atoi(arg);
+      if (count <= 0) {
+        die(127, "Cannot accept a repetition number lower than 1!");
+      }
+      args->rep = (j_ullong)count;
       break;
 
     case 'v':
