@@ -67,7 +67,7 @@ char *jhash_search(jhash_map *mp, char *key) {
     bucket_head = bucket_head->next;
   }
 
-  char *error_msg = CALLOC(char, 25);
+  char *error_msg = CALLOC(char, 22);
   error_msg = "Oops! No data found.\n";
   return error_msg;
 }

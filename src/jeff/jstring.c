@@ -8,15 +8,13 @@
 
 jbool str_startswith(char *const str, char *const start) {
   jbool status = JFALSE;
-  if (NULL_PTR(str) || NULL_PTR(start) || strlen(str) >= strlen(start)) {
-    return status;
-  }
-
-  status = JTRUE;
-  for (size_t i = 0; i <= strlen(start); i++) {
-    if (str[i] != start[i]) {
-      status = JFALSE;
-      break;
+  if (!(NULL_PTR(str) || NULL_PTR(start) || strlen(str) >= strlen(start))) {
+    status = JTRUE;
+    for (size_t i = 0; i <= strlen(start); i++) {
+      if (str[i] != start[i]) {
+        status = JFALSE;
+        break;
+      }
     }
   }
   return status;
@@ -44,18 +42,15 @@ char *str_rep(const char *const s, const size_t n) {
 }
 
 jbool in_str(char *const str, const char *const c) {
-  if (NULL_PTR(c) || NULL_PTR(str)) {
-    die(3, (NULL_PTR(c)) ? "NULL char array!\n" : ((NULL_PTR(str) ? "NULL string!\n" : NULL)));
-  }
-
-  for (size_t i = 0; i <= strlen(str); i++) {
-    for (size_t j = 0; j < strlen(c); j++) {
-      if (str[i] == c[j]) {
-        return JTRUE;
+  if (!(NULL_PTR(c) || NULL_PTR(str))) {
+    for (size_t i = 0; i <= strlen(str); i++) {
+      for (size_t j = 0; j < strlen(c); j++) {
+        if (str[i] == c[j]) {
+          return JTRUE;
+        }
       }
     }
   }
-
   return JFALSE;
 }
 
@@ -85,58 +80,57 @@ char *dedup_str(char *const str) {
 void str_append_nul(char *str) {
   if (!NULL_PTR(str)) {
     char *chr = strchr(str, 0);
-    if (!NULL_PTR(chr)) {
-      return;
-    }
-
-    const size_t len = strlen(str) + 1;
-    char *str_og = CALLOC(char, len);
-    char *new_str = CALLOC(char, len + 1);
-
-    chr = strcpy(new_str, str);
-    /// If no NUL char in `str`
     if (NULL_PTR(chr)) {
-      new_str[len] = '\0';
-    } else {
-      new_str = REALLOC(new_str, char, len);
-    }
+      const size_t len = strlen(str) + 1;
+      char *str_og = CALLOC(char, len);
+      char *new_str = CALLOC(char, len + 1);
 
-    chr = strcpy(str, new_str);
-    if (NULL_PTR(chr)) {
-      strcpy(str, str_og);
-      j_verr("(str_append_nul): %s\n", "Unable to copy `new_str` back to `str`");
-    }
+      chr = strcpy(new_str, str);
+      /// If no NUL char in `str`
+      if (NULL_PTR(chr)) {
+        new_str[len] = '\0';
+      } else {
+        new_str = REALLOC(new_str, char, len);
+      }
 
-    free(new_str);
-    free(str_og);
+      chr = strcpy(str, new_str);
+      if (NULL_PTR(chr)) {
+        strcpy(str, str_og);
+        j_verr("(str_append_nul): %s\n", "Unable to copy `new_str` back to `str`");
+      }
+
+      free(new_str);
+      free(str_og);
+    }
   }
 }
 
 jbool is_lower(char *const str) {
-  if (NULL_PTR(str)) {
-    return JFALSE;
-  }
-
-  for (j_ulong i = 0; i <= strlen(str); i++) {
-    if (str[i] >= 'A' && str[i] <= 'Z') {
-      return JFALSE;
+  jbool result = JFALSE;
+  if (!NULL_PTR(str)) {
+    result = JTRUE;
+    for (j_ulong i = 0; i <= strlen(str); i++) {
+      if (str[i] >= 'A' && str[i] <= 'Z') {
+        result = JFALSE;
+        break;
+      }
     }
   }
-
-  return JTRUE;
+  return result;
 }
 
 jbool is_upper(char *const str) {
-  if (NULL_PTR(str)) {
-    return JFALSE;
-  }
-
-  for (size_t i = 0; i <= strlen(str); i++) {
-    if (str[i] >= 'a' && str[i] <= 'z') {
-      return JFALSE;
+  jbool result = JFALSE;
+  if (!NULL_PTR(str)) {
+    result = JTRUE;
+    for (size_t i = 0; i <= strlen(str); i++) {
+      if (str[i] >= 'a' && str[i] <= 'z') {
+        result = JFALSE;
+        break;
+      }
     }
   }
-  return JTRUE;
+  return result;
 }
 
 jbool is_lower_char(const char c) {
@@ -168,23 +162,20 @@ void upperize(char *str) {
 }
 
 void capitalize(char *str) {
-  if (NULL_PTR(str)) {
-    j_verr("%s\n", "NULL string cannot be capitalized");
-    return;
-  }
-
-  jbool space = JTRUE;
-  int capital_d = 32;
-  for (size_t i = 0; i < strlen(str) + 1; i++) {
-    if ((str[i] >= 'a' && str[i] <= 'z') && space) {
-      str[i] -= capital_d;
-      space = JFALSE;
-    } else if ((str[i] >= 'A' && str[i] <= 'Z') && !space) {
-      str[i] += capital_d;
-    } else if ((str[i] >= 'A' && str[i] <= 'Z') && space) {
-      space = JFALSE;
-    } else if (str[i] == ' ' || str[i] == '\n') {
-      space = JTRUE;
+  if (!NULL_PTR(str)) {
+    jbool space = JTRUE;
+    int capital_d = 32;
+    for (size_t i = 0; i < strlen(str) + 1; i++) {
+      if ((str[i] >= 'a' && str[i] <= 'z') && space) {
+        str[i] -= capital_d;
+        space = JFALSE;
+      } else if ((str[i] >= 'A' && str[i] <= 'Z') && !space) {
+        str[i] += capital_d;
+      } else if ((str[i] >= 'A' && str[i] <= 'Z') && space) {
+        space = JFALSE;
+      } else if (str[i] == ' ' || str[i] == '\n') {
+        space = JTRUE;
+      }
     }
   }
 }
